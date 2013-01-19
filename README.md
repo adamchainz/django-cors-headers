@@ -7,9 +7,13 @@ Although JSON-P is useful, it is strictly limited to GET requests. CORS builds o
 
 
 ## Setup ##
-Install by downloading and running:
+Install by downloading the source and running:
 
->	sudo python setup.py install
+>	python setup.py install
+
+or
+
+>	pip install django-cors-headers
 
 and then add it to your installed apps:
 
