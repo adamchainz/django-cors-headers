@@ -6,7 +6,7 @@ default_headers = (
     'accept',
     'origin',
 )
-CORS_ALLOWED_HEADERS = getattr(settings, 'CORS_ALLOWED_HEADERS', default_headers)
+CORS_ALLOW_HEADERS = getattr(settings, 'CORS_ALLOW_HEADERS', default_headers)
 
 default_methods = (
     'GET',
@@ -16,7 +16,7 @@ default_methods = (
     'DELETE',
     'OPTIONS',
 )
-CORS_ALLOWED_METHODS = getattr(settings, 'CORS_ALLOWED_METHODS', default_methods)
+CORS_ALLOW_METHODS = getattr(settings, 'CORS_ALLOW_METHODS', default_methods)
 
 CORS_ALLOW_CREDENTIALS = getattr(settings, 'CORS_ALLOW_CREDENTIALS', False)
 
