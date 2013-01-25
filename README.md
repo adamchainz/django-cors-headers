@@ -94,4 +94,10 @@ You may optionally specify these options in settings.py to override the defaults
 
 	Default:
 
-		CORS_ALLOW_CREDENTIALS = True
+		CORS_ALLOW_CREDENTIALS = False
+
+## Changelog ##
+v0.04 - add Access-Control-Allow-Credentials control to simple requests
+v0.03 - bugfix (repair mismatched default variable names)
+v0.02 - refactor/pull defaults into separate file
+v0.01 - initial release
