@@ -15,11 +15,12 @@ class CorsMiddleware(object):
 
             response['Access-Control-Allow-Origin'] = "*" if settings.CORS_ORIGIN_ALLOW_ALL else origin
 
+            if settings.CORS_ALLOW_CREDENTIALS:
+                response['Access-Control-Allow-Credentials'] = 'true'
+
             if request.method == 'OPTIONS':
                 response['Access-Control-Allow-Headers'] = ', '.join(settings.CORS_ALLOW_HEADERS)
                 response['Access-Control-Allow-Methods'] = ', '.join(settings.CORS_ALLOW_METHODS)
-                if settings.CORS_ALLOW_CREDENTIALS:
-                    response['Access-Control-Allow-Credentials'] = 'true'
                 if settings.CORS_PREFLIGHT_MAX_AGE:
                     response['Access-Control-Max-Age'] = settings.CORS_PREFLIGHT_MAX_AGE
 

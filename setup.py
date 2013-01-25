@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='django-cors-headers',
-    version='0.03',
+    version='0.04',
     description='Django app for handling the server headers required for Cross-Origin Resource Sharing (CORS).',
     author='Otto Yiu',
     author_email='otto@live.ca',
