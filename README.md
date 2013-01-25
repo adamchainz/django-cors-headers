@@ -98,6 +98,8 @@ You may optionally specify these options in settings.py to override the defaults
 
 ## Changelog ##
 
+v0.05 - fixed middleware to ensure correct response for CORS preflight requests
+
 v0.04 - add Access-Control-Allow-Credentials control to simple requests
 
 v0.03 - bugfix (repair mismatched default variable names)
