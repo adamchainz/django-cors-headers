@@ -31,6 +31,9 @@ class CorsMiddleware(object):
                 return response
 
             response['Access-Control-Allow-Origin'] = "*" if settings.CORS_ORIGIN_ALLOW_ALL else origin
+            
+            if len(settings.CORS_EXPOSE_HEADERS):
+                response['Access-Control-Expose-Headers'] = ', '.join(settings.CORS_EXPOSE_HEADERS)
 
             if settings.CORS_ALLOW_CREDENTIALS:
                 response['Access-Control-Allow-Credentials'] = 'true'
