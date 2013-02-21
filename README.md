@@ -33,6 +33,33 @@ You will also need to add a middleware class to listen in on responses:
 
 ## Configuration ##
 
+Add hosts that are allowed to do cross-site requests to `CORS_ORIGIN_WHITELIST` or set `CORS_ORIGIN_ALLOW_ALL` to `True` to allow all hosts.
+
+
+>CORS\_ORIGIN\_ALLOW\_ALL: if True, the whitelist will not be used and all origins will be accepted
+
+    Default:
+
+        CORS_ORIGIN_ALLOW_ALL = False
+
+>CORS\_ORIGIN\_WHITELIST: specify a list of origin hostnames that are authorized to make a cross-site HTTP request; set to None to allow access to anyone
+
+	Example:
+
+		CORS_ORIGIN_WHITELIST = (
+			'google.com',
+			'hostname.example.com'
+		)
+
+
+	Default:
+
+		CORS_ORIGIN_WHITELIST = ()
+
+
+---
+
+
 You may optionally specify these options in settings.py to override the defaults. Defaults are shown below:
 
 
@@ -60,27 +87,12 @@ You may optionally specify these options in settings.py to override the defaults
     		'origin',
     		'authorization'
 		)
-
->CORS\_ORIGIN\_ALLOW\_ALL: if True, the whitelist will not be used and all origins will be accepted
-
-    Default:
-
-        CORS_ORIGIN_ALLOW_ALL = False
-
->CORS\_ORIGIN\_WHITELIST: specify a list of origin hostnames that are authorized to make a cross-site HTTP request; set to None to allow access to anyone
-
-	Example:
-
-		CORS_ORIGIN_WHITELIST = (
-			'google.com',
-			'hostname.example.com'
-		)
-
+		
+>CORS\_EXPOSE\_HEADERS: specify which HTTP headers are to be exposed to the browser
 
 	Default:
 
-		CORS_ORIGIN_WHITELIST = ()
-
+		CORS_EXPOSE_HEADERS = ()
 
 >CORS\_PREFLIGHT\_MAX\_AGE: specify the number of seconds a client/browser can cache the preflight response
 
@@ -97,6 +109,8 @@ You may optionally specify these options in settings.py to override the defaults
 		CORS_ALLOW_CREDENTIALS = False
 
 ## Changelog ##
+
+v0.06 - Add support for exposed response headers
 
 v0.05 - fixed middleware to ensure correct response for CORS preflight requests
 
