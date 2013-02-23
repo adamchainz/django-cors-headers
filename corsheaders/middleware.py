@@ -4,6 +4,10 @@ from urlparse import urlparse
 from corsheaders import defaults as settings
 
 
+ACCESS_CONTROL_ALLOW_ORIGIN = 'Access-Control-Allow-Origin'
+
+
+
 class CorsMiddleware(object):
 
     def process_request(self, request):
@@ -13,7 +17,8 @@ class CorsMiddleware(object):
             Django won't bother calling any other request view/exception middleware along with
             the requested view; it will call any response middlewares
         '''
-        if request.method == 'OPTIONS' and request.META.get('HTTP_ACCESS_CONTROL_REQUEST_METHOD'):
+        if (request.method == 'OPTIONS' and
+            'HTTP_ACCESS_CONTROL_REQUEST_METHOD' in request.META):
             response = http.HttpResponse()
             return response
         return None
@@ -30,8 +35,8 @@ class CorsMiddleware(object):
             if not settings.CORS_ORIGIN_ALLOW_ALL and url.hostname not in settings.CORS_ORIGIN_WHITELIST:
                 return response
 
-            response['Access-Control-Allow-Origin'] = "*" if settings.CORS_ORIGIN_ALLOW_ALL else origin
-            
+            response[ACCESS_CONTROL_ALLOW_ORIGIN] = "*" if settings.CORS_ORIGIN_ALLOW_ALL else origin
+
             if len(settings.CORS_EXPOSE_HEADERS):
                 response['Access-Control-Expose-Headers'] = ', '.join(settings.CORS_EXPOSE_HEADERS)
 

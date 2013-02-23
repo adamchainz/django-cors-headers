@@ -8,4 +8,7 @@ setup(
     author_email='otto@live.ca',
     url='https://github.com/OttoYiu/django-cors-headers',
     packages=['corsheaders'],
+    install_requires=['Django >= 1.4'],
+    tests_require=['mock >= 1.0'],
+    test_suite='tests.main',
 )
