@@ -2,6 +2,11 @@ from django.http import HttpResponse
 from django.test import TestCase
 from corsheaders.middleware import CorsMiddleware
 from corsheaders.middleware import ACCESS_CONTROL_ALLOW_ORIGIN
+from corsheaders.middleware import ACCESS_CONTROL_EXPOSE_HEADERS
+from corsheaders.middleware import ACCESS_CONTROL_ALLOW_CREDENTIALS
+from corsheaders.middleware import ACCESS_CONTROL_ALLOW_HEADERS
+from corsheaders.middleware import ACCESS_CONTROL_ALLOW_METHODS
+from corsheaders.middleware import ACCESS_CONTROL_MAX_AGE
 from mock import Mock
 from mock import patch
 
@@ -72,4 +77,65 @@ class TestCorsMiddlewareProcessResponse(TestCase):
         request = Mock(META={'HTTP_ORIGIN': 'http://foobar.it'})
         processed = self.middleware.process_response(request, response)
         self.assertAccessControlAllowOriginEquals(processed, 'http://foobar.it')
+
+    def test_process_response_expose_headers(self, settings):
+        settings.CORS_ORIGIN_ALLOW_ALL = True
+        settings.CORS_EXPOSE_HEADERS = ['accept', 'origin', 'content-type']
+        response = HttpResponse()
+        request = Mock(META={'HTTP_ORIGIN': 'http://example.com'})
+        processed = self.middleware.process_response(request, response)
+        self.assertEqual(processed[ACCESS_CONTROL_EXPOSE_HEADERS],
+            'accept, origin, content-type')
+
+    def test_process_response_dont_expose_headers(self, settings):
+        settings.CORS_ORIGIN_ALLOW_ALL = True
+        settings.CORS_EXPOSE_HEADERS = []
+        response = HttpResponse()
+        request = Mock(META={'HTTP_ORIGIN': 'http://example.com'})
+        processed = self.middleware.process_response(request, response)
+        self.assertNotIn(ACCESS_CONTROL_EXPOSE_HEADERS, processed)
+
+    def test_process_response_allow_credentials(self, settings):
+        settings.CORS_ORIGIN_ALLOW_ALL = True
+        settings.CORS_ALLOW_CREDENTIALS = True
+        response = HttpResponse()
+        request = Mock(META={'HTTP_ORIGIN': 'http://example.com'})
+        processed = self.middleware.process_response(request, response)
+        self.assertEqual(processed[ACCESS_CONTROL_ALLOW_CREDENTIALS], 'true')
+
+    def test_process_response_dont_allow_credentials(self, settings):
+        settings.CORS_ORIGIN_ALLOW_ALL = True
+        settings.CORS_ALLOW_CREDENTIALS = False
+        response = HttpResponse()
+        request = Mock(META={'HTTP_ORIGIN': 'http://example.com'})
+        processed = self.middleware.process_response(request, response)
+        self.assertNotIn(ACCESS_CONTROL_ALLOW_CREDENTIALS, processed)
+
+    def test_process_response_options_method(self, settings):
+        settings.CORS_ORIGIN_ALLOW_ALL = True
+        settings.CORS_ALLOW_HEADERS = ['content-type', 'origin']
+        settings.CORS_ALLOW_METHODS = ['GET', 'OPTIONS']
+        settings.CORS_PREFLIGHT_MAX_AGE = 1002
+        response = HttpResponse()
+        request_headers = {'HTTP_ORIGIN': 'http://example.com'}
+        request = Mock(META=request_headers, method='OPTIONS')
+        processed = self.middleware.process_response(request, response)
+        self.assertEqual(processed[ACCESS_CONTROL_ALLOW_HEADERS],
+            'content-type, origin')
+        self.assertEqual(processed[ACCESS_CONTROL_ALLOW_METHODS], 'GET, OPTIONS')
+        self.assertEqual(processed[ACCESS_CONTROL_MAX_AGE], '1002')
+
+    def test_process_response_options_method_no_max_age(self, settings):
+        settings.CORS_ORIGIN_ALLOW_ALL = True
+        settings.CORS_ALLOW_HEADERS = ['content-type', 'origin']
+        settings.CORS_ALLOW_METHODS = ['GET', 'OPTIONS']
+        settings.CORS_PREFLIGHT_MAX_AGE = 0
+        response = HttpResponse()
+        request_headers = {'HTTP_ORIGIN': 'http://example.com'}
+        request = Mock(META=request_headers, method='OPTIONS')
+        processed = self.middleware.process_response(request, response)
+        self.assertEqual(processed[ACCESS_CONTROL_ALLOW_HEADERS],
+            'content-type, origin')
+        self.assertEqual(processed[ACCESS_CONTROL_ALLOW_METHODS], 'GET, OPTIONS')
+        self.assertNotIn(ACCESS_CONTROL_MAX_AGE, processed)
 

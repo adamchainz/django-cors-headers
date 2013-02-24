@@ -5,7 +5,11 @@ from corsheaders import defaults as settings
 
 
 ACCESS_CONTROL_ALLOW_ORIGIN = 'Access-Control-Allow-Origin'
-
+ACCESS_CONTROL_EXPOSE_HEADERS = 'Access-Control-Expose-Headers'
+ACCESS_CONTROL_ALLOW_CREDENTIALS = 'Access-Control-Allow-Credentials'
+ACCESS_CONTROL_ALLOW_HEADERS = 'Access-Control-Allow-Headers'
+ACCESS_CONTROL_ALLOW_METHODS = 'Access-Control-Allow-Methods'
+ACCESS_CONTROL_MAX_AGE = 'Access-Control-Max-Age'
 
 
 class CorsMiddleware(object):
@@ -38,15 +42,15 @@ class CorsMiddleware(object):
             response[ACCESS_CONTROL_ALLOW_ORIGIN] = "*" if settings.CORS_ORIGIN_ALLOW_ALL else origin
 
             if len(settings.CORS_EXPOSE_HEADERS):
-                response['Access-Control-Expose-Headers'] = ', '.join(settings.CORS_EXPOSE_HEADERS)
+                response[ACCESS_CONTROL_EXPOSE_HEADERS] = ', '.join(settings.CORS_EXPOSE_HEADERS)
 
             if settings.CORS_ALLOW_CREDENTIALS:
-                response['Access-Control-Allow-Credentials'] = 'true'
+                response[ACCESS_CONTROL_ALLOW_CREDENTIALS] = 'true'
 
             if request.method == 'OPTIONS':
-                response['Access-Control-Allow-Headers'] = ', '.join(settings.CORS_ALLOW_HEADERS)
-                response['Access-Control-Allow-Methods'] = ', '.join(settings.CORS_ALLOW_METHODS)
+                response[ACCESS_CONTROL_ALLOW_HEADERS] = ', '.join(settings.CORS_ALLOW_HEADERS)
+                response[ACCESS_CONTROL_ALLOW_METHODS] = ', '.join(settings.CORS_ALLOW_METHODS)
                 if settings.CORS_PREFLIGHT_MAX_AGE:
-                    response['Access-Control-Max-Age'] = settings.CORS_PREFLIGHT_MAX_AGE
+                    response[ACCESS_CONTROL_MAX_AGE] = settings.CORS_PREFLIGHT_MAX_AGE
 
         return response
