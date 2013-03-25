@@ -1,5 +1,8 @@
 from django import http
-from urlparse import urlparse
+try:
+    from urlparse import urlparse
+except ImportError:
+    from urllib.parse import urlparse
 
 from corsheaders import defaults as settings
 
