@@ -36,7 +36,7 @@ class CorsMiddleware(object):
             # todo: check hostname from db instead
             url = urlparse(origin)
 
-            if not settings.CORS_ORIGIN_ALLOW_ALL and url.hostname not in settings.CORS_ORIGIN_WHITELIST:
+            if not settings.CORS_ORIGIN_ALLOW_ALL and url.netloc not in settings.CORS_ORIGIN_WHITELIST:
                 return response
 
             response[ACCESS_CONTROL_ALLOW_ORIGIN] = "*" if settings.CORS_ORIGIN_ALLOW_ALL else origin
