@@ -139,3 +139,12 @@ class TestCorsMiddlewareProcessResponse(TestCase):
         self.assertEqual(processed[ACCESS_CONTROL_ALLOW_METHODS], 'GET, OPTIONS')
         self.assertNotIn(ACCESS_CONTROL_MAX_AGE, processed)
 
+    def test_process_response_whitelist_with_port(self, settings):
+        settings.CORS_ORIGIN_ALLOW_ALL = False
+        settings.CORS_ALLOW_METHODS = ['OPTIONS']
+        settings.CORS_ORIGIN_WHITELIST = ('localhost:9000',)
+        response = HttpResponse()
+        request_headers = {'HTTP_ORIGIN': 'http://localhost:9000'}
+        request = Mock(META=request_headers, method='OPTIONS')
+        processed = self.middleware.process_response(request, response)
+        self.assertEqual(processed.get(ACCESS_CONTROL_ALLOW_CREDENTIALS), 'true')
