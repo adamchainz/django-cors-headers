@@ -130,4 +130,6 @@ A shoutout to everyone who has contributed:
 - Darrin Massena - [@darrinm](https://github.com/darrinm)
 - Paul Dufour - [@pdufour](https://github.com/pdufour)
 - Lukasz Balcerzak - [@lukaszb](https://github.com/lukaszb)
+- Keita Oouchi - [@keitaoouchi](https://github.com/keitaoouchi)
+- Orlando Pozo - [@opozo](https://github.com/opozo)
 
