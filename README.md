@@ -109,6 +109,7 @@ You may optionally specify these options in settings.py to override the defaults
 		CORS_ALLOW_CREDENTIALS = False
 
 ## Changelog ##
+v0.10 - Introduced port distinction for origin checking; use ``urlparse`` for Python 3 support; added testcases to project
 
 v0.06 - Add support for exposed response headers
 
