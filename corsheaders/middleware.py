@@ -1,7 +1,18 @@
 from django import http
-from urlparse import urlparse
+try:
+    from urlparse import urlparse
+except ImportError:
+    from urllib.parse import urlparse
 
 from corsheaders import defaults as settings
+
+
+ACCESS_CONTROL_ALLOW_ORIGIN = 'Access-Control-Allow-Origin'
+ACCESS_CONTROL_EXPOSE_HEADERS = 'Access-Control-Expose-Headers'
+ACCESS_CONTROL_ALLOW_CREDENTIALS = 'Access-Control-Allow-Credentials'
+ACCESS_CONTROL_ALLOW_HEADERS = 'Access-Control-Allow-Headers'
+ACCESS_CONTROL_ALLOW_METHODS = 'Access-Control-Allow-Methods'
+ACCESS_CONTROL_MAX_AGE = 'Access-Control-Max-Age'
 
 
 class CorsMiddleware(object):
@@ -13,7 +24,8 @@ class CorsMiddleware(object):
             Django won't bother calling any other request view/exception middleware along with
             the requested view; it will call any response middlewares
         '''
-        if request.method == 'OPTIONS' and request.META.get('HTTP_ACCESS_CONTROL_REQUEST_METHOD'):
+        if (request.method == 'OPTIONS' and
+            'HTTP_ACCESS_CONTROL_REQUEST_METHOD' in request.META):
             response = http.HttpResponse()
             return response
         return None
@@ -27,21 +39,21 @@ class CorsMiddleware(object):
             # todo: check hostname from db instead
             url = urlparse(origin)
 
-            if not settings.CORS_ORIGIN_ALLOW_ALL and url.hostname not in settings.CORS_ORIGIN_WHITELIST:
+            if not settings.CORS_ORIGIN_ALLOW_ALL and url.netloc not in settings.CORS_ORIGIN_WHITELIST:
                 return response
 
-            response['Access-Control-Allow-Origin'] = "*" if settings.CORS_ORIGIN_ALLOW_ALL else origin
-            
+            response[ACCESS_CONTROL_ALLOW_ORIGIN] = "*" if settings.CORS_ORIGIN_ALLOW_ALL else origin
+
             if len(settings.CORS_EXPOSE_HEADERS):
-                response['Access-Control-Expose-Headers'] = ', '.join(settings.CORS_EXPOSE_HEADERS)
+                response[ACCESS_CONTROL_EXPOSE_HEADERS] = ', '.join(settings.CORS_EXPOSE_HEADERS)
 
             if settings.CORS_ALLOW_CREDENTIALS:
-                response['Access-Control-Allow-Credentials'] = 'true'
+                response[ACCESS_CONTROL_ALLOW_CREDENTIALS] = 'true'
 
             if request.method == 'OPTIONS':
-                response['Access-Control-Allow-Headers'] = ', '.join(settings.CORS_ALLOW_HEADERS)
-                response['Access-Control-Allow-Methods'] = ', '.join(settings.CORS_ALLOW_METHODS)
+                response[ACCESS_CONTROL_ALLOW_HEADERS] = ', '.join(settings.CORS_ALLOW_HEADERS)
+                response[ACCESS_CONTROL_ALLOW_METHODS] = ', '.join(settings.CORS_ALLOW_METHODS)
                 if settings.CORS_PREFLIGHT_MAX_AGE:
-                    response['Access-Control-Max-Age'] = settings.CORS_PREFLIGHT_MAX_AGE
+                    response[ACCESS_CONTROL_MAX_AGE] = settings.CORS_PREFLIGHT_MAX_AGE
 
         return response
