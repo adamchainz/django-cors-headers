@@ -1,3 +1,4 @@
+import re
 from django import http
 try:
     from urlparse import urlparse
@@ -39,7 +40,7 @@ class CorsMiddleware(object):
             # todo: check hostname from db instead
             url = urlparse(origin)
 
-            if not settings.CORS_ORIGIN_ALLOW_ALL and url.netloc not in settings.CORS_ORIGIN_WHITELIST:
+            if not settings.CORS_ORIGIN_ALLOW_ALL and self.origin_not_found_in_white_lists(origin, url):
                 return response
 
             response[ACCESS_CONTROL_ALLOW_ORIGIN] = "*" if settings.CORS_ORIGIN_ALLOW_ALL else origin
@@ -57,3 +58,11 @@ class CorsMiddleware(object):
                     response[ACCESS_CONTROL_MAX_AGE] = settings.CORS_PREFLIGHT_MAX_AGE
 
         return response
+
+    def origin_not_found_in_white_lists(self, origin, url):
+        return url.netloc not in settings.CORS_ORIGIN_WHITELIST and not self.regex_domain_match(origin)
+
+    def regex_domain_match(self, origin):
+        for domain_pattern in settings.CORS_ORIGIN_REGEX_WHITELIST:
+            if re.match(domain_pattern, origin):
+                return origin

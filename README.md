@@ -57,6 +57,17 @@ Add hosts that are allowed to do cross-site requests to `CORS_ORIGIN_WHITELIST` 
 
 		CORS_ORIGIN_WHITELIST = ()
 
+>CORS\_ORIGIN\_REGEX\_WHITELIST: specify a regex list of origin hostnames that are authorized to make a cross-site HTTP request; Useful when you have a large amount of subdomains for instance.
+
+	Example:
+
+        CORS_ORIGIN_REGEX_WHITELIST = ('^http?://(\w+\.)?google\.com$', )
+
+
+	Default:
+
+		CORS_ORIGIN_REGEX_WHITELIST = ()
+
 
 ---
 
