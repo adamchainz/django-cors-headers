@@ -40,10 +40,10 @@ class CorsMiddleware(object):
             # todo: check hostname from db instead
             url = urlparse(origin)
 
-            if not settings.CORS_ORIGIN_ALLOW_ALL and self.origin_not_found_in_white_lists(origin, url):
+            if settings.CORS_ORIGIN_ALLOW_ALL or url.netloc in settings.CORS_ORIGIN_WHITELIST:
+                response[ACCESS_CONTROL_ALLOW_ORIGIN] = origin
+            else:
                 return response
-
-            response[ACCESS_CONTROL_ALLOW_ORIGIN] = "*" if settings.CORS_ORIGIN_ALLOW_ALL else origin
 
             if len(settings.CORS_EXPOSE_HEADERS):
                 response[ACCESS_CONTROL_EXPOSE_HEADERS] = ', '.join(settings.CORS_EXPOSE_HEADERS)
