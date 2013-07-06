@@ -170,3 +170,25 @@ class TestCorsMiddlewareProcessResponse(TestCase):
         request = Mock(META=request_headers, method='OPTIONS')
         processed = self.middleware.process_response(request, response)
         self.assertEqual(processed.get(ACCESS_CONTROL_ALLOW_ORIGIN), None)
+
+    def test_process_response_allow_all_star(self, settings):
+        settings.CORS_ORIGIN_REGEX_WHITELIST = ('^http?://(\w+\.)?yahoo\.com$', )
+        settings.CORS_ALLOW_CREDENTIALS = True
+        settings.CORS_ORIGIN_ALLOW_ALL = '*'
+        settings.CORS_ALLOW_METHODS = ['OPTIONS']
+        response = HttpResponse()
+        request_headers = {'HTTP_ORIGIN': 'http://foo.google.com'}
+        request = Mock(META=request_headers, method='OPTIONS')
+        processed = self.middleware.process_response(request, response)
+        self.assertEqual(processed.get(ACCESS_CONTROL_ALLOW_ORIGIN), '*')
+
+    def test_process_response_allow_all_true(self, settings):
+        settings.CORS_ORIGIN_REGEX_WHITELIST = ('^http?://(\w+\.)?yahoo\.com$', )
+        settings.CORS_ALLOW_CREDENTIALS = True
+        settings.CORS_ORIGIN_ALLOW_ALL = True
+        settings.CORS_ALLOW_METHODS = ['OPTIONS']
+        response = HttpResponse()
+        request_headers = {'HTTP_ORIGIN': 'http://foo.google.com'}
+        request = Mock(META=request_headers, method='OPTIONS')
+        processed = self.middleware.process_response(request, response)
+        self.assertEqual(processed.get(ACCESS_CONTROL_ALLOW_ORIGIN), 'http://foo.google.com')
