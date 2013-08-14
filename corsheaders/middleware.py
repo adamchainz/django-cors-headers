@@ -25,7 +25,8 @@ class CorsMiddleware(object):
             Django won't bother calling any other request view/exception middleware along with
             the requested view; it will call any response middlewares
         '''
-        if (request.method == 'OPTIONS' and
+        if (self.is_enabled(request) and
+            request.method == 'OPTIONS' and
             'HTTP_ACCESS_CONTROL_REQUEST_METHOD' in request.META):
             response = http.HttpResponse()
             return response
@@ -36,7 +37,7 @@ class CorsMiddleware(object):
             Add the respective CORS headers
         '''
         origin = request.META.get('HTTP_ORIGIN')
-        if origin:
+        if self.is_enabled(request) and origin:
             # todo: check hostname from db instead
             url = urlparse(origin)
 
@@ -66,3 +67,6 @@ class CorsMiddleware(object):
         for domain_pattern in settings.CORS_ORIGIN_REGEX_WHITELIST:
             if re.match(domain_pattern, origin):
                 return origin
+
+    def is_enabled(self, request):
+        return re.match(settings.CORS_URLS_REGEX, request.path)
