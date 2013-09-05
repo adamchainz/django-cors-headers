@@ -6,6 +6,7 @@ default_headers = (
     'accept',
     'origin',
     'authorization',
+    'x-csrftoken',
 )
 CORS_ALLOW_HEADERS = getattr(settings, 'CORS_ALLOW_HEADERS', default_headers)
 
