@@ -75,7 +75,17 @@ Add hosts that are allowed to do cross-site requests to `CORS_ORIGIN_WHITELIST` 
 You may optionally specify these options in settings.py to override the defaults. Defaults are shown below:
 
 
->CORS\_ALLOW\_METHODS: specify the allowed HTTP methods that can be used when making the actual request 
+>CORS\_URLS\_REGEX: specify a URL regex for which to enable the sending of CORS headers; Useful when you only want to enable CORS for specific URLs, e. g. for a REST API under ``/api/``.
+
+    Example:
+
+        CORS_URLS_REGEX = r'^/api/.*$'
+
+    Default:
+
+        CORS_URLS_REGEX = '^.*$'
+
+>CORS\_ALLOW\_METHODS: specify the allowed HTTP methods that can be used when making the actual request
 
 	Default:
 
@@ -97,9 +107,10 @@ You may optionally specify these options in settings.py to override the defaults
     		'content-type',
     		'accept',
     		'origin',
-    		'authorization'
+    	    'authorization',
+            'x-csrftoken'
 		)
-		
+
 >CORS\_EXPOSE\_HEADERS: specify which HTTP headers are to be exposed to the browser
 
 	Default:
@@ -121,6 +132,10 @@ You may optionally specify these options in settings.py to override the defaults
 		CORS_ALLOW_CREDENTIALS = False
 
 ## Changelog ##
+v0.12 - Added an option to selectively enable CORS only for specific URLs
+
+v0.11 - Added the ability to specify a regex for whitelisting many origin hostnames at once
+
 v0.10 - Introduced port distinction for origin checking; use ``urlparse`` for Python 3 support; added testcases to project
 
 v0.06 - Add support for exposed response headers
@@ -137,6 +152,7 @@ v0.01 - initial release
 
 ## Credits ##
 A shoutout to everyone who has contributed:
+
 - Otto Yiu - [@ottoyiu](https://github.com/ottoyiu)
 - Michael Tom-Wing - [@mtomwing](https://github.com/mtomwing)
 - Darrin Massena - [@darrinm](https://github.com/darrinm)
@@ -144,4 +160,6 @@ A shoutout to everyone who has contributed:
 - Lukasz Balcerzak - [@lukaszb](https://github.com/lukaszb)
 - Keita Oouchi - [@keitaoouchi](https://github.com/keitaoouchi)
 - Orlando Pozo - [@opozo](https://github.com/opozo)
-
+- Toran Billups - [@toranb](https://github.com/toranb)
+- Raymond Penners - [@pennersr](https://github.com/pennersr)
+- Markus Kaiserswerth - [@mkai](https://github.com/mkai)
