@@ -7,8 +7,21 @@ from corsheaders.middleware import ACCESS_CONTROL_ALLOW_CREDENTIALS
 from corsheaders.middleware import ACCESS_CONTROL_ALLOW_HEADERS
 from corsheaders.middleware import ACCESS_CONTROL_ALLOW_METHODS
 from corsheaders.middleware import ACCESS_CONTROL_MAX_AGE
+from corsheaders import defaults as settings
 from mock import Mock
 from mock import patch
+
+
+class settings_override(object):
+    def __init__(self, **kwargs):
+        self.overrides = kwargs
+
+    def __enter__(self):
+        self.old = dict((key, getattr(settings, key)) for key in self.overrides)
+        settings.__dict__.update(self.overrides)
+
+    def __exit__(self, exc, value, tb):
+        settings.__dict__.update(self.old)
 
 
 class TestCorsMiddlewareProcessRequest(TestCase):
@@ -20,14 +33,16 @@ class TestCorsMiddlewareProcessRequest(TestCase):
         request = Mock(path='/')
         request.method = 'OPTIONS'
         request.META = {'HTTP_ACCESS_CONTROL_REQUEST_METHOD': 'value'}
-        response = self.middleware.process_request(request)
+        with settings_override(CORS_URLS_REGEX='^.*$'):
+            response = self.middleware.process_request(request)
         self.assertIsInstance(response, HttpResponse)
 
     def test_process_request_empty_header(self):
         request = Mock(path='/')
         request.method = 'OPTIONS'
         request.META = {'HTTP_ACCESS_CONTROL_REQUEST_METHOD': ''}
-        response = self.middleware.process_request(request)
+        with settings_override(CORS_URLS_REGEX='^.*$'):
+            response = self.middleware.process_request(request)
         self.assertIsInstance(response, HttpResponse)
 
     def test_process_request_no_header(self):
