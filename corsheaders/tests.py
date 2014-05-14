@@ -72,6 +72,7 @@ class TestCorsMiddlewareProcessResponse(TestCase):
         self.assertEqual(response[ACCESS_CONTROL_ALLOW_ORIGIN], header)
 
     def test_process_response_no_origin(self, settings):
+        settings.CORS_MODEL = None
         settings.CORS_URLS_REGEX = '^.*$'
         response = HttpResponse()
         request = Mock(path='/', META={})
@@ -79,6 +80,7 @@ class TestCorsMiddlewareProcessResponse(TestCase):
         self.assertNotIn(ACCESS_CONTROL_ALLOW_ORIGIN, processed)
 
     def test_process_response_not_in_whitelist(self, settings):
+        settings.CORS_MODEL = None
         settings.CORS_ORIGIN_ALLOW_ALL = False
         settings.CORS_ORIGIN_WHITELIST = ['example.com']
         settings.CORS_URLS_REGEX = '^.*$'
@@ -88,6 +90,7 @@ class TestCorsMiddlewareProcessResponse(TestCase):
         self.assertNotIn(ACCESS_CONTROL_ALLOW_ORIGIN, processed)
 
     def test_process_response_in_whitelist(self, settings):
+        settings.CORS_MODEL = None
         settings.CORS_ORIGIN_ALLOW_ALL = False
         settings.CORS_ORIGIN_WHITELIST = ['example.com', 'foobar.it']
         settings.CORS_URLS_REGEX = '^.*$'
@@ -97,6 +100,7 @@ class TestCorsMiddlewareProcessResponse(TestCase):
         self.assertAccessControlAllowOriginEquals(processed, 'http://foobar.it')
 
     def test_process_response_expose_headers(self, settings):
+        settings.CORS_MODEL = None
         settings.CORS_ORIGIN_ALLOW_ALL = True
         settings.CORS_EXPOSE_HEADERS = ['accept', 'origin', 'content-type']
         settings.CORS_URLS_REGEX = '^.*$'
@@ -107,6 +111,7 @@ class TestCorsMiddlewareProcessResponse(TestCase):
             'accept, origin, content-type')
 
     def test_process_response_dont_expose_headers(self, settings):
+        settings.CORS_MODEL = None
         settings.CORS_ORIGIN_ALLOW_ALL = True
         settings.CORS_EXPOSE_HEADERS = []
         settings.CORS_URLS_REGEX = '^.*$'
@@ -116,6 +121,7 @@ class TestCorsMiddlewareProcessResponse(TestCase):
         self.assertNotIn(ACCESS_CONTROL_EXPOSE_HEADERS, processed)
 
     def test_process_response_allow_credentials(self, settings):
+        settings.CORS_MODEL = None
         settings.CORS_ORIGIN_ALLOW_ALL = True
         settings.CORS_ALLOW_CREDENTIALS = True
         settings.CORS_URLS_REGEX = '^.*$'
@@ -125,6 +131,7 @@ class TestCorsMiddlewareProcessResponse(TestCase):
         self.assertEqual(processed[ACCESS_CONTROL_ALLOW_CREDENTIALS], 'true')
 
     def test_process_response_dont_allow_credentials(self, settings):
+        settings.CORS_MODEL = None
         settings.CORS_ORIGIN_ALLOW_ALL = True
         settings.CORS_ALLOW_CREDENTIALS = False
         settings.CORS_URLS_REGEX = '^.*$'
@@ -134,6 +141,7 @@ class TestCorsMiddlewareProcessResponse(TestCase):
         self.assertNotIn(ACCESS_CONTROL_ALLOW_CREDENTIALS, processed)
 
     def test_process_response_options_method(self, settings):
+        settings.CORS_MODEL = None
         settings.CORS_ORIGIN_ALLOW_ALL = True
         settings.CORS_ALLOW_HEADERS = ['content-type', 'origin']
         settings.CORS_ALLOW_METHODS = ['GET', 'OPTIONS']
@@ -149,6 +157,7 @@ class TestCorsMiddlewareProcessResponse(TestCase):
         self.assertEqual(processed[ACCESS_CONTROL_MAX_AGE], '1002')
 
     def test_process_response_options_method_no_max_age(self, settings):
+        settings.CORS_MODEL = None
         settings.CORS_ORIGIN_ALLOW_ALL = True
         settings.CORS_ALLOW_HEADERS = ['content-type', 'origin']
         settings.CORS_ALLOW_METHODS = ['GET', 'OPTIONS']
@@ -164,6 +173,7 @@ class TestCorsMiddlewareProcessResponse(TestCase):
         self.assertNotIn(ACCESS_CONTROL_MAX_AGE, processed)
 
     def test_process_response_whitelist_with_port(self, settings):
+        settings.CORS_MODEL = None
         settings.CORS_ORIGIN_ALLOW_ALL = False
         settings.CORS_ALLOW_METHODS = ['OPTIONS']
         settings.CORS_ORIGIN_WHITELIST = ('localhost:9000',)
@@ -175,6 +185,7 @@ class TestCorsMiddlewareProcessResponse(TestCase):
         self.assertEqual(processed.get(ACCESS_CONTROL_ALLOW_CREDENTIALS), 'true')
 
     def test_process_response_adds_origin_when_domain_found_in_origin_regex_whitelist(self, settings):
+        settings.CORS_MODEL = None
         settings.CORS_ORIGIN_REGEX_WHITELIST = ('^http?://(\w+\.)?google\.com$', )
         settings.CORS_ALLOW_CREDENTIALS = True
         settings.CORS_ORIGIN_ALLOW_ALL = False
@@ -187,6 +198,7 @@ class TestCorsMiddlewareProcessResponse(TestCase):
         self.assertEqual(processed.get(ACCESS_CONTROL_ALLOW_ORIGIN), 'http://foo.google.com')
 
     def test_process_response_will_not_add_origin_when_domain_not_found_in_origin_regex_whitelist(self, settings):
+        settings.CORS_MODEL = None
         settings.CORS_ORIGIN_REGEX_WHITELIST = ('^http?://(\w+\.)?yahoo\.com$', )
         settings.CORS_ALLOW_CREDENTIALS = True
         settings.CORS_ORIGIN_ALLOW_ALL = False
@@ -197,3 +209,18 @@ class TestCorsMiddlewareProcessResponse(TestCase):
         request = Mock(path='/', META=request_headers, method='OPTIONS')
         processed = self.middleware.process_response(request, response)
         self.assertEqual(processed.get(ACCESS_CONTROL_ALLOW_ORIGIN), None)
+
+    def test_process_response_when_custom_model_enabled(self, settings):
+        from corsheaders.models import CorsModel
+        c = CorsModel.objects.create(cors='foo.google.com')
+        settings.CORS_ORIGIN_REGEX_WHITELIST = ()
+        settings.CORS_ALLOW_CREDENTIALS = False
+        settings.CORS_ORIGIN_ALLOW_ALL = False
+        settings.CORS_ALLOW_METHODS = settings.default_methods
+        settings.CORS_URLS_REGEX = '^.*$'
+        settings.INSTALLED_APP + ('corsheaders',)
+        settings.CORS_MODEL = 'corsheaders.CorsModel'
+        response = HttpResponse()
+        request = Mock(path='/', META={'HTTP_ORIGIN': 'http://foo.google.com'})
+        processed = self.middleware.process_response(request, response)
+        self.assertEqual(processed.get(ACCESS_CONTROL_ALLOW_ORIGIN), 'http://foo.google.com')
