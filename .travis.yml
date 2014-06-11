@@ -11,6 +11,15 @@ env:
  - DJANGO_VERSION="Django==1.5.8"
  - DJANGO_VERSION="Django==1.6.5"
 
+matrix:
+    exclude:
+        - python: 3.2
+          env: DJANGO_VERSION="Django==1.4.13"
+        - python: 3.3
+          env: DJANGO_VERSION="Django==1.4.13"
+        - python: 3.4
+          env: DJANGO_VERSION="Django==1.4.13"
+
 install:
   - pip install -q $DJANGO_VERSION
   - pip install . --use-mirrors
