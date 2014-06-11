@@ -5,6 +5,7 @@ import sys
 
 
 def run_tests():
+    import django
     from django.conf import global_settings
     from django.conf import settings
     settings.configure(
@@ -20,6 +21,8 @@ def run_tests():
         MIDDLEWARE_CLASSES=global_settings.MIDDLEWARE_CLASSES + (
             'corsheaders.middleware.CorsMiddleware',),
     )
+    if hasattr(django, 'setup'):
+        django.setup()
 
     from django.test.simple import DjangoTestSuiteRunner
 
