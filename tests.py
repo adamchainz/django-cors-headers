@@ -21,7 +21,8 @@ def run_tests():
         MIDDLEWARE_CLASSES=global_settings.MIDDLEWARE_CLASSES + (
             'corsheaders.middleware.CorsMiddleware',),
     )
-    django.setup()
+    if hasattr(django, 'setup'):
+        django.setup()
 
     from django.test.simple import DjangoTestSuiteRunner
 
