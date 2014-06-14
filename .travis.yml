@@ -2,14 +2,29 @@ language: python
 python:
  - 2.6
  - 2.7
+ - 3.2
+ - 3.3
+ - 3.4
 
 env:
- - DJANGO_VERSION="Django==1.4.5"
- - DJANGO_VERSION="http://www.djangoproject.com/m/releases/1.5/Django-1.5c1.tar.gz"
+ - DJANGO_VERSION="Django==1.4.13"
+ - DJANGO_VERSION="Django==1.5.8"
+ - DJANGO_VERSION="Django==1.6.5"
+ - DJANGO_VERSION="https://www.djangoproject.com/download/1.7.b4/tarball/"
+
+matrix:
+    exclude:
+        - python: 3.2
+          env: DJANGO_VERSION="Django==1.4.13"
+        - python: 3.3
+          env: DJANGO_VERSION="Django==1.4.13"
+        - python: 3.4
+          env: DJANGO_VERSION="Django==1.4.13"
+        - python: 2.6
+          env: DJANGO_VERSION="https://www.djangoproject.com/download/1.7.b4/tarball/"
 
 install:
   - pip install -q $DJANGO_VERSION
   - pip install . --use-mirrors
 
 script: python setup.py test
-
