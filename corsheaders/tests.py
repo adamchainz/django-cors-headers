@@ -212,13 +212,12 @@ class TestCorsMiddlewareProcessResponse(TestCase):
 
     def test_process_response_when_custom_model_enabled(self, settings):
         from corsheaders.models import CorsModel
-        c = CorsModel.objects.create(cors='foo.google.com')
+        CorsModel.objects.create(cors='foo.google.com')
         settings.CORS_ORIGIN_REGEX_WHITELIST = ()
         settings.CORS_ALLOW_CREDENTIALS = False
         settings.CORS_ORIGIN_ALLOW_ALL = False
         settings.CORS_ALLOW_METHODS = settings.default_methods
         settings.CORS_URLS_REGEX = '^.*$'
-        settings.INSTALLED_APP + ('corsheaders',)
         settings.CORS_MODEL = 'corsheaders.CorsModel'
         response = HttpResponse()
         request = Mock(path='/', META={'HTTP_ORIGIN': 'http://foo.google.com'})
