@@ -33,3 +33,5 @@ CORS_ORIGIN_REGEX_WHITELIST = getattr(settings, 'CORS_ORIGIN_REGEX_WHITELIST', (
 CORS_EXPOSE_HEADERS = getattr(settings, 'CORS_EXPOSE_HEADERS', ())
 
 CORS_URLS_REGEX = getattr(settings, 'CORS_URLS_REGEX', '^.*$')
+
+CORS_MODEL = getattr(settings, 'CORS_MODEL', None)
