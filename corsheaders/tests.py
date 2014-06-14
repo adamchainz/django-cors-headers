@@ -182,7 +182,7 @@ class TestCorsMiddlewareProcessResponse(TestCase):
         request_headers = {'HTTP_ORIGIN': 'http://localhost:9000'}
         request = Mock(path='/', META=request_headers, method='OPTIONS')
         processed = self.middleware.process_response(request, response)
-        self.assertEqual(processed.get(ACCESS_CONTROL_ALLOW_CREDENTIALS), 'true')
+        self.assertEqual(processed.get(ACCESS_CONTROL_ALLOW_CREDENTIALS, None), 'true')
 
     def test_process_response_adds_origin_when_domain_found_in_origin_regex_whitelist(self, settings):
         settings.CORS_MODEL = None
@@ -195,7 +195,7 @@ class TestCorsMiddlewareProcessResponse(TestCase):
         request_headers = {'HTTP_ORIGIN': 'http://foo.google.com'}
         request = Mock(path='/', META=request_headers, method='OPTIONS')
         processed = self.middleware.process_response(request, response)
-        self.assertEqual(processed.get(ACCESS_CONTROL_ALLOW_ORIGIN), 'http://foo.google.com')
+        self.assertEqual(processed.get(ACCESS_CONTROL_ALLOW_ORIGIN, None), 'http://foo.google.com')
 
     def test_process_response_will_not_add_origin_when_domain_not_found_in_origin_regex_whitelist(self, settings):
         settings.CORS_MODEL = None
@@ -208,7 +208,7 @@ class TestCorsMiddlewareProcessResponse(TestCase):
         request_headers = {'HTTP_ORIGIN': 'http://foo.google.com'}
         request = Mock(path='/', META=request_headers, method='OPTIONS')
         processed = self.middleware.process_response(request, response)
-        self.assertEqual(processed.get(ACCESS_CONTROL_ALLOW_ORIGIN), None)
+        self.assertEqual(processed.get(ACCESS_CONTROL_ALLOW_ORIGIN, None), None)
 
     def test_process_response_when_custom_model_enabled(self, settings):
         from corsheaders.models import CorsModel
@@ -223,4 +223,4 @@ class TestCorsMiddlewareProcessResponse(TestCase):
         response = HttpResponse()
         request = Mock(path='/', META={'HTTP_ORIGIN': 'http://foo.google.com'})
         processed = self.middleware.process_response(request, response)
-        self.assertEqual(processed.get(ACCESS_CONTROL_ALLOW_ORIGIN), 'http://foo.google.com')
+        self.assertEqual(processed.get(ACCESS_CONTROL_ALLOW_ORIGIN, None), 'http://foo.google.com')
