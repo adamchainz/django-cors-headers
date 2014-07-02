@@ -67,7 +67,10 @@ class CorsMiddleware(object):
         return response
 
     def origin_not_found_in_white_lists(self, origin, url):
-        return url.netloc not in settings.CORS_ORIGIN_WHITELIST and not self.regex_domain_match(origin)
+        if url.netloc not in settings.CORS_ORIGIN_WHITELIST:
+            return not self.regex_domain_match(origin)
+        else:
+            retrun False
 
     def regex_domain_match(self, origin):
         for domain_pattern in settings.CORS_ORIGIN_REGEX_WHITELIST:
