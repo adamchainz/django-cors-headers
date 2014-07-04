@@ -44,7 +44,7 @@ class CorsMiddleware(object):
 
             if settings.CORS_MODEL is not None:
                 model = get_model(*settings.CORS_MODEL.split('.'))
-                if model.objects.filter(cors=url.netloc).count():
+                if model.objects.filter(cors=url.netloc).exists():
                     response[ACCESS_CONTROL_ALLOW_ORIGIN] = origin
 
             if not settings.CORS_ORIGIN_ALLOW_ALL and self.origin_not_found_in_white_lists(origin, url):
