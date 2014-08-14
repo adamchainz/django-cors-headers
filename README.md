@@ -138,7 +138,7 @@ You may optionally specify these options in settings.py to override the defaults
 
     Default:
 
-        CORS_ALLOW_NULL = False
+        CORS_ORIGIN_ALLOW_NULL = False
 
 ## Changelog ##
 v0.13 and onwards - [Release Notes](https://github.com/ottoyiu/django-cors-headers/releases)

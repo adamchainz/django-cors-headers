@@ -36,4 +36,4 @@ CORS_URLS_REGEX = getattr(settings, 'CORS_URLS_REGEX', '^.*$')
 
 CORS_MODEL = getattr(settings, 'CORS_MODEL', None)
 
-CORS_ORIGIN_NULL_ALLOWED = getattr(settings, 'CORS_ORIGIN_ALLOW_NULL', False)
+CORS_ORIGIN_ALLOW_NULL = getattr(settings, 'CORS_ORIGIN_ALLOW_NULL', False)
