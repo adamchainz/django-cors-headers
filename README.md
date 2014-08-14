@@ -46,7 +46,7 @@ Add hosts that are allowed to do cross-site requests to `CORS_ORIGIN_WHITELIST` 
 
         CORS_ORIGIN_ALLOW_ALL = False
 
->CORS\_ORIGIN\_WHITELIST: specify a list of origin hostnames that are authorized to make a cross-site HTTP request; set to None to allow access to anyone
+>CORS\_ORIGIN\_WHITELIST: specify a list of origin hostnames that are authorized to make a cross-site HTTP request
 
     Example:
 
@@ -135,6 +135,8 @@ You may optionally specify these options in settings.py to override the defaults
         CORS_ALLOW_CREDENTIALS = False
 
 ## Changelog ##
+v0.13 and onwards - [Release Notes](https://github.com/ottoyiu/django-cors-headers/releases)
+
 v0.12 - Added an option to selectively enable CORS only for specific URLs
 
 v0.11 - Added the ability to specify a regex for whitelisting many origin hostnames at once
@@ -166,3 +168,4 @@ A shoutout to everyone who has contributed:
 - Toran Billups - [@toranb](https://github.com/toranb)
 - Raymond Penners - [@pennersr](https://github.com/pennersr)
 - Markus Kaiserswerth - [@mkai](https://github.com/mkai)
+- and many others! - [Contributors](https://github.com/ottoyiu/django-cors-headers/graphs/contributors)
