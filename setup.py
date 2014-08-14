@@ -1,8 +1,9 @@
+from corsheaders import __version__
 from setuptools import setup
 
 setup(
     name='django-cors-headers',
-    version='0.12',
+    version=__version__,
     description='django-cors-headers is a Django application for handling the server headers required for Cross-Origin Resource Sharing (CORS).',
     author='Otto Yiu',
     author_email='otto@live.ca',
