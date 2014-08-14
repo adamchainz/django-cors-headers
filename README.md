@@ -134,6 +134,12 @@ You may optionally specify these options in settings.py to override the defaults
 
         CORS_ALLOW_CREDENTIALS = False
 
+>CORS\_ORIGIN\_ALLOW\_NULL: specify if an empty origin sent by Cordova/PhoneGap or file:// hosted HTML file is allowed
+
+    Default:
+
+        CORS_ALLOW_NULL = False
+
 ## Changelog ##
 v0.13 and onwards - [Release Notes](https://github.com/ottoyiu/django-cors-headers/releases)
 
