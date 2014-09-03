@@ -7,7 +7,7 @@ setup(
     description='django-cors-headers is a Django application for handling the server headers required for Cross-Origin Resource Sharing (CORS).',
     author='Otto Yiu',
     author_email='otto@live.ca',
-    url='https://github.com/ottoyiu/django-cors-headers',
+    url='https://github.com/dlcerva/django-cors-headers',
     packages=['corsheaders'],
     license='MIT License',
     keywords='django cors middleware rest api',
