@@ -37,7 +37,7 @@ class CorsMiddleware(object):
         '''
             Add the respective CORS headers
         '''
-        origin = request.META.get('HTTP_ORIGIN')
+        origin = request.get_host()
         if self.is_enabled(request) and origin:
             # todo: check hostname from db instead
             url = urlparse(origin)
