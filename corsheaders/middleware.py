@@ -19,26 +19,26 @@ ACCESS_CONTROL_MAX_AGE = 'Access-Control-Max-Age'
 
 class CorsPostCsrfMiddleware(object):
 
-    def _referer_https_hack_reverse(self, request):
+    def _https_referer_replace_reverse(self, request):
         '''
         Put the HTTP_REFERER back to its original value and delete the temporary storage
         '''
-        if settings.CORS_USE_HTTPS_REFERER_HACK and 'ORIGINAL_HTTP_REFERER' in request.META:
+        if settings.CORS_REPLACE_HTTPS_REFERER and 'ORIGINAL_HTTP_REFERER' in request.META:
             request.META['HTTP_REFERER'] = request.META['ORIGINAL_HTTP_REFERER']
             del request.META['ORIGINAL_HTTP_REFERER']
 
     def process_request(self, request):
-        self._referer_https_hack_reverse(request)
+        self._https_referer_replace_reverse(request)
         return None
 
     def process_view(self, request, callback, callback_args, callback_kwargs):
-        self._referer_https_hack_reverse(request)
+        self._https_referer_replace_reverse(request)
         return None
 
 
 class CorsMiddleware(object):
 
-    def _referer_https_hack(self, request):
+    def _https_referer_replace(self, request):
         '''
             When https is enabled, django CSRF checking includes referer checking which breaks when using CORS. This
             function updates the HTTP_REFERER header to make sure it matches HTTP_HOST, provided that our cors logic
@@ -62,8 +62,8 @@ class CorsMiddleware(object):
             Django won't bother calling any other request view/exception middleware along with
             the requested view; it will call any response middlewares
         '''
-        if self.is_enabled(request) and settings.CORS_USE_HTTPS_REFERER_HACK:
-            self._referer_https_hack(request)
+        if self.is_enabled(request) and settings.CORS_REPLACE_HTTPS_REFERER:
+            self._https_referer_replace(request)
 
         if (self.is_enabled(request) and
             request.method == 'OPTIONS' and
@@ -74,10 +74,10 @@ class CorsMiddleware(object):
 
     def process_view(self, request, callback, callback_args, callback_kwargs):
         '''
-            Do the referer hack here as well
+            Do the referer replacement here as well
         '''
-        if self.is_enabled(request) and settings.CORS_USE_HTTPS_REFERER_HACK:
-            self._referer_https_hack(request)
+        if self.is_enabled(request) and settings.CORS_REPLACE_HTTPS_REFERER:
+            self._https_referer_replace(request)
         return None
 
     def process_response(self, request, response):
