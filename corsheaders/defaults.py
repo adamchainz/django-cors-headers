@@ -41,3 +41,5 @@ CORS_EXPOSE_HEADERS = getattr(settings, 'CORS_EXPOSE_HEADERS', ())
 CORS_URLS_REGEX = getattr(settings, 'CORS_URLS_REGEX', '^.*$')
 
 CORS_MODEL = getattr(settings, 'CORS_MODEL', None)
+
+CORS_REPLACE_HTTPS_REFERER = getattr(settings, 'CORS_REPLACE_HTTPS_REFERER', False)
