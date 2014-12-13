@@ -7,7 +7,10 @@ default_headers = (
     'origin',
     'authorization',
     'x-csrftoken',
+    'user-agent',
+    'accept-encoding',
 )
+
 CORS_ALLOW_HEADERS = getattr(settings, 'CORS_ALLOW_HEADERS', default_headers)
 
 default_methods = (
@@ -28,7 +31,10 @@ CORS_ORIGIN_ALLOW_ALL = getattr(settings, 'CORS_ORIGIN_ALLOW_ALL', False)
 
 CORS_ORIGIN_WHITELIST = getattr(settings, 'CORS_ORIGIN_WHITELIST', ())
 
-CORS_ORIGIN_REGEX_WHITELIST = getattr(settings, 'CORS_ORIGIN_REGEX_WHITELIST', ())
+CORS_ORIGIN_REGEX_WHITELIST = getattr(
+    settings,
+    'CORS_ORIGIN_REGEX_WHITELIST',
+    ())
 
 CORS_EXPOSE_HEADERS = getattr(settings, 'CORS_EXPOSE_HEADERS', ())
 

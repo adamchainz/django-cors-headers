@@ -1,4 +1,5 @@
 import re
+
 from django import http
 try:
     from urlparse import urlparse
@@ -20,11 +21,14 @@ ACCESS_CONTROL_MAX_AGE = 'Access-Control-Max-Age'
 class CorsPostCsrfMiddleware(object):
 
     def _https_referer_replace_reverse(self, request):
-        '''
-        Put the HTTP_REFERER back to its original value and delete the temporary storage
-        '''
-        if settings.CORS_REPLACE_HTTPS_REFERER and 'ORIGINAL_HTTP_REFERER' in request.META:
-            request.META['HTTP_REFERER'] = request.META['ORIGINAL_HTTP_REFERER']
+        """
+        Put the HTTP_REFERER back to its original value and delete the
+        temporary storage
+        """
+        if (settings.CORS_REPLACE_HTTPS_REFERER and
+                'ORIGINAL_HTTP_REFERER' in request.META):
+            http_referer = request.META['ORIGINAL_HTTP_REFERER']
+            request.META['HTTP_REFERER'] = http_referer
             del request.META['ORIGINAL_HTTP_REFERER']
 
     def process_request(self, request):
@@ -39,51 +43,57 @@ class CorsPostCsrfMiddleware(object):
 class CorsMiddleware(object):
 
     def _https_referer_replace(self, request):
-        '''
-            When https is enabled, django CSRF checking includes referer checking which breaks when using CORS. This
-            function updates the HTTP_REFERER header to make sure it matches HTTP_HOST, provided that our cors logic
-            succeeds
-        '''
+        """
+        When https is enabled, django CSRF checking includes referer checking
+        which breaks when using CORS. This function updates the HTTP_REFERER
+        header to make sure it matches HTTP_HOST, provided that our cors logic
+        succeeds
+        """
         origin = request.META.get('HTTP_ORIGIN')
 
         if request.is_secure() and origin:
             url = urlparse(origin)
-            if not settings.CORS_ORIGIN_ALLOW_ALL and self.origin_not_found_in_white_lists(origin, url):
+            if (not settings.CORS_ORIGIN_ALLOW_ALL and
+                    self.origin_not_found_in_white_lists(origin, url)):
                 return
 
             request.META = request.META.copy()
-            request.META['ORIGINAL_HTTP_REFERER'] = request.META['HTTP_REFERER']
-            request.META['HTTP_REFERER'] = "https://%s/" % request.META['HTTP_HOST']
+            http_referer = request.META['HTTP_REFERER']
+            request.META['ORIGINAL_HTTP_REFERER'] = http_referer
+            http_host = "https://%s/" % request.META['HTTP_HOST']
+            request.META['HTTP_REFERER'] = http_host
 
     def process_request(self, request):
-        '''
-            If CORS preflight header, then create an empty body response (200 OK) and return it
+        """
+        If CORS preflight header, then create an
+        empty body response (200 OK) and return it
 
-            Django won't bother calling any other request view/exception middleware along with
-            the requested view; it will call any response middlewares
-        '''
+        Django won't bother calling any other request
+        view/exception middleware along with the requested view;
+        it will call any response middlewares
+        """
         if self.is_enabled(request) and settings.CORS_REPLACE_HTTPS_REFERER:
             self._https_referer_replace(request)
 
         if (self.is_enabled(request) and
-            request.method == 'OPTIONS' and
-            'HTTP_ACCESS_CONTROL_REQUEST_METHOD' in request.META):
+                request.method == 'OPTIONS' and
+                "HTTP_ACCESS_CONTROL_REQUEST_METHOD" in request.META):
             response = http.HttpResponse()
             return response
         return None
 
     def process_view(self, request, callback, callback_args, callback_kwargs):
-        '''
-            Do the referer replacement here as well
-        '''
+        """
+        Do the referer replacement here as well
+        """
         if self.is_enabled(request) and settings.CORS_REPLACE_HTTPS_REFERER:
             self._https_referer_replace(request)
         return None
 
     def process_response(self, request, response):
-        '''
-            Add the respective CORS headers
-        '''
+        """
+        Add the respective CORS headers
+        """
         origin = request.META.get('HTTP_ORIGIN')
         if self.is_enabled(request) and origin:
             # todo: check hostname from db instead
@@ -94,27 +104,34 @@ class CorsMiddleware(object):
                 if model.objects.filter(cors=url.netloc).exists():
                     response[ACCESS_CONTROL_ALLOW_ORIGIN] = origin
 
-            if not settings.CORS_ORIGIN_ALLOW_ALL and self.origin_not_found_in_white_lists(origin, url):
+            if (not settings.CORS_ORIGIN_ALLOW_ALL and
+                    self.origin_not_found_in_white_lists(origin, url)):
                 return response
 
-            response[ACCESS_CONTROL_ALLOW_ORIGIN] = "*" if (settings.CORS_ORIGIN_ALLOW_ALL and not settings.CORS_ALLOW_CREDENTIALS) else origin
+            response[ACCESS_CONTROL_ALLOW_ORIGIN] = "*" if (
+                settings.CORS_ORIGIN_ALLOW_ALL and
+                not settings.CORS_ALLOW_CREDENTIALS) else origin
 
             if len(settings.CORS_EXPOSE_HEADERS):
-                response[ACCESS_CONTROL_EXPOSE_HEADERS] = ', '.join(settings.CORS_EXPOSE_HEADERS)
+                response[ACCESS_CONTROL_EXPOSE_HEADERS] = ', '.join(
+                    settings.CORS_EXPOSE_HEADERS)
 
             if settings.CORS_ALLOW_CREDENTIALS:
                 response[ACCESS_CONTROL_ALLOW_CREDENTIALS] = 'true'
 
             if request.method == 'OPTIONS':
-                response[ACCESS_CONTROL_ALLOW_HEADERS] = ', '.join(settings.CORS_ALLOW_HEADERS)
-                response[ACCESS_CONTROL_ALLOW_METHODS] = ', '.join(settings.CORS_ALLOW_METHODS)
+                response[ACCESS_CONTROL_ALLOW_HEADERS] = ', '.join(
+                    settings.CORS_ALLOW_HEADERS)
+                response[ACCESS_CONTROL_ALLOW_METHODS] = ', '.join(
+                    settings.CORS_ALLOW_METHODS)
                 if settings.CORS_PREFLIGHT_MAX_AGE:
                     response[ACCESS_CONTROL_MAX_AGE] = settings.CORS_PREFLIGHT_MAX_AGE
 
         return response
 
     def origin_not_found_in_white_lists(self, origin, url):
-        return url.netloc not in settings.CORS_ORIGIN_WHITELIST and not self.regex_domain_match(origin)
+        return (url.netloc not in settings.CORS_ORIGIN_WHITELIST and
+                not self.regex_domain_match(origin))
 
     def regex_domain_match(self, origin):
         for domain_pattern in settings.CORS_ORIGIN_REGEX_WHITELIST:
