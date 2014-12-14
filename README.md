@@ -134,6 +134,14 @@ You may optionally specify these options in settings.py to override the defaults
 
         CORS_ALLOW_CREDENTIALS = False
 
+>CORS\_REPLACE\_HTTPS\_REFERER: specify whether to replace the HTTP_REFERER header if CORS checks pass so that CSRF django middleware checks will work with https
+
+    Note: With this feature enabled, you also need to add the corsheaders.middleware.CorsPostCsrfMiddleware after django.middleware.csrf.CsrfViewMiddleware to undo the header replacement
+
+    Default:
+
+        CORS_REPLACE_HTTPS_REFERER = False
+
 ## Changelog ##
 v0.13 and onwards - [Release Notes](https://github.com/ottoyiu/django-cors-headers/releases)
 

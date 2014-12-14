@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.test import TestCase
-from corsheaders.middleware import CorsMiddleware
+from corsheaders.middleware import CorsMiddleware, CorsPostCsrfMiddleware
 from corsheaders.middleware import ACCESS_CONTROL_ALLOW_ORIGIN
 from corsheaders.middleware import ACCESS_CONTROL_EXPOSE_HEADERS
 from corsheaders.middleware import ACCESS_CONTROL_ALLOW_CREDENTIALS
@@ -57,6 +57,94 @@ class TestCorsMiddlewareProcessRequest(TestCase):
         request.method = 'GET'
         request.META = {'HTTP_ACCESS_CONTROL_REQUEST_METHOD': 'value'}
         response = self.middleware.process_request(request)
+        self.assertIsNone(response)
+
+    def test_process_request_replace_https_referer(self):
+        post_middleware = CorsPostCsrfMiddleware()
+        request = Mock(path='/')
+        request.method = 'GET'
+        request.is_secure = lambda: False
+        request.META = {
+            'HTTP_REFERER': 'http://foo.google.com/',
+            'HTTP_HOST': 'foobar.com',
+            'HTTP_ORIGIN': 'http://foo.google.com',
+        }
+
+        # test that we won't replace if the request is not secure
+        with settings_override(CORS_URLS_REGEX='^.*$',
+                               CORS_ORIGIN_REGEX_WHITELIST='.*google.*',
+                               CORS_REPLACE_HTTPS_REFERER=True):
+            response = self.middleware.process_request(request)
+        self.assertIsNone(response)
+        self.assertTrue('ORIGINAL_HTTP_REFERER' not in request.META)
+        self.assertEquals(request.META['HTTP_REFERER'], 'http://foo.google.com/')
+
+        request.is_secure = lambda: True
+        request.META = {
+            'HTTP_REFERER': 'https://foo.google.com/',
+            'HTTP_HOST': 'foobar.com',
+            'HTTP_ORIGIN': 'https://foo.google.com',
+        }
+
+        # test that we won't replace with the setting off
+        with settings_override(CORS_URLS_REGEX='^.*$',
+                               CORS_ORIGIN_REGEX_WHITELIST='.*google.*'):
+            response = self.middleware.process_request(request)
+        self.assertIsNone(response)
+        self.assertTrue('ORIGINAL_HTTP_REFERER' not in request.META)
+        self.assertEquals(request.META['HTTP_REFERER'], 'https://foo.google.com/')
+
+        with settings_override(CORS_URLS_REGEX='^.*$',
+                               CORS_ORIGIN_REGEX_WHITELIST='.*google.*',
+                               CORS_REPLACE_HTTPS_REFERER=True):
+            response = self.middleware.process_request(request)
+        self.assertIsNone(response)
+        self.assertEquals(request.META['ORIGINAL_HTTP_REFERER'], 'https://foo.google.com/')
+        self.assertEquals(request.META['HTTP_REFERER'], 'https://foobar.com/')
+
+        # make sure the replace code is idempotent
+        with settings_override(CORS_URLS_REGEX='^.*$',
+                               CORS_ORIGIN_REGEX_WHITELIST='.*google.*',
+                               CORS_REPLACE_HTTPS_REFERER=True):
+            response = self.middleware.process_view(request, None, None, None)
+        self.assertIsNone(response)
+        self.assertEquals(request.META['ORIGINAL_HTTP_REFERER'], 'https://foo.google.com/')
+        self.assertEquals(request.META['HTTP_REFERER'], 'https://foobar.com/')
+
+        with settings_override(CORS_URLS_REGEX='^.*$', CORS_REPLACE_HTTPS_REFERER=True):
+            post_middleware.process_request(request)
+        self.assertTrue('ORIGINAL_HTTP_REFERER' not in request.META)
+        self.assertEquals(request.META['HTTP_REFERER'], 'https://foo.google.com/')
+
+        with settings_override(CORS_URLS_REGEX='^.*$', CORS_REPLACE_HTTPS_REFERER=True):
+            response = post_middleware.process_request(request)
+        self.assertIsNone(response)
+
+    def test_process_view_replace_https_referer(self):
+        post_middleware = CorsPostCsrfMiddleware()
+        request = Mock(path='/')
+        request.method = 'GET'
+        request.is_secure = lambda: True
+        request.META = {
+            'HTTP_REFERER': 'https://foo.google.com/',
+            'HTTP_HOST': 'foobar.com',
+            'HTTP_ORIGIN': 'https://foo.google.com',
+        }
+        with settings_override(CORS_URLS_REGEX='^.*$',
+                               CORS_ORIGIN_REGEX_WHITELIST='.*google.*',
+                               CORS_REPLACE_HTTPS_REFERER=True):
+            response = self.middleware.process_view(request, None, None, None)
+        self.assertIsNone(response)
+        self.assertEquals(request.META['ORIGINAL_HTTP_REFERER'], 'https://foo.google.com/')
+        self.assertEquals(request.META['HTTP_REFERER'], 'https://foobar.com/')
+
+        with settings_override(CORS_URLS_REGEX='^.*$', CORS_REPLACE_HTTPS_REFERER=True):
+            post_middleware.process_view(request, None, None, None)
+        self.assertTrue('ORIGINAL_HTTP_REFERER' not in request.META)
+        self.assertEquals(request.META['HTTP_REFERER'], 'https://foo.google.com/')
+
+        with settings_override(CORS_URLS_REGEX='^.*$', CORS_REPLACE_HTTPS_REFERER=True):
+            response = post_middleware.process_view(request, None, None, None)
         self.assertIsNone(response)
 
 
