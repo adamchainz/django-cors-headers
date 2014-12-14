@@ -34,4 +34,6 @@ install:
   - pip install -q $DJANGO_VERSION
   - pip install . --use-mirrors
 
-script: python setup.py test
+script:
+  - python setup.py test
+  - flake8 --config flake8.cfg .

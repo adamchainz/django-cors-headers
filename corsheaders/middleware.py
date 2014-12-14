@@ -126,7 +126,8 @@ class CorsMiddleware(object):
                 response[ACCESS_CONTROL_ALLOW_METHODS] = ', '.join(
                     settings.CORS_ALLOW_METHODS)
                 if settings.CORS_PREFLIGHT_MAX_AGE:
-                    response[ACCESS_CONTROL_MAX_AGE] = settings.CORS_PREFLIGHT_MAX_AGE
+                    response[ACCESS_CONTROL_MAX_AGE] = \
+                        settings.CORS_PREFLIGHT_MAX_AGE
 
         return response
 
