@@ -8,6 +8,7 @@ dist/
 # Packages
 *.egg
 *.egg-info
+.coverage
 dist
 build
 eggs
