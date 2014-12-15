@@ -33,5 +33,10 @@ matrix:
 install:
   - pip install -q $DJANGO_VERSION
   - pip install . --use-mirrors
+  - pip install "flake8>=2.2.5"
+  - pip install "coverage>=3.7.1"
 
-script: python setup.py test
+script:
+  - flake8 --config flake8.cfg .
+  - coverage run setup.py test
+  - coverage report
