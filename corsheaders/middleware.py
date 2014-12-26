@@ -59,9 +59,9 @@ class CorsMiddleware(object):
                 return
 
             try:
-                request.META = request.META.copy()
                 http_referer = request.META['HTTP_REFERER']
                 http_host = "https://%s/" % request.META['HTTP_HOST']
+                request.META = request.META.copy()
                 request.META['ORIGINAL_HTTP_REFERER'] = http_referer
                 request.META['HTTP_REFERER'] = http_host
             except KeyError:
