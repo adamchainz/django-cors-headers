@@ -1,5 +1,6 @@
 import re
 from django import http
+
 try:
     from urlparse import urlparse
 except ImportError:
@@ -18,14 +19,13 @@ ACCESS_CONTROL_MAX_AGE = 'Access-Control-Max-Age'
 
 
 class CorsPostCsrfMiddleware(object):
-
     def _https_referer_replace_reverse(self, request):
         """
         Put the HTTP_REFERER back to its original value and delete the
         temporary storage
         """
         if (settings.CORS_REPLACE_HTTPS_REFERER and
-                'ORIGINAL_HTTP_REFERER' in request.META):
+                    'ORIGINAL_HTTP_REFERER' in request.META):
             http_referer = request.META['ORIGINAL_HTTP_REFERER']
             request.META['HTTP_REFERER'] = http_referer
             del request.META['ORIGINAL_HTTP_REFERER']
@@ -40,7 +40,6 @@ class CorsPostCsrfMiddleware(object):
 
 
 class CorsMiddleware(object):
-
     def _https_referer_replace(self, request):
         """
         When https is enabled, django CSRF checking includes referer checking
@@ -51,7 +50,7 @@ class CorsMiddleware(object):
         origin = request.META.get('HTTP_ORIGIN')
 
         if (request.is_secure() and origin and
-                'ORIGINAL_HTTP_REFERER' not in request.META):
+                    'ORIGINAL_HTTP_REFERER' not in request.META):
             url = urlparse(origin)
             if (not settings.CORS_ORIGIN_ALLOW_ALL and
                     self.origin_not_found_in_white_lists(origin, url)):
@@ -79,8 +78,8 @@ class CorsMiddleware(object):
             self._https_referer_replace(request)
 
         if (self.is_enabled(request) and
-                request.method == 'OPTIONS' and
-                "HTTP_ACCESS_CONTROL_REQUEST_METHOD" in request.META):
+                    request.method == 'OPTIONS' and
+                    "HTTP_ACCESS_CONTROL_REQUEST_METHOD" in request.META):
             response = http.HttpResponse()
             return response
         return None
@@ -105,7 +104,7 @@ class CorsMiddleware(object):
             if settings.CORS_MODEL is not None and settings.CORS_MODEL_FIELD is not None:
                 model = get_model(*settings.CORS_MODEL.split('.'))
                 _allowed_urls = model.objects.all().values_list(settings.CORS_MODEL_FIELD, flat=True)
-                allowed_urls = map(lambda _url: urlparse(_url).netloc, _allowed_urls)
+                allowed_urls = map(lambda _url: urlparse(_url).netloc + urlparse(_url).path, _allowed_urls)
                 if url.netloc in allowed_urls:
                     response[ACCESS_CONTROL_ALLOW_ORIGIN] = origin
 
