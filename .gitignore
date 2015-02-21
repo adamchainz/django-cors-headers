@@ -2,4 +2,22 @@
 *.egg-info
 build/ 
 dist/
-/.idea
+.idea/
+.tox/
+
+# Packages
+*.egg
+*.egg-info
+.coverage
+dist
+build
+eggs
+parts
+bin
+var
+sdist
+develop-eggs
+.installed.cfg
+lib
+lib64
+
