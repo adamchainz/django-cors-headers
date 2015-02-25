@@ -114,7 +114,8 @@ class CorsMiddleware(object):
                     response[ACCESS_CONTROL_ALLOW_ORIGIN] = origin
 
             if (not settings.CORS_ORIGIN_ALLOW_ALL and
-                    self.origin_not_found_in_white_lists(origin, url)):
+                    self.origin_not_found_in_white_lists(origin, url) and
+                    not self.regex_url_allow_all_match(request.path)):
                 return response
 
             response[ACCESS_CONTROL_ALLOW_ORIGIN] = "*" if (
@@ -149,4 +150,10 @@ class CorsMiddleware(object):
                 return origin
 
     def is_enabled(self, request):
-        return re.match(settings.CORS_URLS_REGEX, request.path)
+        return re.match(settings.CORS_URLS_REGEX, request.path) or \
+            self.regex_url_allow_all_match(request.path)
+
+    def regex_url_allow_all_match(self, path):
+        for url_pattern in settings.CORS_URLS_ALLOW_ALL_REGEX:
+            if re.match(url_pattern, path):
+                return path

@@ -46,3 +46,4 @@ CORS_REPLACE_HTTPS_REFERER = getattr(
     settings,
     'CORS_REPLACE_HTTPS_REFERER',
     False)
+CORS_URLS_ALLOW_ALL_REGEX = getattr(settings, 'CORS_URLS_ALLOW_ALL_REGEX', ())
