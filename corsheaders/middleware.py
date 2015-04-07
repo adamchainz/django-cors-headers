@@ -7,7 +7,7 @@ except ImportError:
     from urllib.parse import urlparse
 
 from corsheaders import defaults as settings
-from django.db.models.loading import get_model
+from django.apps import apps
 
 
 ACCESS_CONTROL_ALLOW_ORIGIN = 'Access-Control-Allow-Origin'
@@ -104,7 +104,7 @@ class CorsMiddleware(object):
             url = urlparse(origin)
 
             if settings.CORS_MODEL is not None:
-                model = get_model(*settings.CORS_MODEL.split('.'))
+                model = apps.get_model(*settings.CORS_MODEL.split('.'))
                 if model.objects.filter(cors=url.netloc).exists():
                     response[ACCESS_CONTROL_ALLOW_ORIGIN] = origin
 
