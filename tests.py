@@ -24,9 +24,12 @@ def run_tests():
     if hasattr(django, 'setup'):
         django.setup()
 
-    from django.test.simple import DjangoTestSuiteRunner
+    try:
+        from django.test.runner import DiscoverRunner as Runner
+    except ImportError:
+        from django.test.simple import DjangoTestSuiteRunner as Runner
 
-    test_runner = DjangoTestSuiteRunner(verbosity=1)
+    test_runner = Runner(verbosity=1)
     return test_runner.run_tests(['corsheaders'])
 
 
