@@ -122,7 +122,7 @@ You may optionally specify these options in settings.py to override the defaults
 
 >CORS\_PREFLIGHT\_MAX\_AGE: specify the number of seconds a client/browser can cache the preflight response
 
-    Note: A preflight request is an extra request that is made when making a "not-so-simple" request (eg. content-type is not application/x-www-form-urlencoded) to determine what requests the server actually accepts. Read more about it here: [http://www.html5rocks.com/en/tutorials/cors/](http://www.html5rocks.com/en/tutorials/cors/)
+>Note: A preflight request is an extra request that is made when making a "not-so-simple" request (eg. content-type is not application/x-www-form-urlencoded) to determine what requests the server actually accepts. Read more about it here: [http://www.html5rocks.com/en/tutorials/cors/](http://www.html5rocks.com/en/tutorials/cors/)
 
     Default:
 
@@ -136,7 +136,7 @@ You may optionally specify these options in settings.py to override the defaults
 
 >CORS\_REPLACE\_HTTPS\_REFERER: specify whether to replace the HTTP_REFERER header if CORS checks pass so that CSRF django middleware checks will work with https
 
-    Note: With this feature enabled, you also need to add the corsheaders.middleware.CorsPostCsrfMiddleware after django.middleware.csrf.CsrfViewMiddleware to undo the header replacement
+>Note: With this feature enabled, you also need to add the corsheaders.middleware.CorsPostCsrfMiddleware after django.middleware.csrf.CsrfViewMiddleware to undo the header replacement
 
     Default:
 
