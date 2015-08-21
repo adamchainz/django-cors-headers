@@ -6,6 +6,7 @@ A Django App that adds CORS (Cross-Origin Resource Sharing) headers to responses
 Although JSON-P is useful, it is strictly limited to GET requests. CORS builds on top of XmlHttpRequest to allow developers to make cross-domain requests, similar to same-domain requests. Read more about it here: [http://www.html5rocks.com/en/tutorials/cors/ ](http://www.html5rocks.com/en/tutorials/cors/)
 
 [![Build Status](https://travis-ci.org/ottoyiu/django-cors-headers.png?branch=master)](https://travis-ci.org/ottoyiu/django-cors-headers)
+[![codecov.io](http://codecov.io/github/ottoyiu/django-cors-headers/coverage.svg?branch=master)](http://codecov.io/github/ottoyiu/django-cors-headers?branch=master)
 
 ## Setup ##
 Install by downloading the source and running:
