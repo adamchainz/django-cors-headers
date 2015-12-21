@@ -147,7 +147,9 @@ request. Defaults to:
         'accept',
         'origin',
         'authorization',
-        'x-csrftoken'
+        'x-csrftoken',
+        'user-agent',
+        'accept-encoding',
     ]
 
 ``CORS_EXPOSE_HEADERS``
