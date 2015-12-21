@@ -111,7 +111,9 @@ You may optionally specify these options in settings.py to override the defaults
             'accept',
             'origin',
             'authorization',
-            'x-csrftoken'
+            'x-csrftoken',
+            'user-agent',
+            'accept-encoding',
         )
 
 >CORS\_EXPOSE\_HEADERS: specify which HTTP headers are to be exposed to the browser
