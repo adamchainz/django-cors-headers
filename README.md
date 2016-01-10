@@ -1,11 +1,13 @@
-django-cors-headers
+[![Build Status](https://travis-ci.org/zestedesavoir/django-cors-middleware.svg?branch=master)](https://travis-ci.org/zestedesavoir/django-cors-middleware)
+
+django-cors-middleware 
 ==================
 
 A Django App that adds CORS (Cross-Origin Resource Sharing) headers to responses.
 
 Although JSON-P is useful, it is strictly limited to GET requests. CORS builds on top of XmlHttpRequest to allow developers to make cross-domain requests, similar to same-domain requests. Read more about it here: [http://www.html5rocks.com/en/tutorials/cors/ ](http://www.html5rocks.com/en/tutorials/cors/)
 
-[![Build Status](https://travis-ci.org/ottoyiu/django-cors-headers.png?branch=master)](https://travis-ci.org/ottoyiu/django-cors-headers)
+This is a fork of [https://github.com/ottoyiu/django-cors-headers/](django-cors-headers by ottoyiu) because of inactivity. We will change the name and publish a pypi version soon.
 
 ## Setup ##
 Install by downloading the source and running:
@@ -141,39 +143,3 @@ You may optionally specify these options in settings.py to override the defaults
     Default:
 
         CORS_REPLACE_HTTPS_REFERER = False
-
-## Changelog ##
-v0.13 and onwards - [Release Notes](https://github.com/ottoyiu/django-cors-headers/releases)
-
-v0.12 - Added an option to selectively enable CORS only for specific URLs
-
-v0.11 - Added the ability to specify a regex for whitelisting many origin hostnames at once
-
-v0.10 - Introduced port distinction for origin checking; use ``urlparse`` for Python 3 support; added testcases to project
-
-v0.06 - Add support for exposed response headers
-
-v0.05 - fixed middleware to ensure correct response for CORS preflight requests
-
-v0.04 - add Access-Control-Allow-Credentials control to simple requests
-
-v0.03 - bugfix (repair mismatched default variable names)
-
-v0.02 - refactor/pull defaults into separate file
-
-v0.01 - initial release
-
-## Credits ##
-A shoutout to everyone who has contributed:
-
-- Otto Yiu - [@ottoyiu](https://github.com/ottoyiu)
-- Michael Tom-Wing - [@mtomwing](https://github.com/mtomwing)
-- Darrin Massena - [@darrinm](https://github.com/darrinm)
-- Paul Dufour - [@pdufour](https://github.com/pdufour)
-- Lukasz Balcerzak - [@lukaszb](https://github.com/lukaszb)
-- Keita Oouchi - [@keitaoouchi](https://github.com/keitaoouchi)
-- Orlando Pozo - [@opozo](https://github.com/opozo)
-- Toran Billups - [@toranb](https://github.com/toranb)
-- Raymond Penners - [@pennersr](https://github.com/pennersr)
-- Markus Kaiserswerth - [@mkai](https://github.com/mkai)
-- and many others! - [Contributors](https://github.com/ottoyiu/django-cors-headers/graphs/contributors)
