@@ -1,41 +1,24 @@
 language: python
 python:
- - 2.6
  - 2.7
- - 3.2
  - 3.3
  - 3.4
+ - 3.5
 
 env:
- - DJANGO_VERSION="Django==1.3.7"
- - DJANGO_VERSION="Django==1.4.15"
- - DJANGO_VERSION="Django==1.5.10"
- - DJANGO_VERSION="Django==1.6.7"
- - DJANGO_VERSION="Django==1.7.0"
- - DJANGO_VERSION="Django==1.8.0"
+ - DJANGO_VERSION="Django>=1.8,<1.9"
+ - DJANGO_VERSION="Django>=1.9,<1.10"
+
+sudo: false
 
 matrix:
     exclude:
-        - python: 3.2
-          env: DJANGO_VERSION="Django==1.3.7"
         - python: 3.3
-          env: DJANGO_VERSION="Django==1.3.7"
-        - python: 3.4
-          env: DJANGO_VERSION="Django==1.3.7"
-        - python: 3.2
-          env: DJANGO_VERSION="Django==1.4.15"
-        - python: 3.3
-          env: DJANGO_VERSION="Django==1.4.15"
-        - python: 3.4
-          env: DJANGO_VERSION="Django==1.4.15"
-        - python: 2.6
-          env: DJANGO_VERSION="Django==1.7.0"
-        - python: 2.6
-          env: DJANGO_VERSION="Django==1.8.0"
+          env: DJANGO_VERSION="Django>=1.9,<1.10"
 
 install:
   - pip install -q $DJANGO_VERSION
-  - pip install . --use-mirrors
+  - pip install .
   - pip install "flake8>=2.2.5"
   - pip install "coverage>=3.7.1"
 
@@ -43,3 +26,6 @@ script:
   - flake8 --config flake8.cfg .
   - coverage run setup.py test
   - coverage report
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
