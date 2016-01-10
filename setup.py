@@ -2,12 +2,12 @@ from corsheaders import __version__
 from setuptools import setup
 
 setup(
-    name='django-cors-headers',
+    name='django-cors-middleware',
     version=__version__,
-    description='django-cors-headers is a Django application for handling the server headers required for Cross-Origin Resource Sharing (CORS).',
+    description='django-cors-middleware is a Django application for handling the server headers required for Cross-Origin Resource Sharing (CORS).',
     author='Otto Yiu',
-    author_email='otto@live.ca',
-    url='https://github.com/ottoyiu/django-cors-headers',
+    author_email='dev@gustavi.net',
+    url='https://github.com/zestedesavoir/django-cors-middleware',
     packages=['corsheaders'],
     license='MIT License',
     keywords='django cors middleware rest api',
@@ -23,7 +23,6 @@ setup(
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.2',
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
