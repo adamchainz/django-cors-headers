@@ -142,6 +142,16 @@ You may optionally specify these options in settings.py to override the defaults
 
         CORS_REPLACE_HTTPS_REFERER = False
 
+>CORS\_URLS\_ALLOW\_ALL\_REGEX: specify a list of URL regex for which to allow all origins
+
+    Example:
+
+        CORS_URLS_ALLOW_ALL_REGEX = (r'^/api/users$', )
+
+    Default:
+
+        CORS_URLS_ALLOW_ALL_REGEX = ()
+
 ## Changelog ##
 v0.13 and onwards - [Release Notes](https://github.com/ottoyiu/django-cors-headers/releases)
 

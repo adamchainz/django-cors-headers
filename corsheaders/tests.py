@@ -335,3 +335,25 @@ class TestCorsMiddlewareProcessResponse(TestCase):
         request = Mock(path='/', META={'HTTP_ORIGIN': 'http://foo.google.com'})
         processed = self.middleware.process_response(request, response)
         self.assertEqual(processed.get(ACCESS_CONTROL_ALLOW_ORIGIN, None), 'http://foo.google.com')
+
+    def test_process_response_in_allow_all_path(self, settings):
+        settings.CORS_MODEL = None
+        settings.CORS_ORIGIN_ALLOW_ALL = False
+        # settings.CORS_ORIGIN_WHITELIST = ['example.com', 'foobar.it']
+        settings.CORS_URLS_REGEX = '^.*$'
+        settings.CORS_URLS_ALLOW_ALL_REGEX = (r'^/api/.*$',)
+        response = HttpResponse()
+        request = Mock(path='/api/data', META={'HTTP_ORIGIN': 'http://foobar.it'})
+        processed = self.middleware.process_response(request, response)
+        self.assertAccessControlAllowOriginEquals(processed, 'http://foobar.it')
+
+    def test_process_response_not_in_allow_all_path(self, settings):
+        settings.CORS_MODEL = None
+        settings.CORS_ORIGIN_ALLOW_ALL = False
+        # settings.CORS_ORIGIN_WHITELIST = ['example.com', 'foobar.it']
+        settings.CORS_URLS_REGEX = '^.*$'
+        settings.CORS_URLS_ALLOW_ALL_REGEX = (r'^/api/.*$',)
+        response = HttpResponse()
+        request = Mock(path='/data', META={'HTTP_ORIGIN': 'http://foobar.it'})
+        processed = self.middleware.process_response(request, response)
+        self.assertNotIn(ACCESS_CONTROL_ALLOW_ORIGIN, processed)
