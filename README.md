@@ -52,7 +52,9 @@ Add hosts that are allowed to do cross-site requests to `CORS_ORIGIN_WHITELIST` 
 
         CORS_ORIGIN_WHITELIST = (
             'google.com',
-            'hostname.example.com'
+            'hostname.example.com',
+            'localhost:8000',
+            '127.0.0.1:9000'
         )
 
 
