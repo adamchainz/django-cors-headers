@@ -72,7 +72,9 @@ Example:
 
     CORS_ORIGIN_WHITELIST = (
         'google.com',
-        'hostname.example.com'
+        'hostname.example.com',
+        'localhost:8000',
+        '127.0.0.1:9000'
     )
 
 ``CORS_ORIGIN_REGEX_WHITELIST``
