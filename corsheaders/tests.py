@@ -1,3 +1,4 @@
+from django.conf.urls import url
 from django.http import HttpResponse
 from django.test import TestCase
 from corsheaders.middleware import CorsMiddleware, CorsPostCsrfMiddleware
@@ -10,6 +11,20 @@ from corsheaders.middleware import ACCESS_CONTROL_MAX_AGE
 from corsheaders import defaults as settings
 from mock import Mock
 from mock import patch
+
+
+def test_view(request):
+    return HttpResponse("Test view")
+
+
+def test_view_http401(request):
+    return HttpResponse('Unauthorized', status=401)
+
+
+urlpatterns = [
+    url(r'^test-view/$', test_view, name='test-view'),
+    url(r'^test-view-http401/$', test_view_http401, name='test-view-http401'),
+]
 
 
 class settings_override(object):
@@ -335,3 +350,41 @@ class TestCorsMiddlewareProcessResponse(TestCase):
         request = Mock(path='/', META={'HTTP_ORIGIN': 'http://foo.google.com'})
         processed = self.middleware.process_response(request, response)
         self.assertEqual(processed.get(ACCESS_CONTROL_ALLOW_ORIGIN, None), 'http://foo.google.com')
+
+    def test_middleware_integration_get(self, settings):
+        settings.CORS_MODEL = None
+        settings.CORS_ORIGIN_ALLOW_ALL = True
+        settings.CORS_URLS_REGEX = '^.*$'
+        response = self.client.get('/test-view/', HTTP_ORIGIN='http://foobar.it')
+        self.assertEqual(response.status_code, 200)
+        self.assertAccessControlAllowOriginEquals(response, 'http://foobar.it')
+
+    def test_middleware_integration_get_auth_view(self, settings):
+        """
+        It's not clear whether the header should still be set for non-HTTP200
+        when not a preflight request. However this is the existing behaviour for
+        django-cors-middleware, so at least this test makes that explicit, especially
+        since for the switch to Django 1.10, special-handling will need to be put in
+        place to preserve this behaviour. See `ExceptionMiddleware` mention here:
+        https://docs.djangoproject.com/en/1.10/topics/http/middleware/#upgrading-pre-django-1-10-style-middleware
+        """
+        settings.CORS_MODEL = None
+        settings.CORS_ORIGIN_ALLOW_ALL = True
+        settings.CORS_URLS_REGEX = '^.*$'
+        response = self.client.get('/test-view-http401/', HTTP_ORIGIN='http://foobar.it')
+        self.assertEqual(response.status_code, 401)
+        self.assertAccessControlAllowOriginEquals(response, 'http://foobar.it')
+
+    def test_middleware_integration_preflight_auth_view(self, settings):
+        """
+        Ensure HTTP200 and header still set, for preflight requests to views requiring
+        authentication. See: https://github.com/ottoyiu/django-cors-headers/issues/3
+        """
+        settings.CORS_MODEL = None
+        settings.CORS_ORIGIN_ALLOW_ALL = True
+        settings.CORS_URLS_REGEX = '^.*$'
+        response = self.client.options('/test-view-http401/',
+                                       HTTP_ORIGIN='http://foobar.it',
+                                       HTTP_ACCESS_CONTROL_REQUEST_METHOD='value')
+        self.assertEqual(response.status_code, 200)
+        self.assertAccessControlAllowOriginEquals(response, 'http://foobar.it')

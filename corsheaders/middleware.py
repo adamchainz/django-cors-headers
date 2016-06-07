@@ -13,6 +13,13 @@ try:
 except ImportError:
     MiddlewareMixin = object
 
+try:
+    from django.utils.deprecation import MiddlewareMixin
+except ImportError:
+    # Not required for Django <= 1.9, see:
+    # https://docs.djangoproject.com/en/1.10/topics/http/middleware/#upgrading-pre-django-1-10-style-middleware
+    MiddlewareMixin = object
+
 from corsheaders import defaults as settings
 
 
