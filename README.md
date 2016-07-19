@@ -60,6 +60,9 @@ Add hosts that are allowed to do cross-site requests to `CORS_ORIGIN_WHITELIST` 
 
         CORS_ORIGIN_WHITELIST = ()
 
+Note: to allow access from a page loaded from a file ("null" origin) add "null" to `CORS_ORIGIN_WHITELIST`.  Also, an address with a port specified is different than without (eg. `localhost` is not the same as `localhost:8000`).
+
+
 >CORS\_ORIGIN\_REGEX\_WHITELIST: specify a regex list of origin hostnames that are authorized to make a cross-site HTTP request; Useful when you have a large amount of subdomains for instance.
 
     Example:
