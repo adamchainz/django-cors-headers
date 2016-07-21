@@ -224,6 +224,54 @@ The model should have one field, a ``CharField`` called ``cors``, that
 in each instance contains an allowed origin. ``django-cors-headers`` supplies
 such a model for you; set the setting to ``corsheaders.CorsModel`` to use it.
 
+Signals
+-------
+
+If you have a use case that requires more than just the above configuration,
+you can attach code to check if a given request should be allowed. For example,
+this can be used to read the list of origins you allow from a model. Attach any
+number of handlers to the ``check_request_enabled``
+`Django signal <https://docs.djangoproject.com/en/1.10/ref/signals/`_, which
+provides the ``request`` argument (use ``**kwargs`` in your handler to protect
+against any future arguments being added). If any handler attached to the
+signal returns a truthy value, the request will be allowed.
+
+For example you might attach the handler like so:
+
+.. code-block:: python
+
+    # myapp/handlers.py
+    from corsheaders.signals import check_request_enabled
+
+    from .models import MySite
+
+    def cors_allow_mysites(sender, request, **kwargs):
+        return MySite.objects.filter(host=request.host).exists()
+
+    check_request_enabled.connect(cors_allow_mysites)
+
+Then connect it at app ready time using a `Django AppConfig
+<https://docs.djangoproject.com/en/1.10/ref/applications/>`_:
+
+.. code-block:: python
+
+    # myapp/__init__.py
+
+    default_app_config = 'myapp.apps.MyAppConfig'
+
+.. code-block:: python
+
+    # myapp/apps.py
+
+    from django.apps import AppConfig
+
+    class MyAppConfig(AppConfig):
+        name = 'myapp'
+
+        def ready(self):
+            # Makes sure all signal handlers are connected
+            from . import handlers  # noqa
+
 Credits
 -------
 

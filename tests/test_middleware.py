@@ -8,6 +8,7 @@ from corsheaders.middleware import (
     ACCESS_CONTROL_ALLOW_ORIGIN, ACCESS_CONTROL_EXPOSE_HEADERS, ACCESS_CONTROL_MAX_AGE, CorsMiddleware,
     CorsPostCsrfMiddleware
 )
+from corsheaders.signals import check_request_enabled
 
 
 class TestCorsMiddlewareProcessRequest(TestCase):
@@ -318,3 +319,34 @@ class TestCorsMiddlewareProcessResponse(TestCase):
                                        HTTP_ACCESS_CONTROL_REQUEST_METHOD='value')
         assert response.status_code == 200
         assert response[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://foobar.it'
+
+    def test_signal_that_returns_false(self):
+        def handler(*args, **kwargs):
+            return False
+
+        check_request_enabled.connect(handler)
+
+        resp = self.client.options(
+            '/test-view/',
+            HTTP_ORIGIN='http://foobar.it',
+            HTTP_ACCESS_CONTROL_REQUEST_METHOD='value',
+        )
+
+        assert resp.status_code == 200
+        assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
+
+        del handler  # detaches it
+
+    def test_signal_that_returns_true(self):
+        def handler(*args, **kwargs):
+            return True
+
+        check_request_enabled.connect(handler)
+
+        resp = self.client.options(
+            '/test-view/',
+            HTTP_ORIGIN='http://foobar.it',
+            HTTP_ACCESS_CONTROL_REQUEST_METHOD='value',
+        )
+        assert resp.status_code == 200
+        assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://foobar.it'

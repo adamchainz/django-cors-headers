@@ -4,6 +4,7 @@ from django import http
 from django.apps import apps
 
 from .conf import corsheaders_settings
+from .signals import check_request_enabled
 
 try:
     from urlparse import urlparse
@@ -118,7 +119,8 @@ class CorsMiddleware(MiddlewareMixin):
 
             if (
                 not corsheaders_settings.CORS_ORIGIN_ALLOW_ALL and
-                self.origin_not_found_in_white_lists(origin, url)
+                self.origin_not_found_in_white_lists(origin, url) and
+                not self.check_signal(request)
             ):
                 return response
 
@@ -153,4 +155,17 @@ class CorsMiddleware(MiddlewareMixin):
                 return origin
 
     def is_enabled(self, request):
-        return re.match(corsheaders_settings.CORS_URLS_REGEX, request.path)
+        return (
+            re.match(corsheaders_settings.CORS_URLS_REGEX, request.path) or
+            self.check_signal(request)
+        )
+
+    def check_signal(self, request):
+        signal_responses = check_request_enabled.send(
+            sender=None,
+            request=request,
+        )
+        return any(
+            return_value for
+            function, return_value in signal_responses
+        )
