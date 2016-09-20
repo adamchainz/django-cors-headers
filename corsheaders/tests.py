@@ -211,6 +211,17 @@ class TestCorsMiddlewareProcessResponse(TestCase):
         processed = self.middleware.process_response(request, response)
         self.assertAccessControlAllowOriginEquals(processed, 'http://foobar.it')
 
+    def test_process_response_not_in_whitelist_but_in_url_whitelist(self, settings):
+        settings.CORS_MODEL = None
+        settings.CORS_ORIGIN_ALLOW_ALL = False
+        settings.CORS_ORIGIN_WHITELIST = ['example.com']
+        settings.CORS_URLS_REGEX = '^.*$'
+        settings.CORS_URLS_REGEX_WHITELIST = ['^/api/.*$']
+        response = HttpResponse()
+        request = Mock(path='/api/', META={'HTTP_ORIGIN': 'http://foobar.it'})
+        processed = self.middleware.process_response(request, response)
+        self.assertAccessControlAllowOriginEquals(processed, 'http://foobar.it')
+
     def test_process_response_expose_headers(self, settings):
         settings.CORS_MODEL = None
         settings.CORS_ORIGIN_ALLOW_ALL = True
