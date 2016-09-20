@@ -88,6 +88,19 @@ You may optionally specify these options in settings.py to override the defaults
 
         CORS_URLS_REGEX = '^.*$'
 
+>CORS\_URLS\_REGEX\_WHITELIST: specify a regex list of URLs for which to enable the sending of CORS headers, regardless the origin of the request; Useful to be combined with `CORS\_URLS\_REGEX` and `CORS_ORIGIN_WHITELIST` to support more complex scenarios.
+
+    Example:
+
+        CORS\_URLS\_REGEX\_WHITELIST = (
+            r'^/api/resource1/.*$',
+            r'^/api/resource2/.*$'
+        )
+
+    Default:
+
+        CORS\_URLS\_REGEX\_WHITELIST = ()
+
 >CORS\_ALLOW\_METHODS: specify the allowed HTTP methods that can be used when making the actual request
 
     Default:
