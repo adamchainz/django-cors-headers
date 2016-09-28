@@ -177,35 +177,6 @@ pass, so that the Django CSRF middleware checks work with HTTPS. Defaults to
 ``django.middleware.csrf.CsrfViewMiddleware`` in your ``MIDDLEWARE_CLASSES`` to
 undo the header replacement.
 
-
-Changelog
----------
-
-v0.13 and onwards - `Release
-Notes <https://github.com/ottoyiu/django-cors-headers/releases>`__
-
-v0.12 - Added an option to selectively enable CORS only for specific
-URLs
-
-v0.11 - Added the ability to specify a regex for whitelisting many
-origin hostnames at once
-
-v0.10 - Introduced port distinction for origin checking; use
-``urlparse`` for Python 3 support; added testcases to project
-
-v0.06 - Add support for exposed response headers
-
-v0.05 - fixed middleware to ensure correct response for CORS preflight
-requests
-
-v0.04 - add Access-Control-Allow-Credentials control to simple requests
-
-v0.03 - bugfix (repair mismatched default variable names)
-
-v0.02 - refactor/pull defaults into separate file
-
-v0.01 - initial release
-
 Credits
 -------
 

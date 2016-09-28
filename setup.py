@@ -4,11 +4,14 @@ from setuptools import setup
 with open('README.rst') as readme_file:
     readme = readme_file.read()
 
+with open('HISTORY.rst') as history_file:
+    history = history_file.read()
+
 setup(
     name='django-cors-headers',
     version=__version__,
     description='django-cors-headers is a Django application for handling the server headers required for Cross-Origin Resource Sharing (CORS).',
-    long_description=readme,
+    long_description=readme + '\n\n' + history,
     author='Otto Yiu',
     author_email='otto@live.ca',
     url='https://github.com/ottoyiu/django-cors-headers',
