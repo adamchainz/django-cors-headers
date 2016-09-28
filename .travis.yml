@@ -1,38 +1,16 @@
 language: python
 sudo: false
 python:
- - 2.6
  - 2.7
  - 3.2
  - 3.3
  - 3.4
 
 env:
- - DJANGO_VERSION="Django==1.3.7"
- - DJANGO_VERSION="Django==1.4.15"
  - DJANGO_VERSION="Django==1.5.10"
  - DJANGO_VERSION="Django==1.6.7"
  - DJANGO_VERSION="Django==1.7.0"
  - DJANGO_VERSION="Django==1.8.0"
-
-matrix:
-    exclude:
-        - python: 3.2
-          env: DJANGO_VERSION="Django==1.3.7"
-        - python: 3.3
-          env: DJANGO_VERSION="Django==1.3.7"
-        - python: 3.4
-          env: DJANGO_VERSION="Django==1.3.7"
-        - python: 3.2
-          env: DJANGO_VERSION="Django==1.4.15"
-        - python: 3.3
-          env: DJANGO_VERSION="Django==1.4.15"
-        - python: 3.4
-          env: DJANGO_VERSION="Django==1.4.15"
-        - python: 2.6
-          env: DJANGO_VERSION="Django==1.7.0"
-        - python: 2.6
-          env: DJANGO_VERSION="Django==1.8.0"
 
 install:
   - pip install -q $DJANGO_VERSION
