@@ -331,6 +331,7 @@ class TestCorsMiddlewareProcessResponse(TestCase):
         settings.CORS_ALLOW_METHODS = settings.default_methods
         settings.CORS_URLS_REGEX = '^.*$'
         settings.CORS_MODEL = 'corsheaders.CorsModel'
+        settings.CORS_MODEL_FIELD = 'cors'
         response = HttpResponse()
         request = Mock(path='/', META={'HTTP_ORIGIN': 'http://foo.google.com'})
         processed = self.middleware.process_response(request, response)
