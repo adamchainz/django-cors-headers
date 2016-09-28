@@ -193,17 +193,8 @@ undo the header replacement.
 Credits
 -------
 
-A shoutout to everyone who has contributed:
-
--  Otto Yiu - `@ottoyiu <https://github.com/ottoyiu>`_
--  Michael Tom-Wing - `@mtomwing <https://github.com/mtomwing>`_
--  Darrin Massena - `@darrinm <https://github.com/darrinm>`_
--  Paul Dufour - `@pdufour <https://github.com/pdufour>`_
--  Lukasz Balcerzak - `@lukaszb <https://github.com/lukaszb>`_
--  Keita Oouchi - `@keitaoouchi <https://github.com/keitaoouchi>`_
--  Orlando Pozo - `@opozo <https://github.com/opozo>`_
--  Toran Billups - `@toranb <https://github.com/toranb>`_
--  Raymond Penners - `@pennersr <https://github.com/pennersr>`_
--  Markus Kaiserswerth - `@mkai <https://github.com/mkai>`_
--  ...and `many others!
-   <https://github.com/ottoyiu/django-cors-headers/graphs/contributors>`_
+``django-cors-headers`` was created by Otto Yiu (`@ottoyiu
+<https://github.com/ottoyiu>`_) and has been worked on by `25+ contributors
+<https://github.com/ottoyiu/django-cors-headers/graphs/contributors>`_.
+Thanks to every contributor, and if you want to get involved please don't
+hesitate to make a pull request.
