@@ -12,6 +12,15 @@ http://www.html5rocks.com/en/tutorials/cors/
 .. image:: https://travis-ci.org/ottoyiu/django-cors-headers.png?branch=master
    :target: https://travis-ci.org/ottoyiu/django-cors-headers
 
+
+Requirements
+------------
+
+Tested with all combinations of:
+
+* Python: 2.7, 3.5
+* Django: 1.8
+
 Setup
 -----
 
