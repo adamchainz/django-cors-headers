@@ -7,6 +7,7 @@ Pending
 * Drop Python 2.6 support.
 * Drop Django 1.3-1.7 support, as they are no longer supported.
 * Confirmed Django 1.9 support (no changes outside of tests were necessary).
+* Package as a universal wheel.
 
 1.1.0 (2014-12-15)
 ------------------
