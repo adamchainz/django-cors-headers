@@ -6,8 +6,12 @@ import sys
 
 def run_tests():
     import django
-    from django.conf import global_settings
-    from django.conf import settings
+    from django.conf import global_settings, settings
+    from django.test.runner import DiscoverRunner
+
+    middleware = list(global_settings.MIDDLEWARE_CLASSES)
+    middleware.append('corsheaders.middleware.CorsMiddleware')
+
     settings.configure(
         INSTALLED_APPS=[
             'corsheaders',
@@ -18,18 +22,11 @@ def run_tests():
                 'TEST_NAME': ':memory:',
             },
         },
-        MIDDLEWARE_CLASSES=global_settings.MIDDLEWARE_CLASSES + (
-            'corsheaders.middleware.CorsMiddleware',),
+        MIDDLEWARE_CLASSES=middleware,
     )
-    if hasattr(django, 'setup'):
-        django.setup()
+    django.setup()
 
-    try:
-        from django.test.runner import DiscoverRunner as Runner
-    except ImportError:
-        from django.test.simple import DjangoTestSuiteRunner as Runner
-
-    test_runner = Runner(verbosity=1)
+    test_runner = DiscoverRunner(verbosity=1)
     return test_runner.run_tests(['corsheaders'])
 
 
