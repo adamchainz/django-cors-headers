@@ -27,7 +27,7 @@ def run_tests():
                 'TEST_NAME': ':memory:',
             },
         },
-        'ROOT_URLCONF': 'corsheaders.tests',
+        'ROOT_URLCONF': 'corsheaders.tests.urls',
         middleware_setting: middleware,
     }
     settings.configure(**config)
