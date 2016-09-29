@@ -194,8 +194,11 @@ class TestCorsMiddlewareProcessResponse(TestCase):
         self.middleware = CorsMiddleware()
 
     def assertAccessControlAllowOriginEquals(self, response, header):
-        self.assertIn(ACCESS_CONTROL_ALLOW_ORIGIN, response, "Response %r does "
-            "NOT have %r header" % (response, ACCESS_CONTROL_ALLOW_ORIGIN))
+        self.assertIn(
+            ACCESS_CONTROL_ALLOW_ORIGIN,
+            response,
+            "Response %r does NOT have %r header" % (response, ACCESS_CONTROL_ALLOW_ORIGIN)
+        )
         self.assertEqual(response[ACCESS_CONTROL_ALLOW_ORIGIN], header)
 
     def test_process_response_no_origin(self, settings):
@@ -234,8 +237,10 @@ class TestCorsMiddlewareProcessResponse(TestCase):
         response = HttpResponse()
         request = Mock(path='/', META={'HTTP_ORIGIN': 'http://example.com'})
         processed = self.middleware.process_response(request, response)
-        self.assertEqual(processed[ACCESS_CONTROL_EXPOSE_HEADERS],
-            'accept, origin, content-type')
+        self.assertEqual(
+            processed[ACCESS_CONTROL_EXPOSE_HEADERS],
+            'accept, origin, content-type'
+        )
 
     def test_process_response_dont_expose_headers(self, settings):
         settings.CORS_MODEL = None
@@ -294,8 +299,10 @@ class TestCorsMiddlewareProcessResponse(TestCase):
         request_headers = {'HTTP_ORIGIN': 'http://example.com'}
         request = Mock(path='/', META=request_headers, method='OPTIONS')
         processed = self.middleware.process_response(request, response)
-        self.assertEqual(processed[ACCESS_CONTROL_ALLOW_HEADERS],
-            'content-type, origin')
+        self.assertEqual(
+            processed[ACCESS_CONTROL_ALLOW_HEADERS],
+            'content-type, origin'
+        )
         self.assertEqual(processed[ACCESS_CONTROL_ALLOW_METHODS], 'GET, OPTIONS')
         self.assertNotIn(ACCESS_CONTROL_MAX_AGE, processed)
 
