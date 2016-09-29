@@ -304,8 +304,6 @@ class TestCorsMiddlewareProcessResponse(TestCase):
     @override_settings(
         CORS_ALLOW_CREDENTIALS=True,
         CORS_ORIGIN_ALLOW_ALL=True,
-        CORS_URLS_REGEX='^.*$',
-        CORS_MODEL=None,
     )
     def test_middleware_integration_get_auth_view(self):
         """
@@ -323,8 +321,6 @@ class TestCorsMiddlewareProcessResponse(TestCase):
     @override_settings(
         CORS_ALLOW_CREDENTIALS=True,
         CORS_ORIGIN_ALLOW_ALL=True,
-        CORS_URLS_REGEX='^.*$',
-        CORS_MODEL=None,
     )
     def test_middleware_integration_preflight_auth_view(self):
         """
