@@ -124,14 +124,26 @@ A list of HTTP verbs that are allowed for the actual request. Defaults to:
 
 .. code-block:: python
 
-    CORS_ALLOW_METHODS = [
+    CORS_ALLOW_METHODS = (
         'GET',
         'POST',
         'PUT',
         'PATCH',
         'DELETE',
-        'OPTIONS'
-    ]
+        'OPTIONS',
+    )
+
+The default can be imported as ``corsheaders.defaults.default_methods`` so you
+can just extend it with your custom methods. This allows you to keep up to date
+with any future changes. For example:
+
+.. code-block:: python
+
+    from corsheaders.defaults import default_methods
+
+    CORS_ALLOW_METHODS = default_methods + (
+        'POKE',
+    )
 
 ``CORS_ALLOW_HEADERS``
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -141,7 +153,7 @@ request. Defaults to:
 
 .. code-block:: python
 
-    CORS_ALLOW_HEADERS = [
+    CORS_ALLOW_HEADERS = (
         'x-requested-with',
         'content-type',
         'accept',
@@ -150,7 +162,19 @@ request. Defaults to:
         'x-csrftoken',
         'user-agent',
         'accept-encoding',
-    ]
+    )
+
+The default can be imported as ``corsheaders.defaults.default_headers`` so you
+can extend it with your custom headers. This allows you to keep up to date with
+any future changes. For example:
+
+.. code-block:: python
+
+    from corsheaders.defaults import default_headers
+
+    CORS_ALLOW_HEADERS = default_headers + (
+        'my-custom-header',
+    )
 
 ``CORS_EXPOSE_HEADERS``
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -189,6 +213,16 @@ pass, so that the Django CSRF middleware checks work with HTTPS. Defaults to
 ``corsheaders.middleware.CorsPostCsrfMiddleware`` after
 ``django.middleware.csrf.CsrfViewMiddleware`` in your ``MIDDLEWARE_CLASSES`` to
 undo the header replacement.
+
+``CORS_MODEL``
+~~~~~~~~~~~~~~
+
+If set, this should be the path to a model to look up allowed origins, in the
+form ``app.modelname``. Defaults to ``None``.
+
+The model should have one field, a ``CharField`` called ``cors``, that
+in each instance contains an allowed origin. ``django-cors-headers`` supplies
+such a model for you; set the setting to ``corsheaders.CorsModel`` to use it.
 
 Credits
 -------
