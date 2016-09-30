@@ -5,6 +5,8 @@ Pending
 -------
 
 * New release notes go here.
+* Made settings dynamically respond to changes, and which allows you to import
+  the defaults for headers and methods in order to extend them.
 
 1.2.0 (2016-09-28)
 ------------------
