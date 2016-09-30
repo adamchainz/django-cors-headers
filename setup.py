@@ -42,6 +42,4 @@ setup(
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],
     install_requires=[],
-    tests_require=['mock >= 1.0'],
-    test_suite='tests.main',
 )

@@ -1,5 +1,8 @@
 docutils
 flake8
 isort
+mock
 multilint
+pytest
+pytest-django
 Pygments
