@@ -1,17 +1,14 @@
 import re
 
 from django import http
+from django.apps import apps
+
+from .conf import corsheaders_settings
+
 try:
     from urlparse import urlparse
 except ImportError:
     from urllib.parse import urlparse
-
-from django.apps import apps
-
-try:
-    from django.utils.deprecation import MiddlewareMixin
-except ImportError:
-    MiddlewareMixin = object
 
 try:
     from django.utils.deprecation import MiddlewareMixin
@@ -19,9 +16,6 @@ except ImportError:
     # Not required for Django <= 1.9, see:
     # https://docs.djangoproject.com/en/1.10/topics/http/middleware/#upgrading-pre-django-1-10-style-middleware
     MiddlewareMixin = object
-
-from .conf import corsheaders_settings
-
 
 ACCESS_CONTROL_ALLOW_ORIGIN = 'Access-Control-Allow-Origin'
 ACCESS_CONTROL_EXPOSE_HEADERS = 'Access-Control-Expose-Headers'

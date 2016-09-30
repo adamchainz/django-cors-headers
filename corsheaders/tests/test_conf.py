@@ -1,5 +1,5 @@
-from django.test.utils import override_settings
 from django.test import SimpleTestCase
+from django.test.utils import override_settings
 
 from corsheaders.conf import corsheaders_settings
 
