@@ -20,28 +20,28 @@ class TestCorsMiddlewareProcessRequest(TestCase):
         request.method = 'OPTIONS'
         request.META = {'HTTP_ACCESS_CONTROL_REQUEST_METHOD': 'value'}
         response = self.middleware.process_request(request)
-        self.assertIsInstance(response, HttpResponse)
+        assert isinstance(response, HttpResponse)
 
     def test_process_request_empty_header(self):
         request = Mock(path='/')
         request.method = 'OPTIONS'
         request.META = {'HTTP_ACCESS_CONTROL_REQUEST_METHOD': ''}
         response = self.middleware.process_request(request)
-        self.assertIsInstance(response, HttpResponse)
+        assert isinstance(response, HttpResponse)
 
     def test_process_request_no_header(self):
         request = Mock(path='/')
         request.method = 'OPTIONS'
         request.META = {}
         response = self.middleware.process_request(request)
-        self.assertIsNone(response)
+        assert response is None
 
     def test_process_request_not_options(self):
         request = Mock(path='/')
         request.method = 'GET'
         request.META = {'HTTP_ACCESS_CONTROL_REQUEST_METHOD': 'value'}
         response = self.middleware.process_request(request)
-        self.assertIsNone(response)
+        assert response is None
 
     @override_settings(
         CORS_ORIGIN_REGEX_WHITELIST='.*google.*',
@@ -59,7 +59,7 @@ class TestCorsMiddlewareProcessRequest(TestCase):
             'HTTP_ORIGIN': 'https://foo.google.com',
         }
         response = self.middleware.process_request(request)
-        self.assertIsNone(response)
+        assert response is None
 
         # make sure it doesnt blow up when HTTP_HOST is not present
         request.META = {
@@ -67,7 +67,7 @@ class TestCorsMiddlewareProcessRequest(TestCase):
             'HTTP_ORIGIN': 'https://foo.google.com',
         }
         response = self.middleware.process_request(request)
-        self.assertIsNone(response)
+        assert response is None
 
         request.is_secure = lambda: False
         request.META = {
@@ -78,9 +78,9 @@ class TestCorsMiddlewareProcessRequest(TestCase):
 
         # test that we won't replace if the request is not secure
         response = self.middleware.process_request(request)
-        self.assertIsNone(response)
-        self.assertTrue('ORIGINAL_HTTP_REFERER' not in request.META)
-        self.assertEquals(request.META['HTTP_REFERER'], 'http://foo.google.com/')
+        assert response is None
+        assert 'ORIGINAL_HTTP_REFERER' not in request.META
+        assert request.META['HTTP_REFERER'] == 'http://foo.google.com/'
 
         request.is_secure = lambda: True
         request.META = {
@@ -92,27 +92,27 @@ class TestCorsMiddlewareProcessRequest(TestCase):
         # test that we won't replace with the setting off
         with override_settings(CORS_REPLACE_HTTPS_REFERER=False):
             response = self.middleware.process_request(request)
-        self.assertIsNone(response)
-        self.assertTrue('ORIGINAL_HTTP_REFERER' not in request.META)
-        self.assertEquals(request.META['HTTP_REFERER'], 'https://foo.google.com/')
+        assert response is None
+        assert 'ORIGINAL_HTTP_REFERER' not in request.META
+        assert request.META['HTTP_REFERER'] == 'https://foo.google.com/'
 
         response = self.middleware.process_request(request)
-        self.assertIsNone(response)
-        self.assertEquals(request.META['ORIGINAL_HTTP_REFERER'], 'https://foo.google.com/')
-        self.assertEquals(request.META['HTTP_REFERER'], 'https://foobar.com/')
+        assert response is None
+        assert request.META['ORIGINAL_HTTP_REFERER'] == 'https://foo.google.com/'
+        assert request.META['HTTP_REFERER'] == 'https://foobar.com/'
 
         # make sure the replace code is idempotent
         response = self.middleware.process_view(request, None, None, None)
-        self.assertIsNone(response)
-        self.assertEquals(request.META['ORIGINAL_HTTP_REFERER'], 'https://foo.google.com/')
-        self.assertEquals(request.META['HTTP_REFERER'], 'https://foobar.com/')
+        assert response is None
+        assert request.META['ORIGINAL_HTTP_REFERER'] == 'https://foo.google.com/'
+        assert request.META['HTTP_REFERER'] == 'https://foobar.com/'
 
         post_middleware.process_request(request)
-        self.assertTrue('ORIGINAL_HTTP_REFERER' not in request.META)
-        self.assertEquals(request.META['HTTP_REFERER'], 'https://foo.google.com/')
+        assert 'ORIGINAL_HTTP_REFERER' not in request.META
+        assert request.META['HTTP_REFERER'] == 'https://foo.google.com/'
 
         response = post_middleware.process_request(request)
-        self.assertIsNone(response)
+        assert response is None
 
     @override_settings(
         CORS_ORIGIN_REGEX_WHITELIST='.*google.*',
@@ -129,16 +129,16 @@ class TestCorsMiddlewareProcessRequest(TestCase):
             'HTTP_ORIGIN': 'https://foo.google.com',
         }
         response = self.middleware.process_view(request, None, None, None)
-        self.assertIsNone(response)
-        self.assertEquals(request.META['ORIGINAL_HTTP_REFERER'], 'https://foo.google.com/')
-        self.assertEquals(request.META['HTTP_REFERER'], 'https://foobar.com/')
+        assert response is None
+        assert request.META['ORIGINAL_HTTP_REFERER'] == 'https://foo.google.com/'
+        assert request.META['HTTP_REFERER'] == 'https://foobar.com/'
 
         post_middleware.process_view(request, None, None, None)
-        self.assertTrue('ORIGINAL_HTTP_REFERER' not in request.META)
-        self.assertEquals(request.META['HTTP_REFERER'], 'https://foo.google.com/')
+        assert 'ORIGINAL_HTTP_REFERER' not in request.META
+        assert request.META['HTTP_REFERER'] == 'https://foo.google.com/'
 
         response = post_middleware.process_view(request, None, None, None)
-        self.assertIsNone(response)
+        assert response is None
 
 
 # @patch('corsheaders.middleware.settings')
@@ -147,33 +147,25 @@ class TestCorsMiddlewareProcessResponse(TestCase):
     def setUp(self):
         self.middleware = CorsMiddleware()
 
-    def assertAccessControlAllowOriginEquals(self, response, header):
-        self.assertIn(
-            ACCESS_CONTROL_ALLOW_ORIGIN,
-            response,
-            "Response %r does NOT have %r header" % (response, ACCESS_CONTROL_ALLOW_ORIGIN)
-        )
-        self.assertEqual(response[ACCESS_CONTROL_ALLOW_ORIGIN], header)
-
     def test_process_response_no_origin(self):
         response = HttpResponse()
         request = Mock(path='/', META={})
         processed = self.middleware.process_response(request, response)
-        self.assertNotIn(ACCESS_CONTROL_ALLOW_ORIGIN, processed)
+        assert ACCESS_CONTROL_ALLOW_ORIGIN not in processed
 
     @override_settings(CORS_ORIGIN_WHITELIST=['example.com'])
     def test_process_response_not_in_whitelist(self):
         response = HttpResponse()
         request = Mock(path='/', META={'HTTP_ORIGIN': 'http://foobar.it'})
         processed = self.middleware.process_response(request, response)
-        self.assertNotIn(ACCESS_CONTROL_ALLOW_ORIGIN, processed)
+        assert ACCESS_CONTROL_ALLOW_ORIGIN not in processed
 
     @override_settings(CORS_ORIGIN_WHITELIST=['example.com', 'foobar.it'])
     def test_process_response_in_whitelist(self):
         response = HttpResponse()
         request = Mock(path='/', META={'HTTP_ORIGIN': 'http://foobar.it'})
         processed = self.middleware.process_response(request, response)
-        self.assertAccessControlAllowOriginEquals(processed, 'http://foobar.it')
+        assert processed[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://foobar.it'
 
     @override_settings(
         CORS_ORIGIN_ALLOW_ALL=True,
@@ -183,17 +175,15 @@ class TestCorsMiddlewareProcessResponse(TestCase):
         response = HttpResponse()
         request = Mock(path='/', META={'HTTP_ORIGIN': 'http://example.com'})
         processed = self.middleware.process_response(request, response)
-        self.assertEqual(
-            processed[ACCESS_CONTROL_EXPOSE_HEADERS],
+        assert processed[ACCESS_CONTROL_EXPOSE_HEADERS] == \
             'accept, origin, content-type'
-        )
 
     @override_settings(CORS_ORIGIN_ALLOW_ALL=True)
     def test_process_response_dont_expose_headers(self):
         response = HttpResponse()
         request = Mock(path='/', META={'HTTP_ORIGIN': 'http://example.com'})
         processed = self.middleware.process_response(request, response)
-        self.assertNotIn(ACCESS_CONTROL_EXPOSE_HEADERS, processed)
+        assert ACCESS_CONTROL_EXPOSE_HEADERS not in processed
 
     @override_settings(
         CORS_ALLOW_CREDENTIALS=True,
@@ -203,14 +193,14 @@ class TestCorsMiddlewareProcessResponse(TestCase):
         response = HttpResponse()
         request = Mock(path='/', META={'HTTP_ORIGIN': 'http://example.com'})
         processed = self.middleware.process_response(request, response)
-        self.assertEqual(processed[ACCESS_CONTROL_ALLOW_CREDENTIALS], 'true')
+        assert processed[ACCESS_CONTROL_ALLOW_CREDENTIALS] == 'true'
 
     @override_settings(CORS_ORIGIN_ALLOW_ALL=True)
     def test_process_response_dont_allow_credentials(self):
         response = HttpResponse()
         request = Mock(path='/', META={'HTTP_ORIGIN': 'http://example.com'})
         processed = self.middleware.process_response(request, response)
-        self.assertNotIn(ACCESS_CONTROL_ALLOW_CREDENTIALS, processed)
+        assert ACCESS_CONTROL_ALLOW_CREDENTIALS not in processed
 
     @override_settings(
         CORS_ALLOW_HEADERS=['content-type', 'origin'],
@@ -223,9 +213,9 @@ class TestCorsMiddlewareProcessResponse(TestCase):
         request_headers = {'HTTP_ORIGIN': 'http://example.com'}
         request = Mock(path='/', META=request_headers, method='OPTIONS')
         processed = self.middleware.process_response(request, response)
-        self.assertEqual(processed[ACCESS_CONTROL_ALLOW_HEADERS], 'content-type, origin')
-        self.assertEqual(processed[ACCESS_CONTROL_ALLOW_METHODS], 'GET, OPTIONS')
-        self.assertEqual(processed[ACCESS_CONTROL_MAX_AGE], '1002')
+        assert processed[ACCESS_CONTROL_ALLOW_HEADERS] == 'content-type, origin'
+        assert processed[ACCESS_CONTROL_ALLOW_METHODS] == 'GET, OPTIONS'
+        assert processed[ACCESS_CONTROL_MAX_AGE] == '1002'
 
     @override_settings(
         CORS_ALLOW_HEADERS=['content-type', 'origin'],
@@ -238,12 +228,10 @@ class TestCorsMiddlewareProcessResponse(TestCase):
         request_headers = {'HTTP_ORIGIN': 'http://example.com'}
         request = Mock(path='/', META=request_headers, method='OPTIONS')
         processed = self.middleware.process_response(request, response)
-        self.assertEqual(
-            processed[ACCESS_CONTROL_ALLOW_HEADERS],
+        assert processed[ACCESS_CONTROL_ALLOW_HEADERS] == \
             'content-type, origin'
-        )
-        self.assertEqual(processed[ACCESS_CONTROL_ALLOW_METHODS], 'GET, OPTIONS')
-        self.assertNotIn(ACCESS_CONTROL_MAX_AGE, processed)
+        assert processed[ACCESS_CONTROL_ALLOW_METHODS] == 'GET, OPTIONS'
+        assert ACCESS_CONTROL_MAX_AGE not in processed
 
     @override_settings(
         CORS_ALLOW_METHODS=['OPTIONS'],
@@ -255,7 +243,7 @@ class TestCorsMiddlewareProcessResponse(TestCase):
         request_headers = {'HTTP_ORIGIN': 'http://localhost:9000'}
         request = Mock(path='/', META=request_headers, method='OPTIONS')
         processed = self.middleware.process_response(request, response)
-        self.assertEqual(processed.get(ACCESS_CONTROL_ALLOW_CREDENTIALS, None), 'true')
+        assert processed.get(ACCESS_CONTROL_ALLOW_CREDENTIALS, None) == 'true'
 
     @override_settings(
         CORS_ALLOW_METHODS=['OPTIONS'],
@@ -267,7 +255,7 @@ class TestCorsMiddlewareProcessResponse(TestCase):
         request_headers = {'HTTP_ORIGIN': 'http://foo.google.com'}
         request = Mock(path='/', META=request_headers, method='OPTIONS')
         processed = self.middleware.process_response(request, response)
-        self.assertEqual(processed.get(ACCESS_CONTROL_ALLOW_ORIGIN, None), 'http://foo.google.com')
+        assert processed.get(ACCESS_CONTROL_ALLOW_ORIGIN, None) == 'http://foo.google.com'
 
     @override_settings(
         CORS_ALLOW_METHODS=['OPTIONS'],
@@ -279,7 +267,7 @@ class TestCorsMiddlewareProcessResponse(TestCase):
         request_headers = {'HTTP_ORIGIN': 'http://foo.google.com'}
         request = Mock(path='/', META=request_headers, method='OPTIONS')
         processed = self.middleware.process_response(request, response)
-        self.assertEqual(processed.get(ACCESS_CONTROL_ALLOW_ORIGIN, None), None)
+        assert processed.get(ACCESS_CONTROL_ALLOW_ORIGIN, None) is None
 
     @override_settings(CORS_MODEL='corsheaders.CorsModel')
     def test_process_response_when_custom_model_enabled(self):
@@ -288,7 +276,7 @@ class TestCorsMiddlewareProcessResponse(TestCase):
         response = HttpResponse()
         request = Mock(path='/', META={'HTTP_ORIGIN': 'http://foo.google.com'})
         processed = self.middleware.process_response(request, response)
-        self.assertEqual(processed.get(ACCESS_CONTROL_ALLOW_ORIGIN, None), 'http://foo.google.com')
+        assert processed.get(ACCESS_CONTROL_ALLOW_ORIGIN, None) == 'http://foo.google.com'
 
     @override_settings(
         CORS_ALLOW_CREDENTIALS=True,
@@ -296,8 +284,8 @@ class TestCorsMiddlewareProcessResponse(TestCase):
     )
     def test_middleware_integration_get(self):
         response = self.client.get('/test-view/', HTTP_ORIGIN='http://foobar.it')
-        self.assertEqual(response.status_code, 200)
-        self.assertAccessControlAllowOriginEquals(response, 'http://foobar.it')
+        assert response.status_code == 200
+        assert response[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://foobar.it'
 
     @override_settings(
         CORS_ALLOW_CREDENTIALS=True,
@@ -313,8 +301,8 @@ class TestCorsMiddlewareProcessResponse(TestCase):
         https://docs.djangoproject.com/en/1.10/topics/http/middleware/#upgrading-pre-django-1-10-style-middleware
         """
         response = self.client.get('/test-view-http401/', HTTP_ORIGIN='http://foobar.it')
-        self.assertEqual(response.status_code, 401)
-        self.assertAccessControlAllowOriginEquals(response, 'http://foobar.it')
+        assert response.status_code == 401
+        assert response[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://foobar.it'
 
     @override_settings(
         CORS_ALLOW_CREDENTIALS=True,
@@ -328,5 +316,5 @@ class TestCorsMiddlewareProcessResponse(TestCase):
         response = self.client.options('/test-view-http401/',
                                        HTTP_ORIGIN='http://foobar.it',
                                        HTTP_ACCESS_CONTROL_REQUEST_METHOD='value')
-        self.assertEqual(response.status_code, 200)
-        self.assertAccessControlAllowOriginEquals(response, 'http://foobar.it')
+        assert response.status_code == 200
+        assert response[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://foobar.it'
