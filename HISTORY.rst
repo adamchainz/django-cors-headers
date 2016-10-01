@@ -6,7 +6,7 @@ Pending
 
 * New release notes go here.
 
-1.2.0 (2016-09-30)
+1.2.1 (2016-09-30)
 ------------------
 
 * Made settings dynamically respond to changes, and which allows you to import
