@@ -5,6 +5,7 @@ Pending
 -------
 
 * New release notes go here.
+* Add ``CorsModel.__str__`` for human-readable text
 
 1.2.1 (2016-09-30)
 ------------------
