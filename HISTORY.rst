@@ -5,6 +5,10 @@ Pending
 -------
 
 * New release notes go here.
+
+1.2.2 (2016-10-05)
+------------------
+
 * Add ``CorsModel.__str__`` for human-readable text
 * Add a signal that allows you to add code for more intricate control over when
   CORS headers are added.
