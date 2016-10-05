@@ -231,12 +231,12 @@ If you have a use case that requires more than just the above configuration,
 you can attach code to check if a given request should be allowed. For example,
 this can be used to read the list of origins you allow from a model. Attach any
 number of handlers to the ``check_request_enabled``
-`Django signal <https://docs.djangoproject.com/en/1.10/ref/signals/`_, which
+`Django signal <https://docs.djangoproject.com/en/1.10/ref/signals/>`_, which
 provides the ``request`` argument (use ``**kwargs`` in your handler to protect
 against any future arguments being added). If any handler attached to the
 signal returns a truthy value, the request will be allowed.
 
-For example you might attach the handler like so:
+For example you might define a handler like this:
 
 .. code-block:: python
 
@@ -271,6 +271,27 @@ Then connect it at app ready time using a `Django AppConfig
         def ready(self):
             # Makes sure all signal handlers are connected
             from . import handlers  # noqa
+
+
+A common use case for the signal is to allow *all* origins to access a subset
+of URL's, whilst allowing a normal set of origins to access *all* URL's. This
+isn't possible using just the normal configuration, but it can be achieved with
+a signal handler.
+
+First set ``CORS_ORIGIN_WHITELIST`` to the list of trusted origins that are
+allowed to access every URL, and then add a handler to
+``check_request_enabled`` to allow CORS regardless of the origin for the
+unrestricted URL's. For example:
+
+.. code-block:: python
+
+    # myapp/handlers.py
+    from corsheaders.signals import check_request_enabled
+
+    def cors_allow_api_to_everyone(sender, request, **kwargs):
+        return request.path.startswith('/api/')
+
+    check_request_enabled.connect(cors_allow_api_to_everyone)
 
 Credits
 -------

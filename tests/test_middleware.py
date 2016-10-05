@@ -335,8 +335,6 @@ class TestCorsMiddlewareProcessResponse(TestCase):
         assert resp.status_code == 200
         assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
 
-        del handler  # detaches it
-
     def test_signal_that_returns_true(self):
         def handler(*args, **kwargs):
             return True
@@ -350,3 +348,26 @@ class TestCorsMiddlewareProcessResponse(TestCase):
         )
         assert resp.status_code == 200
         assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://foobar.it'
+
+    @override_settings(CORS_ORIGIN_WHITELIST=['example.com'])
+    def test_signal_allow_some_urls_to_everyone(self):
+        def allow_api_to_all(sender, request, **kwargs):
+            return request.path.startswith('/api/')
+
+        check_request_enabled.connect(allow_api_to_all)
+
+        resp = self.client.options(
+            '/test-view/',
+            HTTP_ORIGIN='http://example.org',
+            HTTP_ACCESS_CONTROL_REQUEST_METHOD='value',
+        )
+        assert resp.status_code == 200
+        assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
+
+        resp = self.client.options(
+            '/api/something/',
+            HTTP_ORIGIN='http://example.org',
+            HTTP_ACCESS_CONTROL_REQUEST_METHOD='value',
+        )
+        assert resp.status_code == 200
+        assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://example.org'
