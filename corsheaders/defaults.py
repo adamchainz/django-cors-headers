@@ -1,19 +1,20 @@
 default_headers = (
-    'x-requested-with',
-    'content-type',
     'accept',
-    'origin',
-    'authorization',
-    'x-csrftoken',
-    'user-agent',
     'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
 )
 
 default_methods = (
+    'DELETE',
     'GET',
+    'OPTIONS',
+    'PATCH',
     'POST',
     'PUT',
-    'PATCH',
-    'DELETE',
-    'OPTIONS',
 )

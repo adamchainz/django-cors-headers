@@ -5,6 +5,8 @@ Pending
 -------
 
 * New release notes go here.
+* Add the 'Do Not Track' header ``'DNT'`` to the default for
+  ``CORS_ALLOW_HEADERS``.
 
 1.2.2 (2016-10-05)
 ------------------

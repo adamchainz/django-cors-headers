@@ -125,12 +125,12 @@ A list of HTTP verbs that are allowed for the actual request. Defaults to:
 .. code-block:: python
 
     CORS_ALLOW_METHODS = (
+        'DELETE',
         'GET',
+        'OPTIONS',
+        'PATCH',
         'POST',
         'PUT',
-        'PATCH',
-        'DELETE',
-        'OPTIONS',
     )
 
 The default can be imported as ``corsheaders.defaults.default_methods`` so you
@@ -154,14 +154,15 @@ request. Defaults to:
 .. code-block:: python
 
     CORS_ALLOW_HEADERS = (
-        'x-requested-with',
-        'content-type',
         'accept',
-        'origin',
-        'authorization',
-        'x-csrftoken',
-        'user-agent',
         'accept-encoding',
+        'authorization',
+        'content-type',
+        'dnt',
+        'origin',
+        'user-agent',
+        'x-csrftoken',
+        'x-requested-with',
     )
 
 The default can be imported as ``corsheaders.defaults.default_headers`` so you
