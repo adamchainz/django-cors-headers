@@ -186,8 +186,9 @@ The list of HTTP headers that are to be exposed to the browser. Defaults to
 ``CORS_PREFLIGHT_MAX_AGE``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The number of seconds a client/browser can cache the preflight response.
-Defaults to ``86400``.
+The number of seconds a client/browser can cache the preflight response. If
+this is 0 (or any falsey value), no max age header will be sent. Defaults to
+``86400`` (one day).
 
 
 **Note:** A preflight request is an extra request that is made when making a
