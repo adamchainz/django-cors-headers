@@ -1,4 +1,3 @@
-import six
 from django.conf import settings
 
 from .defaults import default_headers, default_methods  # Kept here for backwards compatibility
