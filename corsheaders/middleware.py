@@ -2,14 +2,10 @@ import re
 
 from django import http
 from django.apps import apps
+from django.utils.six.moves.urllib.parse import urlparse
 
 from .conf import corsheaders_settings
 from .signals import check_request_enabled
-
-try:
-    from urlparse import urlparse
-except ImportError:
-    from urllib.parse import urlparse
 
 try:
     from django.utils.deprecation import MiddlewareMixin
