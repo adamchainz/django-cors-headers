@@ -1,4 +1,6 @@
+import pytest
 from django.core import checks
+from django.core.management import base, call_command
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
 
@@ -95,3 +97,8 @@ class SettingsTests(SimpleTestCase):
     def test_all_pass(self):
         errors = check_settings(corsheaders_settings)
         assert len(errors) == 0
+
+    @override_settings(CORS_ORIGIN_ALLOW_ALL=0)
+    def test_call_command(self):
+        with pytest.raises(base.SystemCheckError):
+            call_command('check')
