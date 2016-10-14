@@ -2,7 +2,6 @@ from django.conf import settings
 
 from .defaults import default_headers, default_methods  # Kept here for backwards compatibility
 
-
 class Settings(object):
     """
     Shadow Django's settings with a little logic
