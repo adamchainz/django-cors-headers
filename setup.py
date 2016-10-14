@@ -1,6 +1,17 @@
+import os
+import re
+
 from setuptools import setup
 
-from corsheaders import __version__
+
+def get_version(package):
+    """
+    Return package version as listed in `__version__` in `__init__.py`.
+    """
+    init_py = open(os.path.join(package, '__init__.py')).read()
+    return re.search("__version__ = ['\"]([^'\"]+)['\"]", init_py).group(1)
+
+version = get_version('corsheaders')
 
 with open('README.rst') as readme_file:
     readme = readme_file.read()
@@ -10,7 +21,7 @@ with open('HISTORY.rst') as history_file:
 
 setup(
     name='django-cors-headers',
-    version=__version__,
+    version=version,
     description=(
         'django-cors-headers is a Django application for handling the server '
         'headers required for Cross-Origin Resource Sharing (CORS).'
