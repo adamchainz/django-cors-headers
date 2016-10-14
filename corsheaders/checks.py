@@ -29,6 +29,7 @@ def check_settings(app_configs, **kwargs):
                 id="corsheaders.W003"
             )
         )
+
     if not isinstance(corsheaders_settings.CORS_PREFLIGHT_MAX_AGE, numbers.Integral):
         errors.append(
             checks.Error(
@@ -36,6 +37,14 @@ def check_settings(app_configs, **kwargs):
                 id = "corsheaders.W004"
             )
         )
+    elif (corsheaders_settings.CORS_PREFLIGHT_MAX_AGE < 0):
+        errors.append(
+            checks.Error(
+                "CORS_PREFLIGHT_MAX_AGE cannot be negative number",
+                id = "corsheaders.W004.1"
+            )
+        )
+
     if not isinstance(corsheaders_settings.CORS_ORIGIN_ALLOW_ALL, bool):
         errors.append(
             checks.Error(

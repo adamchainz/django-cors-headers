@@ -140,3 +140,10 @@ class SettingsTests(SimpleTestCase):
     def test_cors_replace_https_referer_success(self):
         errors = check_settings(corsheaders_settings)
         assert len(errors) == 0
+
+    @override_settings(CORS_PREFLIGHT_MAX_AGE=-1)
+    def test_cors_preflight_max_age_negative(self):
+        errors = check_settings(corsheaders_settings)
+        assert len(errors) > 0
+        assert isinstance(errors[0], checks.Error)
+        assert errors[0].id == "corsheaders.W004.1"
