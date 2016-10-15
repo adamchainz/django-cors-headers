@@ -52,4 +52,4 @@ class Settings(object):
     def CORS_REPLACE_HTTPS_REFERER(self):
         return getattr(settings, 'CORS_REPLACE_HTTPS_REFERER', False)
 
-corsheaders_settings = Settings()
+conf = Settings()

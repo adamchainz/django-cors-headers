@@ -4,14 +4,14 @@ import numbers
 from django.core import checks
 from django.utils import six
 
-from .conf import corsheaders_settings
+from .conf import conf
 
 
 @checks.register
 def check_settings(app_configs, **kwargs):
     errors = []
 
-    if not isinstance(corsheaders_settings.CORS_ALLOW_HEADERS, collections.Sequence):
+    if not isinstance(conf.CORS_ALLOW_HEADERS, collections.Sequence):
         errors.append(
             checks.Error(
                 "CORS_ALLOW_HEADERS should be a sequence.",
@@ -19,7 +19,7 @@ def check_settings(app_configs, **kwargs):
             )
         )
 
-    if not isinstance(corsheaders_settings.CORS_ALLOW_METHODS, collections.Sequence):
+    if not isinstance(conf.CORS_ALLOW_METHODS, collections.Sequence):
         errors.append(
             checks.Error(
                 "CORS_ALLOW_METHODS should be a sequence.",
@@ -27,7 +27,7 @@ def check_settings(app_configs, **kwargs):
             )
         )
 
-    if not isinstance(corsheaders_settings.CORS_ALLOW_CREDENTIALS, bool):
+    if not isinstance(conf.CORS_ALLOW_CREDENTIALS, bool):
         errors.append(
             checks.Error(
                 "CORS_ALLOW_CREDENTIALS should be a bool.",
@@ -35,10 +35,7 @@ def check_settings(app_configs, **kwargs):
             )
         )
 
-    if (
-        not isinstance(corsheaders_settings.CORS_PREFLIGHT_MAX_AGE, numbers.Integral) or
-        corsheaders_settings.CORS_PREFLIGHT_MAX_AGE < 0
-    ):
+    if not isinstance(conf.CORS_PREFLIGHT_MAX_AGE, numbers.Integral) or conf.CORS_PREFLIGHT_MAX_AGE < 0:
         errors.append(
             checks.Error(
                 "CORS_PREFLIGHT_MAX_AGE should be an integer greater than or equal to zero.",
@@ -46,7 +43,7 @@ def check_settings(app_configs, **kwargs):
             )
         )
 
-    if not isinstance(corsheaders_settings.CORS_ORIGIN_ALLOW_ALL, bool):
+    if not isinstance(conf.CORS_ORIGIN_ALLOW_ALL, bool):
         errors.append(
             checks.Error(
                 "CORS_ORIGIN_ALLOW_ALL should be a bool.",
@@ -54,7 +51,7 @@ def check_settings(app_configs, **kwargs):
             )
         )
 
-    if not isinstance(corsheaders_settings.CORS_ORIGIN_WHITELIST, collections.Sequence):
+    if not isinstance(conf.CORS_ORIGIN_WHITELIST, collections.Sequence):
         errors.append(
             checks.Error(
                 "CORS_ORIGIN_WHITELIST should be a sequence.",
@@ -62,7 +59,7 @@ def check_settings(app_configs, **kwargs):
             )
         )
 
-    if not isinstance(corsheaders_settings.CORS_ORIGIN_REGEX_WHITELIST, collections.Sequence):
+    if not isinstance(conf.CORS_ORIGIN_REGEX_WHITELIST, collections.Sequence):
         errors.append(
             checks.Error(
                 "CORS_ORIGIN_REGEX_WHITELIST should be a sequence.",
@@ -70,7 +67,7 @@ def check_settings(app_configs, **kwargs):
             )
         )
 
-    if not isinstance(corsheaders_settings.CORS_EXPOSE_HEADERS, collections.Sequence):
+    if not isinstance(conf.CORS_EXPOSE_HEADERS, collections.Sequence):
         errors.append(
             checks.Error(
                 "CORS_EXPOSE_HEADERS should be a sequence.",
@@ -78,7 +75,7 @@ def check_settings(app_configs, **kwargs):
             )
         )
 
-    if not isinstance(corsheaders_settings.CORS_URLS_REGEX, six.string_types):
+    if not isinstance(conf.CORS_URLS_REGEX, six.string_types):
         errors.append(
             checks.Error(
                 "CORS_URLS_REGEX should be a string that specifies a regex.",
@@ -86,10 +83,7 @@ def check_settings(app_configs, **kwargs):
             )
         )
 
-    if (
-        corsheaders_settings.CORS_MODEL is not None and
-        not isinstance(corsheaders_settings.CORS_MODEL, six.string_types)
-    ):
+    if conf.CORS_MODEL is not None and not isinstance(conf.CORS_MODEL, six.string_types):
         errors.append(
             checks.Error(
                 "CORS_MODEL should be a string or None.",
@@ -97,7 +91,7 @@ def check_settings(app_configs, **kwargs):
             )
         )
 
-    if not isinstance(corsheaders_settings.CORS_REPLACE_HTTPS_REFERER, bool):
+    if not isinstance(conf.CORS_REPLACE_HTTPS_REFERER, bool):
         errors.append(
             checks.Error(
                 "CORS_REPLACE_HTTPS_REFERER should be a bool.",

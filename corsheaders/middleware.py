@@ -4,7 +4,7 @@ from django import http
 from django.apps import apps
 from django.utils.six.moves.urllib.parse import urlparse
 
-from .conf import corsheaders_settings
+from .conf import conf
 from .signals import check_request_enabled
 
 try:
@@ -29,7 +29,7 @@ class CorsPostCsrfMiddleware(MiddlewareMixin):
         Put the HTTP_REFERER back to its original value and delete the
         temporary storage
         """
-        if corsheaders_settings.CORS_REPLACE_HTTPS_REFERER and 'ORIGINAL_HTTP_REFERER' in request.META:
+        if conf.CORS_REPLACE_HTTPS_REFERER and 'ORIGINAL_HTTP_REFERER' in request.META:
             http_referer = request.META['ORIGINAL_HTTP_REFERER']
             request.META['HTTP_REFERER'] = http_referer
             del request.META['ORIGINAL_HTTP_REFERER']
@@ -54,13 +54,10 @@ class CorsMiddleware(MiddlewareMixin):
         """
         origin = request.META.get('HTTP_ORIGIN')
 
-        if (request.is_secure() and origin and
-                'ORIGINAL_HTTP_REFERER' not in request.META):
+        if request.is_secure() and origin and 'ORIGINAL_HTTP_REFERER' not in request.META:
+
             url = urlparse(origin)
-            if (
-                not corsheaders_settings.CORS_ORIGIN_ALLOW_ALL and
-                self.origin_not_found_in_white_lists(origin, url)
-            ):
+            if not conf.CORS_ORIGIN_ALLOW_ALL and self.origin_not_found_in_white_lists(origin, url):
                 return
 
             try:
@@ -81,21 +78,24 @@ class CorsMiddleware(MiddlewareMixin):
         view/exception middleware along with the requested view;
         it will call any response middlewares
         """
-        if self.is_enabled(request) and corsheaders_settings.CORS_REPLACE_HTTPS_REFERER:
+        if self.is_enabled(request) and conf.CORS_REPLACE_HTTPS_REFERER:
             self._https_referer_replace(request)
 
-        if (self.is_enabled(request) and
-                request.method == 'OPTIONS' and
-                "HTTP_ACCESS_CONTROL_REQUEST_METHOD" in request.META):
+        if (
+            self.is_enabled(request) and
+            request.method == 'OPTIONS' and
+            "HTTP_ACCESS_CONTROL_REQUEST_METHOD" in request.META
+        ):
             response = http.HttpResponse()
             return response
+
         return None
 
     def process_view(self, request, callback, callback_args, callback_kwargs):
         """
         Do the referer replacement here as well
         """
-        if self.is_enabled(request) and corsheaders_settings.CORS_REPLACE_HTTPS_REFERER:
+        if self.is_enabled(request) and conf.CORS_REPLACE_HTTPS_REFERER:
             self._https_referer_replace(request)
         return None
 
@@ -108,51 +108,51 @@ class CorsMiddleware(MiddlewareMixin):
             # todo: check hostname from db instead
             url = urlparse(origin)
 
-            if corsheaders_settings.CORS_MODEL is not None:
-                model = apps.get_model(*corsheaders_settings.CORS_MODEL.split('.'))
+            if conf.CORS_MODEL is not None:
+                model = apps.get_model(*conf.CORS_MODEL.split('.'))
                 if model.objects.filter(cors=url.netloc).exists():
                     response[ACCESS_CONTROL_ALLOW_ORIGIN] = origin
 
             if (
-                not corsheaders_settings.CORS_ORIGIN_ALLOW_ALL and
+                not conf.CORS_ORIGIN_ALLOW_ALL and
                 self.origin_not_found_in_white_lists(origin, url) and
                 not self.check_signal(request)
             ):
                 return response
 
-            if corsheaders_settings.CORS_ORIGIN_ALLOW_ALL and not corsheaders_settings.CORS_ALLOW_CREDENTIALS:
+            if conf.CORS_ORIGIN_ALLOW_ALL and not conf.CORS_ALLOW_CREDENTIALS:
                 response[ACCESS_CONTROL_ALLOW_ORIGIN] = "*"
             else:
                 response[ACCESS_CONTROL_ALLOW_ORIGIN] = origin
 
-            if len(corsheaders_settings.CORS_EXPOSE_HEADERS):
-                response[ACCESS_CONTROL_EXPOSE_HEADERS] = ', '.join(corsheaders_settings.CORS_EXPOSE_HEADERS)
+            if len(conf.CORS_EXPOSE_HEADERS):
+                response[ACCESS_CONTROL_EXPOSE_HEADERS] = ', '.join(conf.CORS_EXPOSE_HEADERS)
 
-            if corsheaders_settings.CORS_ALLOW_CREDENTIALS:
+            if conf.CORS_ALLOW_CREDENTIALS:
                 response[ACCESS_CONTROL_ALLOW_CREDENTIALS] = 'true'
 
             if request.method == 'OPTIONS':
-                response[ACCESS_CONTROL_ALLOW_HEADERS] = ', '.join(corsheaders_settings.CORS_ALLOW_HEADERS)
-                response[ACCESS_CONTROL_ALLOW_METHODS] = ', '.join(corsheaders_settings.CORS_ALLOW_METHODS)
-                if corsheaders_settings.CORS_PREFLIGHT_MAX_AGE:
-                    response[ACCESS_CONTROL_MAX_AGE] = corsheaders_settings.CORS_PREFLIGHT_MAX_AGE
+                response[ACCESS_CONTROL_ALLOW_HEADERS] = ', '.join(conf.CORS_ALLOW_HEADERS)
+                response[ACCESS_CONTROL_ALLOW_METHODS] = ', '.join(conf.CORS_ALLOW_METHODS)
+                if conf.CORS_PREFLIGHT_MAX_AGE:
+                    response[ACCESS_CONTROL_MAX_AGE] = conf.CORS_PREFLIGHT_MAX_AGE
 
         return response
 
     def origin_not_found_in_white_lists(self, origin, url):
         return (
-            url.netloc not in corsheaders_settings.CORS_ORIGIN_WHITELIST and
+            url.netloc not in conf.CORS_ORIGIN_WHITELIST and
             not self.regex_domain_match(origin)
         )
 
     def regex_domain_match(self, origin):
-        for domain_pattern in corsheaders_settings.CORS_ORIGIN_REGEX_WHITELIST:
+        for domain_pattern in conf.CORS_ORIGIN_REGEX_WHITELIST:
             if re.match(domain_pattern, origin):
                 return origin
 
     def is_enabled(self, request):
         return (
-            re.match(corsheaders_settings.CORS_URLS_REGEX, request.path) or
+            re.match(conf.CORS_URLS_REGEX, request.path) or
             self.check_signal(request)
         )
 
