@@ -9,10 +9,10 @@ from .signals import check_request_enabled
 
 try:
     from django.utils.deprecation import MiddlewareMixin
-except ImportError:
+except ImportError:  # pragma: no cover
     # Not required for Django <= 1.9, see:
     # https://docs.djangoproject.com/en/1.10/topics/http/middleware/#upgrading-pre-django-1-10-style-middleware
-    MiddlewareMixin = object
+    MiddlewareMixin = object  # pragma: no cover
 
 ACCESS_CONTROL_ALLOW_ORIGIN = 'Access-Control-Allow-Origin'
 ACCESS_CONTROL_EXPOSE_HEADERS = 'Access-Control-Expose-Headers'
@@ -58,7 +58,7 @@ class CorsMiddleware(MiddlewareMixin):
 
             url = urlparse(origin)
             if not conf.CORS_ORIGIN_ALLOW_ALL and self.origin_not_found_in_white_lists(origin, url):
-                return
+                return  # pragma: no cover
 
             try:
                 http_referer = request.META['HTTP_REFERER']
