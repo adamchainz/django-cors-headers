@@ -295,29 +295,34 @@ class TestCorsMiddlewareProcessResponse(TestCase):
             return False
 
         check_request_enabled.connect(handler)
+        try:
+            resp = self.client.options(
+                '/test-view/',
+                HTTP_ORIGIN='http://foobar.it',
+                HTTP_ACCESS_CONTROL_REQUEST_METHOD='value',
+            )
 
-        resp = self.client.options(
-            '/test-view/',
-            HTTP_ORIGIN='http://foobar.it',
-            HTTP_ACCESS_CONTROL_REQUEST_METHOD='value',
-        )
-
-        assert resp.status_code == 200
-        assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
+            assert resp.status_code == 200
+            print(resp.__dict__)
+            assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
+        finally:
+            check_request_enabled.disconnect(handler)
 
     def test_signal_that_returns_true(self):
         def handler(*args, **kwargs):
             return True
 
         check_request_enabled.connect(handler)
-
-        resp = self.client.options(
-            '/test-view/',
-            HTTP_ORIGIN='http://foobar.it',
-            HTTP_ACCESS_CONTROL_REQUEST_METHOD='value',
-        )
-        assert resp.status_code == 200
-        assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://foobar.it'
+        try:
+            resp = self.client.options(
+                '/test-view/',
+                HTTP_ORIGIN='http://foobar.it',
+                HTTP_ACCESS_CONTROL_REQUEST_METHOD='value',
+            )
+            assert resp.status_code == 200
+            assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://foobar.it'
+        finally:
+            check_request_enabled.disconnect(handler)
 
     @override_settings(CORS_ORIGIN_WHITELIST=['example.com'])
     def test_signal_allow_some_urls_to_everyone(self):
@@ -325,19 +330,40 @@ class TestCorsMiddlewareProcessResponse(TestCase):
             return request.path.startswith('/api/')
 
         check_request_enabled.connect(allow_api_to_all)
+        try:
+            resp = self.client.options(
+                '/test-view/',
+                HTTP_ORIGIN='http://example.org',
+                HTTP_ACCESS_CONTROL_REQUEST_METHOD='value',
+            )
+            assert resp.status_code == 200
+            assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
 
-        resp = self.client.options(
-            '/test-view/',
-            HTTP_ORIGIN='http://example.org',
-            HTTP_ACCESS_CONTROL_REQUEST_METHOD='value',
-        )
-        assert resp.status_code == 200
-        assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
+            resp = self.client.options(
+                '/api/something/',
+                HTTP_ORIGIN='http://example.org',
+                HTTP_ACCESS_CONTROL_REQUEST_METHOD='value',
+            )
+            assert resp.status_code == 200
+            assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://example.org'
+        finally:
+            check_request_enabled.disconnect(allow_api_to_all)
 
-        resp = self.client.options(
-            '/api/something/',
-            HTTP_ORIGIN='http://example.org',
-            HTTP_ACCESS_CONTROL_REQUEST_METHOD='value',
-        )
-        assert resp.status_code == 200
-        assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://example.org'
+    @override_settings(CORS_ORIGIN_WHITELIST=['example.com'])
+    def test_signal_called_once_during_normal_flow(self):
+
+        def allow_all(sender, request, **kwargs):
+            allow_all.calls += 1
+            return True
+        allow_all.calls = 0
+
+        check_request_enabled.connect(allow_all)
+        try:
+            self.client.get(
+                '/test-view/',
+                HTTP_ORIGIN='http://example.org',
+            )
+
+            assert allow_all.calls == 1
+        finally:
+            check_request_enabled.disconnect(allow_all)

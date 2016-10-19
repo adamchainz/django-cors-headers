@@ -78,24 +78,22 @@ class CorsMiddleware(MiddlewareMixin):
         view/exception middleware along with the requested view;
         it will call any response middlewares
         """
-        if self.is_enabled(request) and conf.CORS_REPLACE_HTTPS_REFERER:
-            self._https_referer_replace(request)
+        request._cors_enabled = self.is_enabled(request)
+        if request._cors_enabled:
+            if conf.CORS_REPLACE_HTTPS_REFERER:
+                self._https_referer_replace(request)
 
-        if (
-            self.is_enabled(request) and
-            request.method == 'OPTIONS' and
-            "HTTP_ACCESS_CONTROL_REQUEST_METHOD" in request.META
-        ):
-            response = http.HttpResponse()
-            return response
-
-        return None
+            if (
+                request.method == 'OPTIONS' and
+                'HTTP_ACCESS_CONTROL_REQUEST_METHOD' in request.META
+            ):
+                return http.HttpResponse()
 
     def process_view(self, request, callback, callback_args, callback_kwargs):
         """
         Do the referer replacement here as well
         """
-        if self.is_enabled(request) and conf.CORS_REPLACE_HTTPS_REFERER:
+        if request._cors_enabled and conf.CORS_REPLACE_HTTPS_REFERER:
             self._https_referer_replace(request)
         return None
 
@@ -104,7 +102,7 @@ class CorsMiddleware(MiddlewareMixin):
         Add the respective CORS headers
         """
         origin = request.META.get('HTTP_ORIGIN')
-        if self.is_enabled(request) and origin:
+        if request._cors_enabled and origin:
             # todo: check hostname from db instead
             url = urlparse(origin)
 
