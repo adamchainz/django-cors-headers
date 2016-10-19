@@ -5,6 +5,7 @@ SECRET_KEY = 'NOTASECRET'
 
 INSTALLED_APPS = [
     'corsheaders',
+    'testapp',
 ]
 
 DATABASES = {
