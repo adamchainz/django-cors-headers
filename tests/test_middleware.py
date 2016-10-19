@@ -6,9 +6,8 @@ from corsheaders.middleware import (
     ACCESS_CONTROL_ALLOW_ORIGIN, ACCESS_CONTROL_EXPOSE_HEADERS, ACCESS_CONTROL_MAX_AGE
 )
 from corsheaders.models import CorsModel
-from corsheaders.signals import check_request_enabled
 
-from .utils import append_middleware
+from .utils import append_middleware, temporary_check_request_hander
 
 
 class CorsMiddlewareTests(TestCase):
@@ -193,53 +192,62 @@ class CorsMiddlewareTests(TestCase):
         def handler(*args, **kwargs):
             return False
 
-        check_request_enabled.connect(handler)
+        with temporary_check_request_hander(handler):
+            resp = self.client.options(
+                '/',
+                HTTP_ORIGIN='http://foobar.it',
+                HTTP_ACCESS_CONTROL_REQUEST_METHOD='value',
+            )
 
-        resp = self.client.options(
-            '/',
-            HTTP_ORIGIN='http://foobar.it',
-            HTTP_ACCESS_CONTROL_REQUEST_METHOD='value',
-        )
-
-        assert resp.status_code == 200
-        assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
+            assert resp.status_code == 200
+            assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
 
     def test_signal_handler_that_returns_true(self):
         def handler(*args, **kwargs):
             return True
 
-        check_request_enabled.connect(handler)
-
-        resp = self.client.options(
-            '/',
-            HTTP_ORIGIN='http://foobar.it',
-            HTTP_ACCESS_CONTROL_REQUEST_METHOD='value',
-        )
-        assert resp.status_code == 200
-        assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://foobar.it'
+        with temporary_check_request_hander(handler):
+            resp = self.client.options(
+                '/',
+                HTTP_ORIGIN='http://foobar.it',
+                HTTP_ACCESS_CONTROL_REQUEST_METHOD='value',
+            )
+            assert resp.status_code == 200
+            assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://foobar.it'
 
     @override_settings(CORS_ORIGIN_WHITELIST=['example.com'])
     def test_signal_handler_allow_some_urls_to_everyone(self):
         def allow_api_to_all(sender, request, **kwargs):
             return request.path.startswith('/api/')
 
-        check_request_enabled.connect(allow_api_to_all)
+        with temporary_check_request_hander(allow_api_to_all):
+            resp = self.client.options(
+                '/',
+                HTTP_ORIGIN='http://example.org',
+                HTTP_ACCESS_CONTROL_REQUEST_METHOD='value',
+            )
+            assert resp.status_code == 200
+            assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
 
-        resp = self.client.options(
-            '/',
-            HTTP_ORIGIN='http://example.org',
-            HTTP_ACCESS_CONTROL_REQUEST_METHOD='value',
-        )
-        assert resp.status_code == 200
-        assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
+            resp = self.client.options(
+                '/api/something/',
+                HTTP_ORIGIN='http://example.org',
+                HTTP_ACCESS_CONTROL_REQUEST_METHOD='value',
+            )
+            assert resp.status_code == 200
+            assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://example.org'
 
-        resp = self.client.options(
-            '/api/something/',
-            HTTP_ORIGIN='http://example.org',
-            HTTP_ACCESS_CONTROL_REQUEST_METHOD='value',
-        )
-        assert resp.status_code == 200
-        assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://example.org'
+    @override_settings(CORS_ORIGIN_WHITELIST=['example.com'])
+    def test_signal_called_once_during_normal_flow(self):
+        def allow_all(sender, request, **kwargs):
+            allow_all.calls += 1
+            return True
+        allow_all.calls = 0
+
+        with temporary_check_request_hander(allow_all):
+            self.client.get('/', HTTP_ORIGIN='http://example.org')
+
+            assert allow_all.calls == 1
 
 
 @override_settings(

@@ -11,6 +11,12 @@ Pending
 * Add 'Origin' to the 'Vary' header of outgoing requests when not allowing all
   origins, as per the CORS spec. Note this changes the way HTTP caching works
   with your CORS-enabled responses.
+* Check whether CORS should be enabled on a request only once. This has had a
+  minor change on the conditions where any custom signals will be called -
+  signals will now always be called *before* ``HTTP_REFERER`` gets replaced,
+  whereas before they could be called before and after. Also this attaches the
+  attribute ``_cors_enabled`` to ``request`` - please take care that other
+  code you're running does not remove it.
 
 1.2.2 (2016-10-05)
 ------------------
