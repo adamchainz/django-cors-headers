@@ -5,6 +5,12 @@ Pending
 -------
 
 * New release notes go here.
+* Remove previously undocumented ``CorsModel`` as it was causing migration
+  issues. For backwards compatibility, any users previously using ``CorsModel``
+  should create a model in their own app that inherits from the new
+  ``AbstractCorsModel``, and to keep using the same data, set the model's
+  ``db_table`` to 'corsheaders_corsmodel'. Users not using ``CorsModel``
+  will find they have an unused table that they can drop.
 
 1.3.1 (2016-11-09)
 ------------------
