@@ -5,6 +5,7 @@
 #    pip-compile --output-file requirements.txt requirements.in
 #
 configparser==3.5.0       # via flake8
+coverage==4.2             # via pytest-cov
 docutils==0.12
 enum34==1.1.6             # via flake8
 flake8==3.0.4
@@ -15,5 +16,6 @@ py==1.4.31                # via pytest
 pycodestyle==2.0.0        # via flake8
 pyflakes==1.2.3           # via flake8
 Pygments==2.1.3
+pytest-cov==2.4.0
 pytest-django==3.0.0
 pytest==3.0.3
