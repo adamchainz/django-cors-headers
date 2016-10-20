@@ -7,9 +7,8 @@ from corsheaders.middleware import (
     ACCESS_CONTROL_ALLOW_ORIGIN, ACCESS_CONTROL_EXPOSE_HEADERS, ACCESS_CONTROL_MAX_AGE, CorsMiddleware,
     CorsPostCsrfMiddleware
 )
-from corsheaders.models import CorsModel
 from corsheaders.signals import check_request_enabled
-
+from testapp.models import CorsModel
 
 class TestCorsMiddlewareProcessRequest(TestCase):
 
@@ -241,7 +240,7 @@ class TestCorsMiddlewareProcessResponse(TestCase):
         response = self.client.options('/', HTTP_ORIGIN='http://foo.google.com')
         assert response.get(ACCESS_CONTROL_ALLOW_ORIGIN, None) is None
 
-    @override_settings(CORS_MODEL='corsheaders.CorsModel')
+    @override_settings(CORS_MODEL='testapp.CorsModel')
     def test_process_response_when_custom_model_enabled(self):
         CorsModel.objects.create(cors='foo.google.com')
         response = self.client.get('/', HTTP_ORIGIN='http://foo.google.com')
