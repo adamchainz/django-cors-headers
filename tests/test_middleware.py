@@ -255,6 +255,21 @@ class TestCorsMiddlewareProcessResponse(TestCase):
         response = self.client.get('/test-view/', HTTP_ORIGIN='http://foobar.it')
         assert response.status_code == 200
         assert response[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://foobar.it'
+        assert response['Vary'] == 'Origin'
+
+    @override_settings(
+        CORS_ALLOW_CREDENTIALS=True,
+        CORS_ORIGIN_ALLOW_ALL=True,
+    )
+    def test_middleware_integration_options(self):
+        response = self.client.options(
+            '/test-view/',
+            HTTP_ORIGIN='http://foobar.it',
+            HTTP_ACCESS_CONTROL_REQUEST_METHOD='value',
+        )
+        assert response.status_code == 200
+        assert response[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://foobar.it'
+        assert response['Vary'] == 'Origin'
 
     @override_settings(
         CORS_ALLOW_CREDENTIALS=True,

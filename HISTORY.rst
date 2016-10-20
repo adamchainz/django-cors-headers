@@ -8,6 +8,9 @@ Pending
 * Add checks to validate the types of the settings.
 * Add the 'Do Not Track' header ``'DNT'`` to the default for
   ``CORS_ALLOW_HEADERS``.
+* Add 'Origin' to the 'Vary' header of outgoing requests when not allowing all
+  origins, as per the CORS spec. Note this changes the way HTTP caching works
+  with your CORS-enabled responses.
 
 1.2.2 (2016-10-05)
 ------------------

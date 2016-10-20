@@ -2,6 +2,7 @@ import re
 
 from django import http
 from django.apps import apps
+from django.utils.cache import patch_vary_headers
 from django.utils.six.moves.urllib.parse import urlparse
 
 from .conf import conf
@@ -124,6 +125,7 @@ class CorsMiddleware(MiddlewareMixin):
                 response[ACCESS_CONTROL_ALLOW_ORIGIN] = "*"
             else:
                 response[ACCESS_CONTROL_ALLOW_ORIGIN] = origin
+                patch_vary_headers(response, ['Origin'])
 
             if len(conf.CORS_EXPOSE_HEADERS):
                 response[ACCESS_CONTROL_EXPOSE_HEADERS] = ', '.join(conf.CORS_EXPOSE_HEADERS)
