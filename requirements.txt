@@ -11,7 +11,7 @@ enum34==1.1.6             # via flake8
 flake8==3.0.4
 isort==4.2.5
 mccabe==0.5.2             # via flake8
-multilint==2.0.0
+multilint==2.0.1
 py==1.4.31                # via pytest
 pycodestyle==2.0.0        # via flake8
 pyflakes==1.2.3           # via flake8
