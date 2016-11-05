@@ -24,3 +24,5 @@ if django.VERSION >= (1, 10):
     MIDDLEWARE = middlewares
 else:
     MIDDLEWARE_CLASSES = middlewares
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_FAKE_SECURE', 'true')

@@ -1,8 +1,10 @@
 from django.conf.urls import url
-from django.http import HttpResponse
+from django.http import Http404, HttpResponse
 
 
 def test_view(request):
+    if request.method != 'GET':
+        raise Http404()
     return HttpResponse("Test view")
 
 
@@ -11,6 +13,6 @@ def test_view_http401(request):
 
 
 urlpatterns = [
-    url(r'^test-view/$', test_view, name='test-view'),
-    url(r'^test-view-http401/$', test_view_http401, name='test-view-http401'),
+    url(r'^$', test_view, name='test-view'),
+    url(r'^test-401/$', test_view_http401),
 ]

@@ -1,191 +1,57 @@
-from django.http import HttpResponse
-from django.test import RequestFactory, TestCase
+from django.test import TestCase
 from django.test.utils import override_settings
 
 from corsheaders.middleware import (
     ACCESS_CONTROL_ALLOW_CREDENTIALS, ACCESS_CONTROL_ALLOW_HEADERS, ACCESS_CONTROL_ALLOW_METHODS,
-    ACCESS_CONTROL_ALLOW_ORIGIN, ACCESS_CONTROL_EXPOSE_HEADERS, ACCESS_CONTROL_MAX_AGE, CorsMiddleware,
-    CorsPostCsrfMiddleware
+    ACCESS_CONTROL_ALLOW_ORIGIN, ACCESS_CONTROL_EXPOSE_HEADERS, ACCESS_CONTROL_MAX_AGE
 )
 from corsheaders.models import CorsModel
 from corsheaders.signals import check_request_enabled
 
-
-class TestCorsMiddlewareProcessRequest(TestCase):
-
-    req_factory = RequestFactory()
-
-    def setUp(self):
-        self.middleware = CorsMiddleware()
-
-    def test_process_request(self):
-        response = self.client.options(
-            '/',
-            HTTP_ACCESS_CONTROL_REQUEST_METHOD='value',
-        )
-        assert response.status_code == 200
-        assert isinstance(response, HttpResponse)
-
-    def test_process_request_empty_header(self):
-        response = self.client.options(
-            '/',
-            HTTP_ACCESS_CONTROL_REQUEST_METHOD='',
-        )
-        assert response.status_code == 200
-        assert isinstance(response, HttpResponse)
-
-    def test_process_request_no_header(self):
-        response = self.client.options('/')
-        assert response.status_code == 404
-
-    def test_process_request_not_options(self):
-        response = self.client.get(
-            '/',
-            HTTP_ACCESS_CONTROL_REQUEST_METHOD='value',
-        )
-        assert response.status_code == 404
-
-    @override_settings(
-        CORS_ORIGIN_REGEX_WHITELIST='.*google.*',
-        CORS_REPLACE_HTTPS_REFERER=True,
-        SECURE_PROXY_SSL_HEADER=('HTTP_FAKE_SECURE', 'true'),
-    )
-    def test_process_request_replace_https_referer(self):
-        # make sure it doesnt blow up when HTTP_REFERER is not present
-        request = self.req_factory.get(
-            '/',
-            HTTP_FAKE_SECURE='true',
-            HTTP_HOST='foobar.com',
-            HTTP_ORIGIN='https://foo.google.com',
-        )
-        response = self.middleware.process_request(request)
-        assert response is None
-
-        # make sure it doesnt blow up when HTTP_HOST is not present
-        request = self.req_factory.get(
-            '/',
-            HTTP_FAKE_SECURE='true',
-            HTTP_ORIGIN='https://foo.google.com',
-            HTTP_REFERER='http://foo.google.com/',
-        )
-        response = self.middleware.process_request(request)
-        assert response is None
-
-        # test that we won't replace if the request is not secure
-        request = self.req_factory.get(
-            '/',
-            HTTP_HOST='foobar.com',
-            HTTP_ORIGIN='http://foo.google.com',
-            HTTP_REFERER='http://foo.google.com/',
-        )
-        response = self.middleware.process_request(request)
-        assert response is None
-        assert 'ORIGINAL_HTTP_REFERER' not in request.META
-        assert request.META['HTTP_REFERER'] == 'http://foo.google.com/'
-
-        # test that we won't replace with the setting off
-        request = self.req_factory.get(
-            '/',
-            HTTP_FAKE_SECURE='true',
-            HTTP_HOST='foobar.com',
-            HTTP_ORIGIN='https://foo.google.com',
-            HTTP_REFERER='https://foo.google.com/',
-        )
-        with override_settings(CORS_REPLACE_HTTPS_REFERER=False):
-            response = self.middleware.process_request(request)
-        assert response is None
-        assert 'ORIGINAL_HTTP_REFERER' not in request.META
-        assert request.META['HTTP_REFERER'] == 'https://foo.google.com/'
-
-        response = self.middleware.process_request(request)
-        assert response is None
-        assert request.META['ORIGINAL_HTTP_REFERER'] == 'https://foo.google.com/'
-        assert request.META['HTTP_REFERER'] == 'https://foobar.com/'
-
-        # make sure the replace code is idempotent
-        response = self.middleware.process_view(request, None, None, None)
-        assert response is None
-        assert request.META['ORIGINAL_HTTP_REFERER'] == 'https://foo.google.com/'
-        assert request.META['HTTP_REFERER'] == 'https://foobar.com/'
-
-        post_middleware = CorsPostCsrfMiddleware()
-        post_middleware.process_request(request)
-        assert 'ORIGINAL_HTTP_REFERER' not in request.META
-        assert request.META['HTTP_REFERER'] == 'https://foo.google.com/'
-
-        response = post_middleware.process_request(request)
-        assert response is None
-
-    @override_settings(
-        CORS_ORIGIN_REGEX_WHITELIST='.*google.*',
-        CORS_REPLACE_HTTPS_REFERER=True,
-        SECURE_PROXY_SSL_HEADER=('HTTP_FAKE_SECURE', 'true'),
-    )
-    def test_process_view_replace_https_referer(self):
-        post_middleware = CorsPostCsrfMiddleware()
-        request = self.req_factory.get(
-            '/',
-            HTTP_FAKE_SECURE='true',
-            HTTP_HOST='foobar.com',
-            HTTP_ORIGIN='https://foo.google.com',
-            HTTP_REFERER='https://foo.google.com/',
-        )
-        response = self.middleware.process_view(request, None, None, None)
-        assert response is None
-        assert request.META['ORIGINAL_HTTP_REFERER'] == 'https://foo.google.com/'
-        assert request.META['HTTP_REFERER'] == 'https://foobar.com/'
-
-        post_middleware.process_view(request, None, None, None)
-        assert 'ORIGINAL_HTTP_REFERER' not in request.META
-        assert request.META['HTTP_REFERER'] == 'https://foo.google.com/'
-
-        response = post_middleware.process_view(request, None, None, None)
-        assert response is None
+from .utils import append_middleware
 
 
-class TestCorsMiddlewareProcessResponse(TestCase):
+class CorsMiddlewareTests(TestCase):
 
-    def setUp(self):
-        self.middleware = CorsMiddleware()
-
-    def test_process_response_no_origin(self):
-        assert ACCESS_CONTROL_ALLOW_ORIGIN not in self.client.get('/')
+    def test_get_no_origin(self):
+        resp = self.client.get('/')
+        assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
 
     @override_settings(CORS_ORIGIN_WHITELIST=['example.com'])
-    def test_process_response_not_in_whitelist(self):
-        response = self.client.get('/', HTTP_ORIGIN='http://foobar.it')
-        assert ACCESS_CONTROL_ALLOW_ORIGIN not in response
+    def test_get_not_in_whitelist(self):
+        resp = self.client.get('/', HTTP_ORIGIN='http://foobar.it')
+        assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
 
     @override_settings(CORS_ORIGIN_WHITELIST=['example.com', 'foobar.it'])
-    def test_process_response_in_whitelist(self):
-        response = self.client.get('/', HTTP_ORIGIN='http://foobar.it')
-        assert response[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://foobar.it'
+    def test_get_in_whitelist(self):
+        resp = self.client.get('/', HTTP_ORIGIN='http://foobar.it')
+        assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://foobar.it'
 
     @override_settings(
         CORS_ORIGIN_ALLOW_ALL=True,
         CORS_EXPOSE_HEADERS=['accept', 'origin', 'content-type'],
     )
-    def test_process_response_expose_headers(self):
-        response = self.client.get('/', HTTP_ORIGIN='http://example.com')
-        assert response[ACCESS_CONTROL_EXPOSE_HEADERS] == 'accept, origin, content-type'
+    def test_get_expose_headers(self):
+        resp = self.client.get('/', HTTP_ORIGIN='http://example.com')
+        assert resp[ACCESS_CONTROL_EXPOSE_HEADERS] == 'accept, origin, content-type'
 
     @override_settings(CORS_ORIGIN_ALLOW_ALL=True)
-    def test_process_response_dont_expose_headers(self):
-        response = self.client.get('/', HTTP_ORIGIN='http://example.com')
-        assert ACCESS_CONTROL_EXPOSE_HEADERS not in response
+    def test_get_dont_expose_headers(self):
+        resp = self.client.get('/', HTTP_ORIGIN='http://example.com')
+        assert ACCESS_CONTROL_EXPOSE_HEADERS not in resp
 
     @override_settings(
         CORS_ALLOW_CREDENTIALS=True,
         CORS_ORIGIN_ALLOW_ALL=True,
     )
-    def test_process_response_allow_credentials(self):
-        response = self.client.get('/', HTTP_ORIGIN='http://example.com')
-        assert response[ACCESS_CONTROL_ALLOW_CREDENTIALS] == 'true'
+    def test_get_allow_credentials(self):
+        resp = self.client.get('/', HTTP_ORIGIN='http://example.com')
+        assert resp[ACCESS_CONTROL_ALLOW_CREDENTIALS] == 'true'
 
     @override_settings(CORS_ORIGIN_ALLOW_ALL=True)
-    def test_process_response_dont_allow_credentials(self):
-        response = self.client.get('/', HTTP_ORIGIN='http://example.com')
-        assert ACCESS_CONTROL_ALLOW_CREDENTIALS not in response
+    def test_get_dont_allow_credentials(self):
+        resp = self.client.get('/', HTTP_ORIGIN='http://example.com')
+        assert ACCESS_CONTROL_ALLOW_CREDENTIALS not in resp
 
     @override_settings(
         CORS_ALLOW_HEADERS=['content-type', 'origin'],
@@ -193,14 +59,14 @@ class TestCorsMiddlewareProcessResponse(TestCase):
         CORS_PREFLIGHT_MAX_AGE=1002,
         CORS_ORIGIN_ALLOW_ALL=True,
     )
-    def test_process_response_options_method(self):
-        response = self.client.options(
+    def test_options_allowed_origin(self):
+        resp = self.client.options(
             '/',
             HTTP_ORIGIN='http://example.com',
         )
-        assert response[ACCESS_CONTROL_ALLOW_HEADERS] == 'content-type, origin'
-        assert response[ACCESS_CONTROL_ALLOW_METHODS] == 'GET, OPTIONS'
-        assert response[ACCESS_CONTROL_MAX_AGE] == '1002'
+        assert resp[ACCESS_CONTROL_ALLOW_HEADERS] == 'content-type, origin'
+        assert resp[ACCESS_CONTROL_ALLOW_METHODS] == 'GET, OPTIONS'
+        assert resp[ACCESS_CONTROL_MAX_AGE] == '1002'
 
     @override_settings(
         CORS_ALLOW_HEADERS=['content-type', 'origin'],
@@ -208,74 +74,92 @@ class TestCorsMiddlewareProcessResponse(TestCase):
         CORS_PREFLIGHT_MAX_AGE=0,
         CORS_ORIGIN_ALLOW_ALL=True,
     )
-    def test_process_response_options_method_no_max_age(self):
-        response = self.client.options('/', HTTP_ORIGIN='http://example.com')
-        assert response[ACCESS_CONTROL_ALLOW_HEADERS] == 'content-type, origin'
-        assert response[ACCESS_CONTROL_ALLOW_METHODS] == 'GET, OPTIONS'
-        assert ACCESS_CONTROL_MAX_AGE not in response
+    def test_options_no_max_age(self):
+        resp = self.client.options('/', HTTP_ORIGIN='http://example.com')
+        assert resp[ACCESS_CONTROL_ALLOW_HEADERS] == 'content-type, origin'
+        assert resp[ACCESS_CONTROL_ALLOW_METHODS] == 'GET, OPTIONS'
+        assert ACCESS_CONTROL_MAX_AGE not in resp
 
     @override_settings(
         CORS_ALLOW_METHODS=['OPTIONS'],
         CORS_ALLOW_CREDENTIALS=True,
         CORS_ORIGIN_WHITELIST=('localhost:9000',),
     )
-    def test_process_response_whitelist_with_port(self):
-        response = self.client.options('/', HTTP_ORIGIN='http://localhost:9000')
-        assert response.get(ACCESS_CONTROL_ALLOW_CREDENTIALS, None) == 'true'
+    def test_options_whitelist_with_port(self):
+        resp = self.client.options('/', HTTP_ORIGIN='http://localhost:9000')
+        assert resp[ACCESS_CONTROL_ALLOW_CREDENTIALS] == 'true'
 
     @override_settings(
         CORS_ALLOW_METHODS=['OPTIONS'],
         CORS_ALLOW_CREDENTIALS=True,
-        CORS_ORIGIN_REGEX_WHITELIST=('^http?://(\w+\.)?google\.com$',),
+        CORS_ORIGIN_REGEX_WHITELIST=[r'^http?://(\w+\.)?google\.com$'],
     )
-    def test_process_response_adds_origin_when_domain_found_in_origin_regex_whitelist(self):
-        response = self.client.options('/', HTTP_ORIGIN='http://foo.google.com')
-        assert response.get(ACCESS_CONTROL_ALLOW_ORIGIN, None) == 'http://foo.google.com'
+    def test_options_adds_origin_when_domain_found_in_origin_regex_whitelist(self):
+        resp = self.client.options('/', HTTP_ORIGIN='http://foo.google.com')
+        assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://foo.google.com'
 
     @override_settings(
         CORS_ALLOW_METHODS=['OPTIONS'],
         CORS_ALLOW_CREDENTIALS=True,
         CORS_ORIGIN_REGEX_WHITELIST=('^http?://(\w+\.)?yahoo\.com$',),
     )
-    def test_process_response_will_not_add_origin_when_domain_not_found_in_origin_regex_whitelist(self):
-        response = self.client.options('/', HTTP_ORIGIN='http://foo.google.com')
-        assert response.get(ACCESS_CONTROL_ALLOW_ORIGIN, None) is None
+    def test_options_will_not_add_origin_when_domain_not_found_in_origin_regex_whitelist(self):
+        resp = self.client.options('/', HTTP_ORIGIN='http://foo.google.com')
+        assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
 
     @override_settings(CORS_MODEL='corsheaders.CorsModel')
-    def test_process_response_when_custom_model_enabled(self):
+    def test_get_when_custom_model_enabled(self):
         CorsModel.objects.create(cors='foo.google.com')
-        response = self.client.get('/', HTTP_ORIGIN='http://foo.google.com')
-        assert response.get(ACCESS_CONTROL_ALLOW_ORIGIN, None) == 'http://foo.google.com'
+        resp = self.client.get('/', HTTP_ORIGIN='http://foo.google.com')
+        assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://foo.google.com'
+
+    def test_options(self):
+        resp = self.client.options(
+            '/',
+            HTTP_ACCESS_CONTROL_REQUEST_METHOD='value',
+        )
+        assert resp.status_code == 200
+
+    def test_options_empty_request_method(self):
+        resp = self.client.options(
+            '/',
+            HTTP_ACCESS_CONTROL_REQUEST_METHOD='',
+        )
+        assert resp.status_code == 200
+
+    def test_options_no_header(self):
+        resp = self.client.options('/')
+        assert resp.status_code == 404
 
     @override_settings(
         CORS_ALLOW_CREDENTIALS=True,
         CORS_ORIGIN_ALLOW_ALL=True,
     )
-    def test_middleware_integration_get(self):
-        response = self.client.get('/test-view/', HTTP_ORIGIN='http://foobar.it')
-        assert response.status_code == 200
-        assert response[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://foobar.it'
-        assert response['Vary'] == 'Origin'
+    def test_allow_all_origins_get(self):
+        resp = self.client.get('/', HTTP_ORIGIN='http://foobar.it')
+        assert resp.status_code == 200
+        assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://foobar.it'
+        assert resp['Vary'] == 'Origin'
 
     @override_settings(
         CORS_ALLOW_CREDENTIALS=True,
         CORS_ORIGIN_ALLOW_ALL=True,
     )
-    def test_middleware_integration_options(self):
-        response = self.client.options(
-            '/test-view/',
+    def test_allow_all_origins_options(self):
+        resp = self.client.options(
+            '/',
             HTTP_ORIGIN='http://foobar.it',
             HTTP_ACCESS_CONTROL_REQUEST_METHOD='value',
         )
-        assert response.status_code == 200
-        assert response[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://foobar.it'
-        assert response['Vary'] == 'Origin'
+        assert resp.status_code == 200
+        assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://foobar.it'
+        assert resp['Vary'] == 'Origin'
 
     @override_settings(
         CORS_ALLOW_CREDENTIALS=True,
         CORS_ORIGIN_ALLOW_ALL=True,
     )
-    def test_middleware_integration_get_auth_view(self):
+    def test_non_200_headers_still_set(self):
         """
         It's not clear whether the header should still be set for non-HTTP200
         when not a preflight request. However this is the existing behaviour for
@@ -284,35 +168,35 @@ class TestCorsMiddlewareProcessResponse(TestCase):
         place to preserve this behaviour. See `ExceptionMiddleware` mention here:
         https://docs.djangoproject.com/en/1.10/topics/http/middleware/#upgrading-pre-django-1-10-style-middleware
         """
-        response = self.client.get('/test-view-http401/', HTTP_ORIGIN='http://foobar.it')
-        assert response.status_code == 401
-        assert response[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://foobar.it'
+        resp = self.client.get('/test-401/', HTTP_ORIGIN='http://foobar.it')
+        assert resp.status_code == 401
+        assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://foobar.it'
 
     @override_settings(
         CORS_ALLOW_CREDENTIALS=True,
         CORS_ORIGIN_ALLOW_ALL=True,
     )
-    def test_middleware_integration_preflight_auth_view(self):
+    def test_auth_view_options(self):
         """
         Ensure HTTP200 and header still set, for preflight requests to views requiring
         authentication. See: https://github.com/ottoyiu/django-cors-headers/issues/3
         """
-        response = self.client.options(
-            '/test-view-http401/',
+        resp = self.client.options(
+            '/test-401/',
             HTTP_ORIGIN='http://foobar.it',
             HTTP_ACCESS_CONTROL_REQUEST_METHOD='value',
         )
-        assert response.status_code == 200
-        assert response[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://foobar.it'
+        assert resp.status_code == 200
+        assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://foobar.it'
 
-    def test_signal_that_returns_false(self):
+    def test_signal_handler_that_returns_false(self):
         def handler(*args, **kwargs):
             return False
 
         check_request_enabled.connect(handler)
 
         resp = self.client.options(
-            '/test-view/',
+            '/',
             HTTP_ORIGIN='http://foobar.it',
             HTTP_ACCESS_CONTROL_REQUEST_METHOD='value',
         )
@@ -320,14 +204,14 @@ class TestCorsMiddlewareProcessResponse(TestCase):
         assert resp.status_code == 200
         assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
 
-    def test_signal_that_returns_true(self):
+    def test_signal_handler_that_returns_true(self):
         def handler(*args, **kwargs):
             return True
 
         check_request_enabled.connect(handler)
 
         resp = self.client.options(
-            '/test-view/',
+            '/',
             HTTP_ORIGIN='http://foobar.it',
             HTTP_ACCESS_CONTROL_REQUEST_METHOD='value',
         )
@@ -335,14 +219,14 @@ class TestCorsMiddlewareProcessResponse(TestCase):
         assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://foobar.it'
 
     @override_settings(CORS_ORIGIN_WHITELIST=['example.com'])
-    def test_signal_allow_some_urls_to_everyone(self):
+    def test_signal_handler_allow_some_urls_to_everyone(self):
         def allow_api_to_all(sender, request, **kwargs):
             return request.path.startswith('/api/')
 
         check_request_enabled.connect(allow_api_to_all)
 
         resp = self.client.options(
-            '/test-view/',
+            '/',
             HTTP_ORIGIN='http://example.org',
             HTTP_ACCESS_CONTROL_REQUEST_METHOD='value',
         )
@@ -356,3 +240,75 @@ class TestCorsMiddlewareProcessResponse(TestCase):
         )
         assert resp.status_code == 200
         assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://example.org'
+
+
+@override_settings(
+    CORS_REPLACE_HTTPS_REFERER=True,
+    CORS_ORIGIN_REGEX_WHITELIST=r'.*example.*',
+)
+class RefererReplacementCorsMiddlewareTests(TestCase):
+
+    def test_get_replaces_referer_when_secure(self):
+        resp = self.client.get(
+            '/',
+            HTTP_FAKE_SECURE='true',
+            HTTP_HOST='example.com',
+            HTTP_ORIGIN='https://example.org',
+            HTTP_REFERER='https://example.org/foo'
+        )
+        assert resp.wsgi_request.META['HTTP_REFERER'] == 'https://example.com/'
+        assert resp.wsgi_request.META['ORIGINAL_HTTP_REFERER'] == 'https://example.org/foo'
+
+    @append_middleware('corsheaders.middleware.CorsPostCsrfMiddleware')
+    def test_get_post_middleware_rereplaces_referer_when_secure(self):
+        resp = self.client.get(
+            '/',
+            HTTP_FAKE_SECURE='true',
+            HTTP_HOST='example.com',
+            HTTP_ORIGIN='https://example.org',
+            HTTP_REFERER='https://example.org/foo'
+        )
+        assert resp.wsgi_request.META['HTTP_REFERER'] == 'https://example.org/foo'
+        assert 'ORIGINAL_HTTP_REFERER' not in resp.wsgi_request.META
+
+    def test_get_does_not_replace_referer_when_insecure(self):
+        resp = self.client.get(
+            '/',
+            HTTP_HOST='example.com',
+            HTTP_ORIGIN='https://example.org',
+            HTTP_REFERER='https://example.org/foo'
+        )
+        assert resp.wsgi_request.META['HTTP_REFERER'] == 'https://example.org/foo'
+        assert 'ORIGINAL_HTTP_REFERER' not in resp.wsgi_request.META
+
+    @override_settings(CORS_REPLACE_HTTPS_REFERER=False)
+    def test_get_does_not_replace_referer_when_disabled(self):
+        resp = self.client.get(
+            '/',
+            HTTP_FAKE_SECURE='true',
+            HTTP_HOST='example.com',
+            HTTP_ORIGIN='https://example.org',
+            HTTP_REFERER='https://example.org/foo',
+        )
+        assert resp.wsgi_request.META['HTTP_REFERER'] == 'https://example.org/foo'
+        assert 'ORIGINAL_HTTP_REFERER' not in resp.wsgi_request.META
+
+    def test_get_does_not_fail_in_referer_replacement_when_referer_missing(self):
+        resp = self.client.get(
+            '/',
+            HTTP_FAKE_SECURE='true',
+            HTTP_HOST='example.com',
+            HTTP_ORIGIN='https://example.org',
+        )
+        assert 'HTTP_REFERER' not in resp.wsgi_request.META
+        assert 'ORIGINAL_HTTP_REFERER' not in resp.wsgi_request.META
+
+    def test_get_does_not_fail_in_referer_replacement_when_host_missing(self):
+        resp = self.client.get(
+            '/',
+            HTTP_FAKE_SECURE='true',
+            HTTP_ORIGIN='https://example.org',
+            HTTP_REFERER='https://example.org/foo',
+        )
+        assert resp.wsgi_request.META['HTTP_REFERER'] == 'https://example.org/foo'
+        assert 'ORIGINAL_HTTP_REFERER' not in resp.wsgi_request.META
