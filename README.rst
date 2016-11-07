@@ -44,17 +44,20 @@ You will also need to add a middleware class to listen in on responses:
 
 .. code-block:: python
 
-    MIDDLEWARE_CLASSES = [
+    MIDDLEWARE = [  # Or MIDDLEWARE_CLASSES on Django < 1.10
         ...
         'corsheaders.middleware.CorsMiddleware',
         'django.middleware.common.CommonMiddleware',
         ...
     ]
 
-Note that ``CorsMiddleware`` needs to come before Django's
-``CommonMiddleware`` if you are using Django's ``USE_ETAGS = True``
-setting, otherwise the CORS headers will be lost from 304 Not-Modified
-responses, causing errors in some browsers.
+``CorsMiddleware`` should be placed as high as possible, especially before any
+middleware that can generate responses such as Django's ``CommonMiddleware`` or
+Whitenoise's ``WhiteNoiseMiddleware``. If it is not before, it will not be able
+to add the CORS headers to these responses.
+
+Also if you are using ``CORS_REPLACE_HTTPS_REFERER`` it should be placed before
+Django's ``CsrfViewMiddleware`` (see more below).
 
 Configuration
 -------------

@@ -1,13 +1,30 @@
+import django
+from django.http import HttpResponse
 from django.test import TestCase
 from django.test.utils import override_settings
 
 from corsheaders.middleware import (
     ACCESS_CONTROL_ALLOW_CREDENTIALS, ACCESS_CONTROL_ALLOW_HEADERS, ACCESS_CONTROL_ALLOW_METHODS,
-    ACCESS_CONTROL_ALLOW_ORIGIN, ACCESS_CONTROL_EXPOSE_HEADERS, ACCESS_CONTROL_MAX_AGE
+    ACCESS_CONTROL_ALLOW_ORIGIN, ACCESS_CONTROL_EXPOSE_HEADERS, ACCESS_CONTROL_MAX_AGE,
 )
 from corsheaders.models import CorsModel
 
-from .utils import append_middleware, temporary_check_request_hander
+from .utils import (
+    append_middleware,
+    prepend_middleware,
+    temporary_check_request_hander,
+)
+
+try:
+    from django.utils.deprecation import MiddlewareMixin
+except ImportError:  # pragma: no cover
+    MiddlewareMixin = object  # pragma: no cover
+
+
+class ShortCircuitMiddleware(MiddlewareMixin):
+
+    def process_request(self, request):
+        return HttpResponse('short-circuit-middleware-response')
 
 
 class CorsMiddlewareTests(TestCase):
@@ -248,6 +265,52 @@ class CorsMiddlewareTests(TestCase):
             self.client.get('/', HTTP_ORIGIN='http://example.org')
 
             assert allow_all.calls == 1
+
+    @override_settings(CORS_ORIGIN_WHITELIST=['example.com'])
+    @prepend_middleware('tests.test_middleware.ShortCircuitMiddleware')
+    def test_get_short_circuit(self):
+        """
+        Test a scenario when a middleware that returns a response is run before
+        the ``CorsMiddleware``. In this case
+        ``CorsMiddleware.process_response()`` should ignore the request if
+        MIDDLEWARE setting is used (new mechanism in Django 1.10+) and process
+        the request and add CORS response headers if MIDDLEWARE_CLASSES is
+        used in a backward compatible fashion with django-cors-headers pre 1.3.0.
+        """
+        resp = self.client.get('/', HTTP_ORIGIN='http://example.com')
+        if django.VERSION[:2] >= (1, 10):
+            assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
+        else:
+            assert ACCESS_CONTROL_ALLOW_ORIGIN in resp
+
+    @override_settings(
+        CORS_URLS_REGEX=r'^/foo$',
+        CORS_ORIGIN_WHITELIST=['example.com'],
+    )
+    @prepend_middleware('tests.test_middleware.ShortCircuitMiddleware')
+    def test_get_short_circuit_no_origin(self):
+        resp = self.client.get('/', HTTP_ORIGIN='http://example.com')
+        assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
+
+    @override_settings(
+        CORS_URLS_REGEX=r'^/foo$',
+        CORS_ORIGIN_WHITELIST=['example.com'],
+    )
+    def test_get_no_origin_not_enabled(self):
+        resp = self.client.get('/', HTTP_ORIGIN='http://example.com')
+        assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
+
+    @override_settings(CORS_ORIGIN_WHITELIST=['example.com'])
+    def test_works_if_view_deletes_is_enabled(self):
+        """
+        Just in case something crazy happens in the view or other middleware,
+        check that get_response doesn't fall over if `is_enabled` is removed
+        """
+        resp = self.client.get(
+            '/delete-is-enabled/',
+            HTTP_ORIGIN='http://example.com',
+        )
+        assert ACCESS_CONTROL_ALLOW_ORIGIN in resp
 
 
 @override_settings(

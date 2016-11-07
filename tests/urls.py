@@ -12,7 +12,14 @@ def test_view_http401(request):
     return HttpResponse('Unauthorized', status=401)
 
 
+def test_view_that_deletes_is_enabled(request):
+    if hasattr(request, '_cors_enabled'):
+        del request._cors_enabled
+    return HttpResponse()
+
+
 urlpatterns = [
     url(r'^$', test_view, name='test-view'),
     url(r'^test-401/$', test_view_http401),
+    url(r'^delete-is-enabled/$', test_view_that_deletes_is_enabled),
 ]
