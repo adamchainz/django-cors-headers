@@ -4,7 +4,15 @@ History
 Pending
 -------
 
-* New release notes go here.
+* Conditionally process a response if other middleware is short circuiting. In a
+  scenario when a middleware that returns a response is run before the
+  ``CorsMiddleware`` and the project uses ``MIDDLEWARE_CLASSES``, the response
+  will be processed and CORS headers will be added if applicable . When
+  ``MIDDLEWARE`` is used, the response will not be processed and CORS response
+  headers won't be added to the response. This does not change existing behavior
+  but does fix an ``AttributeError`` introduced in 1.3.0 in the short circuit
+  scenario with ``MIDDLEWARE_CLASSES`` used.
+
 
 1.3.0 (2016-11-06)
 ------------------

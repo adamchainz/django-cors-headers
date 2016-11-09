@@ -103,39 +103,47 @@ class CorsMiddleware(MiddlewareMixin):
         Add the respective CORS headers
         """
         origin = request.META.get('HTTP_ORIGIN')
-        if request._cors_enabled and origin:
-            # todo: check hostname from db instead
-            url = urlparse(origin)
+        if not origin:
+            return response
 
-            if conf.CORS_MODEL is not None:
-                model = apps.get_model(*conf.CORS_MODEL.split('.'))
-                if model.objects.filter(cors=url.netloc).exists():
-                    response[ACCESS_CONTROL_ALLOW_ORIGIN] = origin
+        enabled = getattr(request, '_cors_enabled', None)
+        if enabled is None:
+            enabled = self.is_enabled(request)
+        if not enabled:
+            return response
 
-            if (
-                not conf.CORS_ORIGIN_ALLOW_ALL and
-                self.origin_not_found_in_white_lists(origin, url) and
-                not self.check_signal(request)
-            ):
-                return response
+        # todo: check hostname from db instead
+        url = urlparse(origin)
 
-            if conf.CORS_ORIGIN_ALLOW_ALL and not conf.CORS_ALLOW_CREDENTIALS:
-                response[ACCESS_CONTROL_ALLOW_ORIGIN] = "*"
-            else:
+        if conf.CORS_MODEL is not None:
+            model = apps.get_model(*conf.CORS_MODEL.split('.'))
+            if model.objects.filter(cors=url.netloc).exists():
                 response[ACCESS_CONTROL_ALLOW_ORIGIN] = origin
-                patch_vary_headers(response, ['Origin'])
 
-            if len(conf.CORS_EXPOSE_HEADERS):
-                response[ACCESS_CONTROL_EXPOSE_HEADERS] = ', '.join(conf.CORS_EXPOSE_HEADERS)
+        if (
+            not conf.CORS_ORIGIN_ALLOW_ALL and
+            self.origin_not_found_in_white_lists(origin, url) and
+            not self.check_signal(request)
+        ):
+            return response
 
-            if conf.CORS_ALLOW_CREDENTIALS:
-                response[ACCESS_CONTROL_ALLOW_CREDENTIALS] = 'true'
+        if conf.CORS_ORIGIN_ALLOW_ALL and not conf.CORS_ALLOW_CREDENTIALS:
+            response[ACCESS_CONTROL_ALLOW_ORIGIN] = "*"
+        else:
+            response[ACCESS_CONTROL_ALLOW_ORIGIN] = origin
+            patch_vary_headers(response, ['Origin'])
 
-            if request.method == 'OPTIONS':
-                response[ACCESS_CONTROL_ALLOW_HEADERS] = ', '.join(conf.CORS_ALLOW_HEADERS)
-                response[ACCESS_CONTROL_ALLOW_METHODS] = ', '.join(conf.CORS_ALLOW_METHODS)
-                if conf.CORS_PREFLIGHT_MAX_AGE:
-                    response[ACCESS_CONTROL_MAX_AGE] = conf.CORS_PREFLIGHT_MAX_AGE
+        if len(conf.CORS_EXPOSE_HEADERS):
+            response[ACCESS_CONTROL_EXPOSE_HEADERS] = ', '.join(conf.CORS_EXPOSE_HEADERS)
+
+        if conf.CORS_ALLOW_CREDENTIALS:
+            response[ACCESS_CONTROL_ALLOW_CREDENTIALS] = 'true'
+
+        if request.method == 'OPTIONS':
+            response[ACCESS_CONTROL_ALLOW_HEADERS] = ', '.join(conf.CORS_ALLOW_HEADERS)
+            response[ACCESS_CONTROL_ALLOW_METHODS] = ', '.join(conf.CORS_ALLOW_METHODS)
+            if conf.CORS_PREFLIGHT_MAX_AGE:
+                response[ACCESS_CONTROL_MAX_AGE] = conf.CORS_PREFLIGHT_MAX_AGE
 
         return response
 
