@@ -35,13 +35,13 @@ class CorsMiddlewareTests(TestCase):
 
     @override_settings(CORS_ORIGIN_WHITELIST=['example.com'])
     def test_get_not_in_whitelist(self):
-        resp = self.client.get('/', HTTP_ORIGIN='http://foobar.it')
+        resp = self.client.get('/', HTTP_ORIGIN='http://example.org')
         assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
 
-    @override_settings(CORS_ORIGIN_WHITELIST=['example.com', 'foobar.it'])
+    @override_settings(CORS_ORIGIN_WHITELIST=['example.com', 'example.org'])
     def test_get_in_whitelist(self):
-        resp = self.client.get('/', HTTP_ORIGIN='http://foobar.it')
-        assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://foobar.it'
+        resp = self.client.get('/', HTTP_ORIGIN='http://example.org')
+        assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://example.org'
 
     @override_settings(
         CORS_ORIGIN_ALLOW_ALL=True,
@@ -108,26 +108,26 @@ class CorsMiddlewareTests(TestCase):
     @override_settings(
         CORS_ALLOW_METHODS=['OPTIONS'],
         CORS_ALLOW_CREDENTIALS=True,
-        CORS_ORIGIN_REGEX_WHITELIST=[r'^http?://(\w+\.)?google\.com$'],
+        CORS_ORIGIN_REGEX_WHITELIST=[r'^http?://(\w+\.)?example\.com$'],
     )
     def test_options_adds_origin_when_domain_found_in_origin_regex_whitelist(self):
-        resp = self.client.options('/', HTTP_ORIGIN='http://foo.google.com')
-        assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://foo.google.com'
+        resp = self.client.options('/', HTTP_ORIGIN='http://foo.example.com')
+        assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://foo.example.com'
 
     @override_settings(
         CORS_ALLOW_METHODS=['OPTIONS'],
         CORS_ALLOW_CREDENTIALS=True,
-        CORS_ORIGIN_REGEX_WHITELIST=('^http?://(\w+\.)?yahoo\.com$',),
+        CORS_ORIGIN_REGEX_WHITELIST=(r'^http?://(\w+\.)?example\.org$',),
     )
     def test_options_will_not_add_origin_when_domain_not_found_in_origin_regex_whitelist(self):
-        resp = self.client.options('/', HTTP_ORIGIN='http://foo.google.com')
+        resp = self.client.options('/', HTTP_ORIGIN='http://foo.example.com')
         assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
 
     @override_settings(CORS_MODEL='corsheaders.CorsModel')
     def test_get_when_custom_model_enabled(self):
-        CorsModel.objects.create(cors='foo.google.com')
-        resp = self.client.get('/', HTTP_ORIGIN='http://foo.google.com')
-        assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://foo.google.com'
+        CorsModel.objects.create(cors='example.com')
+        resp = self.client.get('/', HTTP_ORIGIN='http://example.com')
+        assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://example.com'
 
     def test_options(self):
         resp = self.client.options(
@@ -152,9 +152,9 @@ class CorsMiddlewareTests(TestCase):
         CORS_ORIGIN_ALLOW_ALL=True,
     )
     def test_allow_all_origins_get(self):
-        resp = self.client.get('/', HTTP_ORIGIN='http://foobar.it')
+        resp = self.client.get('/', HTTP_ORIGIN='http://example.com')
         assert resp.status_code == 200
-        assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://foobar.it'
+        assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://example.com'
         assert resp['Vary'] == 'Origin'
 
     @override_settings(
@@ -164,11 +164,11 @@ class CorsMiddlewareTests(TestCase):
     def test_allow_all_origins_options(self):
         resp = self.client.options(
             '/',
-            HTTP_ORIGIN='http://foobar.it',
+            HTTP_ORIGIN='http://example.com',
             HTTP_ACCESS_CONTROL_REQUEST_METHOD='value',
         )
         assert resp.status_code == 200
-        assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://foobar.it'
+        assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://example.com'
         assert resp['Vary'] == 'Origin'
 
     @override_settings(
@@ -184,9 +184,9 @@ class CorsMiddlewareTests(TestCase):
         place to preserve this behaviour. See `ExceptionMiddleware` mention here:
         https://docs.djangoproject.com/en/1.10/topics/http/middleware/#upgrading-pre-django-1-10-style-middleware
         """
-        resp = self.client.get('/test-401/', HTTP_ORIGIN='http://foobar.it')
+        resp = self.client.get('/test-401/', HTTP_ORIGIN='http://example.com')
         assert resp.status_code == 401
-        assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://foobar.it'
+        assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://example.com'
 
     @override_settings(
         CORS_ALLOW_CREDENTIALS=True,
@@ -199,11 +199,11 @@ class CorsMiddlewareTests(TestCase):
         """
         resp = self.client.options(
             '/test-401/',
-            HTTP_ORIGIN='http://foobar.it',
+            HTTP_ORIGIN='http://example.com',
             HTTP_ACCESS_CONTROL_REQUEST_METHOD='value',
         )
         assert resp.status_code == 200
-        assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://foobar.it'
+        assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://example.com'
 
     def test_signal_handler_that_returns_false(self):
         def handler(*args, **kwargs):
@@ -212,7 +212,7 @@ class CorsMiddlewareTests(TestCase):
         with temporary_check_request_hander(handler):
             resp = self.client.options(
                 '/',
-                HTTP_ORIGIN='http://foobar.it',
+                HTTP_ORIGIN='http://example.com',
                 HTTP_ACCESS_CONTROL_REQUEST_METHOD='value',
             )
 
@@ -226,11 +226,11 @@ class CorsMiddlewareTests(TestCase):
         with temporary_check_request_hander(handler):
             resp = self.client.options(
                 '/',
-                HTTP_ORIGIN='http://foobar.it',
+                HTTP_ORIGIN='http://example.com',
                 HTTP_ACCESS_CONTROL_REQUEST_METHOD='value',
             )
             assert resp.status_code == 200
-            assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://foobar.it'
+            assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://example.com'
 
     @override_settings(CORS_ORIGIN_WHITELIST=['example.com'])
     def test_signal_handler_allow_some_urls_to_everyone(self):
