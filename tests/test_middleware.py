@@ -315,7 +315,7 @@ class CorsMiddlewareTests(TestCase):
 
 @override_settings(
     CORS_REPLACE_HTTPS_REFERER=True,
-    CORS_ORIGIN_REGEX_WHITELIST=r'.*example.*',
+    CORS_ORIGIN_REGEX_WHITELIST=(r'.*example.*',),
 )
 class RefererReplacementCorsMiddlewareTests(TestCase):
 
@@ -378,6 +378,18 @@ class RefererReplacementCorsMiddlewareTests(TestCase):
         resp = self.client.get(
             '/',
             HTTP_FAKE_SECURE='true',
+            HTTP_ORIGIN='https://example.org',
+            HTTP_REFERER='https://example.org/foo',
+        )
+        assert resp.wsgi_request.META['HTTP_REFERER'] == 'https://example.org/foo'
+        assert 'ORIGINAL_HTTP_REFERER' not in resp.wsgi_request.META
+
+    @override_settings(CORS_ORIGIN_REGEX_WHITELIST=())
+    def test_get_does_not_replace_referer_when_not_valid_request(self):
+        resp = self.client.get(
+            '/',
+            HTTP_FAKE_SECURE='true',
+            HTTP_HOST='example.com',
             HTTP_ORIGIN='https://example.org',
             HTTP_REFERER='https://example.org/foo',
         )
