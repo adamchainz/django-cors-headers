@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.test import TestCase
 from django.test.utils import override_settings
 
+from corsheaders.compat import MiddlewareMixin
 from corsheaders.middleware import (
     ACCESS_CONTROL_ALLOW_CREDENTIALS, ACCESS_CONTROL_ALLOW_HEADERS, ACCESS_CONTROL_ALLOW_METHODS,
     ACCESS_CONTROL_ALLOW_ORIGIN, ACCESS_CONTROL_EXPOSE_HEADERS, ACCESS_CONTROL_MAX_AGE,
@@ -14,11 +15,6 @@ from .utils import (
     prepend_middleware,
     temporary_check_request_hander,
 )
-
-try:
-    from django.utils.deprecation import MiddlewareMixin
-except ImportError:  # pragma: no cover
-    MiddlewareMixin = object  # pragma: no cover
 
 
 class ShortCircuitMiddleware(MiddlewareMixin):

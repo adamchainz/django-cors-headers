@@ -5,15 +5,9 @@ from django.apps import apps
 from django.utils.cache import patch_vary_headers
 from django.utils.six.moves.urllib.parse import urlparse
 
+from .compat import MiddlewareMixin
 from .conf import conf
 from .signals import check_request_enabled
-
-try:
-    from django.utils.deprecation import MiddlewareMixin
-except ImportError:  # pragma: no cover
-    # Not required for Django <= 1.9, see:
-    # https://docs.djangoproject.com/en/1.10/topics/http/middleware/#upgrading-pre-django-1-10-style-middleware
-    MiddlewareMixin = object  # pragma: no cover
 
 ACCESS_CONTROL_ALLOW_ORIGIN = 'Access-Control-Allow-Origin'
 ACCESS_CONTROL_EXPOSE_HEADERS = 'Access-Control-Expose-Headers'
