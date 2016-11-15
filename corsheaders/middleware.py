@@ -52,7 +52,6 @@ class CorsMiddleware(MiddlewareMixin):
         if request.is_secure() and origin and 'ORIGINAL_HTTP_REFERER' not in request.META:
 
             url = urlparse(origin)
-            print(self.origin_not_found_in_white_lists(origin, url))
             if not conf.CORS_ORIGIN_ALLOW_ALL and self.origin_not_found_in_white_lists(origin, url):
                 return
 
