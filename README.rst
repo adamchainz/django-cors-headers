@@ -101,7 +101,7 @@ Example:
 
 .. code-block:: python
 
-    CORS_ORIGIN_REGEX_WHITELIST = ('^(https?://)?(\w+\.)?google\.com$', )
+    CORS_ORIGIN_REGEX_WHITELIST = (r'^(https?://)?(\w+\.)?google\.com$', )
 
 --------------
 
@@ -217,7 +217,18 @@ pass, so that the Django CSRF middleware checks work with HTTPS. Defaults to
 **Note:** With this feature enabled, you also need to add
 ``corsheaders.middleware.CorsPostCsrfMiddleware`` after
 ``django.middleware.csrf.CsrfViewMiddleware`` in your ``MIDDLEWARE_CLASSES`` to
-undo the header replacement.
+undo the header replacement:
+
+.. code-block:: python
+
+    MIDDLEWARE = [
+        ...
+        'corsheaders.middleware.CorsMiddleware',
+        ...
+        'django.middleware.csrf.CsrfViewMiddleware',
+        'corsheaders.middleware.CorsPostCsrfMiddleware',
+        ...
+    ]
 
 ``CORS_MODEL``
 ~~~~~~~~~~~~~~
