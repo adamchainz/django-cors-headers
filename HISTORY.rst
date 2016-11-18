@@ -11,6 +11,8 @@ Pending
   ``AbstractCorsModel``, and to keep using the same data, set the model's
   ``db_table`` to 'corsheaders_corsmodel'. Users not using ``CorsModel``
   will find they have an unused table that they can drop.
+* Make sure that ``Access-Control-Allow-Credentials`` is in the response if the
+  client asks for it.
 
 1.3.1 (2016-11-09)
 ------------------

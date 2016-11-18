@@ -125,6 +125,14 @@ class CorsMiddlewareTests(TestCase):
         CorsModel.objects.create(cors='example.com')
         resp = self.client.get('/', HTTP_ORIGIN='http://example.com')
         assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://example.com'
+        assert ACCESS_CONTROL_ALLOW_CREDENTIALS not in resp
+
+    @override_settings(CORS_MODEL='testapp.CorsModel', CORS_ALLOW_CREDENTIALS=True)
+    def test_get_when_custom_model_enabled_and_allow_credentials(self):
+        CorsModel.objects.create(cors='example.com')
+        resp = self.client.get('/', HTTP_ORIGIN='http://example.com')
+        assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://example.com'
+        assert resp[ACCESS_CONTROL_ALLOW_CREDENTIALS] == 'true'
 
     def test_options(self):
         resp = self.client.options(

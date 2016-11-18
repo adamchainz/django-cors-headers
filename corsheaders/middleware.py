@@ -115,6 +115,9 @@ class CorsMiddleware(MiddlewareMixin):
             if model.objects.filter(cors=url.netloc).exists():
                 response[ACCESS_CONTROL_ALLOW_ORIGIN] = origin
 
+        if conf.CORS_ALLOW_CREDENTIALS:
+            response[ACCESS_CONTROL_ALLOW_CREDENTIALS] = 'true'
+
         if (
             not conf.CORS_ORIGIN_ALLOW_ALL and
             not self.origin_found_in_white_lists(origin, url) and
@@ -130,9 +133,6 @@ class CorsMiddleware(MiddlewareMixin):
 
         if len(conf.CORS_EXPOSE_HEADERS):
             response[ACCESS_CONTROL_EXPOSE_HEADERS] = ', '.join(conf.CORS_EXPOSE_HEADERS)
-
-        if conf.CORS_ALLOW_CREDENTIALS:
-            response[ACCESS_CONTROL_ALLOW_CREDENTIALS] = 'true'
 
         if request.method == 'OPTIONS':
             response[ACCESS_CONTROL_ALLOW_HEADERS] = ', '.join(conf.CORS_ALLOW_HEADERS)
