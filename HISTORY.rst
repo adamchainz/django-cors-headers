@@ -4,7 +4,7 @@ History
 Pending
 -------
 
-* New release notes go here.
+* Make sure that access-control-allow-credentials is in the response if client asks for it
 
 1.3.1 (2016-11-09)
 ------------------
