@@ -1,16 +1,16 @@
 import django
+from django.apps import apps
 from django.http import HttpResponse
 from django.test import TestCase
 from django.test.utils import override_settings
 
+
 from corsheaders.compat import MiddlewareMixin
+from corsheaders.conf import conf
 from corsheaders.middleware import (
     ACCESS_CONTROL_ALLOW_CREDENTIALS, ACCESS_CONTROL_ALLOW_HEADERS, ACCESS_CONTROL_ALLOW_METHODS,
     ACCESS_CONTROL_ALLOW_ORIGIN, ACCESS_CONTROL_EXPOSE_HEADERS, ACCESS_CONTROL_MAX_AGE,
 )
-
-from corsheaders.signals import check_request_enabled
-from testapp.models import CorsModel
 
 from .utils import (
     append_middleware,
@@ -121,10 +121,10 @@ class CorsMiddlewareTests(TestCase):
         resp = self.client.options('/', HTTP_ORIGIN='http://foo.example.com')
         assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
 
-
-    @override_settings(CORS_MODEL='corsheaders.CorsModel')
+    @override_settings(CORS_MODEL='testapp.CorsModel')
     def test_get_when_custom_model_enabled(self):
-        CorsModel.objects.create(cors='example.com')
+        model = apps.get_model(*conf.CORS_MODEL.split('.'))
+        model.objects.create(cors='example.com')
         resp = self.client.get('/', HTTP_ORIGIN='http://example.com')
         assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://example.com'
 
@@ -148,7 +148,8 @@ class CorsMiddlewareTests(TestCase):
 
     @override_settings(CORS_MODEL='testapp.CorsModel')
     def test_process_response_when_custom_model_enabled(self):
-        CorsModel.objects.create(cors='foo.google.com')
+        model = apps.get_model(*conf.CORS_MODEL.split('.'))
+        model.objects.create(cors='foo.google.com')
         response = self.client.get('/', HTTP_ORIGIN='http://foo.google.com')
         assert response.get(ACCESS_CONTROL_ALLOW_ORIGIN, None) == 'http://foo.google.com'
 
