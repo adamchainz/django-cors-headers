@@ -236,9 +236,8 @@ undo the header replacement:
 If set, this should be the path to a model to look up allowed origins, in the
 form ``app.modelname``. Defaults to ``None``.
 
-The model should have one field, a ``CharField`` called ``cors``, that
-in each instance contains an allowed origin. ``django-cors-headers`` supplies
-such a model for you; set the setting to ``corsheaders.CorsModel`` to use it.
+The model should inherit from ``corsheaders.models.AbstractCorsModel`` and specify
+the allowed origin in the ``CharField`` called ``cors``.
 
 Signals
 -------
