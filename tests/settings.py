@@ -5,7 +5,7 @@ SECRET_KEY = 'NOTASECRET'
 
 INSTALLED_APPS = [
     'corsheaders',
-    'testapp',
+    'tests.testapp',
 ]
 
 DATABASES = {
@@ -15,7 +15,7 @@ DATABASES = {
     },
 }
 
-ROOT_URLCONF = 'urls'
+ROOT_URLCONF = 'tests.urls'
 
 
 middlewares = list(global_settings.MIDDLEWARE_CLASSES)

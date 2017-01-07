@@ -9,8 +9,7 @@ import pytest
 
 
 def main():
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'settings')
-    sys.path.insert(0, 'tests')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'tests.settings')
     return pytest.main()
 
 
