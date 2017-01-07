@@ -9,7 +9,7 @@ from corsheaders.middleware import (
     ACCESS_CONTROL_ALLOW_ORIGIN, ACCESS_CONTROL_EXPOSE_HEADERS, ACCESS_CONTROL_MAX_AGE,
 )
 from corsheaders.signals import check_request_enabled
-from testapp.models import CorsModel
+from tests.testapp.models import CorsModel
 
 from .utils import (
     append_middleware,
