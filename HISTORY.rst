@@ -5,6 +5,10 @@ Pending
 -------
 
 * New release notes go here.
+
+2.0.0 (2017-01-07)
+------------------
+
 * Remove previously undocumented ``CorsModel`` as it was causing migration
   issues. For backwards compatibility, any users previously using ``CorsModel``
   should create a model in their own app that inherits from the new
