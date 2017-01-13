@@ -110,17 +110,13 @@ class CorsMiddleware(MiddlewareMixin):
         # todo: check hostname from db instead
         url = urlparse(origin)
 
-        if conf.CORS_MODEL is not None:
-            model = apps.get_model(*conf.CORS_MODEL.split('.'))
-            if model.objects.filter(cors=url.netloc).exists():
-                response[ACCESS_CONTROL_ALLOW_ORIGIN] = origin
-
         if conf.CORS_ALLOW_CREDENTIALS:
             response[ACCESS_CONTROL_ALLOW_CREDENTIALS] = 'true'
 
         if (
             not conf.CORS_ORIGIN_ALLOW_ALL and
             not self.origin_found_in_white_lists(origin, url) and
+            not self.origin_found_in_model(url) and
             not self.check_signal(request)
         ):
             return response
@@ -152,6 +148,12 @@ class CorsMiddleware(MiddlewareMixin):
         for domain_pattern in conf.CORS_ORIGIN_REGEX_WHITELIST:
             if re.match(domain_pattern, origin):
                 return origin
+
+    def origin_found_in_model(self, url):
+        if conf.CORS_MODEL is not None:
+            model = apps.get_model(*conf.CORS_MODEL.split('.'))
+            return model.objects.filter(cors=url.netloc).exists()
+        return False
 
     def is_enabled(self, request):
         return (
