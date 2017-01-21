@@ -6,16 +6,11 @@ from django.test.utils import override_settings
 from corsheaders.compat import MiddlewareMixin
 from corsheaders.middleware import (
     ACCESS_CONTROL_ALLOW_CREDENTIALS, ACCESS_CONTROL_ALLOW_HEADERS, ACCESS_CONTROL_ALLOW_METHODS,
-    ACCESS_CONTROL_ALLOW_ORIGIN, ACCESS_CONTROL_EXPOSE_HEADERS, ACCESS_CONTROL_MAX_AGE,
+    ACCESS_CONTROL_ALLOW_ORIGIN, ACCESS_CONTROL_EXPOSE_HEADERS, ACCESS_CONTROL_MAX_AGE
 )
-from corsheaders.signals import check_request_enabled
 from tests.testapp.models import CorsModel
 
-from .utils import (
-    append_middleware,
-    prepend_middleware,
-    temporary_check_request_hander,
-)
+from .utils import append_middleware, prepend_middleware, temporary_check_request_hander
 
 
 class ShortCircuitMiddleware(MiddlewareMixin):
