@@ -145,6 +145,7 @@ class CorsMiddleware(MiddlewareMixin):
     def origin_found_in_white_lists(self, origin, url):
         return (
             url.netloc in conf.CORS_ORIGIN_WHITELIST or
+            (origin == 'null' and origin in conf.CORS_ORIGIN_WHITELIST) or
             self.regex_domain_match(origin)
         )
 
