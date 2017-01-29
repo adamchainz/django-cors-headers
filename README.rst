@@ -76,7 +76,10 @@ Defaults to ``False``.
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A list of origin hostnames that are authorized to make cross-site HTTP
-requests. Defaults to ``[]``.
+requests. The value ``'null'`` can also appear in this list, and will match the
+``Origin: null`` header that is used in `"privacy-sensitive contexts"
+<https://tools.ietf.org/html/rfc6454#section-6>`_, such as when the client is
+running from a ``file://`` domain. Defaults to ``[]``.
 
 Example:
 
@@ -89,10 +92,6 @@ Example:
         '127.0.0.1:9000'
     )
 
-The value ``'null'`` can also appear in this list, and will match the
-``Origin: null`` header that is used in `some circumstances
-<https://tools.ietf.org/html/rfc6454#section-6>`_ (in particular,
-when the client is running from a ``file://`` domain).
 
 ``CORS_ORIGIN_REGEX_WHITELIST``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
