@@ -5,6 +5,10 @@ Pending
 -------
 
 * New release notes go here.
+
+2.0.1 (2017-01-29)
+------------------
+
 * Add support for specifying 'null' in ``CORS_ORIGIN_WHITELIST``.
 
 2.0.0 (2017-01-07)
