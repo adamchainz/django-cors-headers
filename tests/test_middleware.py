@@ -35,6 +35,11 @@ class CorsMiddlewareTests(TestCase):
         resp = self.client.get('/', HTTP_ORIGIN='http://example.org')
         assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://example.org'
 
+    @override_settings(CORS_ORIGIN_WHITELIST=['example.com', 'null'])
+    def test_null_in_whitelist(self):
+        resp = self.client.get('/', HTTP_ORIGIN='null')
+        assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == 'null'
+
     @override_settings(
         CORS_ORIGIN_ALLOW_ALL=True,
         CORS_EXPOSE_HEADERS=['accept', 'origin', 'content-type'],
