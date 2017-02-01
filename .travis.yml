@@ -4,7 +4,7 @@ notifications:
   email: false
 
 language: python
-python: '3.5'
+python: '3.6'
 cache: pip
 
 install:
