@@ -40,6 +40,8 @@ class CorsPostCsrfMiddleware(MiddlewareMixin):
 
 class CorsMiddleware(MiddlewareMixin):
 
+    model = None
+
     def _https_referer_replace(self, request):
         """
         When https is enabled, django CSRF checking includes referer checking
@@ -110,6 +112,7 @@ class CorsMiddleware(MiddlewareMixin):
         # todo: check hostname from db instead
         url = urlparse(origin)
 
+        model = None
         if conf.CORS_MODEL is not None:
             model = apps.get_model(*conf.CORS_MODEL.split('.'))
             if model.objects.filter(cors=url.netloc).exists():
@@ -121,6 +124,7 @@ class CorsMiddleware(MiddlewareMixin):
         if (
             not conf.CORS_ORIGIN_ALLOW_ALL and
             not self.origin_found_in_white_lists(origin, url) and
+            not self.origin_found_in_cors_model_lists(origin, url, model) and
             not self.check_signal(request)
         ):
             return response
@@ -148,6 +152,10 @@ class CorsMiddleware(MiddlewareMixin):
             (origin == 'null' and origin in conf.CORS_ORIGIN_WHITELIST) or
             self.regex_domain_match(origin)
         )
+
+    def origin_found_in_cors_model_lists(self, origin, url, model):
+        if model:
+            return model.objects.filter(cors=url.netloc).exists()
 
     def regex_domain_match(self, origin):
         for domain_pattern in conf.CORS_ORIGIN_REGEX_WHITELIST:
