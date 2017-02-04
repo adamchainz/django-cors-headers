@@ -121,6 +121,7 @@ class CorsMiddleware(MiddlewareMixin):
         if (
             not conf.CORS_ORIGIN_ALLOW_ALL and
             not self.origin_found_in_white_lists(origin, url) and
+            not self.origin_found_in_cors_model_lists(origin, url) and
             not self.check_signal(request)
         ):
             return response
@@ -148,6 +149,17 @@ class CorsMiddleware(MiddlewareMixin):
             (origin == 'null' and origin in conf.CORS_ORIGIN_WHITELIST) or
             self.regex_domain_match(origin)
         )
+    
+    def origin_found_in_cors_model_lists(self, origin, url):
+        if conf.CORS_MODEL is not None:
+            model = apps.get_model(*conf.CORS_MODEL.split('.'))
+            return (
+                model.objects.filter(cors=url.netloc).exists()
+            )
+        else:
+            return (
+                False
+            )
 
     def regex_domain_match(self, origin):
         for domain_pattern in conf.CORS_ORIGIN_REGEX_WHITELIST:
