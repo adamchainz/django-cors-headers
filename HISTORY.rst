@@ -5,6 +5,8 @@ Pending
 -------
 
 * New release notes go here.
+* Fix when the check for ``CORS_MODEL`` is done to allow it to properly add
+  the headers and respond to ``OPTIONS`` requests.
 
 2.0.1 (2017-01-29)
 ------------------

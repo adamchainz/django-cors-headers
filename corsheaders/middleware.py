@@ -151,10 +151,10 @@ class CorsMiddleware(MiddlewareMixin):
                 return origin
 
     def origin_found_in_model(self, url):
-        if conf.CORS_MODEL is not None:
-            model = apps.get_model(*conf.CORS_MODEL.split('.'))
-            return model.objects.filter(cors=url.netloc).exists()
-        return False
+        if conf.CORS_MODEL is None:
+            return False
+        model = apps.get_model(*conf.CORS_MODEL.split('.'))
+        return model.objects.filter(cors=url.netloc).exists()
 
     def is_enabled(self, request):
         return (

@@ -153,6 +153,16 @@ class CorsMiddlewareTests(TestCase):
         assert resp.status_code == 404
 
     @override_settings(CORS_MODEL='testapp.CorsModel')
+    def test_options_when_custom_model_enabled(self):
+        CorsModel.objects.create(cors='example.com')
+        resp = self.client.options(
+            '/',
+            HTTP_ORIGIN='http://example.com',
+            HTTP_ACCESS_CONTROL_REQUEST_METHOD='value',
+        )
+        assert ACCESS_CONTROL_ALLOW_HEADERS in resp
+
+    @override_settings(CORS_MODEL='testapp.CorsModel')
     def test_process_response_when_custom_model_enabled(self):
         CorsModel.objects.create(cors='foo.google.com')
         response = self.client.get('/', HTTP_ORIGIN='http://foo.google.com')
