@@ -211,14 +211,50 @@ actually accepts. Read more about it in the `HTML 5 Rocks CORS tutorial
 If ``True``, cookies will be allowed to be included in cross-site HTTP
 requests. Defaults to ``False``.
 
+``CORS_MODEL``
+~~~~~~~~~~~~~~
+
+If set, this should be the path to a model to look up allowed origins, in the
+form ``app.modelname``. Defaults to ``None``.
+
+The model should inherit from ``corsheaders.models.AbstractCorsModel`` and specify
+the allowed origin in the ``CharField`` called ``cors``.
+
+CSRF Integration
+----------------
+
+Most sites will need to take advantage of the `Cross-Site Request Forgery
+protection <https://docs.djangoproject.com/en/dev/ref/csrf/>`_ that Django
+offers. CORS and CSRF are distinct concepts, and Django will not use your CORS
+configuration to exempt sites from the ``Referer`` checking that it does on
+secure requests. The way to do that is with the `CSRF_TRUSTED_ORIGINS setting
+<https://docs.djangoproject.com/en/dev/ref/settings/#csrf-trusted-origins>`_.
+For example:
+
+.. code-block:: python
+
+    CORS_ORIGIN_WHITELIST = (
+        'read.only.com',
+        'change.allowed.com',
+    )
+    CSRF_TRUSTED_ORIGINS = (
+        'change.allowed.com',
+    )
+
 ``CORS_REPLACE_HTTPS_REFERER``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If ``True``, the ``HTTP_REFERER`` header will get replaced when CORS checks
-pass, so that the Django CSRF middleware checks work with HTTPS. Defaults to
+``CSRF_TRUSTED_ORIGINS`` was introduced in Django 1.9, so users of earlier
+versions will need an alternate solution. If ``CORS_REPLACE_HTTPS_REFERER`` is
+``True``, ``CorsMiddleware`` will change the ``Referer`` header to something
+that will pass Django's CSRF checks whenever the CORS checks pass. Defaults to
 ``False``.
 
-**Note:** With this feature enabled, you also need to add
+Note that—unlike ``CSRF_TRUSTED_ORIGINS``—this setting does not allow you to
+distinguish between domains that are trusted to *read* resources by CORS and
+domains that are trusted to *change* resources by avoiding CSRF protection.
+
+With this feature enabled you should also add
 ``corsheaders.middleware.CorsPostCsrfMiddleware`` after
 ``django.middleware.csrf.CsrfViewMiddleware`` in your ``MIDDLEWARE_CLASSES`` to
 undo the header replacement:
@@ -233,15 +269,6 @@ undo the header replacement:
         'corsheaders.middleware.CorsPostCsrfMiddleware',
         ...
     ]
-
-``CORS_MODEL``
-~~~~~~~~~~~~~~
-
-If set, this should be the path to a model to look up allowed origins, in the
-form ``app.modelname``. Defaults to ``None``.
-
-The model should inherit from ``corsheaders.models.AbstractCorsModel`` and specify
-the allowed origin in the ``CharField`` called ``cors``.
 
 Signals
 -------
