@@ -19,7 +19,7 @@ pycodestyle==2.3.1        # via flake8
 pyflakes==1.5.0           # via flake8
 pygments==2.2.0
 pyparsing==2.2.0          # via packaging
-pytest-cov==2.5.0
+pytest-cov==2.5.1
 pytest-django==3.1.2
 pytest==3.0.7
 pytz==2017.2
