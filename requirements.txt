@@ -6,7 +6,7 @@
 #
 appdirs==1.4.3            # via setuptools
 configparser==3.5.0       # via flake8
-coverage==4.4             # via pytest-cov
+coverage==4.4.1           # via pytest-cov
 docutils==0.13.1
 enum34==1.1.6             # via flake8
 flake8==3.3.0
