@@ -21,7 +21,7 @@ pygments==2.2.0
 pyparsing==2.2.0          # via packaging
 pytest-cov==2.5.1
 pytest-django==3.1.2
-pytest==3.0.7
+pytest==3.1.0
 pytz==2017.2
 six==1.10.0               # via packaging, setuptools
 
