@@ -1,3 +1,4 @@
+import codecs
 import os
 import re
 
@@ -8,16 +9,17 @@ def get_version(package):
     """
     Return package version as listed in `__version__` in `__init__.py`.
     """
-    init_py = open(os.path.join(package, '__init__.py')).read()
+    with codecs.open(os.path.join(package, '__init__.py'), 'r', 'utf-8') as fp:
+        init_py = fp.read()
     return re.search("__version__ = ['\"]([^'\"]+)['\"]", init_py).group(1)
 
 
 version = get_version('corsheaders')
 
-with open('README.rst') as readme_file:
+with codecs.open('README.rst', 'r', 'utf-8') as readme_file:
     readme = readme_file.read()
 
-with open('HISTORY.rst') as history_file:
+with codecs.open('HISTORY.rst', 'r', 'utf-8') as history_file:
     history = history_file.read()
 
 setup(
