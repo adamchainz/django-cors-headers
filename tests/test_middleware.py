@@ -348,6 +348,7 @@ class RefererReplacementCorsMiddlewareTests(TestCase):
             HTTP_ORIGIN='https://example.org',
             HTTP_REFERER='https://example.org/foo'
         )
+        assert resp.status_code == 200
         assert resp.wsgi_request.META['HTTP_REFERER'] == 'https://example.com/'
         assert resp.wsgi_request.META['ORIGINAL_HTTP_REFERER'] == 'https://example.org/foo'
 
@@ -360,6 +361,7 @@ class RefererReplacementCorsMiddlewareTests(TestCase):
             HTTP_ORIGIN='https://example.org',
             HTTP_REFERER='https://example.org/foo'
         )
+        assert resp.status_code == 200
         assert resp.wsgi_request.META['HTTP_REFERER'] == 'https://example.org/foo'
         assert 'ORIGINAL_HTTP_REFERER' not in resp.wsgi_request.META
 
@@ -370,6 +372,7 @@ class RefererReplacementCorsMiddlewareTests(TestCase):
             HTTP_ORIGIN='https://example.org',
             HTTP_REFERER='https://example.org/foo'
         )
+        assert resp.status_code == 200
         assert resp.wsgi_request.META['HTTP_REFERER'] == 'https://example.org/foo'
         assert 'ORIGINAL_HTTP_REFERER' not in resp.wsgi_request.META
 
@@ -382,6 +385,7 @@ class RefererReplacementCorsMiddlewareTests(TestCase):
             HTTP_ORIGIN='https://example.org',
             HTTP_REFERER='https://example.org/foo',
         )
+        assert resp.status_code == 200
         assert resp.wsgi_request.META['HTTP_REFERER'] == 'https://example.org/foo'
         assert 'ORIGINAL_HTTP_REFERER' not in resp.wsgi_request.META
 
@@ -392,6 +396,7 @@ class RefererReplacementCorsMiddlewareTests(TestCase):
             HTTP_HOST='example.com',
             HTTP_ORIGIN='https://example.org',
         )
+        assert resp.status_code == 200
         assert 'HTTP_REFERER' not in resp.wsgi_request.META
         assert 'ORIGINAL_HTTP_REFERER' not in resp.wsgi_request.META
 
@@ -402,6 +407,7 @@ class RefererReplacementCorsMiddlewareTests(TestCase):
             HTTP_ORIGIN='https://example.org',
             HTTP_REFERER='https://example.org/foo',
         )
+        assert resp.status_code == 200
         assert resp.wsgi_request.META['HTTP_REFERER'] == 'https://example.org/foo'
         assert 'ORIGINAL_HTTP_REFERER' not in resp.wsgi_request.META
 
@@ -414,5 +420,6 @@ class RefererReplacementCorsMiddlewareTests(TestCase):
             HTTP_ORIGIN='https://example.org',
             HTTP_REFERER='https://example.org/foo',
         )
+        assert resp.status_code == 200
         assert resp.wsgi_request.META['HTTP_REFERER'] == 'https://example.org/foo'
         assert 'ORIGINAL_HTTP_REFERER' not in resp.wsgi_request.META

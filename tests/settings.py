@@ -3,6 +3,8 @@ from django.conf import global_settings
 
 SECRET_KEY = 'NOTASECRET'
 
+ALLOWED_HOSTS = ['*']
+
 INSTALLED_APPS = [
     'corsheaders',
     'tests.testapp',
