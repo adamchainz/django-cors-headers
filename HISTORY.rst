@@ -5,6 +5,10 @@ Pending
 -------
 
 * New release notes go here.
+
+2.1.0 (2017-05-28)
+------------------
+
 * Django 1.11 compatibility. There were no changes to the actual library code,
   so previous versions probably work, though they weren't properly tested on
   1.11.
