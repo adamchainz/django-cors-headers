@@ -4,6 +4,7 @@ from django import http
 from django.apps import apps
 from django.utils.cache import patch_vary_headers
 from django.utils.six.moves.urllib.parse import urlparse
+from django.conf import settings
 
 from .compat import MiddlewareMixin
 from .conf import conf
@@ -97,6 +98,9 @@ class CorsMiddleware(MiddlewareMixin):
         Add the respective CORS headers
         """
         origin = request.META.get('HTTP_ORIGIN')
+        if settings.DEBUG:
+            origin = request.get_host()
+
         if not origin:
             return response
 
@@ -109,6 +113,7 @@ class CorsMiddleware(MiddlewareMixin):
 
         # todo: check hostname from db instead
         url = urlparse(origin)
+
 
         if conf.CORS_ALLOW_CREDENTIALS:
             response[ACCESS_CONTROL_ALLOW_CREDENTIALS] = 'true'
@@ -140,7 +145,7 @@ class CorsMiddleware(MiddlewareMixin):
 
     def origin_found_in_white_lists(self, origin, url):
         return (
-            url.netloc in conf.CORS_ORIGIN_WHITELIST or
+            url.path in conf.CORS_ORIGIN_WHITELIST or
             (origin == 'null' and origin in conf.CORS_ORIGIN_WHITELIST) or
             self.regex_domain_match(origin)
         )
