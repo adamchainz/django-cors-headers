@@ -7,7 +7,6 @@ from django.utils import six
 
 from .conf import conf
 
-
 re_type = type(re.compile(''))
 
 
