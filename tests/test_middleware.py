@@ -322,10 +322,21 @@ class CorsMiddlewareTests(TestCase):
         assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
 
     @override_settings(CORS_ORIGIN_WHITELIST=['example.com'])
-    def test_works_if_view_deletes_is_enabled(self):
+    def test_cors_enabled_is_attached_and_bool(self):
+        """
+        Ensure that request._cors_enabled is available - although a private API
+        someone might use it for debugging
+        """
+        resp = self.client.get('/', HTTP_ORIGIN='http://example.com')
+        request = resp.wsgi_request
+        assert isinstance(request._cors_enabled, bool)
+        assert request._cors_enabled
+
+    @override_settings(CORS_ORIGIN_WHITELIST=['example.com'])
+    def test_works_if_view_deletes_cors_enabled(self):
         """
         Just in case something crazy happens in the view or other middleware,
-        check that get_response doesn't fall over if `is_enabled` is removed
+        check that get_response doesn't fall over if `_cors_enabled` is removed
         """
         resp = self.client.get(
             '/delete-is-enabled/',

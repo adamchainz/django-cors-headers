@@ -5,6 +5,8 @@ Pending
 -------
 
 * New release notes go here.
+* Ensured that ``request._cors_enabled`` is always a ``bool()`` - previously it
+  could be set to a regex match object.
 
 2.1.0 (2017-05-28)
 ------------------
