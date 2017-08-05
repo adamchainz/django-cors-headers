@@ -6,7 +6,7 @@
 #
 configparser==3.5.0       # via flake8
 coverage==4.4.1           # via pytest-cov
-docutils==0.13.1
+docutils==0.14
 enum34==1.1.6             # via flake8
 flake8==3.4.1
 isort==4.2.15
