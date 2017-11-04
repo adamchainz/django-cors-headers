@@ -122,14 +122,14 @@ class CorsMiddlewareTests(TestCase):
 
     @override_settings(CORS_MODEL='testapp.CorsModel')
     def test_get_when_custom_model_enabled(self):
-        CorsModel.objects.create(cors='example.com')
+        CorsModel.objects.create(cors='http://example.com')
         resp = self.client.get('/', HTTP_ORIGIN='http://example.com')
         assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://example.com'
         assert ACCESS_CONTROL_ALLOW_CREDENTIALS not in resp
 
     @override_settings(CORS_MODEL='testapp.CorsModel', CORS_ALLOW_CREDENTIALS=True)
     def test_get_when_custom_model_enabled_and_allow_credentials(self):
-        CorsModel.objects.create(cors='example.com')
+        CorsModel.objects.create(cors='http://example.com')
         resp = self.client.get('/', HTTP_ORIGIN='http://example.com')
         assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://example.com'
         assert resp[ACCESS_CONTROL_ALLOW_CREDENTIALS] == 'true'
@@ -154,7 +154,7 @@ class CorsMiddlewareTests(TestCase):
 
     @override_settings(CORS_MODEL='testapp.CorsModel')
     def test_options_when_custom_model_enabled(self):
-        CorsModel.objects.create(cors='example.com')
+        CorsModel.objects.create(cors='http://example.com')
         resp = self.client.options(
             '/',
             HTTP_ORIGIN='http://example.com',
@@ -164,7 +164,7 @@ class CorsMiddlewareTests(TestCase):
 
     @override_settings(CORS_MODEL='testapp.CorsModel')
     def test_process_response_when_custom_model_enabled(self):
-        CorsModel.objects.create(cors='foo.google.com')
+        CorsModel.objects.create(cors='http://foo.google.com')
         response = self.client.get('/', HTTP_ORIGIN='http://foo.google.com')
         assert response.get(ACCESS_CONTROL_ALLOW_ORIGIN, None) == 'http://foo.google.com'
 
@@ -343,6 +343,15 @@ class CorsMiddlewareTests(TestCase):
             HTTP_ORIGIN='http://example.com',
         )
         assert ACCESS_CONTROL_ALLOW_ORIGIN in resp
+
+    @override_settings(CORS_ORIGIN_WHITELIST=['example.com', 'example.org'])
+    def test_insecure_options_request_fails_in_secure_context(self):
+        resp = self.client.get(
+            '/',
+            HTTP_FAKE_SECURE='true',
+            HTTP_ORIGIN='http://example.org'
+        )
+        assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
 
 
 @override_settings(
