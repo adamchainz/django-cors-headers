@@ -18,5 +18,5 @@ pyflakes==1.6.0           # via flake8
 pygments==2.2.0
 pytest-cov==2.5.1
 pytest-django==3.1.2
-pytest==3.2.3
+pytest==3.2.4
 pytz==2017.3
