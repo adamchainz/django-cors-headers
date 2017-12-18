@@ -25,6 +25,10 @@ class CorsMiddlewareTests(TestCase):
         resp = self.client.get('/')
         assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
 
+    def test_get_origin_vary_by_default(self):
+        resp = self.client.get('/')
+        assert resp['Vary'] == 'Origin'
+
     @override_settings(CORS_ORIGIN_WHITELIST=['example.com'])
     def test_get_not_in_whitelist(self):
         resp = self.client.get('/', HTTP_ORIGIN='http://example.org')
