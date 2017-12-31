@@ -4,7 +4,7 @@
 #
 #    pip-compile --output-file requirements.txt requirements.in
 #
-attrs==17.3.0             # via pytest
+attrs==17.4.0             # via pytest
 configparser==3.5.0       # via flake8
 coverage==4.4.2           # via pytest-cov
 docutils==0.14
