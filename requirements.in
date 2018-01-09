@@ -1,6 +1,7 @@
 docutils
 flake8
 isort
+modernize
 multilint
 pytest
 pytest-cov
