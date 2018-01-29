@@ -5,7 +5,11 @@ import re
 from django import http
 from django.apps import apps
 from django.utils.cache import patch_vary_headers
-from django.utils.six.moves.urllib.parse import urlparse
+from django import VERSION as DJANGO_VERSION
+if DJANGO_VERSION < (1, 8):
+    from future.backports.urllib.parse import urlparse
+else:
+    from django.utils.six.moves.urllib.parse import urlparse
 
 from .compat import MiddlewareMixin
 from .conf import conf
