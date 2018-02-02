@@ -5,6 +5,7 @@ build/
 dist/
 .eggs/
 .idea/
+.pytest_cache
 .tox/
 
 # Packages
