@@ -1,5 +1,6 @@
 docutils
 flake8
+futures<3.2.0
 isort
 modernize
 multilint
