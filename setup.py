@@ -24,10 +24,8 @@ with codecs.open('HISTORY.rst', 'r', 'utf-8') as history_file:
 setup(
     name='django-cors-headers',
     version=version,
-    description=(
-        'django-cors-headers is a Django application for handling the server '
-        'headers required for Cross-Origin Resource Sharing (CORS).'
-    ),
+    description='A Django App that adds CORS (Cross-Origin'
+                ' Resource Sharing) headers to responses.',
     long_description=readme + '\n\n' + history,
     author='Otto Yiu',
     author_email='otto@live.ca',
