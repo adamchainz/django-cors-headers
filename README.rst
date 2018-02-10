@@ -1,5 +1,7 @@
-django-cors-headers
-===================
+django-cors-headers |latest-version|
+====================================
+
+|build-status| |python-support| |license|
 
 A Django App that adds CORS (Cross-Origin Resource Sharing) headers to
 responses.
@@ -9,17 +11,26 @@ builds on top of ``XmlHttpRequest`` to allow developers to make cross-domain
 requests, similar to same-domain requests. Read more about it here:
 http://www.html5rocks.com/en/tutorials/cors/
 
-.. image:: https://travis-ci.org/ottoyiu/django-cors-headers.svg?branch=master
+.. |latest-version| image:: https://img.shields.io/pypi/v/django-cors-headers.svg
+   :alt: Latest version on PyPI
+   :target: https://pypi.python.org/pypi/django-cors-headers
+.. |build-status| image:: https://img.shields.io/travis/ottoyiu/django-cors-headers/master.svg
+   :alt: Build status
    :target: https://travis-ci.org/ottoyiu/django-cors-headers
-
+.. |python-support| image:: https://img.shields.io/pypi/pyversions/django-cors-headers.svg
+   :target: https://pypi.python.org/pypi/django-cors-headers
+   :alt: Python versions
+.. |license| image:: https://img.shields.io/pypi/l/django-cors-headers.svg
+   :alt: Software license
+   :target: https://github.com/ottoyiu/django-cors-headers/blob/master/LICENSE
 
 Requirements
 ------------
 
-Tested with all combinations of:
+Tested against all officially supported combinations of:
 
-* Python: 2.7, 3.6
-* Django: 1.8, 1.9, 1.10, 1.11, 2.0
+* Python: 2.7, 3.4, 3.5, 3.6
+* Django: 1.8, 1.11, 2.0
 
 Setup
 -----

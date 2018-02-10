@@ -24,25 +24,21 @@ with codecs.open('HISTORY.rst', 'r', 'utf-8') as history_file:
 setup(
     name='django-cors-headers',
     version=version,
-    description=(
-        'django-cors-headers is a Django application for handling the server '
-        'headers required for Cross-Origin Resource Sharing (CORS).'
-    ),
+    description='A Django App that adds CORS (Cross-Origin'
+                ' Resource Sharing) headers to responses.',
     long_description=readme + '\n\n' + history,
     author='Otto Yiu',
     author_email='otto@live.ca',
     url='https://github.com/ottoyiu/django-cors-headers',
     packages=['corsheaders'],
     license='MIT License',
-    keywords='django cors middleware rest api',
+    keywords=['django', 'cors', 'middleware', 'rest', 'api'],
     platforms=['any'],
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: Web Environment',
         'Framework :: Django',
         'Framework :: Django :: 1.8',
-        'Framework :: Django :: 1.9',
-        'Framework :: Django :: 1.10',
         'Framework :: Django :: 1.11',
         'Framework :: Django :: 2.0',
         'Intended Audience :: Developers',
@@ -52,6 +48,7 @@ setup(
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Topic :: Software Development :: Libraries :: Application Frameworks',
