@@ -36,6 +36,8 @@ setup(
     license='MIT License',
     keywords='django cors middleware rest api',
     platforms=['any'],
+    install_requires=[],
+    python_requires='>=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: Web Environment',
@@ -57,5 +59,4 @@ setup(
         'Topic :: Software Development :: Libraries :: Application Frameworks',
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],
-    install_requires=[],
 )
