@@ -5,6 +5,12 @@ Pending
 -------
 
 * New release notes go here.
+
+2.2.0 (2018-02-28)
+------------------
+
+* Django 2.0 compatibility. Again there were no changes to the actual library
+  code, so previous versions probably work.
 * Ensured that ``request._cors_enabled`` is always a ``bool()`` - previously it
   could be set to a regex match object.
 
