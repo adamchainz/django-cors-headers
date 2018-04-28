@@ -14,9 +14,9 @@ funcsigs==1.0.2           # via pytest
 futures==3.1.1
 isort==4.3.4
 mccabe==0.6.1             # via flake8
-modernize==0.6
+modernize==0.6.1
 more-itertools==4.1.0     # via pytest
-multilint==2.2.1
+multilint==2.3.0
 pluggy==0.6.0             # via pytest
 py==1.5.3                 # via pytest
 pycodestyle==2.3.1        # via flake8
@@ -24,6 +24,6 @@ pyflakes==1.6.0           # via flake8
 pygments==2.2.0
 pytest-cov==2.5.1
 pytest-django==3.2.1
-pytest==3.5.0
+pytest==3.5.1
 pytz==2018.4
-six==1.11.0               # via more-itertools, pytest
+six==1.11.0               # via more-itertools, multilint, pytest
