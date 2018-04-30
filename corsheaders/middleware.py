@@ -57,9 +57,22 @@ class CorsMiddleware(MiddlewareMixin):
             if not conf.CORS_ORIGIN_ALLOW_ALL and not self.origin_found_in_white_lists(origin, url):
                 return
 
+            # This condition seems strange. It was added when adding support for X_FORWARDED_HOST.
+            # There was already a unit test that asserted that if HTTP_HOST was missing from the
+            # request, then the referer would not be replaced. This test previously passed because
+            # in try block below we referenced request.META['HTTP_HOST'] which would throw a KeyErro
+            # and skip referer replacement. But when we changed that reference to request.get_host()
+            # in order to use X_FORWARDED_HOST when enabled, then the KeyError would never be thrown
+            # because get_host() uses the SERVER_NAME when HTTP_HOST doesn't exist. So in order to
+            # maintain that legacy functionality, the following condition was added. If moving forward,
+            # we think that we should replace referer with SERVER_NAME when HTTP_HOST is not specified,
+            # then this condition can be removed.
+            if 'HTTP_HOST' not in request.META:
+                return
+
             try:
                 http_referer = request.META['HTTP_REFERER']
-                http_host = "https://%s/" % request.META['HTTP_HOST']
+                http_host = "https://%s/" % request.get_host()
                 request.META = request.META.copy()
                 request.META['ORIGINAL_HTTP_REFERER'] = http_referer
                 request.META['HTTP_REFERER'] = http_host

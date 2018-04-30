@@ -453,3 +453,17 @@ class RefererReplacementCorsMiddlewareTests(TestCase):
         assert resp.status_code == 200
         assert resp.wsgi_request.META['HTTP_REFERER'] == 'https://example.org/foo'
         assert 'ORIGINAL_HTTP_REFERER' not in resp.wsgi_request.META
+
+    @override_settings(USE_X_FORWARDED_HOST=True)
+    def test_get_replaces_referer_with_x_forwarded_host(self):
+        resp = self.client.get(
+            '/',
+            HTTP_FAKE_SECURE='true',
+            HTTP_HOST='internal.com',
+            HTTP_X_FORWARDED_HOST='external.com',
+            HTTP_ORIGIN='https://example.org',
+            HTTP_REFERER='https://example.org/foo'
+        )
+        assert resp.status_code == 200
+        assert resp.wsgi_request.META['HTTP_REFERER'] == 'https://external.com/'
+        assert resp.wsgi_request.META['ORIGINAL_HTTP_REFERER'] == 'https://example.org/foo'
