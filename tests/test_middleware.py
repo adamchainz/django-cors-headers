@@ -227,6 +227,7 @@ class CorsMiddlewareTests(TestCase):
         )
         assert resp.status_code == 200
         assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://example.com'
+        assert resp['Content-Length'] == '0'
 
     def test_signal_handler_that_returns_false(self):
         def handler(*args, **kwargs):
