@@ -84,7 +84,9 @@ class CorsMiddleware(MiddlewareMixin):
                 request.method == 'OPTIONS' and
                 'HTTP_ACCESS_CONTROL_REQUEST_METHOD' in request.META
             ):
-                return http.HttpResponse()
+                response = http.HttpResponse()
+                response['Content-Length'] = '0'
+                return response
 
     def process_view(self, request, callback, callback_args, callback_kwargs):
         """
