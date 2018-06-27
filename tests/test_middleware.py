@@ -332,6 +332,14 @@ class CorsMiddlewareTests(TestCase):
         resp = self.client.get('/foo/', HTTP_ORIGIN='http://example.com')
         assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
 
+    @override_settings(
+        CORS_ORIGIN_WHITELIST=['example.com'],
+        CORS_URLS_REGEX=r'^/foo/$',
+    )
+    def test_get_regex_matches_path_info(self):
+        resp = self.client.get('/foo/', HTTP_ORIGIN='http://example.com', SCRIPT_NAME='/prefix/')
+        assert ACCESS_CONTROL_ALLOW_ORIGIN in resp
+
     @override_settings(CORS_ORIGIN_WHITELIST=['example.com'])
     def test_cors_enabled_is_attached_and_bool(self):
         """
