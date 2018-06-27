@@ -4,8 +4,13 @@ History
 Pending
 -------
 
+.. Insert new release notes below this line
+
+2.2.1 (2018-06-27)
+------------------
+
 * Add ``Content-Length`` header to CORS preflight requests. This fixes issues
-  with some HTTP proxies/servers (e.g. AWS Elastic Beanstalk)
+  with some HTTP proxies and servers, e.g. AWS Elastic Beanstalk.
 
 2.2.0 (2018-02-28)
 ------------------
