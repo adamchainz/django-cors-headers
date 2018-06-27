@@ -21,7 +21,8 @@ def test_view_that_deletes_is_enabled(request):
 
 
 urlpatterns = [
-    url(r'^$', test_view, name='test-view'),
+    url(r'^$', test_view),
+    url(r'^foo/$', test_view),
     url(r'^test-401/$', test_view_http401),
     url(r'^delete-is-enabled/$', test_view_that_deletes_is_enabled),
 ]
