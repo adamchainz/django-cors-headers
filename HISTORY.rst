@@ -11,6 +11,9 @@ Pending
 
 * Add ``Content-Length`` header to CORS preflight requests. This fixes issues
   with some HTTP proxies and servers, e.g. AWS Elastic Beanstalk.
+* Match ``CORS_URLS_REGEX`` to ``request.path_info`` instead of
+  ``request.path``, so the patterns can work without knowing the site's path
+  prefix at configuration time.
 
 2.2.0 (2018-02-28)
 ------------------

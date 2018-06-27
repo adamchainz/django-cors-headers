@@ -162,7 +162,7 @@ class CorsMiddleware(MiddlewareMixin):
 
     def is_enabled(self, request):
         return (
-            bool(re.match(conf.CORS_URLS_REGEX, request.path)) or
+            bool(re.match(conf.CORS_URLS_REGEX, request.path_info)) or
             self.check_signal(request)
         )
 
