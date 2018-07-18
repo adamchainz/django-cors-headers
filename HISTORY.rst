@@ -6,6 +6,10 @@ Pending
 
 .. Insert new release notes below this line
 
+* Always add 'Origin' to the 'Vary' header for responses to enabled URL's,
+  to prevent caching of responses intended for one origin being served for
+  another.
+
 2.3.0 (2018-06-27)
 ------------------
 

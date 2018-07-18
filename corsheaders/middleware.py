@@ -100,18 +100,17 @@ class CorsMiddleware(MiddlewareMixin):
         """
         Add the respective CORS headers
         """
-        origin = request.META.get('HTTP_ORIGIN')
-        # Always vary by Origin, hereby preventing downstream caches from
-        # mixing objects for whitelisted and not-whitelisted origins.
-        patch_vary_headers(response, ['Origin'])
-        if not origin:
-            return response
-
         enabled = getattr(request, '_cors_enabled', None)
         if enabled is None:
             enabled = self.is_enabled(request)
 
         if not enabled:
+            return response
+
+        patch_vary_headers(response, ['Origin'])
+
+        origin = request.META.get('HTTP_ORIGIN')
+        if not origin:
             return response
 
         # todo: check hostname from db instead
