@@ -212,12 +212,12 @@ If ``True``, cookies will be allowed to be included in cross-site HTTP
 requests. Defaults to ``False``.
 
 ``CORS_ORIGIN_CREDENTIALS_ALLOW_ALL``
-~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 If ``True``, the whitelist will not be usedand cookies from all origins
 will be accepted. Defaults to ``True``.
 
 ``CORS_ORIGIN_CREDENTIALS_WHITELIST``
-~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A list of origin hostnames that are authorized to make cross-site HTTP
 requests with cookies.
@@ -225,7 +225,7 @@ For more information, see ``CORS_ORIGIN_CREDENTIALS_WHITELIST``.
 Defaults to ``[]``.
 
 ``CORS_ORIGIN_CREDENTIALS_REGEX_WHITELIST``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A list of regexes that match origin regex list of origin hostnames that are
 authorized to make cross-site HTTP requests with cookies.
