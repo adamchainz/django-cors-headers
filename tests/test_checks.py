@@ -3,18 +3,16 @@ from __future__ import absolute_import
 import re
 
 import pytest
-from django.core.checks import Error
+from django.core.checks import Error, run_checks
 from django.core.management import base, call_command
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
-
-from corsheaders.checks import check_settings
 
 
 class ChecksTests(SimpleTestCase):
 
     def check_error_codes(self, expected):
-        errors = check_settings([])
+        errors = run_checks()
         assert len(errors) == len(expected)
         assert all(isinstance(e, Error) for e in errors)
         assert [e.id for e in errors] == expected

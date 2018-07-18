@@ -1,3 +1,3 @@
-from .checks import check_settings  # noqa: F401
+from .checks import *  # noqa: F401,F403
 
 __version__ = '2.3.0'
