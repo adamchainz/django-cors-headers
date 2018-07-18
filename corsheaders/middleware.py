@@ -101,6 +101,9 @@ class CorsMiddleware(MiddlewareMixin):
         Add the respective CORS headers
         """
         origin = request.META.get('HTTP_ORIGIN')
+        # Always vary by Origin, hereby preventing downstream caches from
+        # mixing objects for whitelisted and not-whitelisted origins.
+        patch_vary_headers(response, ['Origin'])
         if not origin:
             return response
 
@@ -129,7 +132,6 @@ class CorsMiddleware(MiddlewareMixin):
             response[ACCESS_CONTROL_ALLOW_ORIGIN] = "*"
         else:
             response[ACCESS_CONTROL_ALLOW_ORIGIN] = origin
-            patch_vary_headers(response, ['Origin'])
 
         if len(conf.CORS_EXPOSE_HEADERS):
             response[ACCESS_CONTROL_EXPOSE_HEADERS] = ', '.join(conf.CORS_EXPOSE_HEADERS)
