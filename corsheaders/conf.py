@@ -54,5 +54,17 @@ class Settings(object):
     def CORS_REPLACE_HTTPS_REFERER(self):
         return getattr(settings, 'CORS_REPLACE_HTTPS_REFERER', False)
 
+    @property
+    def CORS_ORIGIN_CREDENTIALS_ALLOW_ALL(self):
+        return getattr(settings, 'CORS_ORIGIN_CREDENTIALS_ALLOW_ALL', True)
+
+    @property
+    def CORS_ORIGIN_CREDENTIALS_WHITELIST(self):
+        return getattr(settings, 'CORS_ORIGIN_CREDENTIALS_WHITELIST', ())
+
+    @property
+    def CORS_ORIGIN_CREDENTIALS_REGEX_WHITELIST(self):
+        return getattr(settings, 'CORS_ORIGIN_CREDENTIALS_REGEX_WHITELIST', ())
+
 
 conf = Settings()

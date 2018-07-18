@@ -114,7 +114,12 @@ class CorsMiddleware(MiddlewareMixin):
         # todo: check hostname from db instead
         url = urlparse(origin)
 
-        if conf.CORS_ALLOW_CREDENTIALS:
+        if (
+            conf.CORS_ALLOW_CREDENTIALS and (
+                conf.CORS_ORIGIN_CREDENTIALS_ALLOW_ALL or
+                self.origin_found_in_credentials_white_lists(origin, url)
+            )
+        ):
             response[ACCESS_CONTROL_ALLOW_CREDENTIALS] = 'true'
 
         if (
@@ -142,6 +147,13 @@ class CorsMiddleware(MiddlewareMixin):
 
         return response
 
+    def origin_found_in_credentials_white_lists(self, origin, url):
+        return (
+            url.netloc in conf.CORS_ORIGIN_CREDENTIALS_WHITELIST or
+            (origin == 'null' and origin in conf.CORS_ORIGIN_CREDENTIALS_WHITELIST) or
+            self.regex_domain_match(origin, conf.CORS_ORIGIN_CREDENTIALS_REGEX_WHITELIST)
+        )
+
     def origin_found_in_white_lists(self, origin, url):
         return (
             url.netloc in conf.CORS_ORIGIN_WHITELIST or
@@ -149,8 +161,13 @@ class CorsMiddleware(MiddlewareMixin):
             self.regex_domain_match(origin)
         )
 
-    def regex_domain_match(self, origin):
-        for domain_pattern in conf.CORS_ORIGIN_REGEX_WHITELIST:
+    def regex_domain_match(self, origin, credentials=False):
+        whitelist = (
+            conf.CORS_ORIGIN_CREDENTIALS_REGEX_WHITELIST
+            if credentials else
+            conf.CORS_ORIGIN_REGEX_WHITELIST
+        )
+        for domain_pattern in whitelist:
             if re.match(domain_pattern, origin):
                 return origin
 

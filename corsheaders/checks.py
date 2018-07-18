@@ -104,6 +104,30 @@ def check_settings(app_configs, **kwargs):
             )
         )
 
+    if not isinstance(conf.CORS_ORIGIN_CREDENTIALS_ALLOW_ALL, bool):
+        errors.append(
+            checks.Error(
+                "CORS_ORIGIN_CREDENTIALS_ALLOW_ALL should be a bool.",
+                id="corsheaders.E012"
+            )
+        )
+
+    if not is_sequence(conf.CORS_ORIGIN_CREDENTIALS_WHITELIST, six.string_types):
+        errors.append(
+            checks.Error(
+                "CORS_ORIGIN_CREDENTIALS_WHITELIST should be a sequence of strings.",
+                id="corsheaders.E013"
+            )
+        )
+
+    if not is_sequence(conf.CORS_ORIGIN_CREDENTIALS_REGEX_WHITELIST, six.string_types + (re_type,)):
+        errors.append(
+            checks.Error(
+                "CORS_ORIGIN_CREDENTIALS_REGEX_WHITELIST should be a sequence of strings and/or compiled regexes.",
+                id="corsheaders.E014"
+            )
+        )
+
     return errors
 
 

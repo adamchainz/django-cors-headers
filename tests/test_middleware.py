@@ -63,8 +63,37 @@ class CorsMiddlewareTests(TestCase):
         resp = self.client.get('/', HTTP_ORIGIN='http://example.com')
         assert resp[ACCESS_CONTROL_ALLOW_CREDENTIALS] == 'true'
 
+    @override_settings(
+        CORS_ALLOW_CREDENTIALS=True,
+        CORS_ORIGIN_CREDENTIALS_ALLOW_ALL=False,
+        CORS_ORIGIN_CREDENTIALS_WHITELIST=('localhost',),
+        CORS_ORIGIN_ALLOW_ALL=True,
+    )
+    def test_get_allow_credentials_whitelist(self):
+        resp = self.client.get('/', HTTP_ORIGIN='http://localhost')
+        assert resp[ACCESS_CONTROL_ALLOW_CREDENTIALS] == 'true'
+
+    @override_settings(
+        CORS_ALLOW_CREDENTIALS=True,
+        CORS_ORIGIN_CREDENTIALS_ALLOW_ALL=False,
+        CORS_ORIGIN_CREDENTIALS_REGEX_WHITELIST=(r'^http?://localhost$',),
+        CORS_ORIGIN_ALLOW_ALL=True,
+    )
+    def test_get_allow_credentials_regex_whitelist(self):
+        resp = self.client.get('/', HTTP_ORIGIN='http://localhost')
+        assert resp[ACCESS_CONTROL_ALLOW_CREDENTIALS] == 'true'
+
     @override_settings(CORS_ORIGIN_ALLOW_ALL=True)
     def test_get_dont_allow_credentials(self):
+        resp = self.client.get('/', HTTP_ORIGIN='http://example.com')
+        assert ACCESS_CONTROL_ALLOW_CREDENTIALS not in resp
+
+    @override_settings(
+        CORS_ALLOW_CREDENTIALS=True,
+        CORS_ORIGIN_CREDENTIALS_ALLOW_ALL=False,
+        CORS_ORIGIN_ALLOW_ALL=True,
+    )
+    def test_get_dont_allow_credentials_for_all(self):
         resp = self.client.get('/', HTTP_ORIGIN='http://example.com')
         assert ACCESS_CONTROL_ALLOW_CREDENTIALS not in resp
 

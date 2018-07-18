@@ -97,3 +97,23 @@ class ChecksTests(SimpleTestCase):
     @override_settings(CORS_REPLACE_HTTPS_REFERER=object)
     def test_cors_replace_https_referer_failure(self):
         self.check_error_codes(['corsheaders.E011'])
+
+    @override_settings(CORS_ORIGIN_CREDENTIALS_ALLOW_ALL=object)
+    def test_cors_origin_credentials_allow_all_non_bool(self):
+        self.check_error_codes(['corsheaders.E012'])
+
+    @override_settings(CORS_ORIGIN_CREDENTIALS_WHITELIST=object)
+    def test_cors_origin_credentials_whitelist_non_sequence(self):
+        self.check_error_codes(['corsheaders.E013'])
+
+    @override_settings(CORS_ORIGIN_CREDENTIALS_WHITELIST=[object])
+    def test_cors_origin_credentials_whitelist_non_string(self):
+        self.check_error_codes(['corsheaders.E013'])
+
+    @override_settings(CORS_ORIGIN_CREDENTIALS_REGEX_WHITELIST=object)
+    def test_cors_origin_credentials_regex_whitelist_non_sequence(self):
+        self.check_error_codes(['corsheaders.E014'])
+
+    @override_settings(CORS_ORIGIN_CREDENTIALS_REGEX_WHITELIST=[re.compile(r'a')])
+    def test_cors_origin_credentials_regex_whitelist_regex(self):
+        self.check_error_codes([])
