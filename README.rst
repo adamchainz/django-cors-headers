@@ -69,6 +69,7 @@ to allow all hosts.
 
 ``CORS_ORIGIN_ALLOW_ALL``
 ~~~~~~~~~~~~~~~~~~~~~~~~~
+
 If ``True``, the whitelist will not be used and all origins will be accepted.
 Defaults to ``False``.
 
@@ -213,6 +214,7 @@ requests. Defaults to ``False``.
 
 ``CORS_ORIGIN_CREDENTIALS_ALLOW_ALL``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 If ``True``, the whitelist will not be usedand cookies from all origins
 will be accepted. Defaults to ``True``.
 
