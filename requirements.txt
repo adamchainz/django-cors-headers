@@ -28,5 +28,5 @@ pytest-cov==2.5.1
 pytest-django==3.3.3
 pytest==3.7.1
 pytz==2018.5
-scandir==1.8              # via pathlib2
+scandir==1.9.0            # via pathlib2
 six==1.11.0               # via more-itertools, multilint, pathlib2, pytest
