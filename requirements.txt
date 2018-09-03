@@ -4,8 +4,8 @@
 #
 #    pip-compile --output-file requirements.txt requirements.in
 #
-atomicwrites==1.2.0       # via pytest
-attrs==18.1.0             # via pytest
+atomicwrites==1.2.1       # via pytest
+attrs==18.2.0             # via pytest
 configparser==3.5.0       # via flake8
 coverage==4.5.1           # via pytest-cov
 docutils==0.14
@@ -20,13 +20,13 @@ more-itertools==4.3.0     # via pytest
 multilint==2.3.0
 pathlib2==2.3.2           # via pytest, pytest-django
 pluggy==0.7.1             # via pytest
-py==1.5.4                 # via pytest
+py==1.6.0                 # via pytest
 pycodestyle==2.3.1        # via flake8
 pyflakes==1.6.0           # via flake8
 pygments==2.2.0
 pytest-cov==2.5.1
 pytest-django==3.4.2
-pytest==3.7.3
+pytest==3.7.4
 pytz==2018.5
 scandir==1.9.0            # via pathlib2
 six==1.11.0               # via more-itertools, multilint, pathlib2, pytest
