@@ -25,8 +25,8 @@ pycodestyle==2.3.1        # via flake8
 pyflakes==1.6.0           # via flake8
 pygments==2.2.0
 pytest-cov==2.6.0
-pytest-django==3.4.2
-pytest==3.8.0
+pytest-django==3.4.3
+pytest==3.8.1
 pytz==2018.5
 scandir==1.9.0            # via pathlib2
 six==1.11.0               # via more-itertools, multilint, pathlib2, pytest
