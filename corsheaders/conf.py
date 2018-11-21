@@ -1,3 +1,5 @@
+from __future__ import absolute_import
+
 from django.conf import settings
 
 from .defaults import default_headers, default_methods  # Kept here for backwards compatibility

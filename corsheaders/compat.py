@@ -1,3 +1,5 @@
+from __future__ import absolute_import
+
 try:
     from django.utils.deprecation import MiddlewareMixin
 except ImportError:  # pragma: no cover

@@ -1,3 +1,5 @@
+from __future__ import absolute_import
+
 import django
 from django.http import HttpResponse
 from django.test import TestCase
@@ -24,6 +26,10 @@ class CorsMiddlewareTests(TestCase):
     def test_get_no_origin(self):
         resp = self.client.get('/')
         assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
+
+    def test_get_origin_vary_by_default(self):
+        resp = self.client.get('/')
+        assert resp['Vary'] == 'Origin'
 
     @override_settings(CORS_ORIGIN_WHITELIST=['example.com'])
     def test_get_not_in_whitelist(self):
@@ -225,6 +231,7 @@ class CorsMiddlewareTests(TestCase):
         )
         assert resp.status_code == 200
         assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://example.com'
+        assert resp['Content-Length'] == '0'
 
     def test_signal_handler_that_returns_false(self):
         def handler(*args, **kwargs):
@@ -305,21 +312,37 @@ class CorsMiddlewareTests(TestCase):
             assert ACCESS_CONTROL_ALLOW_ORIGIN in resp
 
     @override_settings(
-        CORS_URLS_REGEX=r'^/foo$',
         CORS_ORIGIN_WHITELIST=['example.com'],
+        CORS_URLS_REGEX=r'^/foo/$',
     )
-    @prepend_middleware('tests.test_middleware.ShortCircuitMiddleware')
-    def test_get_short_circuit_no_origin(self):
+    @prepend_middleware(__name__ + '.ShortCircuitMiddleware')
+    def test_get_short_circuit_should_be_ignored(self):
         resp = self.client.get('/', HTTP_ORIGIN='http://example.com')
         assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
 
     @override_settings(
-        CORS_URLS_REGEX=r'^/foo$',
         CORS_ORIGIN_WHITELIST=['example.com'],
+        CORS_URLS_REGEX=r'^/foo/$',
     )
-    def test_get_no_origin_not_enabled(self):
-        resp = self.client.get('/', HTTP_ORIGIN='http://example.com')
+    def test_get_regex_matches(self):
+        resp = self.client.get('/foo/', HTTP_ORIGIN='http://example.com')
+        assert ACCESS_CONTROL_ALLOW_ORIGIN in resp
+
+    @override_settings(
+        CORS_ORIGIN_WHITELIST=['example.com'],
+        CORS_URLS_REGEX=r'^/not-foo/$',
+    )
+    def test_get_regex_doesnt_match(self):
+        resp = self.client.get('/foo/', HTTP_ORIGIN='http://example.com')
         assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
+
+    @override_settings(
+        CORS_ORIGIN_WHITELIST=['example.com'],
+        CORS_URLS_REGEX=r'^/foo/$',
+    )
+    def test_get_regex_matches_path_info(self):
+        resp = self.client.get('/foo/', HTTP_ORIGIN='http://example.com', SCRIPT_NAME='/prefix/')
+        assert ACCESS_CONTROL_ALLOW_ORIGIN in resp
 
     @override_settings(CORS_ORIGIN_WHITELIST=['example.com'])
     def test_cors_enabled_is_attached_and_bool(self):

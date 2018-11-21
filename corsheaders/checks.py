@@ -1,3 +1,5 @@
+from __future__ import absolute_import
+
 import re
 from collections import Sequence
 from numbers import Integral
@@ -107,6 +109,6 @@ def check_settings(app_configs, **kwargs):
 
 def is_sequence(thing, types):
     return (
-        isinstance(thing, Sequence) and
-        all(isinstance(x, types) for x in thing)
+        isinstance(thing, Sequence)
+        and all(isinstance(x, types) for x in thing)
     )

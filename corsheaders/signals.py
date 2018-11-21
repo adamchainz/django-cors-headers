@@ -1,3 +1,5 @@
+from __future__ import absolute_import
+
 from django.dispatch import Signal
 
 # If any attached handler returns Truthy, CORS will be allowed for the request.

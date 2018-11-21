@@ -4,7 +4,33 @@ History
 Pending
 -------
 
-* New release notes go here.
+.. Insert new release notes below this line
+
+2.4.0 (2018-07-18)
+------------------
+
+* Always add 'Origin' to the 'Vary' header for responses to enabled URL's,
+  to prevent caching of responses intended for one origin being served for
+  another.
+
+2.3.0 (2018-06-27)
+------------------
+
+* Match ``CORS_URLS_REGEX`` to ``request.path_info`` instead of
+  ``request.path``, so the patterns can work without knowing the site's path
+  prefix at configuration time.
+
+2.2.1 (2018-06-27)
+------------------
+
+* Add ``Content-Length`` header to CORS preflight requests. This fixes issues
+  with some HTTP proxies and servers, e.g. AWS Elastic Beanstalk.
+
+2.2.0 (2018-02-28)
+------------------
+
+* Django 2.0 compatibility. Again there were no changes to the actual library
+  code, so previous versions probably work.
 * Ensured that ``request._cors_enabled`` is always a ``bool()`` - previously it
   could be set to a regex match object.
 
