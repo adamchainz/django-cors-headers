@@ -51,8 +51,8 @@ class CorsMiddleware(MiddlewareMixin):
 
         if request.is_secure() and origin and 'ORIGINAL_HTTP_REFERER' not in request.META:
 
-            url = urlparse(origin)
-            if not conf.CORS_ORIGIN_ALLOW_ALL and not self.origin_found_in_white_lists(request, origin, url):
+            origin_parts = urlparse(origin)
+            if not conf.CORS_ORIGIN_ALLOW_ALL and not self.origin_found_in_white_lists(request, origin, origin_parts):
                 return
 
             try:
@@ -108,15 +108,15 @@ class CorsMiddleware(MiddlewareMixin):
             return response
 
         # todo: check hostname from db instead
-        url = urlparse(origin)
+        origin_parts = urlparse(origin)
 
         if conf.CORS_ALLOW_CREDENTIALS:
             response[ACCESS_CONTROL_ALLOW_CREDENTIALS] = 'true'
 
         if (
             not conf.CORS_ORIGIN_ALLOW_ALL and
-            not self.origin_found_in_white_lists(request, origin, url) and
-            not self.origin_found_in_model(url) and
+            not self.origin_found_in_white_lists(request, origin, origin_parts) and
+            not self.origin_found_in_model(origin_parts) and
             not self.check_signal(request)
         ):
             return response
@@ -138,9 +138,9 @@ class CorsMiddleware(MiddlewareMixin):
 
         return response
 
-    def origin_found_in_white_lists(self, request, origin, url):
+    def origin_found_in_white_lists(self, request, origin, origin_parts):
         return (
-                (url.netloc in conf.CORS_ORIGIN_WHITELIST and request.scheme == url.scheme) or
+                (origin_parts.netloc in conf.CORS_ORIGIN_WHITELIST and request.scheme == origin_parts.scheme) or
                 (origin == 'null' and origin in conf.CORS_ORIGIN_WHITELIST) or
                 self.regex_domain_match(origin)
         )
@@ -150,11 +150,11 @@ class CorsMiddleware(MiddlewareMixin):
             if re.match(domain_pattern, origin):
                 return origin
 
-    def origin_found_in_model(self, url):
+    def origin_found_in_model(self, origin_parts):
         if conf.CORS_MODEL is None:
             return False
         model = apps.get_model(*conf.CORS_MODEL.split('.'))
-        return model.objects.filter(cors=url.netloc).exists()
+        return model.objects.filter(cors=origin_parts.netloc).exists()
 
     def is_enabled(self, request):
         return (
