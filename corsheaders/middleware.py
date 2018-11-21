@@ -52,7 +52,7 @@ class CorsMiddleware(MiddlewareMixin):
         if request.is_secure() and origin and 'ORIGINAL_HTTP_REFERER' not in request.META:
 
             url = urlparse(origin)
-            if not conf.CORS_ORIGIN_ALLOW_ALL and not self.origin_found_in_white_lists(origin, url):
+            if not conf.CORS_ORIGIN_ALLOW_ALL and not self.origin_found_in_white_lists(request, origin, url):
                 return
 
             try:
@@ -115,7 +115,7 @@ class CorsMiddleware(MiddlewareMixin):
 
         if (
             not conf.CORS_ORIGIN_ALLOW_ALL and
-            not self.origin_found_in_white_lists(origin, url) and
+            not self.origin_found_in_white_lists(request, origin, url) and
             not self.origin_found_in_model(url) and
             not self.check_signal(request)
         ):
@@ -138,9 +138,9 @@ class CorsMiddleware(MiddlewareMixin):
 
         return response
 
-    def origin_found_in_white_lists(self, origin, url):
+    def origin_found_in_white_lists(self, request, origin, url):
         return (
-                url.netloc in conf.CORS_ORIGIN_WHITELIST or
+                (url.netloc in conf.CORS_ORIGIN_WHITELIST and request.scheme == url.scheme) or
                 (origin == 'null' and origin in conf.CORS_ORIGIN_WHITELIST) or
                 self.regex_domain_match(origin)
         )
