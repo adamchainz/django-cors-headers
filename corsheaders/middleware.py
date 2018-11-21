@@ -148,12 +148,11 @@ class CorsMiddleware(MiddlewareMixin):
             if re.match(domain_pattern, origin):
                 return origin
 
-    def origin_found_in_model(self, origin):
+    def origin_found_in_model(self, url):
         if conf.CORS_MODEL is None:
             return False
         model = apps.get_model(*conf.CORS_MODEL.split('.'))
-        url = urlparse(origin)
-        return model.objects.filter(cors="{scheme}://{host}".format(scheme=url.scheme, host=url.netloc)).exists()
+        return model.objects.filter(cors=url.netloc).exists()
 
     def is_enabled(self, request):
         return (
