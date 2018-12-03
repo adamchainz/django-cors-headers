@@ -118,8 +118,8 @@ class CorsMiddleware(MiddlewareMixin):
 
         if (
             conf.CORS_ALLOW_CREDENTIALS and (
-                conf.CORS_ORIGIN_CREDENTIALS_ALLOW_ALL or
-                self.origin_found_in_credentials_white_lists(origin, url)
+                conf.CORS_ORIGIN_CREDENTIALS_ALLOW_ALL
+                or self.origin_found_in_credentials_white_lists(origin, url)
             )
         ):
             response[ACCESS_CONTROL_ALLOW_CREDENTIALS] = 'true'
@@ -150,9 +150,9 @@ class CorsMiddleware(MiddlewareMixin):
 
     def origin_found_in_credentials_white_lists(self, origin, url):
         return (
-            url.netloc in conf.CORS_ORIGIN_CREDENTIALS_WHITELIST or
-            (origin == 'null' and origin in conf.CORS_ORIGIN_CREDENTIALS_WHITELIST) or
-            self.regex_domain_match(origin, conf.CORS_ORIGIN_CREDENTIALS_REGEX_WHITELIST)
+            url.netloc in conf.CORS_ORIGIN_CREDENTIALS_WHITELIST
+            or (origin == 'null' and origin in conf.CORS_ORIGIN_CREDENTIALS_WHITELIST)
+            or self.regex_domain_match(origin, conf.CORS_ORIGIN_CREDENTIALS_REGEX_WHITELIST)
         )
 
     def origin_found_in_white_lists(self, origin, url):
