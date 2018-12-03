@@ -154,6 +154,6 @@ def check_cors_origin_credentials_regex_whitelist(app_configs, **kwargs):
 
 def is_sequence(thing, types):
     return (
-        isinstance(thing, Sequence) and
-        all(isinstance(x, types) for x in thing)
+        isinstance(thing, Sequence)
+        and all(isinstance(x, types) for x in thing)
     )

@@ -81,8 +81,8 @@ class CorsMiddleware(MiddlewareMixin):
                 self._https_referer_replace(request)
 
             if (
-                request.method == 'OPTIONS' and
-                'HTTP_ACCESS_CONTROL_REQUEST_METHOD' in request.META
+                request.method == 'OPTIONS'
+                and 'HTTP_ACCESS_CONTROL_REQUEST_METHOD' in request.META
             ):
                 response = http.HttpResponse()
                 response['Content-Length'] = '0'
@@ -100,15 +100,17 @@ class CorsMiddleware(MiddlewareMixin):
         """
         Add the respective CORS headers
         """
-        origin = request.META.get('HTTP_ORIGIN')
-        if not origin:
-            return response
-
         enabled = getattr(request, '_cors_enabled', None)
         if enabled is None:
             enabled = self.is_enabled(request)
 
         if not enabled:
+            return response
+
+        patch_vary_headers(response, ['Origin'])
+
+        origin = request.META.get('HTTP_ORIGIN')
+        if not origin:
             return response
 
         # todo: check hostname from db instead
@@ -123,10 +125,10 @@ class CorsMiddleware(MiddlewareMixin):
             response[ACCESS_CONTROL_ALLOW_CREDENTIALS] = 'true'
 
         if (
-            not conf.CORS_ORIGIN_ALLOW_ALL and
-            not self.origin_found_in_white_lists(origin, url) and
-            not self.origin_found_in_model(url) and
-            not self.check_signal(request)
+            not conf.CORS_ORIGIN_ALLOW_ALL
+            and not self.origin_found_in_white_lists(origin, url)
+            and not self.origin_found_in_model(url)
+            and not self.check_signal(request)
         ):
             return response
 
@@ -134,7 +136,6 @@ class CorsMiddleware(MiddlewareMixin):
             response[ACCESS_CONTROL_ALLOW_ORIGIN] = "*"
         else:
             response[ACCESS_CONTROL_ALLOW_ORIGIN] = origin
-            patch_vary_headers(response, ['Origin'])
 
         if len(conf.CORS_EXPOSE_HEADERS):
             response[ACCESS_CONTROL_EXPOSE_HEADERS] = ', '.join(conf.CORS_EXPOSE_HEADERS)
@@ -156,9 +157,9 @@ class CorsMiddleware(MiddlewareMixin):
 
     def origin_found_in_white_lists(self, origin, url):
         return (
-            url.netloc in conf.CORS_ORIGIN_WHITELIST or
-            (origin == 'null' and origin in conf.CORS_ORIGIN_WHITELIST) or
-            self.regex_domain_match(origin)
+            url.netloc in conf.CORS_ORIGIN_WHITELIST
+            or (origin == 'null' and origin in conf.CORS_ORIGIN_WHITELIST)
+            or self.regex_domain_match(origin)
         )
 
     def regex_domain_match(self, origin, credentials=False):
@@ -179,8 +180,8 @@ class CorsMiddleware(MiddlewareMixin):
 
     def is_enabled(self, request):
         return (
-            bool(re.match(conf.CORS_URLS_REGEX, request.path_info)) or
-            self.check_signal(request)
+            bool(re.match(conf.CORS_URLS_REGEX, request.path_info))
+            or self.check_signal(request)
         )
 
     def check_signal(self, request):
