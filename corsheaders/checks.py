@@ -7,13 +7,13 @@ from numbers import Integral
 from django.core import checks
 from django.utils import six
 
-from .conf import conf
-
 re_type = type(re.compile(''))
 
 
 @checks.register
 def check_settings(app_configs, **kwargs):
+    from .conf import conf
+
     errors = []
 
     if not is_sequence(conf.CORS_ALLOW_HEADERS, six.string_types):
