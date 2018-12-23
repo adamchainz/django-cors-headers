@@ -10,7 +10,6 @@ from django.utils import six
 re_type = type(re.compile(''))
 
 
-@checks.register
 def check_settings(app_configs, **kwargs):
     from .conf import conf
 
