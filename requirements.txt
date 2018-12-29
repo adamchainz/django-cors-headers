@@ -16,7 +16,7 @@ futures==3.1.1
 isort==4.3.4
 mccabe==0.6.1             # via flake8
 modernize==0.6.1
-more-itertools==4.3.0     # via pytest
+more-itertools==5.0.0     # via pytest
 multilint==2.4.0
 pathlib2==2.3.3           # via pytest, pytest-django
 pluggy==0.8.0             # via pytest
