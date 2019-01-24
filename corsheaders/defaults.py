@@ -8,6 +8,7 @@ default_headers = (
     'user-agent',
     'x-csrftoken',
     'x-requested-with',
+    'access-control-allow-origin',
 )
 
 default_methods = (
