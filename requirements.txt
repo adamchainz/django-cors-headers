@@ -6,7 +6,7 @@
 #
 atomicwrites==1.2.1       # via pytest
 attrs==18.2.0             # via pytest
-configparser==3.5.0       # via flake8
+configparser==3.7.1       # via flake8
 coverage==4.5.2           # via pytest-cov
 docutils==0.14
 enum34==1.1.6             # via flake8
