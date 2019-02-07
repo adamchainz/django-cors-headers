@@ -4,8 +4,8 @@ import re
 from collections import Sequence
 from numbers import Integral
 
+import six
 from django.core import checks
-from django.utils import six
 
 from .conf import conf
 
