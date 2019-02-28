@@ -1,13 +1,17 @@
 from __future__ import absolute_import
 
 import re
-from collections import Sequence
 from numbers import Integral
 
 from django.core import checks
 from django.utils import six
 
 from .conf import conf
+
+try:
+    from collections.abc import Sequence  # Python 3.3+
+except ImportError:  # pragma: no cover
+    from collections import Sequence
 
 re_type = type(re.compile(''))
 
