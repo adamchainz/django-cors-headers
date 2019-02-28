@@ -6,6 +6,9 @@ Pending
 
 .. Insert new release notes below this line
 
+* Fix ``DeprecationWarning`` from importing ``collections.abc.Sequence`` on
+  Python 3.7.
+
 2.4.0 (2018-07-18)
 ------------------
 
