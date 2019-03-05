@@ -34,8 +34,7 @@ setup(
     url='https://github.com/ottoyiu/django-cors-headers',
     packages=['corsheaders'],
     license='MIT License',
-    keywords='django cors middleware rest api',
-    platforms=['any'],
+    keywords=['django', 'cors', 'middleware', 'rest', 'api'],
     install_requires=[],
     python_requires='>=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*',
     classifiers=[
