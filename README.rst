@@ -19,7 +19,7 @@ Requirements
 Tested with all combinations of:
 
 * Python: 2.7, 3.6
-* Django: 1.8, 1.9, 1.10, 1.11, 2.0, 2.1
+* Django: 1.11, 2.0, 2.1
 
 Setup
 -----

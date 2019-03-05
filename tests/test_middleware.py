@@ -1,11 +1,10 @@
 from __future__ import absolute_import
 
-import django
 from django.http import HttpResponse
 from django.test import TestCase
 from django.test.utils import override_settings
+from django.utils.deprecation import MiddlewareMixin
 
-from corsheaders.compat import MiddlewareMixin
 from corsheaders.middleware import (
     ACCESS_CONTROL_ALLOW_CREDENTIALS, ACCESS_CONTROL_ALLOW_HEADERS, ACCESS_CONTROL_ALLOW_METHODS,
     ACCESS_CONTROL_ALLOW_ORIGIN, ACCESS_CONTROL_EXPOSE_HEADERS, ACCESS_CONTROL_MAX_AGE
@@ -301,15 +300,10 @@ class CorsMiddlewareTests(TestCase):
         Test a scenario when a middleware that returns a response is run before
         the ``CorsMiddleware``. In this case
         ``CorsMiddleware.process_response()`` should ignore the request if
-        MIDDLEWARE setting is used (new mechanism in Django 1.10+) and process
-        the request and add CORS response headers if MIDDLEWARE_CLASSES is
-        used in a backward compatible fashion with django-cors-headers pre 1.3.0.
+        MIDDLEWARE setting is used (new mechanism in Django 1.10+).
         """
         resp = self.client.get('/', HTTP_ORIGIN='http://example.com')
-        if django.VERSION[:2] >= (1, 10):
-            assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
-        else:
-            assert ACCESS_CONTROL_ALLOW_ORIGIN in resp
+        assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
 
     @override_settings(
         CORS_ORIGIN_WHITELIST=['example.com'],
