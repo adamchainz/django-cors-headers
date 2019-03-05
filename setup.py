@@ -35,15 +35,14 @@ setup(
     packages=['corsheaders'],
     license='MIT License',
     keywords=['django', 'cors', 'middleware', 'rest', 'api'],
-    install_requires=[],
+    install_requires=[
+        'Django>=1.11',
+    ],
     python_requires='>=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: Web Environment',
         'Framework :: Django',
-        'Framework :: Django :: 1.8',
-        'Framework :: Django :: 1.9',
-        'Framework :: Django :: 1.10',
         'Framework :: Django :: 1.11',
         'Framework :: Django :: 2.0',
         'Framework :: Django :: 2.1',
