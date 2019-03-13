@@ -6,6 +6,11 @@ Pending
 
 .. Insert new release notes below this line
 
+2.5.1 (2019-03-13)
+------------------
+
+* Include test infrastructure in ``sdist`` to allow consumers to use it.
+
 2.5.0 (2019-03-05)
 ------------------
 
