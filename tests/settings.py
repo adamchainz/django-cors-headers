@@ -1,5 +1,3 @@
-from __future__ import absolute_import
-
 SECRET_KEY = 'NOTASECRET'
 
 ALLOWED_HOSTS = ['*']

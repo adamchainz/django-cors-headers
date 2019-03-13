@@ -1,5 +1,3 @@
-from __future__ import absolute_import
-
 from contextlib import contextmanager
 
 from django.test.utils import modify_settings

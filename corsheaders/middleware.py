@@ -1,11 +1,9 @@
-from __future__ import absolute_import
-
 import re
+from urllib.parse import urlparse
 
 from django import http
 from django.utils.cache import patch_vary_headers
 from django.utils.deprecation import MiddlewareMixin
-from django.utils.six.moves.urllib.parse import urlparse
 
 from corsheaders.conf import conf
 from corsheaders.signals import check_request_enabled
