@@ -59,6 +59,26 @@ to add the CORS headers to these responses.
 Also if you are using ``CORS_REPLACE_HTTPS_REFERER`` it should be placed before
 Django's ``CsrfViewMiddleware`` (see more below).
 
+About
+-----
+
+**django-cors-headers** was created in January 2013 by Otto Yiu. It went
+unmaintained from August 2015 and was forked in January 2016 to the package
+`django-cors-middleware <https://github.com/zestedesavoir/django-cors-middleware>`_
+by Laville Augustin at Zeste de Savoir.
+In September 2016, Adam Johnson, Ed Morley, and others gained maintenance
+responsibility for **django-cors-headers**
+(`Issue 110 <https://github.com/ottoyiu/django-cors-headers/issues/110>`_) from
+Otto Yiu.
+Basically all of the changes in the forked **django-cors-middleware** were
+merged back, or re-implemented in a different way, so it should be possible to
+switch back. If there's a feature that hasn't been merged, please open an issue
+about it.
+
+**django-cors-headers** has had `40+
+contributors <https://github.com/ottoyiu/django-cors-headers/graphs/contributors>`_
+in its time; thanks to every one of them.
+
 Configuration
 -------------
 
@@ -339,12 +359,3 @@ unrestricted URL's. For example:
         return request.path.startswith('/api/')
 
     check_request_enabled.connect(cors_allow_api_to_everyone)
-
-Credits
--------
-
-``django-cors-headers`` was created by Otto Yiu (`@ottoyiu
-<https://github.com/ottoyiu>`_) and has been worked on by `25+ contributors
-<https://github.com/ottoyiu/django-cors-headers/graphs/contributors>`_.
-Thanks to every contributor, and if you want to get involved please don't
-hesitate to make a pull request.
