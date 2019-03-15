@@ -6,6 +6,11 @@ Pending
 
 .. Insert new release notes below this line
 
+2.5.2 (2019-03-15)
+------------------
+
+* Improve inclusion of tests in ``sdist`` to ignore ``.pyc`` files.
+
 2.5.1 (2019-03-13)
 ------------------
 
