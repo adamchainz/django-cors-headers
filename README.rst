@@ -231,6 +231,12 @@ actually accepts. Read more about it in the `HTML 5 Rocks CORS tutorial
 If ``True``, cookies will be allowed to be included in cross-site HTTP
 requests. Defaults to ``False``.
 
+Note: in Django 2.1 the `SESSION_COOKIE_SAMESITE`_ setting was added, set to
+``'Lax'`` by default, which will prevent Django's session cookie being sent
+cross-domain. Change it to ``None`` to bypass this security restriction.
+
+.. _SESSION_COOKIE_SAMESITE: https://docs.djangoproject.com/en/2.1/ref/settings/#std:setting-SESSION_COOKIE_SAMESITE
+
 ``CORS_MODEL``
 ~~~~~~~~~~~~~~
 
