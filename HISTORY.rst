@@ -4,6 +4,8 @@ History
 Pending
 -------
 
+* Origin is now scheme-aware. Deprecation warning has been added when origin without scheme is included
+
 .. Insert new release notes below this line
 
 2.5.3 (2019-04-28)
