@@ -32,5 +32,6 @@ pytest-django==3.4.8
 pytest==4.4.0
 pytz==2019.1
 scandir==1.10.0           # via pathlib2
+sqlparse==0.3.0
 six==1.12.0               # via more-itertools, multilint, pathlib2, pytest
 typing==3.6.6             # via flake8
