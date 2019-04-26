@@ -100,7 +100,7 @@ requests. The value ``'null'`` can also appear in this list, and will match the
 ``Origin: null`` header that is used in `"privacy-sensitive contexts"
 <https://tools.ietf.org/html/rfc6454#section-6>`_, such as when the client is
 running from a ``file://`` domain. Defaults to ``[]``. Proper origin should consist of
-scheme, host and port (which gould be given implicitly, eg. for http it is assumed that the port is
+scheme, host and port (which could be given implicitly, e.g. for http it is assumed that the port is
 80). Skipping scheme is allowed only for backward compatibility, deprecation warning will be raised
 if this is discovered.
 
