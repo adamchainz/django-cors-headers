@@ -18,7 +18,7 @@ Requirements
 
 Tested with all combinations of:
 
-* Python: 2.7, 3.6
+* Python: 2.7, 3.5, 3.6, 3.7
 * Django: 1.11, 2.0, 2.1, 2.2
 
 Setup
