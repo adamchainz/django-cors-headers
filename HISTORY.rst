@@ -6,7 +6,11 @@ Pending
 
 .. Insert new release notes below this line
 
-* Confirm support with Django 2.2 (no changes to library code necessary).
+2.5.3 (2019-04-28)
+------------------
+
+* Tested on Django 2.2. No changes were needed for compatibility.
+* Tested on Python 3.7. No changes were needed for compatibility.
 
 2.5.2 (2019-03-15)
 ------------------
