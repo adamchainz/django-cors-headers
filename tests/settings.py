@@ -6,7 +6,6 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'corsheaders',
-    'tests.testapp',
 ]
 
 DATABASES = {
