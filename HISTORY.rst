@@ -8,6 +8,13 @@ Pending
 
 * Origin is now scheme-aware. Deprecation warning has been added when origin
   without scheme is included.
+* Removed the ``CORS_MODEL`` setting, and associated class. It seems very few,
+  or no users were using it, since there were no bug reports since its move to
+  abstract in version 2.0.0 (2017-01-07). If you *are* using this
+  functionality, you can continue by changing your model to not inherit from
+  the abstract one, and add a signal handler for ``check_request_enabled`` that
+  reads from your model. Note you'll need to handle the move to scheme-aware
+  values for Origin.
 
 2.5.3 (2019-04-28)
 ------------------

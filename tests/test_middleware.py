@@ -11,7 +11,6 @@ from corsheaders.middleware import (
     ACCESS_CONTROL_ALLOW_CREDENTIALS, ACCESS_CONTROL_ALLOW_HEADERS, ACCESS_CONTROL_ALLOW_METHODS,
     ACCESS_CONTROL_ALLOW_ORIGIN, ACCESS_CONTROL_EXPOSE_HEADERS, ACCESS_CONTROL_MAX_AGE
 )
-from tests.testapp.models import CorsModel
 
 from .utils import append_middleware, prepend_middleware, temporary_check_request_hander
 
@@ -141,37 +140,6 @@ class CorsMiddlewareTests(TestCase):
         resp = self.client.options('/', HTTP_ORIGIN='http://foo.example.com')
         assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
 
-    @override_settings(CORS_MODEL='testapp.CorsModel')
-    def test_get_when_custom_model_enabled(self):
-        CorsModel.objects.create(cors='http://example.com')
-        resp = self.client.get('/', HTTP_ORIGIN='http://example.com')
-        assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://example.com'
-        assert ACCESS_CONTROL_ALLOW_CREDENTIALS not in resp
-
-    @override_settings(CORS_MODEL='testapp.CorsModel')
-    def test_get_when_custom_model_enabled_without_scheme(self):
-        with warnings.catch_warnings(record=True) as warn:
-            CorsModel.objects.create(cors='example.com')
-            resp = self.client.get('/', HTTP_ORIGIN='http://example.com')
-
-            assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://example.com'
-            assert len(warn) == 1
-            assert issubclass(warn[-1].category, DeprecationWarning)
-            assert 'Passing origins without scheme will be deprecated.' in str(warn[-1].message)
-
-    @override_settings(CORS_MODEL='testapp.CorsModel')
-    def test_get_when_custom_model_enabled_with_different_scheme(self):
-        CorsModel.objects.create(cors='https://example.com')
-        resp = self.client.get('/', HTTP_ORIGIN='http://example.com')
-        assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
-
-    @override_settings(CORS_MODEL='testapp.CorsModel', CORS_ALLOW_CREDENTIALS=True)
-    def test_get_when_custom_model_enabled_and_allow_credentials(self):
-        CorsModel.objects.create(cors='http://example.com')
-        resp = self.client.get('/', HTTP_ORIGIN='http://example.com')
-        assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://example.com'
-        assert resp[ACCESS_CONTROL_ALLOW_CREDENTIALS] == 'true'
-
     def test_options(self):
         resp = self.client.options(
             '/',
@@ -189,22 +157,6 @@ class CorsMiddlewareTests(TestCase):
     def test_options_no_header(self):
         resp = self.client.options('/')
         assert resp.status_code == 404
-
-    @override_settings(CORS_MODEL='testapp.CorsModel')
-    def test_options_when_custom_model_enabled(self):
-        CorsModel.objects.create(cors='http://example.com')
-        resp = self.client.options(
-            '/',
-            HTTP_ORIGIN='http://example.com',
-            HTTP_ACCESS_CONTROL_REQUEST_METHOD='value',
-        )
-        assert ACCESS_CONTROL_ALLOW_HEADERS in resp
-
-    @override_settings(CORS_MODEL='testapp.CorsModel')
-    def test_process_response_when_custom_model_enabled(self):
-        CorsModel.objects.create(cors='http://foo.google.com')
-        response = self.client.get('/', HTTP_ORIGIN='http://foo.google.com')
-        assert response.get(ACCESS_CONTROL_ALLOW_ORIGIN, None) == 'http://foo.google.com'
 
     @override_settings(
         CORS_ALLOW_CREDENTIALS=True,
