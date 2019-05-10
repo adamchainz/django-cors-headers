@@ -47,10 +47,6 @@ class Settings(object):
         return getattr(settings, 'CORS_URLS_REGEX', r'^.*$')
 
     @property
-    def CORS_MODEL(self):
-        return getattr(settings, 'CORS_MODEL', None)
-
-    @property
     def CORS_REPLACE_HTTPS_REFERER(self):
         return getattr(settings, 'CORS_REPLACE_HTTPS_REFERER', False)
 

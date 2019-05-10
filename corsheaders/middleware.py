@@ -4,7 +4,6 @@ import re
 import warnings
 
 from django import http
-from django.apps import apps
 from django.utils.cache import patch_vary_headers
 from django.utils.deprecation import MiddlewareMixin
 from django.utils.six.moves.urllib.parse import urlparse
@@ -123,7 +122,6 @@ class CorsMiddleware(MiddlewareMixin):
         if (
             not conf.CORS_ORIGIN_ALLOW_ALL
             and not self.origin_found_in_white_lists(origin, url)
-            and not self.origin_found_in_model(url)
             and not self.check_signal(request)
         ):
             return response
@@ -157,16 +155,6 @@ class CorsMiddleware(MiddlewareMixin):
         for domain_pattern in conf.CORS_ORIGIN_REGEX_WHITELIST:
             if re.match(domain_pattern, origin):
                 return origin
-
-    def origin_found_in_model(self, url):
-        if conf.CORS_MODEL is None:
-            return False
-        model = apps.get_model(*conf.CORS_MODEL.split('.'))
-        queryset = model.objects.filter(cors__icontains=url.netloc).values_list('cors', flat=True)
-
-        whitelisted_origins = self._get_parsed_whitelisted_origins(queryset)
-        self._check_for_origins_without_scheme(whitelisted_origins)
-        return self._url_in_whitelist(url, whitelisted_origins)
 
     def is_enabled(self, request):
         return (

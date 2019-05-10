@@ -3,6 +3,7 @@ from __future__ import absolute_import
 import re
 from numbers import Integral
 
+from django.conf import settings
 from django.core import checks
 from django.utils import six
 
@@ -92,19 +93,19 @@ def check_settings(app_configs, **kwargs):
             )
         )
 
-    if conf.CORS_MODEL is not None and not isinstance(conf.CORS_MODEL, six.string_types):
-        errors.append(
-            checks.Error(
-                "CORS_MODEL should be a string or None.",
-                id="corsheaders.E010"
-            )
-        )
-
     if not isinstance(conf.CORS_REPLACE_HTTPS_REFERER, bool):
         errors.append(
             checks.Error(
                 "CORS_REPLACE_HTTPS_REFERER should be a bool.",
                 id="corsheaders.E011"
+            )
+        )
+
+    if hasattr(settings, 'CORS_MODEL'):
+        errors.append(
+            checks.Error(
+                "The CORS_MODEL setting has been removed - see django-cors-headers' HISTORY.",
+                id="corsheaders.E012"
             )
         )
 

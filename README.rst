@@ -240,15 +240,6 @@ cross-domain. Change it to ``None`` to bypass this security restriction.
 
 .. _SESSION_COOKIE_SAMESITE: https://docs.djangoproject.com/en/2.1/ref/settings/#std:setting-SESSION_COOKIE_SAMESITE
 
-``CORS_MODEL``
-~~~~~~~~~~~~~~
-
-If set, this should be the path to a model to look up allowed origins, in the
-form ``app.modelname``. Defaults to ``None``.
-
-The model should inherit from ``corsheaders.models.AbstractCorsModel`` and specify
-the allowed origin in the ``CharField`` called ``cors``.
-
 CSRF Integration
 ----------------
 
