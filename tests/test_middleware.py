@@ -1,5 +1,7 @@
 from __future__ import absolute_import
 
+import warnings
+
 from django.http import HttpResponse
 from django.test import TestCase
 from django.test.utils import override_settings
@@ -30,17 +32,31 @@ class CorsMiddlewareTests(TestCase):
         resp = self.client.get('/')
         assert resp['Vary'] == 'Origin'
 
-    @override_settings(CORS_ORIGIN_WHITELIST=['example.com'])
+    @override_settings(CORS_ORIGIN_WHITELIST=['http://example.com'])
     def test_get_not_in_whitelist(self):
         resp = self.client.get('/', HTTP_ORIGIN='http://example.org')
         assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
 
-    @override_settings(CORS_ORIGIN_WHITELIST=['example.com', 'example.org'])
+    @override_settings(CORS_ORIGIN_WHITELIST=['https://example.org'])
+    def test_get_not_in_whitelist_due_to_wrong_scheme(self):
+        resp = self.client.get('/', HTTP_ORIGIN='http://example.org')
+        assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
+
+    @override_settings(CORS_ORIGIN_WHITELIST=['example.org'])
+    def test_get_without_scheme_in_whitelist_raises_warning(self):
+        with warnings.catch_warnings(record=True) as warn:
+            resp = self.client.get('/', HTTP_ORIGIN='http://example.org')
+            assert ACCESS_CONTROL_ALLOW_ORIGIN in resp
+            assert len(warn) == 1
+            assert issubclass(warn[-1].category, DeprecationWarning)
+            assert 'Passing origins without scheme will be deprecated.' in str(warn[-1].message)
+
+    @override_settings(CORS_ORIGIN_WHITELIST=['http://example.com', 'http://example.org'])
     def test_get_in_whitelist(self):
         resp = self.client.get('/', HTTP_ORIGIN='http://example.org')
         assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://example.org'
 
-    @override_settings(CORS_ORIGIN_WHITELIST=['example.com', 'null'])
+    @override_settings(CORS_ORIGIN_WHITELIST=['http://example.com', 'null'])
     def test_null_in_whitelist(self):
         resp = self.client.get('/', HTTP_ORIGIN='null')
         assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == 'null'
@@ -101,7 +117,7 @@ class CorsMiddlewareTests(TestCase):
     @override_settings(
         CORS_ALLOW_METHODS=['OPTIONS'],
         CORS_ALLOW_CREDENTIALS=True,
-        CORS_ORIGIN_WHITELIST=('localhost:9000',),
+        CORS_ORIGIN_WHITELIST=('http://localhost:9000',),
     )
     def test_options_whitelist_with_port(self):
         resp = self.client.options('/', HTTP_ORIGIN='http://localhost:9000')
@@ -127,14 +143,31 @@ class CorsMiddlewareTests(TestCase):
 
     @override_settings(CORS_MODEL='testapp.CorsModel')
     def test_get_when_custom_model_enabled(self):
-        CorsModel.objects.create(cors='example.com')
+        CorsModel.objects.create(cors='http://example.com')
         resp = self.client.get('/', HTTP_ORIGIN='http://example.com')
         assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://example.com'
         assert ACCESS_CONTROL_ALLOW_CREDENTIALS not in resp
 
+    @override_settings(CORS_MODEL='testapp.CorsModel')
+    def test_get_when_custom_model_enabled_without_scheme(self):
+        with warnings.catch_warnings(record=True) as warn:
+            CorsModel.objects.create(cors='example.com')
+            resp = self.client.get('/', HTTP_ORIGIN='http://example.com')
+
+            assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://example.com'
+            assert len(warn) == 1
+            assert issubclass(warn[-1].category, DeprecationWarning)
+            assert 'Passing origins without scheme will be deprecated.' in str(warn[-1].message)
+
+    @override_settings(CORS_MODEL='testapp.CorsModel')
+    def test_get_when_custom_model_enabled_with_different_scheme(self):
+        CorsModel.objects.create(cors='https://example.com')
+        resp = self.client.get('/', HTTP_ORIGIN='http://example.com')
+        assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
+
     @override_settings(CORS_MODEL='testapp.CorsModel', CORS_ALLOW_CREDENTIALS=True)
     def test_get_when_custom_model_enabled_and_allow_credentials(self):
-        CorsModel.objects.create(cors='example.com')
+        CorsModel.objects.create(cors='http://example.com')
         resp = self.client.get('/', HTTP_ORIGIN='http://example.com')
         assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://example.com'
         assert resp[ACCESS_CONTROL_ALLOW_CREDENTIALS] == 'true'
@@ -159,7 +192,7 @@ class CorsMiddlewareTests(TestCase):
 
     @override_settings(CORS_MODEL='testapp.CorsModel')
     def test_options_when_custom_model_enabled(self):
-        CorsModel.objects.create(cors='example.com')
+        CorsModel.objects.create(cors='http://example.com')
         resp = self.client.options(
             '/',
             HTTP_ORIGIN='http://example.com',
@@ -169,7 +202,7 @@ class CorsMiddlewareTests(TestCase):
 
     @override_settings(CORS_MODEL='testapp.CorsModel')
     def test_process_response_when_custom_model_enabled(self):
-        CorsModel.objects.create(cors='foo.google.com')
+        CorsModel.objects.create(cors='http://foo.google.com')
         response = self.client.get('/', HTTP_ORIGIN='http://foo.google.com')
         assert response.get(ACCESS_CONTROL_ALLOW_ORIGIN, None) == 'http://foo.google.com'
 
@@ -259,7 +292,7 @@ class CorsMiddlewareTests(TestCase):
             assert resp.status_code == 200
             assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://example.com'
 
-    @override_settings(CORS_ORIGIN_WHITELIST=['example.com'])
+    @override_settings(CORS_ORIGIN_WHITELIST=['http://example.com'])
     def test_signal_handler_allow_some_urls_to_everyone(self):
         def allow_api_to_all(sender, request, **kwargs):
             return request.path.startswith('/api/')
@@ -281,7 +314,7 @@ class CorsMiddlewareTests(TestCase):
             assert resp.status_code == 200
             assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == 'http://example.org'
 
-    @override_settings(CORS_ORIGIN_WHITELIST=['example.com'])
+    @override_settings(CORS_ORIGIN_WHITELIST=['http://example.com'])
     def test_signal_called_once_during_normal_flow(self):
         def allow_all(sender, request, **kwargs):
             allow_all.calls += 1
@@ -293,7 +326,7 @@ class CorsMiddlewareTests(TestCase):
 
             assert allow_all.calls == 1
 
-    @override_settings(CORS_ORIGIN_WHITELIST=['example.com'])
+    @override_settings(CORS_ORIGIN_WHITELIST=['http://example.com'])
     @prepend_middleware('tests.test_middleware.ShortCircuitMiddleware')
     def test_get_short_circuit(self):
         """
@@ -306,7 +339,7 @@ class CorsMiddlewareTests(TestCase):
         assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
 
     @override_settings(
-        CORS_ORIGIN_WHITELIST=['example.com'],
+        CORS_ORIGIN_WHITELIST=['http://example.com'],
         CORS_URLS_REGEX=r'^/foo/$',
     )
     @prepend_middleware(__name__ + '.ShortCircuitMiddleware')
@@ -315,7 +348,7 @@ class CorsMiddlewareTests(TestCase):
         assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
 
     @override_settings(
-        CORS_ORIGIN_WHITELIST=['example.com'],
+        CORS_ORIGIN_WHITELIST=['http://example.com'],
         CORS_URLS_REGEX=r'^/foo/$',
     )
     def test_get_regex_matches(self):
@@ -323,7 +356,7 @@ class CorsMiddlewareTests(TestCase):
         assert ACCESS_CONTROL_ALLOW_ORIGIN in resp
 
     @override_settings(
-        CORS_ORIGIN_WHITELIST=['example.com'],
+        CORS_ORIGIN_WHITELIST=['http://example.com'],
         CORS_URLS_REGEX=r'^/not-foo/$',
     )
     def test_get_regex_doesnt_match(self):
@@ -331,14 +364,14 @@ class CorsMiddlewareTests(TestCase):
         assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
 
     @override_settings(
-        CORS_ORIGIN_WHITELIST=['example.com'],
+        CORS_ORIGIN_WHITELIST=['http://example.com'],
         CORS_URLS_REGEX=r'^/foo/$',
     )
     def test_get_regex_matches_path_info(self):
         resp = self.client.get('/foo/', HTTP_ORIGIN='http://example.com', SCRIPT_NAME='/prefix/')
         assert ACCESS_CONTROL_ALLOW_ORIGIN in resp
 
-    @override_settings(CORS_ORIGIN_WHITELIST=['example.com'])
+    @override_settings(CORS_ORIGIN_WHITELIST=['http://example.com'])
     def test_cors_enabled_is_attached_and_bool(self):
         """
         Ensure that request._cors_enabled is available - although a private API
@@ -349,7 +382,7 @@ class CorsMiddlewareTests(TestCase):
         assert isinstance(request._cors_enabled, bool)
         assert request._cors_enabled
 
-    @override_settings(CORS_ORIGIN_WHITELIST=['example.com'])
+    @override_settings(CORS_ORIGIN_WHITELIST=['http://example.com'])
     def test_works_if_view_deletes_cors_enabled(self):
         """
         Just in case something crazy happens in the view or other middleware,

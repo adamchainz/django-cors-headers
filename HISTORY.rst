@@ -6,6 +6,9 @@ Pending
 
 .. Insert new release notes below this line
 
+* Origin is now scheme-aware. Deprecation warning has been added when origin
+  without scheme is included.
+
 2.5.3 (2019-04-28)
 ------------------
 
