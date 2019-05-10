@@ -9,8 +9,7 @@ from corsheaders.middleware import (
     ACCESS_CONTROL_ALLOW_CREDENTIALS, ACCESS_CONTROL_ALLOW_HEADERS, ACCESS_CONTROL_ALLOW_METHODS,
     ACCESS_CONTROL_ALLOW_ORIGIN, ACCESS_CONTROL_EXPOSE_HEADERS, ACCESS_CONTROL_MAX_AGE
 )
-
-from .utils import append_middleware, prepend_middleware, temporary_check_request_hander
+from tests.utils import append_middleware, prepend_middleware, temporary_check_request_hander
 
 
 class ShortCircuitMiddleware(MiddlewareMixin):

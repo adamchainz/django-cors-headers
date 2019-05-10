@@ -314,7 +314,7 @@ For example you might define a handler like this:
     # myapp/handlers.py
     from corsheaders.signals import check_request_enabled
 
-    from .models import MySite
+    from myapp.models import MySite
 
     def cors_allow_mysites(sender, request, **kwargs):
         return MySite.objects.filter(host=request.host).exists()
@@ -341,7 +341,7 @@ Then connect it at app ready time using a `Django AppConfig
 
         def ready(self):
             # Makes sure all signal handlers are connected
-            from . import handlers  # noqa
+            from myapp import handlers  # noqa
 
 
 A common use case for the signal is to allow *all* origins to access a subset
