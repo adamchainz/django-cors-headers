@@ -70,6 +70,18 @@ class ChecksTests(SimpleTestCase):
     def test_cors_origin_whitelist_non_string(self):
         self.check_error_codes(['corsheaders.E006'])
 
+    @override_settings(CORS_ORIGIN_WHITELIST=['example.com'])
+    def test_cors_origin_whitelist_no_scheme(self):
+        self.check_error_codes(['corsheaders.E013'])
+
+    @override_settings(CORS_ORIGIN_WHITELIST=['https://'])
+    def test_cors_origin_whitelist_no_netloc(self):
+        self.check_error_codes(['corsheaders.E013'])
+
+    @override_settings(CORS_ORIGIN_WHITELIST=['https://example.com/foobar'])
+    def test_cors_origin_whitelist_path(self):
+        self.check_error_codes(['corsheaders.E014'])
+
     @override_settings(CORS_ORIGIN_REGEX_WHITELIST=object)
     def test_cors_origin_regex_whitelist_non_sequence(self):
         self.check_error_codes(['corsheaders.E007'])

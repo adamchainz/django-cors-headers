@@ -95,40 +95,44 @@ Defaults to ``False``.
 ``CORS_ORIGIN_WHITELIST``
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-A list of origin hostnames that are authorized to make cross-site HTTP
-requests. The value ``'null'`` can also appear in this list, and will match the
-``Origin: null`` header that is used in `"privacy-sensitive contexts"
-<https://tools.ietf.org/html/rfc6454#section-6>`_, such as when the client is
-running from a ``file://`` domain. Defaults to ``[]``. Proper origin should consist of
-scheme, host and port (which could be given implicitly, e.g. for http it is assumed that the port is
-80). Skipping scheme is allowed only for backward compatibility, deprecation warning will be raised
-if this is discovered.
+A list of origins that are authorized to make cross-site HTTP requests.
+Defaults to ``[]``.
+
+An Origin is defined by
+`the CORS RFC Section 3.2 <https://tools.ietf.org/html/rfc6454#section-3.2>`_
+as a URI scheme + hostname + port, or the special value `'null'`.
+Default ports (HTTPS = 443, HTTP = 80) are optional here.
+The special value `null` is sent by the browser in
+`"privacy-sensitive contexts" <https://tools.ietf.org/html/rfc6454#section-6>`_,
+such as when the client is running from a ``file://`` domain.
 
 Example:
 
 .. code-block:: python
 
-    CORS_ORIGIN_WHITELIST = (
-        'https://google.com',
-        'http://hostname.example.com',
-        'http://localhost:8000',
-        'http://127.0.0.1:9000'
+    CORS_ORIGIN_WHITELIST = [
+        "https://example.com",
+        "https://sub.example.com",
+        "http://localhost:8080",
+        "http://127.0.0.1:9000"
     )
 
 
 ``CORS_ORIGIN_REGEX_WHITELIST``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-A list of regexes that match origin regex list of origin hostnames that are
-authorized to make cross-site HTTP requests. Defaults to ``[]``. Useful when
-``CORS_ORIGIN_WHITELIST`` is impractical, such as when you have a large
-number of subdomains.
+A list of strings representing regexes that match Origins that are authorized
+to make cross-site HTTP requests. Defaults to ``[]``. Useful when
+``CORS_ORIGIN_WHITELIST`` is impractical, such as when you have a large number
+of subdomains.
 
 Example:
 
 .. code-block:: python
 
-    CORS_ORIGIN_REGEX_WHITELIST = (r'^(https?://)?(\w+\.)?google\.com$', )
+    CORS_ORIGIN_REGEX_WHITELIST = [
+        r"^https://\w+\.example\.com$",
+    ]
 
 --------------
 
