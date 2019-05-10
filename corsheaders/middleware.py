@@ -1,7 +1,6 @@
 from __future__ import absolute_import
 
 import re
-import warnings
 
 from django import http
 from django.utils.cache import patch_vary_headers
@@ -143,11 +142,9 @@ class CorsMiddleware(MiddlewareMixin):
         return response
 
     def origin_found_in_white_lists(self, origin, url):
-        whitelisted_origins = self._get_parsed_whitelisted_origins(conf.CORS_ORIGIN_WHITELIST)
-        self._check_for_origins_without_scheme(whitelisted_origins)
         return (
-            self._url_in_whitelist(url, whitelisted_origins)
-            or (origin == 'null' and origin in conf.CORS_ORIGIN_WHITELIST)
+            (origin == 'null' and origin in conf.CORS_ORIGIN_WHITELIST)
+            or self._url_in_whitelist(url)
             or self.regex_domain_match(origin)
         )
 
@@ -172,31 +169,9 @@ class CorsMiddleware(MiddlewareMixin):
             function, return_value in signal_responses
         )
 
-    def _get_parsed_whitelisted_origins(self, origins):
-        whitelisted_origins = []
-        for origin in origins:
-            # Note that when port is defined explicitly, it's part of netloc/path
-            parsed_origin = urlparse(origin)
-            whitelisted_origins.append(
-                {
-                    'scheme': parsed_origin.scheme,
-                    'host': parsed_origin.netloc or parsed_origin.path
-                }
-            )
-        return whitelisted_origins
-
-    def _check_for_origins_without_scheme(self, origins):
-        if any((origin['scheme'] == '' and origin['host'] != 'null' for origin in origins)):
-            warnings.warn('Passing origins without scheme will be deprecated.', DeprecationWarning)
-
-    def _url_in_whitelist(self, url, origins_whitelist):
-        possible_matching_origins = [
-            origin for origin in origins_whitelist if origin['host'] == url.netloc
-        ]
-        if not possible_matching_origins:
-            return False
-        else:
-            for origin in possible_matching_origins:
-                if origin['scheme'] == '' or origin['scheme'] == url.scheme:
-                    return True
-            return False
+    def _url_in_whitelist(self, url):
+        origins = [urlparse(o) for o in conf.CORS_ORIGIN_WHITELIST]
+        return any(
+            origin.scheme == url.scheme and origin.netloc == url.netloc
+            for origin in origins
+        )

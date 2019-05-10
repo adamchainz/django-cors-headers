@@ -1,7 +1,5 @@
 from __future__ import absolute_import
 
-import warnings
-
 from django.http import HttpResponse
 from django.test import TestCase
 from django.test.utils import override_settings
@@ -40,15 +38,6 @@ class CorsMiddlewareTests(TestCase):
     def test_get_not_in_whitelist_due_to_wrong_scheme(self):
         resp = self.client.get('/', HTTP_ORIGIN='http://example.org')
         assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
-
-    @override_settings(CORS_ORIGIN_WHITELIST=['example.org'])
-    def test_get_without_scheme_in_whitelist_raises_warning(self):
-        with warnings.catch_warnings(record=True) as warn:
-            resp = self.client.get('/', HTTP_ORIGIN='http://example.org')
-            assert ACCESS_CONTROL_ALLOW_ORIGIN in resp
-            assert len(warn) == 1
-            assert issubclass(warn[-1].category, DeprecationWarning)
-            assert 'Passing origins without scheme will be deprecated.' in str(warn[-1].message)
 
     @override_settings(CORS_ORIGIN_WHITELIST=['http://example.com', 'http://example.org'])
     def test_get_in_whitelist(self):
@@ -116,7 +105,7 @@ class CorsMiddlewareTests(TestCase):
     @override_settings(
         CORS_ALLOW_METHODS=['OPTIONS'],
         CORS_ALLOW_CREDENTIALS=True,
-        CORS_ORIGIN_WHITELIST=('http://localhost:9000',),
+        CORS_ORIGIN_WHITELIST=['http://localhost:9000'],
     )
     def test_options_whitelist_with_port(self):
         resp = self.client.options('/', HTTP_ORIGIN='http://localhost:9000')

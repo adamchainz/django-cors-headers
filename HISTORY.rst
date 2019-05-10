@@ -6,15 +6,34 @@ Pending
 
 .. Insert new release notes below this line
 
-* Origin is now scheme-aware. Deprecation warning has been added when origin
-  without scheme is included.
+* ``CORS_ORIGIN_WHITELIST`` now requires URI schemes, and optionally ports.
+  This is part of the CORS specification
+  (`Section 3.2 <https://tools.ietf.org/html/rfc6454#section-3.2>`_) that was
+  not implemented in this library, except from with the
+  ``CORS_ORIGIN_REGEX_WHITELIST`` setting. It fixes a security issue where the
+  CORS middleware would allow requests between schemes, for example from
+  insecure ``http://`` Origins to a secure ``https://`` site.
+
+  You will need to update your whitelist to include schemes, for example from
+  this:
+
+  .. code-block:: python
+
+      CORS_ORIGIN_WHITELIST = ['example.com']
+
+  ...to this:
+
+  .. code-block:: python
+
+      CORS_ORIGIN_WHITELIST = ['https://example.com']
+
 * Removed the ``CORS_MODEL`` setting, and associated class. It seems very few,
   or no users were using it, since there were no bug reports since its move to
   abstract in version 2.0.0 (2017-01-07). If you *are* using this
   functionality, you can continue by changing your model to not inherit from
   the abstract one, and add a signal handler for ``check_request_enabled`` that
-  reads from your model. Note you'll need to handle the move to scheme-aware
-  values for Origin.
+  reads from your model. Note you'll need to handle the move to include schemes
+  for Origins.
 
 2.5.3 (2019-04-28)
 ------------------

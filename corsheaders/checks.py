@@ -6,6 +6,7 @@ from numbers import Integral
 from django.conf import settings
 from django.core import checks
 from django.utils import six
+from django.utils.six.moves.urllib.parse import urlparse
 
 from .conf import conf
 
@@ -68,6 +69,22 @@ def check_settings(app_configs, **kwargs):
                 id="corsheaders.E006"
             )
         )
+    else:
+        for origin in conf.CORS_ORIGIN_WHITELIST:
+            parsed = urlparse(origin)
+            if parsed.scheme == '' or parsed.netloc == '':
+                errors.append(checks.Error(
+                    "Origin {} in CORS_ORIGIN_WHITELIST is missing scheme or netloc".format(repr(origin)),
+                    id="corsheaders.E013"
+                ))
+            else:
+                # Only do this check in this case because if the scheme is not provided, netloc ends up in path
+                for part in ('path', 'params', 'query', 'fragment'):
+                    if getattr(parsed, part) != '':
+                        errors.append(checks.Error(
+                            "Origin {} in CORS_ORIGIN_WHITELIST should not have {}".format(repr(origin), part),
+                            id="corsheaders.E014"
+                        ))
 
     if not is_sequence(conf.CORS_ORIGIN_REGEX_WHITELIST, six.string_types + (re_type,)):
         errors.append(
