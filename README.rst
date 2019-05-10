@@ -9,6 +9,9 @@ builds on top of ``XmlHttpRequest`` to allow developers to make cross-domain
 requests, similar to same-domain requests. Read more about it here:
 http://www.html5rocks.com/en/tutorials/cors/
 
+.. image:: https://img.shields.io/pypi/v/django-cors-headers.svg
+    :target: https://pypi.python.org/pypi/django-cors-headers/
+
 .. image:: https://travis-ci.org/ottoyiu/django-cors-headers.svg?branch=master
    :target: https://travis-ci.org/ottoyiu/django-cors-headers
 
