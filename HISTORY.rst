@@ -6,6 +6,9 @@ Pending
 
 .. Insert new release notes below this line
 
+3.0.0 (2019-05-10)
+------------------
+
 * ``CORS_ORIGIN_WHITELIST`` now requires URI schemes, and optionally ports.
   This is part of the CORS specification
   (`Section 3.2 <https://tools.ietf.org/html/rfc6454#section-3.2>`_) that was
