@@ -8,7 +8,7 @@ from django.core import checks
 from django.utils import six
 from django.utils.six.moves.urllib.parse import urlparse
 
-from .conf import conf
+from corsheaders.conf import conf
 
 try:
     from collections.abc import Sequence  # Python 3.3+
