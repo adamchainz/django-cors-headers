@@ -1,20 +1,28 @@
 django-cors-headers
 ===================
 
-A Django App that adds CORS (Cross-Origin Resource Sharing) headers to
-responses.
-
-Although JSON-P is useful, it is strictly limited to GET requests. CORS
-builds on top of ``XmlHttpRequest`` to allow developers to make cross-domain
-requests, similar to same-domain requests. Read more about it here:
-http://www.html5rocks.com/en/tutorials/cors/
+.. image:: https://travis-ci.org/ottoyiu/django-cors-headers.svg?branch=master
+   :target: https://travis-ci.org/ottoyiu/django-cors-headers
 
 .. image:: https://img.shields.io/pypi/v/django-cors-headers.svg
     :target: https://pypi.python.org/pypi/django-cors-headers/
 
-.. image:: https://travis-ci.org/ottoyiu/django-cors-headers.svg?branch=master
-   :target: https://travis-ci.org/ottoyiu/django-cors-headers
+A Django App that adds Cross-Origin Resource Sharing (CORS) headers to
+responses. This allows in-browser requests to your Django application from
+other origins.
 
+About CORS
+----------
+
+Adding CORS headers allows your resources to be accessed on other domains. It's
+important you understand the implications before adding the headers, since you
+could be unintentionally open up your site's private data to others.
+
+Some good resources to read on the subject are:
+
+* The `Wikipedia Page <https://en.m.wikipedia.org/wiki/Cross-origin_resource_sharing>`_
+* The `MDN Article <https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS>`_
+* The `HTML5 Rocks Tutorial <https://www.html5rocks.com/en/tutorials/cors/>`_
 
 Requirements
 ------------
@@ -232,8 +240,8 @@ this is 0 (or any falsey value), no max age header will be sent. Defaults to
 **Note:** A preflight request is an extra request that is made when making a
 "not-so-simple" request (e.g. ``Content-Type`` is not
 ``application/x-www-form-urlencoded``) to determine what requests the server
-actually accepts. Read more about it in the `HTML 5 Rocks CORS tutorial
-<https://www.html5rocks.com/en/tutorials/cors/>`_.
+actually accepts. Read more about it in the
+`CORS MDN article <https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#Preflighted_requests>`_.
 
 ``CORS_ALLOW_CREDENTIALS``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -345,7 +353,6 @@ Then connect it at app ready time using a `Django AppConfig
         def ready(self):
             # Makes sure all signal handlers are connected
             from myapp import handlers  # noqa
-
 
 A common use case for the signal is to allow *all* origins to access a subset
 of URL's, whilst allowing a normal set of origins to access *all* URL's. This
