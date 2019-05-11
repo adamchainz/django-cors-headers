@@ -29,8 +29,10 @@ Requirements
 
 Tested with all combinations of:
 
-* Python: 2.7, 3.5, 3.6, 3.7
+* Python: 3.6
 * Django: 1.11, 2.0, 2.1, 2.2
+
+Python 3.4+ supported.
 
 Setup
 -----

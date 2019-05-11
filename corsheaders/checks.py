@@ -1,19 +1,12 @@
-from __future__ import absolute_import
-
 import re
+from collections.abc import Sequence
 from numbers import Integral
+from urllib.parse import urlparse
 
 from django.conf import settings
 from django.core import checks
-from django.utils import six
-from django.utils.six.moves.urllib.parse import urlparse
 
 from corsheaders.conf import conf
-
-try:
-    from collections.abc import Sequence  # Python 3.3+
-except ImportError:  # pragma: no cover
-    from collections import Sequence
 
 re_type = type(re.compile(''))
 
@@ -22,7 +15,7 @@ re_type = type(re.compile(''))
 def check_settings(app_configs, **kwargs):
     errors = []
 
-    if not is_sequence(conf.CORS_ALLOW_HEADERS, six.string_types):
+    if not is_sequence(conf.CORS_ALLOW_HEADERS, str):
         errors.append(
             checks.Error(
                 "CORS_ALLOW_HEADERS should be a sequence of strings.",
@@ -30,7 +23,7 @@ def check_settings(app_configs, **kwargs):
             )
         )
 
-    if not is_sequence(conf.CORS_ALLOW_METHODS, six.string_types):
+    if not is_sequence(conf.CORS_ALLOW_METHODS, str):
         errors.append(
             checks.Error(
                 "CORS_ALLOW_METHODS should be a sequence of strings.",
@@ -62,7 +55,7 @@ def check_settings(app_configs, **kwargs):
             )
         )
 
-    if not is_sequence(conf.CORS_ORIGIN_WHITELIST, six.string_types):
+    if not is_sequence(conf.CORS_ORIGIN_WHITELIST, str):
         errors.append(
             checks.Error(
                 "CORS_ORIGIN_WHITELIST should be a sequence of strings.",
@@ -86,7 +79,7 @@ def check_settings(app_configs, **kwargs):
                             id="corsheaders.E014"
                         ))
 
-    if not is_sequence(conf.CORS_ORIGIN_REGEX_WHITELIST, six.string_types + (re_type,)):
+    if not is_sequence(conf.CORS_ORIGIN_REGEX_WHITELIST, (str, re_type)):
         errors.append(
             checks.Error(
                 "CORS_ORIGIN_REGEX_WHITELIST should be a sequence of strings and/or compiled regexes.",
@@ -94,7 +87,7 @@ def check_settings(app_configs, **kwargs):
             )
         )
 
-    if not is_sequence(conf.CORS_EXPOSE_HEADERS, six.string_types):
+    if not is_sequence(conf.CORS_EXPOSE_HEADERS, str):
         errors.append(
             checks.Error(
                 "CORS_EXPOSE_HEADERS should be a sequence.",
@@ -102,7 +95,7 @@ def check_settings(app_configs, **kwargs):
             )
         )
 
-    if not isinstance(conf.CORS_URLS_REGEX, six.string_types + (re_type,)):
+    if not isinstance(conf.CORS_URLS_REGEX, (str, re_type)):
         errors.append(
             checks.Error(
                 "CORS_URLS_REGEX should be a string or regex.",
@@ -129,8 +122,8 @@ def check_settings(app_configs, **kwargs):
     return errors
 
 
-def is_sequence(thing, types):
+def is_sequence(thing, type_or_types):
     return (
         isinstance(thing, Sequence)
-        and all(isinstance(x, types) for x in thing)
+        and all(isinstance(x, type_or_types) for x in thing)
     )
