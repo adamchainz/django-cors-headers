@@ -71,6 +71,8 @@ def check_settings(app_configs, **kwargs):
         )
     else:
         for origin in conf.CORS_ORIGIN_WHITELIST:
+            if origin == 'null':
+                continue
             parsed = urlparse(origin)
             if parsed.scheme == '' or parsed.netloc == '':
                 errors.append(checks.Error(
