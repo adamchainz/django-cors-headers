@@ -6,6 +6,9 @@ Pending
 
 .. Insert new release notes below this line
 
+3.0.1 (2019-05-13)
+------------------
+
 * Allow 'null' in ``CORS_ORIGIN_WHITELIST`` check.
 
 3.0.0 (2019-05-10)
