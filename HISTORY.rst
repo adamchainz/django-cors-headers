@@ -6,7 +6,7 @@ Pending
 
 .. Insert new release notes below this line
 
-* Drop Python 2 support, only Python 3.4+ is supported now.
+* Drop Python 2 support, only Python 3.5-3.7 is supported now.
 
 3.0.1 (2019-05-13)
 ------------------
