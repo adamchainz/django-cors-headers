@@ -68,6 +68,10 @@ class ChecksTests(SimpleTestCase):
     def test_cors_origin_whitelist_non_string(self):
         self.check_error_codes(['corsheaders.E006'])
 
+    @override_settings(CORS_ORIGIN_WHITELIST=['http://example.com', 'null'])
+    def test_cors_origin_whitelist_allowed(self):
+        self.check_error_codes([])
+
     @override_settings(CORS_ORIGIN_WHITELIST=['example.com'])
     def test_cors_origin_whitelist_no_scheme(self):
         self.check_error_codes(['corsheaders.E013'])
