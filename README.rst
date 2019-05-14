@@ -44,11 +44,11 @@ and then add it to your installed apps:
 
 .. code-block:: python
 
-    INSTALLED_APPS = (
+    INSTALLED_APPS = [
         ...
         'corsheaders',
         ...
-    )
+    ]
 
 You will also need to add a middleware class to listen in on responses:
 
@@ -168,14 +168,14 @@ A list of HTTP verbs that are allowed for the actual request. Defaults to:
 
 .. code-block:: python
 
-    CORS_ALLOW_METHODS = (
+    CORS_ALLOW_METHODS = [
         'DELETE',
         'GET',
         'OPTIONS',
         'PATCH',
         'POST',
         'PUT',
-    )
+    ]
 
 The default can be imported as ``corsheaders.defaults.default_methods`` so you
 can just extend it with your custom methods. This allows you to keep up to date
@@ -185,9 +185,9 @@ with any future changes. For example:
 
     from corsheaders.defaults import default_methods
 
-    CORS_ALLOW_METHODS = default_methods + (
+    CORS_ALLOW_METHODS = default_methods + [
         'POKE',
-    )
+    ]
 
 ``CORS_ALLOW_HEADERS``
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -197,7 +197,7 @@ request. Defaults to:
 
 .. code-block:: python
 
-    CORS_ALLOW_HEADERS = (
+    CORS_ALLOW_HEADERS = [
         'accept',
         'accept-encoding',
         'authorization',
@@ -207,7 +207,7 @@ request. Defaults to:
         'user-agent',
         'x-csrftoken',
         'x-requested-with',
-    )
+    ]
 
 The default can be imported as ``corsheaders.defaults.default_headers`` so you
 can extend it with your custom headers. This allows you to keep up to date with
@@ -217,9 +217,9 @@ any future changes. For example:
 
     from corsheaders.defaults import default_headers
 
-    CORS_ALLOW_HEADERS = default_headers + (
+    CORS_ALLOW_HEADERS = default_headers + [
         'my-custom-header',
-    )
+    ]
 
 ``CORS_EXPOSE_HEADERS``
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -267,14 +267,14 @@ For example:
 
 .. code-block:: python
 
-    CORS_ORIGIN_WHITELIST = (
+    CORS_ORIGIN_WHITELIST = [
         'http://read.only.com',
         'http://change.allowed.com',
-    )
+    ]
 
-    CSRF_TRUSTED_ORIGINS = (
+    CSRF_TRUSTED_ORIGINS = [
         'change.allowed.com',
-    )
+    ]
 
 ``CORS_REPLACE_HTTPS_REFERER``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
