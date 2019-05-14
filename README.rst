@@ -185,7 +185,7 @@ with any future changes. For example:
 
     from corsheaders.defaults import default_methods
 
-    CORS_ALLOW_METHODS = default_methods + [
+    CORS_ALLOW_METHODS = list(default_methods) + [
         'POKE',
     ]
 
@@ -217,7 +217,7 @@ any future changes. For example:
 
     from corsheaders.defaults import default_headers
 
-    CORS_ALLOW_HEADERS = default_headers + [
+    CORS_ALLOW_HEADERS = list(default_headers) + [
         'my-custom-header',
     ]
 
