@@ -6,6 +6,9 @@ Pending
 
 .. Insert new release notes below this line
 
+* Add a hint to the ``corsheaders.E013`` check to make it more obvious how to
+  resolve it.
+
 3.0.1 (2019-05-13)
 ------------------
 
