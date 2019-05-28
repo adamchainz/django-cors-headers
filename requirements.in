@@ -9,3 +9,4 @@ pytest-django
 pytz
 Pygments
 sqlparse
+twine
