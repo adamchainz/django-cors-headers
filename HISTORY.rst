@@ -8,6 +8,9 @@ Pending
 
 * Drop Python 2 support, only Python 3.5-3.7 is supported now.
 
+* Add a hint to the ``corsheaders.E013`` check to make it more obvious how to
+  resolve it.
+
 3.0.1 (2019-05-13)
 ------------------
 
