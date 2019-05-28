@@ -77,7 +77,8 @@ def check_settings(app_configs, **kwargs):
             if parsed.scheme == '' or parsed.netloc == '':
                 errors.append(checks.Error(
                     "Origin {} in CORS_ORIGIN_WHITELIST is missing scheme or netloc".format(repr(origin)),
-                    id="corsheaders.E013"
+                    id="corsheaders.E013",
+                    hint="Add a scheme (e.g. https://) or netloc (e.g. example.com)."
                 ))
             else:
                 # Only do this check in this case because if the scheme is not provided, netloc ends up in path
