@@ -6,19 +6,15 @@ from corsheaders.signals import check_request_enabled
 
 
 def add_middleware(action, path):
-    return modify_settings(**{
-        'MIDDLEWARE': {
-            action: path,
-        }
-    })
+    return modify_settings(**{"MIDDLEWARE": {action: path}})
 
 
 def append_middleware(path):
-    return add_middleware('append', path)
+    return add_middleware("append", path)
 
 
 def prepend_middleware(path):
-    return add_middleware('prepend', path)
+    return add_middleware("prepend", path)
 
 
 @contextmanager

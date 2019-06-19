@@ -1,27 +1,15 @@
-SECRET_KEY = 'NOTASECRET'
+SECRET_KEY = "NOTASECRET"
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ["*"]
 
-INSTALLED_APPS = [
-    'corsheaders',
-]
+INSTALLED_APPS = ["corsheaders"]
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-    },
-}
+DATABASES = {"default": {"ENGINE": "django.db.backends.sqlite3"}}
 
-TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-    },
-]
+TEMPLATES = [{"BACKEND": "django.template.backends.django.DjangoTemplates"}]
 
-ROOT_URLCONF = 'tests.urls'
+ROOT_URLCONF = "tests.urls"
 
-MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
-]
+MIDDLEWARE = ["corsheaders.middleware.CorsMiddleware"]
 
-SECURE_PROXY_SSL_HEADER = ('HTTP_FAKE_SECURE', 'true')
+SECURE_PROXY_SSL_HEADER = ("HTTP_FAKE_SECURE", "true")
