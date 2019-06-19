@@ -7,6 +7,9 @@ django-cors-headers
 .. image:: https://img.shields.io/pypi/v/django-cors-headers.svg
     :target: https://pypi.python.org/pypi/django-cors-headers/
 
+.. image:: https://img.shields.io/badge/code%20style-black-000000.svg
+    :target: https://github.com/python/black
+
 A Django App that adds Cross-Origin Resource Sharing (CORS) headers to
 responses. This allows in-browser requests to your Django application from
 other origins.

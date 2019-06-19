@@ -5,7 +5,6 @@ from corsheaders.conf import conf
 
 
 class ConfTests(SimpleTestCase):
-
-    @override_settings(CORS_ALLOW_HEADERS=['foo'])
+    @override_settings(CORS_ALLOW_HEADERS=["foo"])
     def test_can_override(self):
-        assert conf.CORS_ALLOW_HEADERS == ['foo']
+        assert conf.CORS_ALLOW_HEADERS == ["foo"]
