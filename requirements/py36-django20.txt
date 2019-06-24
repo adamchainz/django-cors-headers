@@ -16,9 +16,9 @@ bleach==3.1.0 \
     --hash=sha256:213336e49e102af26d9cde77dd2d0397afabc5a6bf2fed985dc35b5d1e285a16 \
     --hash=sha256:3fdf7f77adcf649c9911387df51254b813185e32b2c6619f690b593a617e19fa \
     # via readme-renderer
-certifi==2019.3.9 \
-    --hash=sha256:59b7658e26ca9c7339e00f8f4636cdfe59d34fa37b9b04f6f9e9926b3cece1a5 \
-    --hash=sha256:b26104d6835d1f5e49452a26eb2ff87fe7090b89dfcaee5ea2212697e1e1d7ae \
+certifi==2019.6.16 \
+    --hash=sha256:046832c04d4e752f37383b628bc601a7ea7211496b4638f6514d0e5b9acc4939 \
+    --hash=sha256:945e3ba63a0b9f577b1395204e13c3a231f9bc0223888be653286534e5873695 \
     # via requests
 chardet==3.0.4 \
     --hash=sha256:84ab92ed1c4d4f16916e05906b6b75a6c0fb5db821cc65e70cbd64a3e2a5eaae \
@@ -158,9 +158,9 @@ six==1.12.0 \
 sqlparse==0.3.0 \
     --hash=sha256:40afe6b8d4b1117e7dff5504d7a8ce07d9a1b15aeeade8a2d10f130a834f8177 \
     --hash=sha256:7c3dca29c022744e95b547e867cee89f4fce4373f3549ccd8797d8eb52cdb873
-tqdm==4.32.1 \
-    --hash=sha256:0a860bf2683fdbb4812fe539a6c22ea3f1777843ea985cb8c3807db448a0f7ab \
-    --hash=sha256:e288416eecd4df19d12407d0c913cbf77aa8009d7fddb18f632aded3bdbdda6b \
+tqdm==4.32.2 \
+    --hash=sha256:14a285392c32b6f8222ecfbcd217838f88e11630affe9006cd0e94c7eff3cb61 \
+    --hash=sha256:25d4c0ea02a305a688e7e9c2cdc8f862f989ef2a4701ab28ee963295f5b109ab \
     # via twine
 twine==1.13.0 \
     --hash=sha256:0fb0bfa3df4f62076cab5def36b1a71a2e4acb4d1fa5c97475b048117b1a6446 \
