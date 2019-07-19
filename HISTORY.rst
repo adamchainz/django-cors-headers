@@ -206,7 +206,7 @@ many many deployments, I think it's time we mark this as a stable release.
 
 * Add support for Python 3
 * Updated tests
-* Improved docuemntation
+* Improved documentation
 * Small bugfixes
 
 0.12 (2013-09-24)
