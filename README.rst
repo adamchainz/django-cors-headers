@@ -19,7 +19,7 @@ About CORS
 
 Adding CORS headers allows your resources to be accessed on other domains. It's
 important you understand the implications before adding the headers, since you
-could be unintentionally open up your site's private data to others.
+could be unintentionally opening up your site's private data to others.
 
 Some good resources to read on the subject are:
 
