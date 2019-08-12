@@ -28,7 +28,7 @@ setup(
     long_description=readme + "\n\n" + history,
     author="Otto Yiu",
     author_email="otto@live.ca",
-    url="https://github.com/ottoyiu/django-cors-headers",
+    url="https://github.com/adamchainz/django-cors-headers",
     project_urls={
         "Changelog": (
             "https://github.com/adamchainz/django-cors-headers"
