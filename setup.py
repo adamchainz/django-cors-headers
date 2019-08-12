@@ -29,6 +29,12 @@ setup(
     author="Otto Yiu",
     author_email="otto@live.ca",
     url="https://github.com/ottoyiu/django-cors-headers",
+    project_urls={
+        "Changelog": (
+            "https://github.com/adamchainz/django-cors-headers"
+            + "/blob/master/HISTORY.rst"
+        )
+    },
     packages=["corsheaders"],
     license="MIT License",
     keywords=["django", "cors", "middleware", "rest", "api"],
