@@ -1,8 +1,8 @@
 django-cors-headers
 ===================
 
-.. image:: https://travis-ci.org/ottoyiu/django-cors-headers.svg?branch=master
-   :target: https://travis-ci.org/ottoyiu/django-cors-headers
+.. image:: https://travis-ci.org/adamchainz/django-cors-headers.svg?branch=master
+   :target: https://travis-ci.org/adamchainz/django-cors-headers
 
 .. image:: https://img.shields.io/pypi/v/django-cors-headers.svg
     :target: https://pypi.python.org/pypi/django-cors-headers/
