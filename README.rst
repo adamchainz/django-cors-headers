@@ -81,15 +81,15 @@ unmaintained from August 2015 and was forked in January 2016 to the package
 by Laville Augustin at Zeste de Savoir.
 In September 2016, Adam Johnson, Ed Morley, and others gained maintenance
 responsibility for **django-cors-headers**
-(`Issue 110 <https://github.com/ottoyiu/django-cors-headers/issues/110>`_) from
-Otto Yiu.
+(`Issue 110 <https://github.com/adamchainz/django-cors-headers/issues/110>`__)
+from Otto Yiu.
 Basically all of the changes in the forked **django-cors-middleware** were
 merged back, or re-implemented in a different way, so it should be possible to
 switch back. If there's a feature that hasn't been merged, please open an issue
 about it.
 
-**django-cors-headers** has had `40+
-contributors <https://github.com/ottoyiu/django-cors-headers/graphs/contributors>`_
+**django-cors-headers** has had `40+ contributors
+<https://github.com/adamchainz/django-cors-headers/graphs/contributors>`__
 in its time; thanks to every one of them.
 
 Configuration

@@ -178,7 +178,7 @@ class CorsMiddlewareTests(TestCase):
     def test_auth_view_options(self):
         """
         Ensure HTTP200 and header still set, for preflight requests to views requiring
-        authentication. See: https://github.com/ottoyiu/django-cors-headers/issues/3
+        authentication. See: https://github.com/adamchainz/django-cors-headers/issues/3
         """
         resp = self.client.options(
             "/test-401/",

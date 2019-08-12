@@ -7,6 +7,8 @@ Pending
 .. Insert new release notes below this line
 
 * Drop Python 2 support, only Python 3.5-3.7 is supported now.
+* Fix all links for move from ``github.com/ottoyiu/django-cors-headers`` to
+  ``github.com/adamchainz/django-cors-headers``.
 
 3.0.2 (2019-05-28)
 ------------------
