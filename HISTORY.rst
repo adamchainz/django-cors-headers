@@ -6,7 +6,10 @@ Pending
 
 .. Insert new release notes below this line
 
-* Support the value `file://` for origins which is accidentally sent by some
+3.1.1 (2019-09-30)
+------------------
+
+* Support the value `file://` for origins, which is accidentally sent by some
   versions of Chrome on Android.
 
 3.1.0 (2019-08-13)
