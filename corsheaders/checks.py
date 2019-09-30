@@ -67,8 +67,15 @@ def check_settings(app_configs, **kwargs):
             )
         )
     else:
+        special_origin_values = (
+            # From 'security sensitive' contexts
+            "null",
+            # From files on Chrome on Android
+            # https://bugs.chromium.org/p/chromium/issues/detail?id=991107
+            "file://",
+        )
         for origin in conf.CORS_ORIGIN_WHITELIST:
-            if origin == "null":
+            if origin in special_origin_values:
                 continue
             parsed = urlparse(origin)
             if parsed.scheme == "" or parsed.netloc == "":
