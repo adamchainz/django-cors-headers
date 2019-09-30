@@ -113,11 +113,15 @@ Defaults to ``[]``.
 
 An Origin is defined by
 `the CORS RFC Section 3.2 <https://tools.ietf.org/html/rfc6454#section-3.2>`_
-as a URI scheme + hostname + port, or the special value `'null'`.
+as a URI scheme + hostname + port, or one of the special values `'null'` or
+`'file://'`.
 Default ports (HTTPS = 443, HTTP = 80) are optional here.
+
 The special value `null` is sent by the browser in
-`"privacy-sensitive contexts" <https://tools.ietf.org/html/rfc6454#section-6>`_,
+`"privacy-sensitive contexts" <https://tools.ietf.org/html/rfc6454#section-6>`__,
 such as when the client is running from a ``file://`` domain.
+The special value `file://` is sent accidentally by some versions of Chrome on
+Android as per `this bug <https://bugs.chromium.org/p/chromium/issues/detail?id=991107>`__.
 
 Example:
 

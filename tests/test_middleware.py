@@ -54,6 +54,15 @@ class CorsMiddlewareTests(TestCase):
         resp = self.client.get("/", HTTP_ORIGIN="null")
         assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == "null"
 
+    @override_settings(CORS_ORIGIN_WHITELIST=["http://example.com", "file://"])
+    def test_file_in_whitelist(self):
+        """
+        'file://' should be allowed as an origin since Chrome on Android
+        mistakenly sends it
+        """
+        resp = self.client.get("/", HTTP_ORIGIN="file://")
+        assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == "file://"
+
     @override_settings(
         CORS_ORIGIN_ALLOW_ALL=True,
         CORS_EXPOSE_HEADERS=["accept", "origin", "content-type"],
