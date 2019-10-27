@@ -1,14 +1,17 @@
+Pygments
 black ; python_version == '3.7.*'
 django
 docutils
 flake8
 flake8-bugbear
+flake8-comprehensions
+flake8-tidy-imports
 isort
 multilint
 pytest
 pytest-cov
 pytest-django
+pytest-randomly
 pytz
-Pygments
 sqlparse
 twine
