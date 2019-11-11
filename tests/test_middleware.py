@@ -134,7 +134,7 @@ class CorsMiddlewareTests(TestCase):
         CORS_ORIGIN_REGEX_WHITELIST=(r"^http?://(\w+\.)?example\.org$",),
     )
     def test_options_will_not_add_origin_when_domain_not_found_in_origin_regex_whitelist(  # noqa: B950
-        self
+        self,
     ):
         resp = self.client.options("/", HTTP_ORIGIN="http://foo.example.com")
         assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
