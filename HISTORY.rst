@@ -12,6 +12,7 @@ Pending
   ``importlib.metadata.version("django-cors-headers")``
   (`docs <https://docs.python.org/3.8/library/importlib.metadata.html#distribution-versions>`__ /
   `backport <https://pypi.org/project/importlib-metadata/>`__).
+* Update Python support to 3.5-3.8.
 
 3.1.1 (2019-09-30)
 ------------------
