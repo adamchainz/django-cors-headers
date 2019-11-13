@@ -15,4 +15,5 @@ python3.7 -m piptools compile  --generate-hashes -P 'Django>=2.0,<2.1' "$@" -o p
 python3.7 -m piptools compile  --generate-hashes -P 'Django>=2.1,<2.2' "$@" -o py37-django21.txt
 python3.7 -m piptools compile  --generate-hashes -P 'Django>=2.2,<2.3' "$@" -o py37-django22.txt
 python3.7 -m piptools compile  --generate-hashes -P 'Django>=3.0a1,<3.1' "$@" -o py37-django30.txt
+python3.8 -m piptools compile  --generate-hashes -P 'Django>=2.2,<2.3' "$@" -o py38-django22.txt
 python3.8 -m piptools compile  --generate-hashes -P 'Django>=3.0a1,<3.1' "$@" -o py38-django30.txt
