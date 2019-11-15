@@ -1,10 +1,8 @@
 History
 =======
 
-Pending
--------
-
-.. Insert new release notes below this line
+3.2.0 (2019-11-15)
+------------------
 
 * Converted setuptools metadata to configuration file. This meant removing the
   ``__version__`` attribute from the package. If you want to inspect the
@@ -12,7 +10,7 @@ Pending
   ``importlib.metadata.version("django-cors-headers")``
   (`docs <https://docs.python.org/3.8/library/importlib.metadata.html#distribution-versions>`__ /
   `backport <https://pypi.org/project/importlib-metadata/>`__).
-* Update Python support to 3.5-3.8.
+* Support Python 3.8.
 
 3.1.1 (2019-09-30)
 ------------------
