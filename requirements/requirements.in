@@ -1,5 +1,5 @@
 Pygments
-black ; python_version == '3.7.*'
+black ; python_version == '3.8.*'
 django
 docutils
 flake8
