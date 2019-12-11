@@ -13,6 +13,6 @@ pytest-cov
 pytest-django
 pytest-randomly
 pytz
+secretstorage # required for twine on linux
 sqlparse
 twine
-secretstorage # required for twine on linux
