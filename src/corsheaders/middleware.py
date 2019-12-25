@@ -137,11 +137,10 @@ class CorsMiddleware(MiddlewareMixin):
                 conf.CORS_EXPOSE_HEADERS
             )
 
-        if request.method == "OPTIONS":
-            response[ACCESS_CONTROL_ALLOW_HEADERS] = ", ".join(conf.CORS_ALLOW_HEADERS)
-            response[ACCESS_CONTROL_ALLOW_METHODS] = ", ".join(conf.CORS_ALLOW_METHODS)
-            if conf.CORS_PREFLIGHT_MAX_AGE:
-                response[ACCESS_CONTROL_MAX_AGE] = conf.CORS_PREFLIGHT_MAX_AGE
+        response[ACCESS_CONTROL_ALLOW_HEADERS] = ", ".join(conf.CORS_ALLOW_HEADERS)
+        response[ACCESS_CONTROL_ALLOW_METHODS] = ", ".join(conf.CORS_ALLOW_METHODS)
+        if conf.CORS_PREFLIGHT_MAX_AGE:
+            response[ACCESS_CONTROL_MAX_AGE] = conf.CORS_PREFLIGHT_MAX_AGE
 
         return response
 
