@@ -1,6 +1,13 @@
 History
 =======
 
+3.2.1 (2020-01-04)
+------------------
+
+* Update LICENSE file to Unix line endings, fixing issues with license checker
+  ``pip-licenses`` (`Issue
+  #477 <https://github.com/adamchainz/django-cors-headers/issues/477>`__).
+
 3.2.0 (2019-11-15)
 ------------------
 
