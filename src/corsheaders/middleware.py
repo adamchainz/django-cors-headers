@@ -93,6 +93,8 @@ class CorsMiddleware(MiddlewareMixin):
         """
         Do the referer replacement here as well
         """
+        if not hasattr(request, '_cors_enabled'):
+            request._cores_enabled = self.is_anabled(request)
         if request._cors_enabled and conf.CORS_REPLACE_HTTPS_REFERER:
             self._https_referer_replace(request)
         return None
@@ -104,6 +106,7 @@ class CorsMiddleware(MiddlewareMixin):
         enabled = getattr(request, "_cors_enabled", None)
         if enabled is None:
             enabled = self.is_enabled(request)
+            request._cors_enabled = enabled
 
         if not enabled:
             return response
