@@ -42,7 +42,7 @@ Install from **pip**:
 
 .. code-block:: sh
 
-    pip install django-cors-headers
+    python -m pip install django-cors-headers
 
 and then add it to your installed apps:
 
