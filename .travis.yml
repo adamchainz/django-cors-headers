@@ -14,6 +14,6 @@ matrix:
   - python: 3.8
   - python: 3.9-dev
 
-install: pip install tox-travis
+install: python -m pip install tox-travis
 
 script: tox
