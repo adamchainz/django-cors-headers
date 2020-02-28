@@ -109,11 +109,11 @@ cryptography==2.8 \
 django==2.1.15 \
     --hash=sha256:48522428f4a285cf265af969f4744c5ebb027c7f41958ba48b639ace2068ffe7 \
     --hash=sha256:a794f7a2f4b7c928eecfbc4ebad03712ff27fb545abe269bf01aa8500781eb1c \
-    # via -r requirements.in (line 4)
+    # via -r requirements.in
 docutils==0.16 \
     --hash=sha256:0c5b78adfbf7762415433f5515cd5c9e762339e23369dbe8000d84a4bf4ab3af \
     --hash=sha256:c2de3a60e9e7d07be26b7f2b00ca0309c207e06c100f9cc2a94931fc75a478fc \
-    # via -r requirements.in (line 5), readme-renderer
+    # via -r requirements.in, readme-renderer
 entrypoints==0.3 \
     --hash=sha256:589f874b313739ad35be6e0cd7efde2a4e9b6fea91edcc34e58ecbb8dbe56d19 \
     --hash=sha256:c70dd71abe5a8c85e55e12c19bd91ccfeec11a6e99044204511f9ed547d48451 \
@@ -121,19 +121,19 @@ entrypoints==0.3 \
 flake8-bugbear==19.8.0 \
     --hash=sha256:d8c466ea79d5020cb20bf9f11cf349026e09517a42264f313d3f6fddb83e0571 \
     --hash=sha256:ded4d282778969b5ab5530ceba7aa1a9f1b86fa7618fc96a19a1d512331640f8 \
-    # via -r requirements.in (line 7)
+    # via -r requirements.in
 flake8-comprehensions==3.2.2 \
     --hash=sha256:d08323aa801aef33477cd33f2f5ce3acb1aafd26803ab0d171d85d514c1273a2 \
     --hash=sha256:e7db586bb6eb95afdfd87ed244c90e57ae1352db8ef0ad3012fca0200421e5df \
-    # via -r requirements.in (line 8)
+    # via -r requirements.in
 flake8-tidy-imports==4.0.0 \
     --hash=sha256:8aa34384b45137d4cf33f5818b8e7897dc903b1d1e10a503fa7dd193a9a710ba \
     --hash=sha256:b26461561bcc80e8012e46846630ecf0aaa59314f362a94cb7800dfdb32fa413 \
-    # via -r requirements.in (line 9)
+    # via -r requirements.in
 flake8==3.7.9 \
     --hash=sha256:45681a117ecc81e870cbf1262835ae4af5e7a8b08e40b944a8a6e6b895914cfb \
     --hash=sha256:49356e766643ad15072a789a20915d3c91dc89fd313ccd71802303fd67e4deca \
-    # via -r requirements.in (line 6), flake8-bugbear, flake8-comprehensions, flake8-tidy-imports
+    # via -r requirements.in, flake8-bugbear, flake8-comprehensions, flake8-tidy-imports
 idna==2.9 \
     --hash=sha256:7588d1c14ae4c77d74036e8c22ff447b26d0fde8f007354fd48a7814db15b7cb \
     --hash=sha256:a068a21ceac8a4d63dbfd964670474107f541babbd2250d61922f029858365fa \
@@ -145,7 +145,7 @@ importlib-metadata==1.5.0 \
 isort==4.3.21 \
     --hash=sha256:54da7e92468955c4fceacd0c86bd0ec997b0e1ee80d97f67c35a78b719dccab1 \
     --hash=sha256:6e811fcb295968434526407adb8796944f1988c5b65e8139058f2014cbe100fd \
-    # via -r requirements.in (line 10)
+    # via -r requirements.in
 jeepney==0.4.2 \
     --hash=sha256:0ba6d8c597e9bef1ebd18aaec595f942a264e25c1a48f164d46120eacaa2e9bb \
     --hash=sha256:6f45dce1125cf6c58a1c88123d3831f36a789f9204fbad3172eac15f8ccd08d0 \
@@ -161,7 +161,7 @@ more-itertools==8.2.0 \
 multilint==4.1.0 \
     --hash=sha256:795573aeb096b939f3c00b343c113be86b027d8347e9b587169b3a7de6b6810f \
     --hash=sha256:ff3919f7af9b4e6db6306258715160a33537979cd494e0b611f224517c035478 \
-    # via -r requirements.in (line 11)
+    # via -r requirements.in
 packaging==20.1 \
     --hash=sha256:170748228214b70b672c581a3dd610ee51f733018650740e98c7df862a583f73 \
     --hash=sha256:e665345f9eef0c621aa0bf2f8d78cf6d21904eef16a93f020240b704a57f1334 \
@@ -196,7 +196,7 @@ pyflakes==2.1.1 \
 pygments==2.5.2 \
     --hash=sha256:2a3fe295e54a20164a9df49c75fa58526d3be48e14aceba6d6b1e8ac0bfd6f1b \
     --hash=sha256:98c8aa5a9f778fcd1026a17361ddaf7330d1b7c62ae97c3bb0ae73e0b9b6b0fe \
-    # via -r requirements.in (line 1), readme-renderer
+    # via -r requirements.in, readme-renderer
 pyparsing==2.4.6 \
     --hash=sha256:4c830582a84fb022400b85429791bc551f1f4871c33f23e44f353119e92f969f \
     --hash=sha256:c342dccb5250c08d45fd6f8b4a559613ca603b57498511740e65cd11a2e7dcec \
@@ -204,23 +204,23 @@ pyparsing==2.4.6 \
 pytest-cov==2.8.1 \
     --hash=sha256:cc6742d8bac45070217169f5f72ceee1e0e55b0221f54bcf24845972d3a47f2b \
     --hash=sha256:cdbdef4f870408ebdbfeb44e63e07eb18bb4619fae852f6e760645fa36172626 \
-    # via -r requirements.in (line 13)
+    # via -r requirements.in
 pytest-django==3.8.0 \
     --hash=sha256:456fa6854d04ee625d6bbb8b38ca2259e7040a6f93333bfe8bc8159b7e987203 \
     --hash=sha256:489b904f695f9fb880ce591cf5a4979880afb467763b1f180c07574554bdfd26 \
-    # via -r requirements.in (line 14)
+    # via -r requirements.in
 pytest-randomly==3.2.1 \
     --hash=sha256:8282a5a2066ed93d8d3eca6290538f34d09be05b7256ba94dba6fe3d2b1c514f \
     --hash=sha256:d9273db715bc7f8945cdb3efb994a9d15596a6087fb71a2e87030c5f2677317e \
-    # via -r requirements.in (line 15)
+    # via -r requirements.in
 pytest==5.3.5 \
     --hash=sha256:0d5fe9189a148acc3c3eb2ac8e1ac0742cb7618c084f3d228baaec0c254b318d \
     --hash=sha256:ff615c761e25eb25df19edddc0b970302d2a9091fbce0e7213298d85fb61fef6 \
-    # via -r requirements.in (line 12), pytest-cov, pytest-django, pytest-randomly
+    # via -r requirements.in, pytest-cov, pytest-django, pytest-randomly
 pytz==2019.3 \
     --hash=sha256:1c557d7d0e871de1f5ccd5833f60fb2550652da6be2693c1e02300743d21500d \
     --hash=sha256:b02c06db6cf09c12dd25137e563b31700d3b80fcc4ad23abb7a315f2789819be \
-    # via -r requirements.in (line 16), django
+    # via -r requirements.in, django
 readme-renderer==24.0 \
     --hash=sha256:bb16f55b259f27f75f640acf5e00cf897845a8b3e4731b5c1a436e4b8529202f \
     --hash=sha256:c8532b79afc0375a85f10433eca157d6b50f7d6990f337fa498c96cd4bfc203d \
@@ -236,7 +236,7 @@ requests==2.23.0 \
 secretstorage==3.1.2 \
     --hash=sha256:15da8a989b65498e29be338b3b279965f1b8f09b9668bd8010da183024c8bff6 \
     --hash=sha256:b5ec909dde94d4ae2fa26af7c089036997030f0cf0a5cb372b4cccabd81c143b \
-    # via -r requirements.in (line 17)
+    # via -r requirements.in
 six==1.14.0 \
     --hash=sha256:236bdbdce46e6e6a3d61a337c0f8b763ca1e8717c03b369e87a7ec7ce1319c0a \
     --hash=sha256:8f3cd2e254d8f793e7f3d6d9df77b92252b52637291d0f0da013c76ea2724b6c \
@@ -244,7 +244,7 @@ six==1.14.0 \
 sqlparse==0.3.0 \
     --hash=sha256:40afe6b8d4b1117e7dff5504d7a8ce07d9a1b15aeeade8a2d10f130a834f8177 \
     --hash=sha256:7c3dca29c022744e95b547e867cee89f4fce4373f3549ccd8797d8eb52cdb873 \
-    # via -r requirements.in (line 18)
+    # via -r requirements.in
 tqdm==4.43.0 \
     --hash=sha256:0d8b5afb66e23d80433102e9bd8b5c8b65d34c2a2255b2de58d97bd2ea8170fd \
     --hash=sha256:f35fb121bafa030bd94e74fcfd44f3c2830039a2ddef7fc87ef1c2d205237b24 \
@@ -252,7 +252,7 @@ tqdm==4.43.0 \
 twine==1.15.0 \
     --hash=sha256:630fadd6e342e725930be6c696537e3f9ccc54331742b16245dab292a17d0460 \
     --hash=sha256:a3d22aab467b4682a22de4a422632e79d07eebd07ff2a7079effb13f8a693787 \
-    # via -r requirements.in (line 19)
+    # via -r requirements.in
 urllib3==1.25.8 \
     --hash=sha256:2f3db8b19923a873b3e5256dc9c2dedfa883e33d87c690d9c7913e1f40673cdc \
     --hash=sha256:87716c2d2a7121198ebcb7ce7cccf6ce5e9ba539041cfbaeecfb641dc0bf6acc \
