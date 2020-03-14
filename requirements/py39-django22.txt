@@ -146,9 +146,9 @@ jeepney==0.4.3 \
     --hash=sha256:3479b861cc2b6407de5188695fa1a8d57e5072d7059322469b62628869b8e36e \
     --hash=sha256:d6c6b49683446d2407d2fe3acb7a368a77ff063f9182fe427da15d622adc24cf \
     # via secretstorage
-keyring==21.1.0 \
-    --hash=sha256:1f393f7466314068961c7e1d508120c092bd71fa54e3d93b76180b526d4abc56 \
-    --hash=sha256:24ae23ab2d6adc59138339e56843e33ec7b0a6b2f06302662477085c6c0aca00 \
+keyring==21.1.1 \
+    --hash=sha256:b7bdfb1978cfdbabec63a3d389ad60242e7ffe9d739cae00760408c4f07d2c13 \
+    --hash=sha256:ebce8a4acfcabbcdfdcae2fc58571cebf11f71262cca898edceef89cdc891898 \
     # via twine
 mccabe==0.6.1 \
     --hash=sha256:ab8a6258860da4b6677da4bd2fe5dc2c659cff31b3ee4f7f5d64e79735b80d42 \
@@ -190,9 +190,9 @@ pyflakes==2.1.1 \
     --hash=sha256:17dbeb2e3f4d772725c777fabc446d5634d1038f234e77343108ce445ea69ce0 \
     --hash=sha256:d976835886f8c5b31d47970ed689944a0262b5f3afa00a5a7b4dc81e5449f8a2 \
     # via flake8
-pygments==2.5.2 \
-    --hash=sha256:2a3fe295e54a20164a9df49c75fa58526d3be48e14aceba6d6b1e8ac0bfd6f1b \
-    --hash=sha256:98c8aa5a9f778fcd1026a17361ddaf7330d1b7c62ae97c3bb0ae73e0b9b6b0fe \
+pygments==2.6.1 \
+    --hash=sha256:647344a061c249a3b74e230c739f434d7ea4d8b1d5f3721bc0f3558049b38f44 \
+    --hash=sha256:ff7a40b4860b727ab48fad6360eb351cc1b33cbf9b15a0f689ca5353e9463324 \
     # via -r requirements.in, readme-renderer
 pyparsing==2.4.6 \
     --hash=sha256:4c830582a84fb022400b85429791bc551f1f4871c33f23e44f353119e92f969f \
@@ -210,9 +210,9 @@ pytest-randomly==3.2.1 \
     --hash=sha256:8282a5a2066ed93d8d3eca6290538f34d09be05b7256ba94dba6fe3d2b1c514f \
     --hash=sha256:d9273db715bc7f8945cdb3efb994a9d15596a6087fb71a2e87030c5f2677317e \
     # via -r requirements.in
-pytest==5.3.5 \
-    --hash=sha256:0d5fe9189a148acc3c3eb2ac8e1ac0742cb7618c084f3d228baaec0c254b318d \
-    --hash=sha256:ff615c761e25eb25df19edddc0b970302d2a9091fbce0e7213298d85fb61fef6 \
+pytest==5.4.1 \
+    --hash=sha256:0e5b30f5cb04e887b91b1ee519fa3d89049595f428c1db76e73bd7f17b09b172 \
+    --hash=sha256:84dde37075b8805f3d1f392cc47e38a0e59518fb46a431cfdaf7cf1ce805f970 \
     # via -r requirements.in, pytest-cov, pytest-django, pytest-randomly
 pytz==2019.3 \
     --hash=sha256:1c557d7d0e871de1f5ccd5833f60fb2550652da6be2693c1e02300743d21500d \
