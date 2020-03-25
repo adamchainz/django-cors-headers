@@ -4,7 +4,7 @@ from django.conf import settings
 from corsheaders.defaults import default_headers, default_methods
 
 
-class Settings(object):
+class Settings:
     """
     Shadow Django's settings with a little logic
     """
