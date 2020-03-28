@@ -16,9 +16,9 @@ black==19.10b0 ; python_version == "3.8.*" \
     --hash=sha256:1b30e59be925fafc1ee4565e5e08abef6b03fe455102883820fe5ee2e4734e0b \
     --hash=sha256:c2edb73a08e9e0e6f65a0e6af18b059b8b1cdd5bef997d7a0b181df93dc81539 \
     # via -r requirements.in
-bleach==3.1.3 \
-    --hash=sha256:53165a6596e7899c4338d847315fec508110a53bd6fd15c127c2e0d0860264e3 \
-    --hash=sha256:f8dfd8a7e26443e986c4e44df31870da8e906ea61096af06ba5d5cc2d519842a \
+bleach==3.1.4 \
+    --hash=sha256:cc8da25076a1fe56c3ac63671e2194458e0c4d9c7becfd52ca251650d517903c \
+    --hash=sha256:e78e426105ac07026ba098f04de8abe9b6e3e98b5befbf89b51a5ef0a4292b03 \
     # via readme-renderer
 certifi==2019.11.28 \
     --hash=sha256:017c25db2a153ce562900032d5bc68e9f191e44e9a0f762f373977de9df1fbb3 \
@@ -142,9 +142,9 @@ flake8-comprehensions==3.2.2 \
     --hash=sha256:d08323aa801aef33477cd33f2f5ce3acb1aafd26803ab0d171d85d514c1273a2 \
     --hash=sha256:e7db586bb6eb95afdfd87ed244c90e57ae1352db8ef0ad3012fca0200421e5df \
     # via -r requirements.in
-flake8-tidy-imports==4.0.1 \
-    --hash=sha256:5b6e75cec6d751e66534c522fbdce7dac1c2738b1216b0f6b10453995932e188 \
-    --hash=sha256:cf26fbb3ab31a398f265d53b6f711d80006450c19221e41b2b7b0e0b14ac39c5 \
+flake8-tidy-imports==4.1.0 \
+    --hash=sha256:62059ca07d8a4926b561d392cbab7f09ee042350214a25cf12823384a45d27dd \
+    --hash=sha256:c30b40337a2e6802ba3bb611c26611154a27e94c53fc45639e3e282169574fd3 \
     # via -r requirements.in
 flake8==3.7.9 \
     --hash=sha256:45681a117ecc81e870cbf1262835ae4af5e7a8b08e40b944a8a6e6b895914cfb \
