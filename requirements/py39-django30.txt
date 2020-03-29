@@ -4,17 +4,17 @@
 #
 #    requirements/compile.py
 #
-asgiref==3.2.6 \
-    --hash=sha256:63007b556233381c5f22ae4c7e4292c9f1b953dc8909ae8fd268f611dc23cbd0 \
-    --hash=sha256:9c65b42045910c159ad41fc33692a8a6e6e154d8d05244ea69a0cbc617edad31 \
+asgiref==3.2.7 \
+    --hash=sha256:8036f90603c54e93521e5777b2b9a39ba1bad05773fcf2d208f0299d1df58ce5 \
+    --hash=sha256:9ca8b952a0a9afa61d30aa6d3d9b570bb3fd6bafcf7ec9e6bed43b936133db1c \
     # via django
 attrs==19.3.0 \
     --hash=sha256:08a96c641c3a74e44eb59afb61a24f2cb9f4d7188748e76ba4bb5edfa3cb7d1c \
     --hash=sha256:f7b7ce16570fe9965acd6d30101a28f62fb4a7f9e926b3bbc9b61f8b04247e72 \
     # via flake8-bugbear, pytest
-bleach==3.1.3 \
-    --hash=sha256:53165a6596e7899c4338d847315fec508110a53bd6fd15c127c2e0d0860264e3 \
-    --hash=sha256:f8dfd8a7e26443e986c4e44df31870da8e906ea61096af06ba5d5cc2d519842a \
+bleach==3.1.4 \
+    --hash=sha256:cc8da25076a1fe56c3ac63671e2194458e0c4d9c7becfd52ca251650d517903c \
+    --hash=sha256:e78e426105ac07026ba098f04de8abe9b6e3e98b5befbf89b51a5ef0a4292b03 \
     # via readme-renderer
 certifi==2019.11.28 \
     --hash=sha256:017c25db2a153ce562900032d5bc68e9f191e44e9a0f762f373977de9df1fbb3 \
@@ -130,9 +130,9 @@ flake8-comprehensions==3.2.2 \
     --hash=sha256:d08323aa801aef33477cd33f2f5ce3acb1aafd26803ab0d171d85d514c1273a2 \
     --hash=sha256:e7db586bb6eb95afdfd87ed244c90e57ae1352db8ef0ad3012fca0200421e5df \
     # via -r requirements.in
-flake8-tidy-imports==4.0.1 \
-    --hash=sha256:5b6e75cec6d751e66534c522fbdce7dac1c2738b1216b0f6b10453995932e188 \
-    --hash=sha256:cf26fbb3ab31a398f265d53b6f711d80006450c19221e41b2b7b0e0b14ac39c5 \
+flake8-tidy-imports==4.1.0 \
+    --hash=sha256:62059ca07d8a4926b561d392cbab7f09ee042350214a25cf12823384a45d27dd \
+    --hash=sha256:c30b40337a2e6802ba3bb611c26611154a27e94c53fc45639e3e282169574fd3 \
     # via -r requirements.in
 flake8==3.7.9 \
     --hash=sha256:45681a117ecc81e870cbf1262835ae4af5e7a8b08e40b944a8a6e6b895914cfb \
