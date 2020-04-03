@@ -33,7 +33,7 @@ Requirements
 
 Python 3.5 to 3.8 supported.
 
-Django 1.11 to 3.0 supported.
+Django 2.0 to 3.0 supported.
 
 Setup
 -----

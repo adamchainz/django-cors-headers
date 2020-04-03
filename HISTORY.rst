@@ -1,6 +1,8 @@
 History
 =======
 
+* Drop Django 1.11 support. Only Django 2.0+ is supported now.
+
 3.2.1 (2020-01-04)
 ------------------
 
