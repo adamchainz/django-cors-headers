@@ -1,7 +1,7 @@
 django-cors-headers
 ===================
 
-.. image:: https://github.com/adamchainz/django-cors-headers.svg?branch=master/actions?workflow=CI
+.. image:: https://github.com/adamchainz/django-cors-headers/workflows/CI/badge.svg?branch=master
    :target: https://github.com/adamchainz/django-cors-headers/actions?workflow=CI
 
 .. image:: https://img.shields.io/pypi/v/django-cors-headers.svg
