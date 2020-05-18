@@ -1,7 +1,12 @@
 History
 =======
 
+3.3.0 (2020-05-18)
+------------------
+
 * Drop Django 1.11 support. Only Django 2.0+ is supported now.
+* Drop the ``providing_args`` argument from ``Signal`` to prevent a deprecation
+  warning on Django 3.1.
 
 3.2.1 (2020-01-04)
 ------------------
