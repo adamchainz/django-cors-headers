@@ -116,10 +116,6 @@ docutils==0.16 \
     --hash=sha256:0c5b78adfbf7762415433f5515cd5c9e762339e23369dbe8000d84a4bf4ab3af \
     --hash=sha256:c2de3a60e9e7d07be26b7f2b00ca0309c207e06c100f9cc2a94931fc75a478fc \
     # via -r requirements.in, readme-renderer
-entrypoints==0.3 \
-    --hash=sha256:589f874b313739ad35be6e0cd7efde2a4e9b6fea91edcc34e58ecbb8dbe56d19 \
-    --hash=sha256:c70dd71abe5a8c85e55e12c19bd91ccfeec11a6e99044204511f9ed547d48451 \
-    # via flake8
 flake8-bugbear==20.1.4 \
     --hash=sha256:a3ddc03ec28ba2296fc6f89444d1c946a6b76460f859795b35b77d4920a51b63 \
     --hash=sha256:bd02e4b009fb153fe6072c31c52aeab5b133d508095befb2ffcf3b41c4823162 \
@@ -132,9 +128,9 @@ flake8-tidy-imports==4.1.0 \
     --hash=sha256:62059ca07d8a4926b561d392cbab7f09ee042350214a25cf12823384a45d27dd \
     --hash=sha256:c30b40337a2e6802ba3bb611c26611154a27e94c53fc45639e3e282169574fd3 \
     # via -r requirements.in
-flake8==3.7.9 \
-    --hash=sha256:45681a117ecc81e870cbf1262835ae4af5e7a8b08e40b944a8a6e6b895914cfb \
-    --hash=sha256:49356e766643ad15072a789a20915d3c91dc89fd313ccd71802303fd67e4deca \
+flake8==3.8.2 \
+    --hash=sha256:c69ac1668e434d37a2d2880b3ca9aafd54b3a10a3ac1ab101d22f29e29cf8634 \
+    --hash=sha256:ccaa799ef9893cebe69fdfefed76865aeaefbb94cb8545617b2298786a4de9a5 \
     # via -r requirements.in, flake8-bugbear, flake8-comprehensions, flake8-tidy-imports
 idna==2.9 \
     --hash=sha256:7588d1c14ae4c77d74036e8c22ff447b26d0fde8f007354fd48a7814db15b7cb \
@@ -143,7 +139,7 @@ idna==2.9 \
 importlib-metadata==1.6.0 \
     --hash=sha256:2a688cbaa90e0cc587f1df48bdc97a6eadccdcd9c35fb3f976a09e3b5016d90f \
     --hash=sha256:34513a8a0c4962bc66d35b359558fd8a5e10cd472d37aec5f66858addef32c1e \
-    # via flake8-comprehensions, flake8-tidy-imports, keyring, pluggy, pytest, pytest-randomly, twine
+    # via flake8, flake8-comprehensions, flake8-tidy-imports, keyring, pluggy, pytest, pytest-randomly, twine
 isort==4.3.21 \
     --hash=sha256:54da7e92468955c4fceacd0c86bd0ec997b0e1ee80d97f67c35a78b719dccab1 \
     --hash=sha256:6e811fcb295968434526407adb8796944f1988c5b65e8139058f2014cbe100fd \
@@ -160,17 +156,17 @@ mccabe==0.6.1 \
     --hash=sha256:ab8a6258860da4b6677da4bd2fe5dc2c659cff31b3ee4f7f5d64e79735b80d42 \
     --hash=sha256:dd8d182285a0fe56bace7f45b5e7d1a6ebcbf524e8f3bd87eb0f125271b8831f \
     # via flake8
-more-itertools==8.2.0 \
-    --hash=sha256:5dd8bcf33e5f9513ffa06d5ad33d78f31e1931ac9a18f33d37e77a180d393a7c \
-    --hash=sha256:b1ddb932186d8a6ac451e1d95844b382f55e12686d51ca0c68b6f61f2ab7a507 \
+more-itertools==8.3.0 \
+    --hash=sha256:558bb897a2232f5e4f8e2399089e35aecb746e1f9191b6584a151647e89267be \
+    --hash=sha256:7818f596b1e87be009031c7653d01acc46ed422e6656b394b0f765ce66ed4982 \
     # via pytest
 multilint==4.1.0 \
     --hash=sha256:795573aeb096b939f3c00b343c113be86b027d8347e9b587169b3a7de6b6810f \
     --hash=sha256:ff3919f7af9b4e6db6306258715160a33537979cd494e0b611f224517c035478 \
     # via -r requirements.in
-packaging==20.3 \
-    --hash=sha256:3c292b474fda1671ec57d46d739d072bfd495a4f51ad01a055121d81e952b7a3 \
-    --hash=sha256:82f77b9bee21c1bafbf35a84905d604d5d1223801d639cf3ed140bd651c08752 \
+packaging==20.4 \
+    --hash=sha256:4357f74f47b9c12db93624a82154e9b120fa8293699949152b22065d556079f8 \
+    --hash=sha256:998416ba6962ae7fbd6596850b80e17859a5753ba17c32284f67bfff33784181 \
     # via bleach, pytest
 pkginfo==1.5.0.1 \
     --hash=sha256:7424f2c8511c186cd5424bbf31045b77435b37a8d604990b79d4e70d741148bb \
@@ -184,17 +180,17 @@ py==1.8.1 \
     --hash=sha256:5e27081401262157467ad6e7f851b7aa402c5852dbcb3dae06768434de5752aa \
     --hash=sha256:c20fdd83a5dbc0af9efd622bee9a5564e278f6380fffcacc43ba6f43db2813b0 \
     # via pytest
-pycodestyle==2.5.0 \
-    --hash=sha256:95a2219d12372f05704562a14ec30bc76b05a5b297b21a5dfe3f6fac3491ae56 \
-    --hash=sha256:e40a936c9a450ad81df37f549d676d127b1b66000a6c500caa2b085bc0ca976c \
+pycodestyle==2.6.0 \
+    --hash=sha256:2295e7b2f6b5bd100585ebcb1f616591b652db8a741695b3d8f5d28bdc934367 \
+    --hash=sha256:c58a7d2815e0e8d7972bf1803331fb0152f867bd89adf8a01dfd55085434192e \
     # via flake8
 pycparser==2.20 \
     --hash=sha256:2d475327684562c3a96cc71adf7dc8c4f0565175cf86b6d7a404ff4c771f15f0 \
     --hash=sha256:7582ad22678f0fcd81102833f60ef8d0e57288b6b5fb00323d101be910e35705 \
     # via cffi
-pyflakes==2.1.1 \
-    --hash=sha256:17dbeb2e3f4d772725c777fabc446d5634d1038f234e77343108ce445ea69ce0 \
-    --hash=sha256:d976835886f8c5b31d47970ed689944a0262b5f3afa00a5a7b4dc81e5449f8a2 \
+pyflakes==2.2.0 \
+    --hash=sha256:0d94e0e05a19e57a99444b6ddcf9a6eb2e5c68d3ca1e98e90707af8152c90a92 \
+    --hash=sha256:35b2d75ee967ea93b55750aa9edbbf72813e06a66ba54438df2cfac9e3c27fc8 \
     # via flake8
 pygments==2.6.1 \
     --hash=sha256:647344a061c249a3b74e230c739f434d7ea4d8b1d5f3721bc0f3558049b38f44 \
@@ -204,9 +200,9 @@ pyparsing==2.4.7 \
     --hash=sha256:c203ec8783bf771a155b207279b9bccb8dea02d8f0c9e5f8ead507bc3246ecc1 \
     --hash=sha256:ef9d7589ef3c200abe66653d3f1ab1033c3c419ae9b9bdb1240a85b024efc88b \
     # via packaging
-pytest-cov==2.8.1 \
-    --hash=sha256:cc6742d8bac45070217169f5f72ceee1e0e55b0221f54bcf24845972d3a47f2b \
-    --hash=sha256:cdbdef4f870408ebdbfeb44e63e07eb18bb4619fae852f6e760645fa36172626 \
+pytest-cov==2.9.0 \
+    --hash=sha256:b6a814b8ed6247bd81ff47f038511b57fe1ce7f4cc25b9106f1a4b106f1d9322 \
+    --hash=sha256:c87dfd8465d865655a8213859f1b4749b43448b5fae465cb981e16d52a811424 \
     # via -r requirements.in
 pytest-django==3.9.0 \
     --hash=sha256:64f99d565dd9497af412fcab2989fe40982c1282d4118ff422b407f3f7275ca5 \
@@ -240,9 +236,9 @@ secretstorage==3.1.2 \
     --hash=sha256:15da8a989b65498e29be338b3b279965f1b8f09b9668bd8010da183024c8bff6 \
     --hash=sha256:b5ec909dde94d4ae2fa26af7c089036997030f0cf0a5cb372b4cccabd81c143b \
     # via -r requirements.in
-six==1.14.0 \
-    --hash=sha256:236bdbdce46e6e6a3d61a337c0f8b763ca1e8717c03b369e87a7ec7ce1319c0a \
-    --hash=sha256:8f3cd2e254d8f793e7f3d6d9df77b92252b52637291d0f0da013c76ea2724b6c \
+six==1.15.0 \
+    --hash=sha256:30639c035cdb23534cd4aa2dd52c3bf48f06e5f4a941509c8bafd8ce11080259 \
+    --hash=sha256:8b74bedcbbbaca38ff6d7491d76f2b06b3592611af620f8426e82dddb04a5ced \
     # via bleach, cryptography, packaging, readme-renderer
 sqlparse==0.3.1 \
     --hash=sha256:022fb9c87b524d1f7862b3037e541f68597a730a8843245c349fc93e1643dc4e \
