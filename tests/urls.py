@@ -1,5 +1,5 @@
-from django.conf.urls import url
 from django.http import Http404, HttpResponse
+from django.urls import path
 
 
 def test_view(request):
@@ -19,8 +19,8 @@ def test_view_that_deletes_is_enabled(request):
 
 
 urlpatterns = [
-    url(r"^$", test_view),
-    url(r"^foo/$", test_view),
-    url(r"^test-401/$", test_view_http401),
-    url(r"^delete-is-enabled/$", test_view_that_deletes_is_enabled),
+    path("", test_view),
+    path("foo/", test_view),
+    path("test-401/", test_view_http401),
+    path("delete-is-enabled/", test_view_that_deletes_is_enabled),
 ]
