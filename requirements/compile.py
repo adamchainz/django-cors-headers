@@ -185,3 +185,36 @@ if __name__ == "__main__":
         ],
         check=True,
     )
+    subprocess.run(
+        [
+            "python3.9",
+            *common_args,
+            "-P",
+            "Django>=2.2,<2.3",
+            "-o",
+            "py39-django22.txt",
+        ],
+        check=True,
+    )
+    subprocess.run(
+        [
+            "python3.9",
+            *common_args,
+            "-P",
+            "Django>=3.0a1,<3.1",
+            "-o",
+            "py39-django30.txt",
+        ],
+        check=True,
+    )
+    subprocess.run(
+        [
+            "python3.9",
+            *common_args,
+            "-P",
+            "Django>=3.1a1,<3.2",
+            "-o",
+            "py39-django31.txt",
+        ],
+        check=True,
+    )
