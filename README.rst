@@ -33,7 +33,7 @@ Requirements
 
 Python 3.5 to 3.8 supported.
 
-Django 2.0 to 3.0 supported.
+Django 2.2 to 3.0 supported.
 
 Setup
 -----
@@ -58,7 +58,7 @@ You will also need to add a middleware class to listen in on responses:
 
 .. code-block:: python
 
-    MIDDLEWARE = [  # Or MIDDLEWARE_CLASSES on Django < 1.10
+    MIDDLEWARE = [
         ...
         'corsheaders.middleware.CorsMiddleware',
         'django.middleware.common.CommonMiddleware',

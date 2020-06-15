@@ -14,53 +14,9 @@ if __name__ == "__main__":
             "python3.5",
             *common_args,
             "-P",
-            "Django>=2.0,<2.1",
-            "-o",
-            "py35-django20.txt",
-        ],
-        check=True,
-    )
-    subprocess.run(
-        [
-            "python3.5",
-            *common_args,
-            "-P",
-            "Django>=2.1,<2.2",
-            "-o",
-            "py35-django21.txt",
-        ],
-        check=True,
-    )
-    subprocess.run(
-        [
-            "python3.5",
-            *common_args,
-            "-P",
             "Django>=2.2,<2.3",
             "-o",
             "py35-django22.txt",
-        ],
-        check=True,
-    )
-    subprocess.run(
-        [
-            "python3.6",
-            *common_args,
-            "-P",
-            "Django>=2.0,<2.1",
-            "-o",
-            "py36-django20.txt",
-        ],
-        check=True,
-    )
-    subprocess.run(
-        [
-            "python3.6",
-            *common_args,
-            "-P",
-            "Django>=2.1,<2.2",
-            "-o",
-            "py36-django21.txt",
         ],
         check=True,
     )
@@ -94,28 +50,6 @@ if __name__ == "__main__":
             "Django>=3.1a1,<3.2",
             "-o",
             "py36-django31.txt",
-        ],
-        check=True,
-    )
-    subprocess.run(
-        [
-            "python3.7",
-            *common_args,
-            "-P",
-            "Django>=2.0,<2.1",
-            "-o",
-            "py37-django20.txt",
-        ],
-        check=True,
-    )
-    subprocess.run(
-        [
-            "python3.7",
-            *common_args,
-            "-P",
-            "Django>=2.1,<2.2",
-            "-o",
-            "py37-django21.txt",
         ],
         check=True,
     )
