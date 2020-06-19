@@ -109,15 +109,15 @@ Configuration
 
 Configure the middleware's behaviour in your Django settings. You must add the
 hosts that are allowed to do cross-site requests to
-``CORS_ORIGIN_WHITELIST``, or set ``CORS_ORIGIN_ALLOW_ALL`` to ``True``
+``CORS_ORIGIN_ALLOWLIST``, or set ``CORS_ORIGIN_ALLOW_ALL`` to ``True``
 to allow all hosts.
 
 ``CORS_ORIGIN_ALLOW_ALL``
 ~~~~~~~~~~~~~~~~~~~~~~~~~
-If ``True``, the whitelist will not be used and all origins will be accepted.
+If ``True``, the allowlist will not be used and all origins will be accepted.
 Defaults to ``False``.
 
-``CORS_ORIGIN_WHITELIST``
+``CORS_ORIGIN_ALLOWLIST``
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A list of origins that are authorized to make cross-site HTTP requests.
@@ -139,7 +139,7 @@ Example:
 
 .. code-block:: python
 
-    CORS_ORIGIN_WHITELIST = [
+    CORS_ORIGIN_ALLOWLIST = [
         "https://example.com",
         "https://sub.example.com",
         "http://localhost:8080",
@@ -147,19 +147,19 @@ Example:
     ]
 
 
-``CORS_ORIGIN_REGEX_WHITELIST``
+``CORS_ORIGIN_REGEX_ALLOWLIST``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A list of strings representing regexes that match Origins that are authorized
 to make cross-site HTTP requests. Defaults to ``[]``. Useful when
-``CORS_ORIGIN_WHITELIST`` is impractical, such as when you have a large number
+``CORS_ORIGIN_ALLOWLIST`` is impractical, such as when you have a large number
 of subdomains.
 
 Example:
 
 .. code-block:: python
 
-    CORS_ORIGIN_REGEX_WHITELIST = [
+    CORS_ORIGIN_REGEX_ALLOWLIST = [
         r"^https://\w+\.example\.com$",
     ]
 
@@ -286,7 +286,7 @@ For example:
 
 .. code-block:: python
 
-    CORS_ORIGIN_WHITELIST = [
+    CORS_ORIGIN_ALLOWLIST = [
         'http://read.only.com',
         'http://change.allowed.com',
     ]
@@ -377,7 +377,7 @@ of URL's, whilst allowing a normal set of origins to access *all* URL's. This
 isn't possible using just the normal configuration, but it can be achieved with
 a signal handler.
 
-First set ``CORS_ORIGIN_WHITELIST`` to the list of trusted origins that are
+First set ``CORS_ORIGIN_ALLOWLIST`` to the list of trusted origins that are
 allowed to access every URL, and then add a handler to
 ``check_request_enabled`` to allow CORS regardless of the origin for the
 unrestricted URL's. For example:

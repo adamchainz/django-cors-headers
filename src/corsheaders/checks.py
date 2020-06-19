@@ -59,10 +59,10 @@ def check_settings(app_configs, **kwargs):
             )
         )
 
-    if not is_sequence(conf.CORS_ORIGIN_WHITELIST, str):
+    if not is_sequence(conf.CORS_ORIGIN_ALLOWLIST, str):
         errors.append(
             checks.Error(
-                "CORS_ORIGIN_WHITELIST should be a sequence of strings.",
+                "CORS_ORIGIN_ALLOWLIST should be a sequence of strings.",
                 id="corsheaders.E006",
             )
         )
@@ -74,7 +74,7 @@ def check_settings(app_configs, **kwargs):
             # https://bugs.chromium.org/p/chromium/issues/detail?id=991107
             "file://",
         )
-        for origin in conf.CORS_ORIGIN_WHITELIST:
+        for origin in conf.CORS_ORIGIN_ALLOWLIST:
             if origin in special_origin_values:
                 continue
             parsed = urlparse(origin)
@@ -82,7 +82,7 @@ def check_settings(app_configs, **kwargs):
                 errors.append(
                     checks.Error(
                         (
-                            "Origin {} in CORS_ORIGIN_WHITELIST is missing "
+                            "Origin {} in CORS_ORIGIN_ALLOWLIST is missing "
                             + " scheme or netloc"
                         ).format(repr(origin)),
                         id="corsheaders.E013",
@@ -100,18 +100,18 @@ def check_settings(app_configs, **kwargs):
                         errors.append(
                             checks.Error(
                                 (
-                                    "Origin {} in CORS_ORIGIN_WHITELIST should "
+                                    "Origin {} in CORS_ORIGIN_ALLOWLIST should "
                                     + "not have {}"
                                 ).format(repr(origin), part),
                                 id="corsheaders.E014",
                             )
                         )
 
-    if not is_sequence(conf.CORS_ORIGIN_REGEX_WHITELIST, (str, re_type)):
+    if not is_sequence(conf.CORS_ORIGIN_REGEX_ALLOWLIST, (str, re_type)):
         errors.append(
             checks.Error(
                 (
-                    "CORS_ORIGIN_REGEX_WHITELIST should be a sequence of "
+                    "CORS_ORIGIN_REGEX_ALLOWLIST should be a sequence of "
                     + "strings and/or compiled regexes."
                 ),
                 id="corsheaders.E007",

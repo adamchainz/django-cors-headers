@@ -1,6 +1,13 @@
 History
 =======
 
+* Rename ``CORS_ORIGIN_WHITELIST`` to ``CORS_ORIGIN_ALLOWLIST`` internally
+* Rename ``CORS_ORIGIN_WHITELIST_REGEX`` to ``CORS_ORIGIN_ALLOWLIST_REGEX`` internally
+* Support for ``CORS_ORIGIN_ALLOWLIST`` and ``CORS_ORIGIN_ALLOWLIST_REGEX`` in django settings
+
+3.4.0 (2020-06-19)
+------------------
+
 * Drop Django 2.0 and 2.1 support.
 
 3.4.0 (2020-06-15)

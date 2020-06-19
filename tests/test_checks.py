@@ -59,36 +59,36 @@ class ChecksTests(SimpleTestCase):
     def test_cors_origin_allow_all_non_bool(self):
         self.check_error_codes(["corsheaders.E005"])
 
-    @override_settings(CORS_ORIGIN_WHITELIST=object)
-    def test_cors_origin_whitelist_non_sequence(self):
+    @override_settings(CORS_ORIGIN_ALLOWLIST=object)
+    def test_cors_origin_allowlist_non_sequence(self):
         self.check_error_codes(["corsheaders.E006"])
 
-    @override_settings(CORS_ORIGIN_WHITELIST=[object])
-    def test_cors_origin_whitelist_non_string(self):
+    @override_settings(CORS_ORIGIN_ALLOWLIST=[object])
+    def test_cors_origin_allowlist_non_string(self):
         self.check_error_codes(["corsheaders.E006"])
 
-    @override_settings(CORS_ORIGIN_WHITELIST=["http://example.com", "file://", "null"])
-    def test_cors_origin_whitelist_allowed(self):
+    @override_settings(CORS_ORIGIN_ALLOWLIST=["http://example.com", "file://", "null"])
+    def test_cors_origin_allowlist_allowed(self):
         self.check_error_codes([])
 
-    @override_settings(CORS_ORIGIN_WHITELIST=["example.com"])
-    def test_cors_origin_whitelist_no_scheme(self):
+    @override_settings(CORS_ORIGIN_ALLOWLIST=["example.com"])
+    def test_cors_origin_allowlist_no_scheme(self):
         self.check_error_codes(["corsheaders.E013"])
 
-    @override_settings(CORS_ORIGIN_WHITELIST=["https://"])
-    def test_cors_origin_whitelist_no_netloc(self):
+    @override_settings(CORS_ORIGIN_ALLOWLIST=["https://"])
+    def test_cors_origin_allowlist_no_netloc(self):
         self.check_error_codes(["corsheaders.E013"])
 
-    @override_settings(CORS_ORIGIN_WHITELIST=["https://example.com/foobar"])
-    def test_cors_origin_whitelist_path(self):
+    @override_settings(CORS_ORIGIN_ALLOWLIST=["https://example.com/foobar"])
+    def test_cors_origin_allowlist_path(self):
         self.check_error_codes(["corsheaders.E014"])
 
-    @override_settings(CORS_ORIGIN_REGEX_WHITELIST=object)
-    def test_cors_origin_regex_whitelist_non_sequence(self):
+    @override_settings(CORS_ORIGIN_REGEX_ALLOWLIST=object)
+    def test_cors_origin_regex_allowlist_non_sequence(self):
         self.check_error_codes(["corsheaders.E007"])
 
-    @override_settings(CORS_ORIGIN_REGEX_WHITELIST=[re.compile(r"a")])
-    def test_cors_origin_regex_whitelist_regex(self):
+    @override_settings(CORS_ORIGIN_REGEX_ALLOWLIST=[re.compile(r"a")])
+    def test_cors_origin_regex_allowlist_regex(self):
         self.check_error_codes([])
 
     @override_settings(CORS_EXPOSE_HEADERS=object)
