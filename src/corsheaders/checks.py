@@ -139,11 +139,6 @@ def check_settings(**kwargs: Any) -> list[CheckMessage]:
             Error("CORS_URLS_REGEX should be a string or regex.", id="corsheaders.E009")
         )
 
-    if not isinstance(conf.CORS_REPLACE_HTTPS_REFERER, bool):
-        errors.append(  # type: ignore [unreachable]
-            Error("CORS_REPLACE_HTTPS_REFERER should be a bool.", id="corsheaders.E011")
-        )
-
     if hasattr(settings, "CORS_MODEL"):
         errors.append(
             Error(
@@ -152,6 +147,17 @@ def check_settings(**kwargs: Any) -> list[CheckMessage]:
                     + "django-cors-headers' HISTORY."
                 ),
                 id="corsheaders.E012",
+            )
+        )
+
+    if hasattr(settings, "CORS_REPLACE_HTTPS_REFERER"):
+        errors.append(
+            Error(
+                (
+                    "The CORS_REPLACE_HTTPS_REFERER setting has been removed"
+                    + " - see django-cors-headers' CHANGELOG."
+                ),
+                id="corsheaders.E013",
             )
         )
 
