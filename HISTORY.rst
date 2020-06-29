@@ -3,7 +3,7 @@ History
 
 * Drop Django 2.0 and 2.1 support.
 
-3.3.0 (2020-06-15)
+3.4.0 (2020-06-15)
 ------------------
 
 * Add Django 3.1 support.
