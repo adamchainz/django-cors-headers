@@ -54,6 +54,10 @@ and then add it to your installed apps:
         ...
     ]
 
+Make sure you add the trailing comma or you might get a ``ModuleNotFoundError``
+(see `this blog
+post <https://adamj.eu/tech/2020/06/29/why-does-python-raise-modulenotfounderror-when-modifying-installed-apps/>`__).
+
 You will also need to add a middleware class to listen in on responses:
 
 .. code-block:: python
