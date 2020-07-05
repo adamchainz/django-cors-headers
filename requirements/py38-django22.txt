@@ -239,7 +239,7 @@ pytest==5.4.3 \
 pytz==2020.1 \
     --hash=sha256:a494d53b6d39c3c6e44c3bec237336e14305e4f29bbf800b599253057fbb79ed \
     --hash=sha256:c35965d010ce31b23eeb663ed3cc8c906275d6be1a34393a1d73a41febf4a048 \
-    # via -r requirements.in, django
+    # via django
 readme-renderer==26.0 \
     --hash=sha256:cbe9db71defedd2428a1589cdc545f9bd98e59297449f69d721ef8f1cfced68d \
     --hash=sha256:cc4957a803106e820d05d14f71033092537a22daa4f406dfbdd61177e0936376 \
@@ -290,7 +290,7 @@ six==1.15.0 \
 sqlparse==0.3.1 \
     --hash=sha256:022fb9c87b524d1f7862b3037e541f68597a730a8843245c349fc93e1643dc4e \
     --hash=sha256:e162203737712307dfe78860cc56c8da8a852ab2ee33750e33aeadf38d12c548 \
-    # via -r requirements.in, django
+    # via django
 toml==0.10.1 \
     --hash=sha256:926b612be1e5ce0634a2ca03470f95169cf16f939018233a670519cb4ac58b0f \
     --hash=sha256:bda89d5935c2eac546d648028b9901107a595863cb36bae0c73ac804a9b4ce88 \
