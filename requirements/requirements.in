@@ -1,19 +1,19 @@
-Pygments
 black ; python_version == '3.8.*'
 check-manifest ; python_version == '3.8.*'
 django
-docutils
-flake8
-flake8-bugbear
-flake8-comprehensions
-flake8-tidy-imports
-isort
-multilint
+docutils ; python_version == '3.8.*'
+flake8 ; python_version == '3.8.*'
+flake8-bugbear ; python_version == '3.8.*'
+flake8-comprehensions ; python_version == '3.8.*'
+flake8-tidy-imports ; python_version == '3.8.*'
+isort ; python_version == '3.8.*'
+multilint ; python_version == '3.8.*'
+pygments ; python_version == '3.8.*'
 pytest
 pytest-cov
 pytest-django
 pytest-randomly
 pytz
-secretstorage # required for twine on linux
+secretstorage ; python_version == '3.8.*' # required for twine on linux
 sqlparse
-twine
+twine ; python_version == '3.8.*'
