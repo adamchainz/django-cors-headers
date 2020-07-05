@@ -84,7 +84,7 @@ pytest==5.4.3 \
 pytz==2020.1 \
     --hash=sha256:a494d53b6d39c3c6e44c3bec237336e14305e4f29bbf800b599253057fbb79ed \
     --hash=sha256:c35965d010ce31b23eeb663ed3cc8c906275d6be1a34393a1d73a41febf4a048 \
-    # via -r requirements.in, django
+    # via django
 six==1.15.0 \
     --hash=sha256:30639c035cdb23534cd4aa2dd52c3bf48f06e5f4a941509c8bafd8ce11080259 \
     --hash=sha256:8b74bedcbbbaca38ff6d7491d76f2b06b3592611af620f8426e82dddb04a5ced \
@@ -92,7 +92,7 @@ six==1.15.0 \
 sqlparse==0.3.1 \
     --hash=sha256:022fb9c87b524d1f7862b3037e541f68597a730a8843245c349fc93e1643dc4e \
     --hash=sha256:e162203737712307dfe78860cc56c8da8a852ab2ee33750e33aeadf38d12c548 \
-    # via -r requirements.in, django
+    # via django
 wcwidth==0.2.5 \
     --hash=sha256:beb4802a9cebb9144e99086eff703a642a13d6a0052920003a230f3294bbe784 \
     --hash=sha256:c4d647b99872929fdb7bdcaa4fbe7f01413ed3d98077df798530e5b04f116c83 \
