@@ -264,17 +264,17 @@ Note: in Django 2.1 the `SESSION_COOKIE_SAMESITE`_ setting was added, set to
 ``'Lax'`` by default, which will prevent Django's session cookie being sent
 cross-domain. Change it to ``None`` to bypass this security restriction.
 
-.. _SESSION_COOKIE_SAMESITE: https://docs.djangoproject.com/en/2.1/ref/settings/#std:setting-SESSION_COOKIE_SAMESITE
+.. _SESSION_COOKIE_SAMESITE: https://docs.djangoproject.com/en/3.0/ref/settings/#std:setting-SESSION_COOKIE_SAMESITE
 
 CSRF Integration
 ----------------
 
 Most sites will need to take advantage of the `Cross-Site Request Forgery
-protection <https://docs.djangoproject.com/en/dev/ref/csrf/>`_ that Django
+protection <https://docs.djangoproject.com/en/3.0/ref/csrf/>`_ that Django
 offers. CORS and CSRF are separate, and Django has no way of using your CORS
 configuration to exempt sites from the ``Referer`` checking that it does on
 secure requests. The way to do that is with its `CSRF_TRUSTED_ORIGINS setting
-<https://docs.djangoproject.com/en/dev/ref/settings/#csrf-trusted-origins>`_.
+<https://docs.djangoproject.com/en/3.0/ref/settings/#csrf-trusted-origins>`_.
 For example:
 
 .. code-block:: python
@@ -324,7 +324,7 @@ If you have a use case that requires more than just the above configuration,
 you can attach code to check if a given request should be allowed. For example,
 this can be used to read the list of origins you allow from a model. Attach any
 number of handlers to the ``check_request_enabled``
-`Django signal <https://docs.djangoproject.com/en/1.10/ref/signals/>`_, which
+`Django signal <https://docs.djangoproject.com/en/3.0/ref/signals/>`_, which
 provides the ``request`` argument (use ``**kwargs`` in your handler to protect
 against any future arguments being added). If any handler attached to the
 signal returns a truthy value, the request will be allowed.
@@ -344,7 +344,7 @@ For example you might define a handler like this:
     check_request_enabled.connect(cors_allow_mysites)
 
 Then connect it at app ready time using a `Django AppConfig
-<https://docs.djangoproject.com/en/1.10/ref/applications/>`_:
+<https://docs.djangoproject.com/en/3.0/ref/applications/>`_:
 
 .. code-block:: python
 
