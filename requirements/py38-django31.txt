@@ -131,9 +131,9 @@ cryptography==2.9.2 \
     --hash=sha256:e993468c859d084d5579e2ebee101de8f5a27ce8e2159959b6673b418fd8c785 \
     --hash=sha256:f118a95c7480f5be0df8afeb9a11bd199aa20afab7a96bcf20409b411a3a85f0 \
     # via secretstorage
-django==3.1b1 \
-    --hash=sha256:045be31d68dfed684831e39ab1d9e77a595f1a393935cb43b6c5451d2e78c8a4 \
-    --hash=sha256:ccf6c208424c0e1b0eaffd36efe12618a9ab4d0037e26f6ffceaa5277af985d7 \
+django==3.1rc1 \
+    --hash=sha256:a805872093720658e2b858a51c1b43a634790df073b732832d6b8080c38d6263 \
+    --hash=sha256:e5893668d8981a35a5bed8287c56363f83181566037e5beabe09d2a29c8bf4ce \
     # via -r requirements.in
 docutils==0.16 ; python_version == "3.8.*" \
     --hash=sha256:0c5b78adfbf7762415433f5515cd5c9e762339e23369dbe8000d84a4bf4ab3af \
@@ -159,9 +159,9 @@ idna==2.10 \
     --hash=sha256:b307872f855b18632ce0c21c5e45be78c0ea7ae4c15c828c20788b26921eb3f6 \
     --hash=sha256:b97d804b1e9b523befed77c48dacec60e6dcb0b5391d57af6a65a312a90648c0 \
     # via requests
-isort==5.1.2 ; python_version == "3.8.*" \
-    --hash=sha256:408e4d75d84f51b64d0824894afee44469eba34a4caee621dc53799f80d71ccc \
-    --hash=sha256:64022dea6a06badfa09b300b4dfe8ba968114a737919e8ed50aea1c288f078aa \
+isort==5.1.4 ; python_version == "3.8.*" \
+    --hash=sha256:145072eedc4927cc9c1f9478f2d83b2fc1e6469df4129c02ef4e8c742207a46c \
+    --hash=sha256:ae3007f72a2e9da36febd3454d8be4b175d6ca17eb765841d5fe3d038aede79d \
     # via -r requirements.in
 jeepney==0.4.3 \
     --hash=sha256:3479b861cc2b6407de5188695fa1a8d57e5072d7059322469b62628869b8e36e \

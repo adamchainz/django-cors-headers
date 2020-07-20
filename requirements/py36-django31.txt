@@ -48,9 +48,9 @@ coverage==5.2 \
     --hash=sha256:ed9a21502e9223f563e071759f769c3d6a2e1ba5328c31e86830368e8d78bc9c \
     --hash=sha256:f50632ef2d749f541ca8e6c07c9928a37f87505ce3a9f20c8446ad310f1aa87b \
     # via pytest-cov
-django==3.1b1 \
-    --hash=sha256:045be31d68dfed684831e39ab1d9e77a595f1a393935cb43b6c5451d2e78c8a4 \
-    --hash=sha256:ccf6c208424c0e1b0eaffd36efe12618a9ab4d0037e26f6ffceaa5277af985d7 \
+django==3.1rc1 \
+    --hash=sha256:a805872093720658e2b858a51c1b43a634790df073b732832d6b8080c38d6263 \
+    --hash=sha256:e5893668d8981a35a5bed8287c56363f83181566037e5beabe09d2a29c8bf4ce \
     # via -r requirements.in
 importlib-metadata==1.7.0 \
     --hash=sha256:90bb658cdbbf6d1735b6341ce708fc7024a3e14e99ffdc5783edea9f9b077f83 \
