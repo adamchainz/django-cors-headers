@@ -18,16 +18,11 @@ jobs:
         - 3.6
         - 3.7
         - 3.8
-        - 3.9
+        - 3.9-dev
 
     steps:
     - uses: actions/checkout@v2
-    - uses: actions/setup-python@v2
-      if: matrix.python-version != '3.9'
-      with:
-        python-version: ${{ matrix.python-version }}
-    - uses: deadsnakes/action@v1.0.0
-      if: matrix.python-version == '3.9'
+    - uses: actions/setup-python@v2.1.1
       with:
         python-version: ${{ matrix.python-version }}
     - uses: actions/cache@v2
