@@ -4,7 +4,6 @@ import subprocess
 import sys
 from pathlib import Path
 
-
 if __name__ == "__main__":
     os.chdir(Path(__file__).parent)
     os.environ["CUSTOM_COMPILE_COMMAND"] = "requirements/compile.py"
