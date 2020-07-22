@@ -6,6 +6,7 @@ include HISTORY.rst
 include LICENSE
 include README.rst
 exclude .editorconfig
+exclude .pre-commit-config.yaml
 include pyproject.toml
 exclude pytest.ini
 exclude tox.ini

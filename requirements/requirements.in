@@ -7,7 +7,7 @@ flake8-bugbear ; python_version == '3.8.*'
 flake8-comprehensions ; python_version == '3.8.*'
 flake8-tidy-imports ; python_version == '3.8.*'
 isort ; python_version == '3.8.*'
-multilint ; python_version == '3.8.*'
+pre-commit ; python_version == '3.8.*'
 pygments ; python_version == '3.8.*'
 pytest
 pytest-cov

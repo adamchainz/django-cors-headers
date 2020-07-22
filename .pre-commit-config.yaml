@@ -1,0 +1,23 @@
+- repo: local
+  hooks:
+  - id: black
+    name: black
+    entry: .tox/py38-codestyle/bin/black
+    language: system
+    types: [python]
+  - id: check-manifest
+    name: check-manifest
+    entry: check-manifest
+    language: system
+    pass_filenames: false
+    files: ^MANIFEST\.in$
+  - id: flake8
+    name: flake8
+    entry: .tox/py38-codestyle/bin/flake8 --config=setup.cfg
+    language: system
+    types: [python]
+  - id: isort
+    name: isort
+    entry: .tox/py38-codestyle/bin/isort
+    language: system
+    types: [python]
