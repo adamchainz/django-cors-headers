@@ -90,7 +90,10 @@ def check_settings(app_configs, **kwargs):
                             repr(origin), allowed_origins_alias
                         ),
                         id="corsheaders.E013",
-                        hint="Add a scheme (e.g. https://) or netloc (e.g. example.com).",
+                        hint=(
+                            "Add a scheme (e.g. https://) or netloc (e.g. "
+                            + "example.com)."
+                        ),
                     )
                 )
             else:
