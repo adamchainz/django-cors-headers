@@ -1,6 +1,9 @@
 History
 =======
 
+3.5.0 (2020-08-25)
+------------------
+
 * Following Django’s example in
   `Ticket #31670 <https://code.djangoproject.com/ticket/31670>`__ for replacing
   the term “whitelist”, plus an aim to make the setting names more
