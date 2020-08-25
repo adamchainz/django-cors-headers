@@ -1,9 +1,15 @@
 History
 =======
 
-* Rename ``CORS_ORIGIN_WHITELIST`` to ``CORS_ORIGIN_ALLOWLIST`` internally
-* Rename ``CORS_ORIGIN_WHITELIST_REGEX`` to ``CORS_ORIGIN_ALLOWLIST_REGEX`` internally
-* Support for ``CORS_ORIGIN_ALLOWLIST`` and ``CORS_ORIGIN_ALLOWLIST_REGEX`` in django settings
+* Following Django’s example in
+  `Ticket #31670 <https://code.djangoproject.com/ticket/31670>`__, the
+  following settings have been renamed:
+
+  * ``CORS_ORIGIN_WHITELIST`` -> ``CORS_ALLOWED_ORIGINS``
+  * ``CORS_ORIGIN_WHITELIST_REGEX`` -> ``CORS_ALLOWED_ORIGIN_REGEXES``
+
+  The old names will continue to work as aliases, with the new ones taking
+  precedence.
 
 3.4.0 (2020-06-19)
 ------------------
