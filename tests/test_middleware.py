@@ -32,30 +32,30 @@ class CorsMiddlewareTests(TestCase):
         resp = self.client.get("/")
         assert resp["Vary"] == "Origin"
 
-    @override_settings(CORS_ORIGIN_ALLOWLIST=["http://example.com"])
-    def test_get_not_in_allowlist(self):
+    @override_settings(CORS_ALLOWED_ORIGINS=["http://example.com"])
+    def test_get_not_in_allowed_origins(self):
         resp = self.client.get("/", HTTP_ORIGIN="http://example.org")
         assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
 
-    @override_settings(CORS_ORIGIN_ALLOWLIST=["https://example.org"])
-    def test_get_not_in_allowlist_due_to_wrong_scheme(self):
+    @override_settings(CORS_ALLOWED_ORIGINS=["https://example.org"])
+    def test_get_not_in_allowed_origins_due_to_wrong_scheme(self):
         resp = self.client.get("/", HTTP_ORIGIN="http://example.org")
         assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
 
     @override_settings(
-        CORS_ORIGIN_ALLOWLIST=["http://example.com", "http://example.org"]
+        CORS_ALLOWED_ORIGINS=["http://example.com", "http://example.org"]
     )
-    def test_get_in_allowlist(self):
+    def test_get_in_allowed_origins(self):
         resp = self.client.get("/", HTTP_ORIGIN="http://example.org")
         assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == "http://example.org"
 
-    @override_settings(CORS_ORIGIN_ALLOWLIST=["http://example.com", "null"])
-    def test_null_in_allowlist(self):
+    @override_settings(CORS_ALLOWED_ORIGINS=["http://example.com", "null"])
+    def test_null_in_allowed_origins(self):
         resp = self.client.get("/", HTTP_ORIGIN="null")
         assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == "null"
 
-    @override_settings(CORS_ORIGIN_ALLOWLIST=["http://example.com", "file://"])
-    def test_file_in_allowlist(self):
+    @override_settings(CORS_ALLOWED_ORIGINS=["http://example.com", "file://"])
+    def test_file_in_allowed_origins(self):
         """
         'file://' should be allowed as an origin since Chrome on Android
         mistakenly sends it
@@ -113,27 +113,27 @@ class CorsMiddlewareTests(TestCase):
     @override_settings(
         CORS_ALLOW_METHODS=["OPTIONS"],
         CORS_ALLOW_CREDENTIALS=True,
-        CORS_ORIGIN_ALLOWLIST=["http://localhost:9000"],
+        CORS_ALLOWED_ORIGINS=["http://localhost:9000"],
     )
-    def test_options_allowlist_with_port(self):
+    def test_options_allowed_origins_with_port(self):
         resp = self.client.options("/", HTTP_ORIGIN="http://localhost:9000")
         assert resp[ACCESS_CONTROL_ALLOW_CREDENTIALS] == "true"
 
     @override_settings(
         CORS_ALLOW_METHODS=["OPTIONS"],
         CORS_ALLOW_CREDENTIALS=True,
-        CORS_ORIGIN_REGEX_ALLOWLIST=[r"^http?://(\w+\.)?example\.com$"],
+        CORS_ALLOWED_ORIGIN_REGEXES=[r"^http?://(\w+\.)?example\.com$"],
     )
-    def test_options_adds_origin_when_domain_found_in_origin_regex_allowlist(self):
+    def test_options_adds_origin_when_domain_found_in_allowed_regexes(self):
         resp = self.client.options("/", HTTP_ORIGIN="http://foo.example.com")
         assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == "http://foo.example.com"
 
     @override_settings(
         CORS_ALLOW_METHODS=["OPTIONS"],
         CORS_ALLOW_CREDENTIALS=True,
-        CORS_ORIGIN_REGEX_ALLOWLIST=(r"^http?://(\w+\.)?example\.org$",),
+        CORS_ALLOWED_ORIGIN_REGEXES=[r"^http?://(\w+\.)?example\.org$"],
     )
-    def test_options_will_not_add_origin_when_domain_not_found_in_origin_regex_allowlist(  # noqa: B950
+    def test_options_doesnt_add_origin_when_domain_not_found_in_allowed_regexes(
         self,
     ):
         resp = self.client.options("/", HTTP_ORIGIN="http://foo.example.com")
@@ -225,7 +225,7 @@ class CorsMiddlewareTests(TestCase):
             assert resp.status_code == 200
             assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == "http://example.com"
 
-    @override_settings(CORS_ORIGIN_ALLOWLIST=["http://example.com"])
+    @override_settings(CORS_ALLOWED_ORIGINS=["http://example.com"])
     def test_signal_handler_allow_some_urls_to_everyone(self):
         def allow_api_to_all(sender, request, **kwargs):
             return request.path.startswith("/api/")
@@ -247,7 +247,7 @@ class CorsMiddlewareTests(TestCase):
             assert resp.status_code == 200
             assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == "http://example.org"
 
-    @override_settings(CORS_ORIGIN_ALLOWLIST=["http://example.com"])
+    @override_settings(CORS_ALLOWED_ORIGINS=["http://example.com"])
     def test_signal_called_once_during_normal_flow(self):
         def allow_all(sender, request, **kwargs):
             allow_all.calls += 1
@@ -260,7 +260,7 @@ class CorsMiddlewareTests(TestCase):
 
             assert allow_all.calls == 1
 
-    @override_settings(CORS_ORIGIN_ALLOWLIST=["http://example.com"])
+    @override_settings(CORS_ALLOWED_ORIGINS=["http://example.com"])
     @prepend_middleware("tests.test_middleware.ShortCircuitMiddleware")
     def test_get_short_circuit(self):
         """
@@ -273,7 +273,7 @@ class CorsMiddlewareTests(TestCase):
         assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
 
     @override_settings(
-        CORS_ORIGIN_ALLOWLIST=["http://example.com"], CORS_URLS_REGEX=r"^/foo/$"
+        CORS_ALLOWED_ORIGINS=["http://example.com"], CORS_URLS_REGEX=r"^/foo/$"
     )
     @prepend_middleware(__name__ + ".ShortCircuitMiddleware")
     def test_get_short_circuit_should_be_ignored(self):
@@ -281,21 +281,21 @@ class CorsMiddlewareTests(TestCase):
         assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
 
     @override_settings(
-        CORS_ORIGIN_ALLOWLIST=["http://example.com"], CORS_URLS_REGEX=r"^/foo/$"
+        CORS_ALLOWED_ORIGINS=["http://example.com"], CORS_URLS_REGEX=r"^/foo/$"
     )
     def test_get_regex_matches(self):
         resp = self.client.get("/foo/", HTTP_ORIGIN="http://example.com")
         assert ACCESS_CONTROL_ALLOW_ORIGIN in resp
 
     @override_settings(
-        CORS_ORIGIN_ALLOWLIST=["http://example.com"], CORS_URLS_REGEX=r"^/not-foo/$"
+        CORS_ALLOWED_ORIGINS=["http://example.com"], CORS_URLS_REGEX=r"^/not-foo/$"
     )
     def test_get_regex_doesnt_match(self):
         resp = self.client.get("/foo/", HTTP_ORIGIN="http://example.com")
         assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
 
     @override_settings(
-        CORS_ORIGIN_ALLOWLIST=["http://example.com"], CORS_URLS_REGEX=r"^/foo/$"
+        CORS_ALLOWED_ORIGINS=["http://example.com"], CORS_URLS_REGEX=r"^/foo/$"
     )
     def test_get_regex_matches_path_info(self):
         resp = self.client.get(
@@ -303,7 +303,7 @@ class CorsMiddlewareTests(TestCase):
         )
         assert ACCESS_CONTROL_ALLOW_ORIGIN in resp
 
-    @override_settings(CORS_ORIGIN_ALLOWLIST=["http://example.com"])
+    @override_settings(CORS_ALLOWED_ORIGINS=["http://example.com"])
     def test_cors_enabled_is_attached_and_bool(self):
         """
         Ensure that request._cors_enabled is available - although a private API
@@ -314,7 +314,7 @@ class CorsMiddlewareTests(TestCase):
         assert isinstance(request._cors_enabled, bool)
         assert request._cors_enabled
 
-    @override_settings(CORS_ORIGIN_ALLOWLIST=["http://example.com"])
+    @override_settings(CORS_ALLOWED_ORIGINS=["http://example.com"])
     def test_works_if_view_deletes_cors_enabled(self):
         """
         Just in case something crazy happens in the view or other middleware,
@@ -325,7 +325,7 @@ class CorsMiddlewareTests(TestCase):
 
 
 @override_settings(
-    CORS_REPLACE_HTTPS_REFERER=True, CORS_ORIGIN_REGEX_ALLOWLIST=(r".*example.*",)
+    CORS_REPLACE_HTTPS_REFERER=True, CORS_ALLOWED_ORIGIN_REGEXES=[r".*example.*"]
 )
 class RefererReplacementCorsMiddlewareTests(TestCase):
     def test_get_replaces_referer_when_secure(self):
@@ -401,7 +401,7 @@ class RefererReplacementCorsMiddlewareTests(TestCase):
         assert resp.wsgi_request.META["HTTP_REFERER"] == "https://example.org/foo"
         assert "ORIGINAL_HTTP_REFERER" not in resp.wsgi_request.META
 
-    @override_settings(CORS_ORIGIN_REGEX_ALLOWLIST=())
+    @override_settings(CORS_ALLOWED_ORIGIN_REGEXES=[])
     def test_get_does_not_replace_referer_when_not_valid_request(self):
         resp = self.client.get(
             "/",
