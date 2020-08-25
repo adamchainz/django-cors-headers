@@ -107,18 +107,15 @@ in its time; thanks to every one of them.
 Configuration
 -------------
 
-Configure the middleware's behaviour in your Django settings. You must add the
-hosts that are allowed to do cross-site requests to
-``CORS_ORIGIN_WHITELIST``, or set ``CORS_ORIGIN_ALLOW_ALL`` to ``True``
-to allow all hosts.
+Configure the middleware's behaviour in your Django settings. You must set at
+least one of three following settings:
 
-``CORS_ORIGIN_ALLOW_ALL``
-~~~~~~~~~~~~~~~~~~~~~~~~~
-If ``True``, the whitelist will not be used and all origins will be accepted.
-Defaults to ``False``.
+* ``CORS_ALLOWED_ORIGINS``
+* ``CORS_ALLOWED_ORIGIN_REGEXES``
+* ``CORS_ORIGIN_ALLOW_ALL``
 
-``CORS_ORIGIN_WHITELIST``
-~~~~~~~~~~~~~~~~~~~~~~~~~
+``CORS_ALLOWED_ORIGINS``
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 A list of origins that are authorized to make cross-site HTTP requests.
 Defaults to ``[]``.
@@ -139,29 +136,44 @@ Example:
 
 .. code-block:: python
 
-    CORS_ORIGIN_WHITELIST = [
+    CORS_ALLOWED_ORIGINS = [
         "https://example.com",
         "https://sub.example.com",
         "http://localhost:8080",
         "http://127.0.0.1:9000"
     ]
 
+Previously this setting was called ``CORS_ORIGIN_WHITELIST``, which still works
+as an alias, with the new name takeing precedence.
 
-``CORS_ORIGIN_REGEX_WHITELIST``
+``CORS_ALLOWED_ORIGIN_REGEXES``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A list of strings representing regexes that match Origins that are authorized
 to make cross-site HTTP requests. Defaults to ``[]``. Useful when
-``CORS_ORIGIN_WHITELIST`` is impractical, such as when you have a large number
+``CORS_ALLOWED_ORIGINS`` is impractical, such as when you have a large number
 of subdomains.
 
 Example:
 
 .. code-block:: python
 
-    CORS_ORIGIN_REGEX_WHITELIST = [
+    CORS_ALLOWED_ORIGIN_REGEXES = [
         r"^https://\w+\.example\.com$",
     ]
+
+Previously this setting was called ``CORS_ORIGIN_REGEX_WHITELIST``, which still
+works as an alias, with the new name takeing precedence.
+
+``CORS_ORIGIN_ALLOW_ALL``
+~~~~~~~~~~~~~~~~~~~~~~~~~
+If ``True``, all origins will be allowed. Other settings restricting allowed
+origins will be ignored. Defaults to ``False``.
+
+Setting this to ``True`` can be *dangerous*, as it allows any website to make
+cross-origin requests to yours. Generally you'll want to restrict the list of
+allowed origins with ``CORS_ALLOWED_ORIGINS`` or
+``CORS_ALLOWED_ORIGIN_REGEXES``.
 
 --------------
 
@@ -286,7 +298,7 @@ For example:
 
 .. code-block:: python
 
-    CORS_ORIGIN_WHITELIST = [
+    CORS_ALLOWED_ORIGINS = [
         'http://read.only.com',
         'http://change.allowed.com',
     ]
@@ -377,7 +389,7 @@ of URL's, whilst allowing a normal set of origins to access *all* URL's. This
 isn't possible using just the normal configuration, but it can be achieved with
 a signal handler.
 
-First set ``CORS_ORIGIN_WHITELIST`` to the list of trusted origins that are
+First set ``CORS_ALLOWED_ORIGINS`` to the list of trusted origins that are
 allowed to access every URL, and then add a handler to
 ``check_request_enabled`` to allow CORS regardless of the origin for the
 unrestricted URL's. For example:

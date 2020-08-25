@@ -1,6 +1,19 @@
 History
 =======
 
+* Following Django’s example in
+  `Ticket #31670 <https://code.djangoproject.com/ticket/31670>`__, the
+  following settings have been renamed:
+
+  * ``CORS_ORIGIN_WHITELIST`` -> ``CORS_ALLOWED_ORIGINS``
+  * ``CORS_ORIGIN_WHITELIST_REGEX`` -> ``CORS_ALLOWED_ORIGIN_REGEXES``
+
+  The old names will continue to work as aliases, with the new ones taking
+  precedence.
+
+3.4.0 (2020-06-19)
+------------------
+
 * Drop Django 2.0 and 2.1 support.
 
 3.4.0 (2020-06-15)

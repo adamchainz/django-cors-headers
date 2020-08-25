@@ -147,13 +147,13 @@ class CorsMiddleware(MiddlewareMixin):
 
     def origin_found_in_white_lists(self, origin, url):
         return (
-            (origin == "null" and origin in conf.CORS_ORIGIN_WHITELIST)
+            (origin == "null" and origin in conf.CORS_ALLOWED_ORIGINS)
             or self._url_in_whitelist(url)
             or self.regex_domain_match(origin)
         )
 
     def regex_domain_match(self, origin):
-        for domain_pattern in conf.CORS_ORIGIN_REGEX_WHITELIST:
+        for domain_pattern in conf.CORS_ALLOWED_ORIGIN_REGEXES:
             if re.match(domain_pattern, origin):
                 return origin
 
@@ -167,7 +167,7 @@ class CorsMiddleware(MiddlewareMixin):
         return any(return_value for function, return_value in signal_responses)
 
     def _url_in_whitelist(self, url):
-        origins = [urlparse(o) for o in conf.CORS_ORIGIN_WHITELIST]
+        origins = [urlparse(o) for o in conf.CORS_ALLOWED_ORIGINS]
         return any(
             origin.scheme == url.scheme and origin.netloc == url.netloc
             for origin in origins
