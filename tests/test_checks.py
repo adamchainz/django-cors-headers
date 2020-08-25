@@ -15,6 +15,7 @@ class ChecksTests(SimpleTestCase):
         assert len(errors) == len(expected)
         assert all(isinstance(e, Error) for e in errors)
         assert [e.id for e in errors] == expected
+        return errors
 
     def test_defaults_pass(self):
         self.check_error_codes([])
@@ -59,36 +60,58 @@ class ChecksTests(SimpleTestCase):
     def test_cors_origin_allow_all_non_bool(self):
         self.check_error_codes(["corsheaders.E005"])
 
-    @override_settings(CORS_ORIGIN_ALLOWLIST=object)
-    def test_cors_origin_allowlist_non_sequence(self):
+    @override_settings(CORS_ALLOWED_ORIGINS=object)
+    def test_cors_allowed_origins_non_sequence(self):
         self.check_error_codes(["corsheaders.E006"])
 
-    @override_settings(CORS_ORIGIN_ALLOWLIST=[object])
-    def test_cors_origin_allowlist_non_string(self):
+    @override_settings(CORS_ALLOWED_ORIGINS=[object])
+    def test_cors_allowed_origins_non_string(self):
         self.check_error_codes(["corsheaders.E006"])
 
-    @override_settings(CORS_ORIGIN_ALLOWLIST=["http://example.com", "file://", "null"])
-    def test_cors_origin_allowlist_allowed(self):
+    @override_settings(CORS_ORIGIN_WHITELIST=object)
+    def test_cors_allowed_origins_old_name(self):
+        errors = self.check_error_codes(["corsheaders.E006"])
+        assert errors[0].msg.startswith("CORS_ORIGIN_WHITELIST should be")
+
+    @override_settings(CORS_ALLOWED_ORIGINS=["http://example.com", "file://", "null"])
+    def test_cors_allowed_origins_allowed(self):
         self.check_error_codes([])
 
-    @override_settings(CORS_ORIGIN_ALLOWLIST=["example.com"])
-    def test_cors_origin_allowlist_no_scheme(self):
+    @override_settings(CORS_ALLOWED_ORIGINS=["example.com"])
+    def test_cors_allowed_origins_no_scheme(self):
+        errors = self.check_error_codes(["corsheaders.E013"])
+        assert "in CORS_ALLOWED_ORIGINS" in errors[0].msg
+
+    @override_settings(CORS_ORIGIN_WHITELIST=["example.com"])
+    def test_cors_allowed_origins_no_scheme_old_name(self):
+        errors = self.check_error_codes(["corsheaders.E013"])
+        assert "in CORS_ORIGIN_WHITELIST" in errors[0].msg
+
+    @override_settings(CORS_ALLOWED_ORIGINS=["https://"])
+    def test_cors_allowed_origins_no_netloc(self):
         self.check_error_codes(["corsheaders.E013"])
 
-    @override_settings(CORS_ORIGIN_ALLOWLIST=["https://"])
-    def test_cors_origin_allowlist_no_netloc(self):
-        self.check_error_codes(["corsheaders.E013"])
+    @override_settings(CORS_ALLOWED_ORIGINS=["https://example.com/foobar"])
+    def test_cors_allowed_origins_path(self):
+        errors = self.check_error_codes(["corsheaders.E014"])
+        assert "in CORS_ALLOWED_ORIGINS" in errors[0].msg
 
-    @override_settings(CORS_ORIGIN_ALLOWLIST=["https://example.com/foobar"])
-    def test_cors_origin_allowlist_path(self):
-        self.check_error_codes(["corsheaders.E014"])
+    @override_settings(CORS_ORIGIN_WHITELIST=["https://example.com/foobar"])
+    def test_cors_allowed_origins_path_old_name(self):
+        errors = self.check_error_codes(["corsheaders.E014"])
+        assert "in CORS_ORIGIN_WHITELIST" in errors[0].msg
 
-    @override_settings(CORS_ORIGIN_REGEX_ALLOWLIST=object)
-    def test_cors_origin_regex_allowlist_non_sequence(self):
+    @override_settings(CORS_ALLOWED_ORIGIN_REGEXES=object)
+    def test_cors_allowed_origin_regexes_non_sequence(self):
         self.check_error_codes(["corsheaders.E007"])
 
-    @override_settings(CORS_ORIGIN_REGEX_ALLOWLIST=[re.compile(r"a")])
-    def test_cors_origin_regex_allowlist_regex(self):
+    @override_settings(CORS_ORIGIN_REGEX_WHITELIST=object)
+    def test_cors_allowed_origin_regexes_old_name(self):
+        errors = self.check_error_codes(["corsheaders.E007"])
+        assert errors[0].msg.startswith("CORS_ORIGIN_REGEX_WHITELIST should be")
+
+    @override_settings(CORS_ALLOWED_ORIGIN_REGEXES=[re.compile(r"a")])
+    def test_cors_allowed_origin_regexes_regex(self):
         self.check_error_codes([])
 
     @override_settings(CORS_EXPOSE_HEADERS=object)

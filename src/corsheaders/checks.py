@@ -59,10 +59,15 @@ def check_settings(app_configs, **kwargs):
             )
         )
 
-    if not is_sequence(conf.CORS_ORIGIN_ALLOWLIST, str):
+    if hasattr(settings, "CORS_ALLOWED_ORIGINS"):
+        allowed_origins_alias = "CORS_ALLOWED_ORIGINS"
+    else:
+        allowed_origins_alias = "CORS_ORIGIN_WHITELIST"
+
+    if not is_sequence(conf.CORS_ALLOWED_ORIGINS, str):
         errors.append(
             checks.Error(
-                "CORS_ORIGIN_ALLOWLIST should be a sequence of strings.",
+                "{} should be a sequence of strings.".format(allowed_origins_alias),
                 id="corsheaders.E006",
             )
         )
@@ -74,22 +79,18 @@ def check_settings(app_configs, **kwargs):
             # https://bugs.chromium.org/p/chromium/issues/detail?id=991107
             "file://",
         )
-        for origin in conf.CORS_ORIGIN_ALLOWLIST:
+        for origin in conf.CORS_ALLOWED_ORIGINS:
             if origin in special_origin_values:
                 continue
             parsed = urlparse(origin)
             if parsed.scheme == "" or parsed.netloc == "":
                 errors.append(
                     checks.Error(
-                        (
-                            "Origin {} in CORS_ORIGIN_ALLOWLIST is missing "
-                            + " scheme or netloc"
-                        ).format(repr(origin)),
-                        id="corsheaders.E013",
-                        hint=(
-                            "Add a scheme (e.g. https://) or netloc (e.g. "
-                            + "example.com)."
+                        "Origin {} in {} is missing scheme or netloc".format(
+                            repr(origin), allowed_origins_alias
                         ),
+                        id="corsheaders.E013",
+                        hint="Add a scheme (e.g. https://) or netloc (e.g. example.com).",
                     )
                 )
             else:
@@ -99,20 +100,22 @@ def check_settings(app_configs, **kwargs):
                     if getattr(parsed, part) != "":
                         errors.append(
                             checks.Error(
-                                (
-                                    "Origin {} in CORS_ORIGIN_ALLOWLIST should "
-                                    + "not have {}"
-                                ).format(repr(origin), part),
+                                "Origin {} in {} should not have {}".format(
+                                    repr(origin), allowed_origins_alias, part
+                                ),
                                 id="corsheaders.E014",
                             )
                         )
 
-    if not is_sequence(conf.CORS_ORIGIN_REGEX_ALLOWLIST, (str, re_type)):
+    if hasattr(settings, "CORS_ALLOWED_ORIGIN_REGEXES"):
+        allowed_regexes_alias = "CORS_ALLOWED_ORIGIN_REGEXES"
+    else:
+        allowed_regexes_alias = "CORS_ORIGIN_REGEX_WHITELIST"
+    if not is_sequence(conf.CORS_ALLOWED_ORIGIN_REGEXES, (str, re_type)):
         errors.append(
             checks.Error(
-                (
-                    "CORS_ORIGIN_REGEX_ALLOWLIST should be a sequence of "
-                    + "strings and/or compiled regexes."
+                "{} should be a sequence of strings and/or compiled regexes.".format(
+                    allowed_regexes_alias
                 ),
                 id="corsheaders.E007",
             )
