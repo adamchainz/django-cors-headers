@@ -53,8 +53,9 @@ class CorsMiddleware(MiddlewareMixin):
         ):
 
             url = urlparse(origin)
-            if not conf.CORS_ALLOW_ALL_ORIGINS and not self.origin_found_in_white_lists(
-                origin, url
+            if (
+                not conf.CORS_ALLOW_ALL_ORIGINS
+                and not self.origin_found_in_white_lists(origin, url)
             ):
                 return
 
