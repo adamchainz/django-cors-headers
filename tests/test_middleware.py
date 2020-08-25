@@ -64,24 +64,24 @@ class CorsMiddlewareTests(TestCase):
         assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == "file://"
 
     @override_settings(
-        CORS_ORIGIN_ALLOW_ALL=True,
+        CORS_ALLOW_ALL_ORIGINS=True,
         CORS_EXPOSE_HEADERS=["accept", "origin", "content-type"],
     )
     def test_get_expose_headers(self):
         resp = self.client.get("/", HTTP_ORIGIN="http://example.com")
         assert resp[ACCESS_CONTROL_EXPOSE_HEADERS] == "accept, origin, content-type"
 
-    @override_settings(CORS_ORIGIN_ALLOW_ALL=True)
+    @override_settings(CORS_ALLOW_ALL_ORIGINS=True)
     def test_get_dont_expose_headers(self):
         resp = self.client.get("/", HTTP_ORIGIN="http://example.com")
         assert ACCESS_CONTROL_EXPOSE_HEADERS not in resp
 
-    @override_settings(CORS_ALLOW_CREDENTIALS=True, CORS_ORIGIN_ALLOW_ALL=True)
+    @override_settings(CORS_ALLOW_CREDENTIALS=True, CORS_ALLOW_ALL_ORIGINS=True)
     def test_get_allow_credentials(self):
         resp = self.client.get("/", HTTP_ORIGIN="http://example.com")
         assert resp[ACCESS_CONTROL_ALLOW_CREDENTIALS] == "true"
 
-    @override_settings(CORS_ORIGIN_ALLOW_ALL=True)
+    @override_settings(CORS_ALLOW_ALL_ORIGINS=True)
     def test_get_dont_allow_credentials(self):
         resp = self.client.get("/", HTTP_ORIGIN="http://example.com")
         assert ACCESS_CONTROL_ALLOW_CREDENTIALS not in resp
@@ -90,7 +90,7 @@ class CorsMiddlewareTests(TestCase):
         CORS_ALLOW_HEADERS=["content-type", "origin"],
         CORS_ALLOW_METHODS=["GET", "OPTIONS"],
         CORS_PREFLIGHT_MAX_AGE=1002,
-        CORS_ORIGIN_ALLOW_ALL=True,
+        CORS_ALLOW_ALL_ORIGINS=True,
     )
     def test_options_allowed_origin(self):
         resp = self.client.options("/", HTTP_ORIGIN="http://example.com")
@@ -102,7 +102,7 @@ class CorsMiddlewareTests(TestCase):
         CORS_ALLOW_HEADERS=["content-type", "origin"],
         CORS_ALLOW_METHODS=["GET", "OPTIONS"],
         CORS_PREFLIGHT_MAX_AGE=0,
-        CORS_ORIGIN_ALLOW_ALL=True,
+        CORS_ALLOW_ALL_ORIGINS=True,
     )
     def test_options_no_max_age(self):
         resp = self.client.options("/", HTTP_ORIGIN="http://example.com")
@@ -149,14 +149,14 @@ class CorsMiddlewareTests(TestCase):
         resp = self.client.options("/")
         assert resp.status_code == 404
 
-    @override_settings(CORS_ALLOW_CREDENTIALS=True, CORS_ORIGIN_ALLOW_ALL=True)
+    @override_settings(CORS_ALLOW_CREDENTIALS=True, CORS_ALLOW_ALL_ORIGINS=True)
     def test_allow_all_origins_get(self):
         resp = self.client.get("/", HTTP_ORIGIN="http://example.com")
         assert resp.status_code == 200
         assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == "http://example.com"
         assert resp["Vary"] == "Origin"
 
-    @override_settings(CORS_ALLOW_CREDENTIALS=True, CORS_ORIGIN_ALLOW_ALL=True)
+    @override_settings(CORS_ALLOW_CREDENTIALS=True, CORS_ALLOW_ALL_ORIGINS=True)
     def test_allow_all_origins_options(self):
         resp = self.client.options(
             "/",
@@ -167,7 +167,7 @@ class CorsMiddlewareTests(TestCase):
         assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == "http://example.com"
         assert resp["Vary"] == "Origin"
 
-    @override_settings(CORS_ALLOW_CREDENTIALS=True, CORS_ORIGIN_ALLOW_ALL=True)
+    @override_settings(CORS_ALLOW_CREDENTIALS=True, CORS_ALLOW_ALL_ORIGINS=True)
     def test_non_200_headers_still_set(self):
         """
         It's not clear whether the header should still be set for non-HTTP200
@@ -181,7 +181,7 @@ class CorsMiddlewareTests(TestCase):
         assert resp.status_code == 401
         assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == "http://example.com"
 
-    @override_settings(CORS_ALLOW_CREDENTIALS=True, CORS_ORIGIN_ALLOW_ALL=True)
+    @override_settings(CORS_ALLOW_CREDENTIALS=True, CORS_ALLOW_ALL_ORIGINS=True)
     def test_auth_view_options(self):
         """
         Ensure HTTP200 and header still set, for preflight requests to views requiring

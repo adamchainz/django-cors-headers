@@ -26,8 +26,12 @@ class Settings:
         return getattr(settings, "CORS_PREFLIGHT_MAX_AGE", 86400)
 
     @property
-    def CORS_ORIGIN_ALLOW_ALL(self):
-        return getattr(settings, "CORS_ORIGIN_ALLOW_ALL", False)
+    def CORS_ALLOW_ALL_ORIGINS(self):
+        return getattr(
+            settings,
+            "CORS_ALLOW_ALL_ORIGINS",
+            getattr(settings, "CORS_ORIGIN_ALLOW_ALL", False),
+        )
 
     @property
     def CORS_ALLOWED_ORIGINS(self):

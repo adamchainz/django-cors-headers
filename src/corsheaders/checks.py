@@ -52,10 +52,14 @@ def check_settings(app_configs, **kwargs):
             )
         )
 
-    if not isinstance(conf.CORS_ORIGIN_ALLOW_ALL, bool):
+    if not isinstance(conf.CORS_ALLOW_ALL_ORIGINS, bool):
+        if hasattr(settings, "CORS_ALLOW_ALL_ORIGINS"):
+            allow_all_alias = "CORS_ALLOW_ALL_ORIGINS"
+        else:
+            allow_all_alias = "CORS_ORIGIN_ALLOW_ALL"
         errors.append(
             checks.Error(
-                "CORS_ORIGIN_ALLOW_ALL should be a bool.", id="corsheaders.E005"
+                "{} should be a bool.".format(allow_all_alias), id="corsheaders.E005",
             )
         )
 

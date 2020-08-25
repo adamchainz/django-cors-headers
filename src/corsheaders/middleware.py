@@ -53,7 +53,7 @@ class CorsMiddleware(MiddlewareMixin):
         ):
 
             url = urlparse(origin)
-            if not conf.CORS_ORIGIN_ALLOW_ALL and not self.origin_found_in_white_lists(
+            if not conf.CORS_ALLOW_ALL_ORIGINS and not self.origin_found_in_white_lists(
                 origin, url
             ):
                 return
@@ -121,13 +121,13 @@ class CorsMiddleware(MiddlewareMixin):
             response[ACCESS_CONTROL_ALLOW_CREDENTIALS] = "true"
 
         if (
-            not conf.CORS_ORIGIN_ALLOW_ALL
+            not conf.CORS_ALLOW_ALL_ORIGINS
             and not self.origin_found_in_white_lists(origin, url)
             and not self.check_signal(request)
         ):
             return response
 
-        if conf.CORS_ORIGIN_ALLOW_ALL and not conf.CORS_ALLOW_CREDENTIALS:
+        if conf.CORS_ALLOW_ALL_ORIGINS and not conf.CORS_ALLOW_CREDENTIALS:
             response[ACCESS_CONTROL_ALLOW_ORIGIN] = "*"
         else:
             response[ACCESS_CONTROL_ALLOW_ORIGIN] = origin
