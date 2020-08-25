@@ -30,20 +30,20 @@ class Settings:
         return getattr(settings, "CORS_ORIGIN_ALLOW_ALL", False)
 
     @property
-    def CORS_ORIGIN_ALLOWLIST(self):
-        allowlist = getattr(settings, "CORS_ORIGIN_ALLOWLIST", None)
-        if allowlist is not None:
-            return allowlist
-
-        return getattr(settings, "CORS_ORIGIN_WHITELIST", ())
+    def CORS_ALLOWED_ORIGINS(self):
+        return getattr(
+            settings,
+            "CORS_ALLOWED_ORIGINS",
+            getattr(settings, "CORS_ORIGIN_WHITELIST", ()),
+        )
 
     @property
-    def CORS_ORIGIN_REGEX_ALLOWLIST(self):
-        regex_allowlist = getattr(settings, "CORS_ORIGIN_REGEX_ALLOWLIST", None)
-        if regex_allowlist is not None:
-            return regex_allowlist
-
-        return getattr(settings, "CORS_ORIGIN_REGEX_WHITELIST", ())
+    def CORS_ALLOWED_ORIGIN_REGEXES(self):
+        return getattr(
+            settings,
+            "CORS_ALLOWED_ORIGIN_REGEXES",
+            getattr(settings, "CORS_ORIGIN_REGEX_WHITELIST", ()),
+        )
 
     @property
     def CORS_EXPOSE_HEADERS(self):
