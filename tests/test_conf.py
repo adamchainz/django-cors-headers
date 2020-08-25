@@ -9,6 +9,16 @@ class ConfTests(SimpleTestCase):
     def test_can_override(self):
         assert conf.CORS_ALLOW_HEADERS == ["foo"]
 
+    @override_settings(CORS_ORIGIN_ALLOW_ALL=True)
+    def test_cors_allow_all_origins_old_alias(self):
+        assert conf.CORS_ALLOW_ALL_ORIGINS is True
+
+    @override_settings(
+        CORS_ALLOW_ALL_ORIGINS=False, CORS_ORIGIN_ALLOW_ALL=True,
+    )
+    def test_cors_allow_all_origins_new_setting_takes_precedence(self):
+        assert conf.CORS_ALLOW_ALL_ORIGINS is False
+
     @override_settings(CORS_ORIGIN_WHITELIST=["example.com"])
     def test_cors_allowed_origins_old_alias(self):
         assert conf.CORS_ALLOWED_ORIGINS == ["example.com"]

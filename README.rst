@@ -112,7 +112,7 @@ least one of three following settings:
 
 * ``CORS_ALLOWED_ORIGINS``
 * ``CORS_ALLOWED_ORIGIN_REGEXES``
-* ``CORS_ORIGIN_ALLOW_ALL``
+* ``CORS_ALLOW_ALL_ORIGINS``
 
 ``CORS_ALLOWED_ORIGINS``
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -144,7 +144,7 @@ Example:
     ]
 
 Previously this setting was called ``CORS_ORIGIN_WHITELIST``, which still works
-as an alias, with the new name takeing precedence.
+as an alias, with the new name taking precedence.
 
 ``CORS_ALLOWED_ORIGIN_REGEXES``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -163,10 +163,11 @@ Example:
     ]
 
 Previously this setting was called ``CORS_ORIGIN_REGEX_WHITELIST``, which still
-works as an alias, with the new name takeing precedence.
+works as an alias, with the new name taking precedence.
 
-``CORS_ORIGIN_ALLOW_ALL``
-~~~~~~~~~~~~~~~~~~~~~~~~~
+``CORS_ALLOW_ALL_ORIGINS``
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 If ``True``, all origins will be allowed. Other settings restricting allowed
 origins will be ignored. Defaults to ``False``.
 
@@ -174,6 +175,9 @@ Setting this to ``True`` can be *dangerous*, as it allows any website to make
 cross-origin requests to yours. Generally you'll want to restrict the list of
 allowed origins with ``CORS_ALLOWED_ORIGINS`` or
 ``CORS_ALLOWED_ORIGIN_REGEXES``.
+
+Previously this setting was called ``CORS_ORIGIN_ALLOW_ALL``, which still
+works as an alias, with the new name taking precedence.
 
 --------------
 

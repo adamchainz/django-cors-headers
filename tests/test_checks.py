@@ -23,7 +23,7 @@ class ChecksTests(SimpleTestCase):
     def test_defaults_pass_check(self):
         call_command("check")
 
-    @override_settings(CORS_ORIGIN_ALLOW_ALL=object)
+    @override_settings(CORS_ALLOW_ALL_ORIGINS=object)
     def test_checks_are_bound(self):
         with pytest.raises(base.SystemCheckError):
             call_command("check")
@@ -56,9 +56,15 @@ class ChecksTests(SimpleTestCase):
     def test_cors_preflight_max_age_negative(self):
         self.check_error_codes(["corsheaders.E004"])
 
+    @override_settings(CORS_ALLOW_ALL_ORIGINS=object)
+    def test_cors_allow_all_origins_non_bool(self):
+        errors = self.check_error_codes(["corsheaders.E005"])
+        assert errors[0].msg.startswith("CORS_ALLOW_ALL_ORIGINS should be")
+
     @override_settings(CORS_ORIGIN_ALLOW_ALL=object)
-    def test_cors_origin_allow_all_non_bool(self):
-        self.check_error_codes(["corsheaders.E005"])
+    def test_cors_allow_all_origins_old_name(self):
+        errors = self.check_error_codes(["corsheaders.E005"])
+        assert errors[0].msg.startswith("CORS_ORIGIN_ALLOW_ALL should be")
 
     @override_settings(CORS_ALLOWED_ORIGINS=object)
     def test_cors_allowed_origins_non_sequence(self):
