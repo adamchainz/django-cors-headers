@@ -10,7 +10,7 @@ History
   comprehensible, the following settings have been renamed:
 
   * ``CORS_ORIGIN_WHITELIST`` -> ``CORS_ALLOWED_ORIGINS``
-  * ``CORS_ORIGIN_WHITELIST_REGEX`` -> ``CORS_ALLOWED_ORIGIN_REGEXES``
+  * ``CORS_ORIGIN_REGEX_WHITELIST`` -> ``CORS_ALLOWED_ORIGIN_REGEXES``
   * ``CORS_ORIGIN_ALLOW_ALL`` -> ``CORS_ALLOW_ALL_ORIGINS``
 
   The old names will continue to work as aliases, with the new ones taking
