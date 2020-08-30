@@ -14,7 +14,8 @@ class ConfTests(SimpleTestCase):
         assert conf.CORS_ALLOW_ALL_ORIGINS is True
 
     @override_settings(
-        CORS_ALLOW_ALL_ORIGINS=False, CORS_ORIGIN_ALLOW_ALL=True,
+        CORS_ALLOW_ALL_ORIGINS=False,
+        CORS_ORIGIN_ALLOW_ALL=True,
     )
     def test_cors_allow_all_origins_new_setting_takes_precedence(self):
         assert conf.CORS_ALLOW_ALL_ORIGINS is False

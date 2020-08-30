@@ -59,7 +59,8 @@ def check_settings(app_configs, **kwargs):
             allow_all_alias = "CORS_ORIGIN_ALLOW_ALL"
         errors.append(
             checks.Error(
-                "{} should be a bool.".format(allow_all_alias), id="corsheaders.E005",
+                "{} should be a bool.".format(allow_all_alias),
+                id="corsheaders.E005",
             )
         )
 
