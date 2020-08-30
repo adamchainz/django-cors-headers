@@ -133,7 +133,9 @@ class CorsMiddlewareTests(TestCase):
         CORS_ALLOW_CREDENTIALS=True,
         CORS_ALLOWED_ORIGIN_REGEXES=[r"^http?://(\w+\.)?example\.org$"],
     )
-    def test_options_doesnt_add_origin_when_domain_not_found_in_allowed_regexes(self,):
+    def test_options_doesnt_add_origin_when_domain_not_found_in_allowed_regexes(
+        self,
+    ):
         resp = self.client.options("/", HTTP_ORIGIN="http://foo.example.com")
         assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
 
