@@ -23,7 +23,8 @@ could be unintentionally opening up your site's private data to others.
 
 Some good resources to read on the subject are:
 
-* Julia Evans' `introductory comic <https://drawings.jvns.ca/cors/>`__
+* Julia Evans' `introductory comic <https://drawings.jvns.ca/cors/>`__ and
+  `educational quiz <https://questions.wizardzines.com/cors.html>`__.
 * The `Wikipedia Page <https://en.wikipedia.org/wiki/Cross-origin_resource_sharing>`_
 * The `MDN Article <https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS>`_
 * The `HTML5 Rocks Tutorial <https://www.html5rocks.com/en/tutorials/cors/>`_
