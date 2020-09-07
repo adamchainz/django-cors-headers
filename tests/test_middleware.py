@@ -111,32 +111,36 @@ class CorsMiddlewareTests(TestCase):
         assert ACCESS_CONTROL_MAX_AGE not in resp
 
     @override_settings(
-        CORS_ALLOW_METHODS=["OPTIONS"],
-        CORS_ALLOW_CREDENTIALS=True,
         CORS_ALLOWED_ORIGINS=["http://localhost:9000"],
     )
     def test_options_allowed_origins_with_port(self):
         resp = self.client.options("/", HTTP_ORIGIN="http://localhost:9000")
-        assert resp[ACCESS_CONTROL_ALLOW_CREDENTIALS] == "true"
+        assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == "http://localhost:9000"
 
     @override_settings(
-        CORS_ALLOW_METHODS=["OPTIONS"],
-        CORS_ALLOW_CREDENTIALS=True,
-        CORS_ALLOWED_ORIGIN_REGEXES=[r"^http?://(\w+\.)?example\.com$"],
+        CORS_ALLOWED_ORIGIN_REGEXES=[r"^https://\w+\.example\.com$"],
     )
     def test_options_adds_origin_when_domain_found_in_allowed_regexes(self):
-        resp = self.client.options("/", HTTP_ORIGIN="http://foo.example.com")
-        assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == "http://foo.example.com"
+        resp = self.client.options("/", HTTP_ORIGIN="https://foo.example.com")
+        assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == "https://foo.example.com"
 
     @override_settings(
-        CORS_ALLOW_METHODS=["OPTIONS"],
-        CORS_ALLOW_CREDENTIALS=True,
-        CORS_ALLOWED_ORIGIN_REGEXES=[r"^http?://(\w+\.)?example\.org$"],
+        CORS_ALLOWED_ORIGIN_REGEXES=[
+            r"^https://\w+\.example\.org$",
+            r"^https://\w+\.example\.com$",
+        ],
+    )
+    def test_options_adds_origin_when_domain_found_in_allowed_regexes_second(self):
+        resp = self.client.options("/", HTTP_ORIGIN="https://foo.example.com")
+        assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == "https://foo.example.com"
+
+    @override_settings(
+        CORS_ALLOWED_ORIGIN_REGEXES=[r"^https://\w+\.example\.org$"],
     )
     def test_options_doesnt_add_origin_when_domain_not_found_in_allowed_regexes(
         self,
     ):
-        resp = self.client.options("/", HTTP_ORIGIN="http://foo.example.com")
+        resp = self.client.options("/", HTTP_ORIGIN="https://foo.example.com")
         assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
 
     def test_options(self):
