@@ -205,10 +205,6 @@ mccabe==0.6.1 \
     --hash=sha256:ab8a6258860da4b6677da4bd2fe5dc2c659cff31b3ee4f7f5d64e79735b80d42 \
     --hash=sha256:dd8d182285a0fe56bace7f45b5e7d1a6ebcbf524e8f3bd87eb0f125271b8831f \
     # via flake8
-more-itertools==8.5.0 \
-    --hash=sha256:6f83822ae94818eae2612063a5101a7311e68ae8002005b5e05f03fd74a86a20 \
-    --hash=sha256:9b30f12df9393f0d28af9210ff8efe48d10c94f73e5daf886f10c4b0b0b4f03c \
-    # via pytest
 mypy-extensions==0.4.3 \
     --hash=sha256:090fedd75945a69ae91ce1303b5824f428daf5a028d2f6ab8a299250a846f15d \
     --hash=sha256:2d82818f5bb3e369420cb3c4060a7970edba416647068eb4c5343488a6c604a8 \
@@ -277,9 +273,9 @@ pytest-randomly==3.4.1 \
     --hash=sha256:2c4df1390db72a33a4f44fac0c780e7883cd5968238efa2a2bdbdd54e3fc6681 \
     --hash=sha256:5fd0dbeeb218a7ce029690a8100453cd8d6a7972cf9d8e657690352692e92c69 \
     # via -r requirements.in
-pytest==6.0.2 \
-    --hash=sha256:0e37f61339c4578776e090c3b8f6b16ce4db333889d65d0efb305243ec544b40 \
-    --hash=sha256:c8f57c2a30983f469bf03e68cdfa74dc474ce56b8f280ddcb080dfd91df01043 \
+pytest==6.1.1 \
+    --hash=sha256:7a8190790c17d79a11f847fba0b004ee9a8122582ebff4729a082c109e81a4c9 \
+    --hash=sha256:8f593023c1a0f916110285b6efd7f99db07d59546e3d8c36fc60e2ab05d3be92 \
     # via -r requirements.in, pytest-cov, pytest-django, pytest-randomly
 pytz==2020.1 \
     --hash=sha256:a494d53b6d39c3c6e44c3bec237336e14305e4f29bbf800b599253057fbb79ed \
@@ -351,9 +347,9 @@ six==1.15.0 \
     --hash=sha256:30639c035cdb23534cd4aa2dd52c3bf48f06e5f4a941509c8bafd8ce11080259 \
     --hash=sha256:8b74bedcbbbaca38ff6d7491d76f2b06b3592611af620f8426e82dddb04a5ced \
     # via bleach, cryptography, packaging, readme-renderer, virtualenv
-sqlparse==0.3.1 \
-    --hash=sha256:022fb9c87b524d1f7862b3037e541f68597a730a8843245c349fc93e1643dc4e \
-    --hash=sha256:e162203737712307dfe78860cc56c8da8a852ab2ee33750e33aeadf38d12c548 \
+sqlparse==0.4.1 \
+    --hash=sha256:017cde379adbd6a1f15a61873f43e8274179378e95ef3fede90b5aa64d304ed0 \
+    --hash=sha256:0f91fd2e829c44362cbcfab3e9ae12e22badaa8a29ad5ff599f9ec109f0454e8 \
     # via django
 toml==0.10.1 \
     --hash=sha256:926b612be1e5ce0634a2ca03470f95169cf16f939018233a670519cb4ac58b0f \
