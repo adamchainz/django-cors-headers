@@ -32,7 +32,7 @@ Some good resources to read on the subject are:
 Requirements
 ------------
 
-Python 3.5 to 3.8 supported.
+Python 3.5 to 3.9 supported.
 
 Django 2.2 to 3.1 supported.
 
