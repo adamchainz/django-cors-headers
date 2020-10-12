@@ -2,16 +2,16 @@
 django-cors-headers
 ===================
 
-.. image:: https://github.com/adamchainz/django-cors-headers/workflows/CI/badge.svg?branch=master
+.. image:: https://img.shields.io/github/workflow/status/adamchainz/django-cors-headers/CI/master?style=for-the-badge
    :target: https://github.com/adamchainz/django-cors-headers/actions?workflow=CI
 
-.. image:: https://img.shields.io/pypi/v/django-cors-headers.svg
+.. image:: https://img.shields.io/pypi/v/django-cors-headers.svg?style=for-the-badge
     :target: https://pypi.org/project/django-cors-headers/
 
-.. image:: https://img.shields.io/badge/code%20style-black-000000.svg
-    :target: https://github.com/python/black
+.. image:: https://img.shields.io/badge/code%20style-black-000000.svg?style=for-the-badge
+    :target: https://github.com/psf/black
 
-.. image:: https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white
+.. image:: https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white&style=for-the-badge
    :target: https://github.com/pre-commit/pre-commit
    :alt: pre-commit
 
