@@ -11,17 +11,6 @@ if __name__ == "__main__":
     common_args = ["-m", "piptools", "compile", "--generate-hashes"] + sys.argv[1:]
     subprocess.run(
         [
-            "python3.5",
-            *common_args,
-            "-P",
-            "Django>=2.2,<2.3",
-            "-o",
-            "py35-django22.txt",
-        ],
-        check=True,
-    )
-    subprocess.run(
-        [
             "python3.6",
             *common_args,
             "-P",
