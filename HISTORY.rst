@@ -2,6 +2,8 @@
 History
 =======
 
+* Drop Python 3.5 support.
+
 * Support Python 3.9.
 
 3.5.0 (2020-08-25)
