@@ -10,26 +10,16 @@ repos:
   - id: check-toml
   - id: end-of-file-fixer
   - id: trailing-whitespace
-- repo: local
+- repo: https://github.com/psf/black
+  rev: 20.8b1
   hooks:
   - id: black
-    name: black
-    entry: .tox/py39-codestyle/bin/black
-    language: system
-    types: [python]
-  - id: check-manifest
-    name: check-manifest
-    entry: check-manifest
-    language: system
-    pass_filenames: false
-    files: ^MANIFEST\.in$
-  - id: flake8
-    name: flake8
-    entry: .tox/py39-codestyle/bin/flake8 --config=setup.cfg
-    language: system
-    types: [python]
+    language_version: python3
+- repo: https://github.com/pycqa/isort
+  rev: 5.6.4
+  hooks:
   - id: isort
-    name: isort
-    entry: .tox/py39-codestyle/bin/isort
-    language: system
-    types: [python]
+- repo: https://gitlab.com/pycqa/flake8
+  rev: 3.8.4
+  hooks:
+  - id: flake8
