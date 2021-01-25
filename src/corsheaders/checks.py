@@ -11,7 +11,6 @@ from corsheaders.conf import conf
 re_type = type(re.compile(""))
 
 
-@checks.register
 def check_settings(app_configs, **kwargs):
     errors = []
 
