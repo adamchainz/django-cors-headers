@@ -1,1 +1,4 @@
-from corsheaders.checks import check_settings  # noqa: F401
+import django
+
+if django.VERSION < (3, 2):
+    default_app_config = "corsheaders.apps.CorsHeadersAppConfig"
