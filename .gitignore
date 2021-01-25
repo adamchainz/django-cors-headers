@@ -12,6 +12,7 @@ dist/
 *.egg
 *.egg-info
 .coverage
+.coverage*
 dist
 build
 eggs
