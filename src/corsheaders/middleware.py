@@ -3,7 +3,6 @@ from urllib.parse import urlparse
 
 from django import http
 from django.utils.cache import patch_vary_headers
-from django.utils.deprecation import MiddlewareMixin
 
 from corsheaders.conf import conf
 from corsheaders.signals import check_request_enabled
@@ -16,7 +15,10 @@ ACCESS_CONTROL_ALLOW_METHODS = "Access-Control-Allow-Methods"
 ACCESS_CONTROL_MAX_AGE = "Access-Control-Max-Age"
 
 
-class CorsPostCsrfMiddleware(MiddlewareMixin):
+class CorsPostCsrfMiddleware:
+    def __init__(self, get_response):
+        self.get_response = get_response
+
     def _https_referer_replace_reverse(self, request):
         """
         Put the HTTP_REFERER back to its original value and delete the
@@ -27,16 +29,19 @@ class CorsPostCsrfMiddleware(MiddlewareMixin):
             request.META["HTTP_REFERER"] = http_referer
             del request.META["ORIGINAL_HTTP_REFERER"]
 
-    def process_request(self, request):
+    def __call__(self, request):
         self._https_referer_replace_reverse(request)
-        return None
+        return self.get_response(request)
 
     def process_view(self, request, callback, callback_args, callback_kwargs):
         self._https_referer_replace_reverse(request)
         return None
 
 
-class CorsMiddleware(MiddlewareMixin):
+class CorsMiddleware:
+    def __init__(self, get_response):
+        self.get_response = get_response
+
     def _https_referer_replace(self, request):
         """
         When https is enabled, django CSRF checking includes referer checking
@@ -68,7 +73,7 @@ class CorsMiddleware(MiddlewareMixin):
             except KeyError:
                 pass
 
-    def process_request(self, request):
+    def __call__(self, request):
         """
         If CORS preflight header, then create an
         empty body response (200 OK) and return it
@@ -90,23 +95,8 @@ class CorsMiddleware(MiddlewareMixin):
                 response["Content-Length"] = "0"
                 return response
 
-    def process_view(self, request, callback, callback_args, callback_kwargs):
-        """
-        Do the referer replacement here as well
-        """
-        if request._cors_enabled and conf.CORS_REPLACE_HTTPS_REFERER:
-            self._https_referer_replace(request)
-        return None
-
-    def process_response(self, request, response):
-        """
-        Add the respective CORS headers
-        """
-        enabled = getattr(request, "_cors_enabled", None)
-        if enabled is None:
-            enabled = self.is_enabled(request)
-
-        if not enabled:
+        response = self.get_response(request)
+        if not request._cors_enabled:
             return response
 
         patch_vary_headers(response, ["Origin"])
@@ -145,6 +135,14 @@ class CorsMiddleware(MiddlewareMixin):
                 response[ACCESS_CONTROL_MAX_AGE] = conf.CORS_PREFLIGHT_MAX_AGE
 
         return response
+
+    def process_view(self, request, callback, callback_args, callback_kwargs):
+        """
+        Do the referer replacement here as well
+        """
+        if request._cors_enabled and conf.CORS_REPLACE_HTTPS_REFERER:
+            self._https_referer_replace(request)
+        return None
 
     def origin_found_in_white_lists(self, origin, url):
         return (
