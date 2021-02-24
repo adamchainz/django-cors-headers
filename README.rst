@@ -79,10 +79,10 @@ You will also need to add a middleware class to listen in on responses:
 .. code-block:: python
 
     MIDDLEWARE = [
-        ...
+        ...,
         'corsheaders.middleware.CorsMiddleware',
         'django.middleware.common.CommonMiddleware',
-        ...
+        ...,
     ]
 
 ``CorsMiddleware`` should be placed as high as possible, especially before any
