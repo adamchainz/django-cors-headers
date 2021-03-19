@@ -1,5 +1,5 @@
 global-exclude *.py[cod]
-graft tests
+prune tests
 prune __pycache__
 prune requirements
 include HISTORY.rst
