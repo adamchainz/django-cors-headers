@@ -70,9 +70,9 @@ django==3.1.7 \
     --hash=sha256:32ce792ee9b6a0cbbec340123e229ac9f765dff8c2a4ae9247a14b2ba3a365a7 \
     --hash=sha256:baf099db36ad31f970775d0be5587cc58a6256a6771a44eb795b554d45f211b8
     # via -r requirements.in
-importlib-metadata==3.7.3 \
-    --hash=sha256:742add720a20d0467df2f444ae41704000f50e1234f46174b51f9c6031a1bd71 \
-    --hash=sha256:b74159469b464a99cb8cc3e21973e4d96e05d3024d337313fedb618a6e86e6f4
+importlib-metadata==3.8.1 \
+    --hash=sha256:eb83dfc8d87a64d42fb2904312d632bb8d57e47c5b435f8d4d5523d2b0efc3d0 \
+    --hash=sha256:fc605f818ff2389df65d893ccefcd5310678c48c2855c42619464ed48556ff08
     # via
     #   pluggy
     #   pytest
