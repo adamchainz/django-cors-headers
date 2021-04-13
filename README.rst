@@ -5,7 +5,7 @@ django-cors-headers
 .. image:: https://img.shields.io/github/workflow/status/adamchainz/django-cors-headers/CI/main?style=for-the-badge
    :target: https://github.com/adamchainz/django-cors-headers/actions?workflow=CI
 
-.. image:: https://img.shields.io/coveralls/github/adamchainz/django-cors-headers/main?style=for-the-badge
+.. image:: https://img.shields.io/codecov/c/github/adamchainz/django-cors-headers/main?style=for-the-badge
   :target: https://app.codecov.io/gh/adamchainz/django-cors-headers
 
 .. image:: https://img.shields.io/pypi/v/django-cors-headers.svg?style=for-the-badge
