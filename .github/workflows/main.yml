@@ -21,23 +21,26 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+
     - uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
+
     - uses: actions/cache@v2
       with:
         path: ~/.cache/pip
         key: ${{ runner.os }}-pip-${{ hashFiles('requirements/*.txt') }}
         restore-keys: |
           ${{ runner.os }}-pip-
-    - name: Upgrade packaging tools
-      run: python -m pip install --upgrade pip setuptools virtualenv
+
     - name: Install dependencies
-      run: python -m pip install --upgrade codecov tox
-    - name: Run tox targets for ${{ matrix.python-version }}
       run: |
-        ENV_PREFIX=$(tr -C -d "0-9" <<< "${{ matrix.python-version }}")
-        TOXENV=$(tox --listenvs | grep "^py$ENV_PREFIX" | tr '\n' ',') python -m tox
+        python -m pip install --upgrade pip setuptools
+        python -m pip install --upgrade codecov setuptools tox tox-py
+
+    - name: Run tox targets for ${{ matrix.python-version }}
+      run: tox --py current
+
     - name: Upload coverage
       run: |
         coverage combine
