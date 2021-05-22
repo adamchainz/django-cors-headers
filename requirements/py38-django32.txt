@@ -66,9 +66,9 @@ coverage==5.5 \
     --hash=sha256:f0b278ce10936db1a37e6954e15a3730bea96a0997c26d7fee88e6c396c2086d \
     --hash=sha256:f11642dddbb0253cc8853254301b51390ba0081750a8ac03f20ea8103f0c56b6
     # via -r requirements.in
-django==3.2.2 \
-    --hash=sha256:0a1d195ad65c52bf275b8277b3d49680bd1137a5f55039a806f25f6b9752ce3d \
-    --hash=sha256:18dd3145ddbd04bf189ff79b9954d08fda5171ea7b57bf705789fea766a07d50
+django==3.2.3 \
+    --hash=sha256:13ac78dbfd189532cad8f383a27e58e18b3d33f80009ceb476d7fcbfc5dcebd8 \
+    --hash=sha256:7e0a1393d18c16b503663752a8b6790880c5084412618990ce8a81cc908b4962
     # via -r requirements.in
 importlib-metadata==4.0.1 \
     --hash=sha256:8c501196e49fb9df5df43833bdb1e4328f64847763ec8a50703148b73784d581 \
@@ -94,13 +94,13 @@ pyparsing==2.4.7 \
     --hash=sha256:c203ec8783bf771a155b207279b9bccb8dea02d8f0c9e5f8ead507bc3246ecc1 \
     --hash=sha256:ef9d7589ef3c200abe66653d3f1ab1033c3c419ae9b9bdb1240a85b024efc88b
     # via packaging
-pytest-django==4.2.0 \
-    --hash=sha256:80f8875226ec4dc0b205f0578072034563879d98d9b1bec143a80b9045716cb0 \
-    --hash=sha256:a51150d8962200250e850c6adcab670779b9c2aa07271471059d1fb92a843fa9
+pytest-django==4.3.0 \
+    --hash=sha256:d1c6758a592fb0ef8abaa2fe12dd28858c1dcfc3d466102ffe52aa8934733dca \
+    --hash=sha256:f96c4556f4e7b15d987dd1dcc1d1526df81d40c1548d31ce840d597ed2be8c46
     # via -r requirements.in
-pytest-randomly==3.7.0 \
-    --hash=sha256:89a4f98aed1753c447a3927b66571a796e53cdecbf671e7318f6c57d79c7f6a3 \
-    --hash=sha256:cd68c1da7d152509f59fec725f5314437727937fad31a50028693269c9261d90
+pytest-randomly==3.8.0 \
+    --hash=sha256:d9e21a72446757129378beea00bc9a32df1fb1cfd0bbe408be1ae9685bdf1209 \
+    --hash=sha256:f5b7a09e84ee1eabcdedbb73c51d0929ae2f582bab6941dbb513bb49296d6340
     # via -r requirements.in
 pytest==6.2.4 \
     --hash=sha256:50bcad0a0b9c5a72c8e4e7c9855a3ad496ca6a881a3641b4260605450772c54b \
