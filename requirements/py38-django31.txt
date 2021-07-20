@@ -70,17 +70,17 @@ django==3.1.13 \
     --hash=sha256:9f8be75646f62204320b195062b1d696ba28aa3d45ee72fb7c888ffaebc5bdb2 \
     --hash=sha256:a6e0d1ff11095b7394c079ade7094c73b2dc3df4a7a373c9b58ed73b77a97feb
     # via -r requirements.in
-importlib-metadata==4.6.0 \
-    --hash=sha256:4a5611fea3768d3d967c447ab4e93f567d95db92225b43b7b238dbfb855d70bb \
-    --hash=sha256:c6513572926a96458f8c8f725bf0e00108fba0c9583ade9bd15b869c9d726e33
+importlib-metadata==4.6.1 \
+    --hash=sha256:079ada16b7fc30dfbb5d13399a5113110dab1aa7c2bc62f66af75f0b717c8cac \
+    --hash=sha256:9f55f560e116f8643ecf2922d9cd3e1c7e8d52e683178fecd9d08f6aa357e11e
     # via pytest-randomly
 iniconfig==1.1.1 \
     --hash=sha256:011e24c64b7f47f6ebd835bb12a743f2fbe9a26d4cecaa7f53bc4f35ee9da8b3 \
     --hash=sha256:bc3af051d7d14b2ee5ef9969666def0cd1a000e121eaea580d4a313df4b37f32
     # via pytest
-packaging==20.9 \
-    --hash=sha256:5b327ac1320dc863dca72f4514ecc086f31186744b84a230374cc1fd776feae5 \
-    --hash=sha256:67714da7f7bc052e064859c05c595155bd1ee9f69f76557e21f051443c20947a
+packaging==21.0 \
+    --hash=sha256:7dc96269f53a4ccec5c0670940a4281106dd0bb343f47b7471f779df49c2fbe7 \
+    --hash=sha256:c86254f9220d55e31cc94d69bade760f0847da8000def4dfe1c6b872fd14ff14
     # via pytest
 pluggy==0.13.1 \
     --hash=sha256:15b2acde666561e1298d71b523007ed7364de07029219b604cf808bfa1c765b0 \
