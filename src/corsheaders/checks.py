@@ -58,7 +58,7 @@ def check_settings(app_configs, **kwargs):
             allow_all_alias = "CORS_ORIGIN_ALLOW_ALL"
         errors.append(
             checks.Error(
-                "{} should be a bool.".format(allow_all_alias),
+                f"{allow_all_alias} should be a bool.",
                 id="corsheaders.E005",
             )
         )
@@ -71,7 +71,7 @@ def check_settings(app_configs, **kwargs):
     if not is_sequence(conf.CORS_ALLOWED_ORIGINS, str):
         errors.append(
             checks.Error(
-                "{} should be a sequence of strings.".format(allowed_origins_alias),
+                f"{allowed_origins_alias} should be a sequence of strings.",
                 id="corsheaders.E006",
             )
         )
