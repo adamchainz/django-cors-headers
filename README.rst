@@ -65,9 +65,9 @@ and then add it to your installed apps:
 .. code-block:: python
 
     INSTALLED_APPS = [
-        ...
-        'corsheaders',
-        ...
+        ...,
+        "corsheaders",
+        ...,
     ]
 
 Make sure you add the trailing comma or you might get a ``ModuleNotFoundError``
@@ -80,8 +80,8 @@ You will also need to add a middleware class to listen in on responses:
 
     MIDDLEWARE = [
         ...,
-        'corsheaders.middleware.CorsMiddleware',
-        'django.middleware.common.CommonMiddleware',
+        "corsheaders.middleware.CorsMiddleware",
+        "django.middleware.common.CommonMiddleware",
         ...,
     ]
 
@@ -149,7 +149,7 @@ Example:
         "https://example.com",
         "https://sub.example.com",
         "http://localhost:8080",
-        "http://127.0.0.1:9000"
+        "http://127.0.0.1:9000",
     ]
 
 Previously this setting was called ``CORS_ORIGIN_WHITELIST``, which still works
@@ -203,7 +203,7 @@ Example:
 
 .. code-block:: python
 
-    CORS_URLS_REGEX = r'^/api/.*$'
+    CORS_URLS_REGEX = r"^/api/.*$"
 
 ``CORS_ALLOW_METHODS``
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -213,12 +213,12 @@ A list of HTTP verbs that are allowed for the actual request. Defaults to:
 .. code-block:: python
 
     CORS_ALLOW_METHODS = [
-        'DELETE',
-        'GET',
-        'OPTIONS',
-        'PATCH',
-        'POST',
-        'PUT',
+        "DELETE",
+        "GET",
+        "OPTIONS",
+        "PATCH",
+        "POST",
+        "PUT",
     ]
 
 The default can be imported as ``corsheaders.defaults.default_methods`` so you
@@ -230,7 +230,7 @@ with any future changes. For example:
     from corsheaders.defaults import default_methods
 
     CORS_ALLOW_METHODS = list(default_methods) + [
-        'POKE',
+        "POKE",
     ]
 
 ``CORS_ALLOW_HEADERS``
@@ -242,15 +242,15 @@ request. Defaults to:
 .. code-block:: python
 
     CORS_ALLOW_HEADERS = [
-        'accept',
-        'accept-encoding',
-        'authorization',
-        'content-type',
-        'dnt',
-        'origin',
-        'user-agent',
-        'x-csrftoken',
-        'x-requested-with',
+        "accept",
+        "accept-encoding",
+        "authorization",
+        "content-type",
+        "dnt",
+        "origin",
+        "user-agent",
+        "x-csrftoken",
+        "x-requested-with",
     ]
 
 The default can be imported as ``corsheaders.defaults.default_headers`` so you
@@ -262,7 +262,7 @@ any future changes. For example:
     from corsheaders.defaults import default_headers
 
     CORS_ALLOW_HEADERS = list(default_headers) + [
-        'my-custom-header',
+        "my-custom-header",
     ]
 
 ``CORS_EXPOSE_HEADERS``
@@ -312,12 +312,12 @@ For example:
 .. code-block:: python
 
     CORS_ALLOWED_ORIGINS = [
-        'http://read.only.com',
-        'http://change.allowed.com',
+        "http://read.only.com",
+        "http://change.allowed.com",
     ]
 
     CSRF_TRUSTED_ORIGINS = [
-        'change.allowed.com',
+        "change.allowed.com",
     ]
 
 ``CORS_REPLACE_HTTPS_REFERER``
@@ -341,12 +341,12 @@ undo the ``Referer`` replacement:
 .. code-block:: python
 
     MIDDLEWARE_CLASSES = [
-        ...
-        'corsheaders.middleware.CorsMiddleware',
-        ...
-        'django.middleware.csrf.CsrfViewMiddleware',
-        'corsheaders.middleware.CorsPostCsrfMiddleware',
-        ...
+        ...,
+        "corsheaders.middleware.CorsMiddleware",
+        ...,
+        "django.middleware.csrf.CsrfViewMiddleware",
+        "corsheaders.middleware.CorsPostCsrfMiddleware",
+        ...,
     ]
 
 Signals
@@ -370,8 +370,10 @@ For example you might define a handler like this:
 
     from myapp.models import MySite
 
+
     def cors_allow_mysites(sender, request, **kwargs):
         return MySite.objects.filter(host=request.host).exists()
+
 
     check_request_enabled.connect(cors_allow_mysites)
 
@@ -382,7 +384,7 @@ Then connect it at app ready time using a `Django AppConfig
 
     # myapp/__init__.py
 
-    default_app_config = 'myapp.apps.MyAppConfig'
+    default_app_config = "myapp.apps.MyAppConfig"
 
 .. code-block:: python
 
@@ -390,8 +392,9 @@ Then connect it at app ready time using a `Django AppConfig
 
     from django.apps import AppConfig
 
+
     class MyAppConfig(AppConfig):
-        name = 'myapp'
+        name = "myapp"
 
         def ready(self):
             # Makes sure all signal handlers are connected
@@ -412,7 +415,9 @@ unrestricted URL's. For example:
     # myapp/handlers.py
     from corsheaders.signals import check_request_enabled
 
+
     def cors_allow_api_to_everyone(sender, request, **kwargs):
-        return request.path.startswith('/api/')
+        return request.path.startswith("/api/")
+
 
     check_request_enabled.connect(cors_allow_api_to_everyone)
