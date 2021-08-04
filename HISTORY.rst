@@ -107,13 +107,13 @@ History
 
   .. code-block:: python
 
-      CORS_ORIGIN_WHITELIST = ['example.com']
+      CORS_ORIGIN_WHITELIST = ["example.com"]
 
   ...to this:
 
   .. code-block:: python
 
-      CORS_ORIGIN_WHITELIST = ['https://example.com']
+      CORS_ORIGIN_WHITELIST = ["https://example.com"]
 
 * Removed the ``CORS_MODEL`` setting, and associated class. It seems very few,
   or no users were using it, since there were no bug reports since its move to
