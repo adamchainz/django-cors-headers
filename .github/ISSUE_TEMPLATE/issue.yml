@@ -1,0 +1,34 @@
+name: Issue
+description: File an issue
+body:
+- type: input
+  id: python_version
+  attributes:
+    label: Python Version
+    description: Which version of Python were you using?
+    placeholder: 3.9.0
+  validations:
+    required: false
+- type: input
+  id: django_version
+  attributes:
+    label: Django Version
+    description: Which version of Django were you using?
+    placeholder: 3.2.0
+  validations:
+    required: false
+- type: input
+  id: package_version
+  attributes:
+    label: Package Version
+    description: Which version of this package were you using? If not the latest version, please check this issue has not since been resolved.
+    placeholder: 1.0.0
+  validations:
+    required: false
+- type: textarea
+  id: description
+  attributes:
+    label: Description
+    description: Please describe your issue.
+  validations:
+    required: true
