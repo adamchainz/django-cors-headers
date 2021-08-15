@@ -8,5 +8,5 @@ class CorsHeadersAppConfig(AppConfig):
     name = "corsheaders"
     verbose_name = "django-cors-headers"
 
-    def ready(self):
+    def ready(self) -> None:
         register(Tags.security)(check_settings)

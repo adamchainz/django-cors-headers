@@ -123,8 +123,8 @@ least one of three following settings:
 * ``CORS_ALLOWED_ORIGIN_REGEXES``
 * ``CORS_ALLOW_ALL_ORIGINS``
 
-``CORS_ALLOWED_ORIGINS``
-~~~~~~~~~~~~~~~~~~~~~~~~
+``CORS_ALLOWED_ORIGINS: Sequence[str]``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A list of origins that are authorized to make cross-site HTTP requests.
 Defaults to ``[]``.
@@ -155,8 +155,8 @@ Example:
 Previously this setting was called ``CORS_ORIGIN_WHITELIST``, which still works
 as an alias, with the new name taking precedence.
 
-``CORS_ALLOWED_ORIGIN_REGEXES``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+``CORS_ALLOWED_ORIGIN_REGEXES: Sequence[str | Pattern[str]]``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A list of strings representing regexes that match Origins that are authorized
 to make cross-site HTTP requests. Defaults to ``[]``. Useful when
@@ -174,8 +174,8 @@ Example:
 Previously this setting was called ``CORS_ORIGIN_REGEX_WHITELIST``, which still
 works as an alias, with the new name taking precedence.
 
-``CORS_ALLOW_ALL_ORIGINS``
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+``CORS_ALLOW_ALL_ORIGINS: bool``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If ``True``, all origins will be allowed. Other settings restricting allowed
 origins will be ignored. Defaults to ``False``.
@@ -192,8 +192,8 @@ works as an alias, with the new name taking precedence.
 
 The following are optional settings, for which the defaults probably suffice.
 
-``CORS_URLS_REGEX``
-~~~~~~~~~~~~~~~~~~~
+``CORS_URLS_REGEX: str | Pattern[str]``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A regex which restricts the URL's for which the CORS headers will be sent.
 Defaults to ``r'^.*$'``, i.e. match all URL's. Useful when you only need CORS
@@ -205,8 +205,8 @@ Example:
 
     CORS_URLS_REGEX = r"^/api/.*$"
 
-``CORS_ALLOW_METHODS``
-~~~~~~~~~~~~~~~~~~~~~~
+``CORS_ALLOW_METHODS: Sequence[str]``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A list of HTTP verbs that are allowed for the actual request. Defaults to:
 
@@ -233,8 +233,8 @@ with any future changes. For example:
         "POKE",
     ]
 
-``CORS_ALLOW_HEADERS``
-~~~~~~~~~~~~~~~~~~~~~~
+``CORS_ALLOW_HEADERS: Sequence[str]``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The list of non-standard HTTP headers that can be used when making the actual
 request. Defaults to:
@@ -265,15 +265,15 @@ any future changes. For example:
         "my-custom-header",
     ]
 
-``CORS_EXPOSE_HEADERS``
-~~~~~~~~~~~~~~~~~~~~~~~
+``CORS_EXPOSE_HEADERS: Sequence[str]``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The list of HTTP headers that are to be exposed to the browser. Defaults to
 ``[]``.
 
 
-``CORS_PREFLIGHT_MAX_AGE``
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+``CORS_PREFLIGHT_MAX_AGE: int``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The number of seconds a client/browser can cache the preflight response. If
 this is 0 (or any falsey value), no max age header will be sent. Defaults to
@@ -286,8 +286,8 @@ this is 0 (or any falsey value), no max age header will be sent. Defaults to
 actually accepts. Read more about it in the
 `CORS MDN article <https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#Preflighted_requests>`_.
 
-``CORS_ALLOW_CREDENTIALS``
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+``CORS_ALLOW_CREDENTIALS: bool``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If ``True``, cookies will be allowed to be included in cross-site HTTP
 requests. Defaults to ``False``.
@@ -320,8 +320,8 @@ For example:
         "change.allowed.com",
     ]
 
-``CORS_REPLACE_HTTPS_REFERER``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+``CORS_REPLACE_HTTPS_REFERER: bool``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ``CSRF_TRUSTED_ORIGINS`` was introduced in Django 1.9, so users of earlier
 versions will need an alternate solution. If ``CORS_REPLACE_HTTPS_REFERER`` is

@@ -1,7 +1,8 @@
 import re
-from urllib.parse import urlparse
+from typing import Any, Optional
+from urllib.parse import ParseResult, urlparse
 
-from django import http
+from django.http import HttpRequest, HttpResponse
 from django.utils.cache import patch_vary_headers
 from django.utils.deprecation import MiddlewareMixin
 
@@ -17,7 +18,7 @@ ACCESS_CONTROL_MAX_AGE = "Access-Control-Max-Age"
 
 
 class CorsPostCsrfMiddleware(MiddlewareMixin):
-    def _https_referer_replace_reverse(self, request):
+    def _https_referer_replace_reverse(self, request: HttpRequest) -> None:
         """
         Put the HTTP_REFERER back to its original value and delete the
         temporary storage
@@ -27,17 +28,23 @@ class CorsPostCsrfMiddleware(MiddlewareMixin):
             request.META["HTTP_REFERER"] = http_referer
             del request.META["ORIGINAL_HTTP_REFERER"]
 
-    def process_request(self, request):
+    def process_request(self, request: HttpRequest) -> None:
         self._https_referer_replace_reverse(request)
         return None
 
-    def process_view(self, request, callback, callback_args, callback_kwargs):
+    def process_view(
+        self,
+        request: HttpRequest,
+        callback: Any,
+        callback_args: Any,
+        callback_kwargs: Any,
+    ) -> None:
         self._https_referer_replace_reverse(request)
         return None
 
 
 class CorsMiddleware(MiddlewareMixin):
-    def _https_referer_replace(self, request):
+    def _https_referer_replace(self, request: HttpRequest) -> None:
         """
         When https is enabled, django CSRF checking includes referer checking
         which breaks when using CORS. This function updates the HTTP_REFERER
@@ -68,7 +75,7 @@ class CorsMiddleware(MiddlewareMixin):
             except KeyError:
                 pass
 
-    def process_request(self, request):
+    def process_request(self, request: HttpRequest) -> Optional[HttpResponse]:
         """
         If CORS preflight header, then create an
         empty body response (200 OK) and return it
@@ -86,11 +93,18 @@ class CorsMiddleware(MiddlewareMixin):
                 request.method == "OPTIONS"
                 and "HTTP_ACCESS_CONTROL_REQUEST_METHOD" in request.META
             ):
-                response = http.HttpResponse()
+                response = HttpResponse()
                 response["Content-Length"] = "0"
                 return response
+        return None
 
-    def process_view(self, request, callback, callback_args, callback_kwargs):
+    def process_view(
+        self,
+        request: HttpRequest,
+        callback: Any,
+        callback_args: Any,
+        callback_kwargs: Any,
+    ) -> None:
         """
         Do the referer replacement here as well
         """
@@ -98,7 +112,9 @@ class CorsMiddleware(MiddlewareMixin):
             self._https_referer_replace(request)
         return None
 
-    def process_response(self, request, response):
+    def process_response(
+        self, request: HttpRequest, response: HttpResponse
+    ) -> HttpResponse:
         """
         Add the respective CORS headers
         """
@@ -142,32 +158,33 @@ class CorsMiddleware(MiddlewareMixin):
             response[ACCESS_CONTROL_ALLOW_HEADERS] = ", ".join(conf.CORS_ALLOW_HEADERS)
             response[ACCESS_CONTROL_ALLOW_METHODS] = ", ".join(conf.CORS_ALLOW_METHODS)
             if conf.CORS_PREFLIGHT_MAX_AGE:
-                response[ACCESS_CONTROL_MAX_AGE] = conf.CORS_PREFLIGHT_MAX_AGE
+                response[ACCESS_CONTROL_MAX_AGE] = str(conf.CORS_PREFLIGHT_MAX_AGE)
 
         return response
 
-    def origin_found_in_white_lists(self, origin, url):
+    def origin_found_in_white_lists(self, origin: str, url: ParseResult) -> bool:
         return (
             (origin == "null" and origin in conf.CORS_ALLOWED_ORIGINS)
             or self._url_in_whitelist(url)
             or self.regex_domain_match(origin)
         )
 
-    def regex_domain_match(self, origin):
-        for domain_pattern in conf.CORS_ALLOWED_ORIGIN_REGEXES:
-            if re.match(domain_pattern, origin):
-                return origin
+    def regex_domain_match(self, origin: str) -> bool:
+        return any(
+            re.match(domain_pattern, origin)
+            for domain_pattern in conf.CORS_ALLOWED_ORIGIN_REGEXES
+        )
 
-    def is_enabled(self, request):
+    def is_enabled(self, request: HttpRequest) -> bool:
         return bool(
             re.match(conf.CORS_URLS_REGEX, request.path_info)
         ) or self.check_signal(request)
 
-    def check_signal(self, request):
+    def check_signal(self, request: HttpRequest) -> bool:
         signal_responses = check_request_enabled.send(sender=None, request=request)
         return any(return_value for function, return_value in signal_responses)
 
-    def _url_in_whitelist(self, url):
+    def _url_in_whitelist(self, url: ParseResult) -> bool:
         origins = [urlparse(o) for o in conf.CORS_ALLOWED_ORIGINS]
         return any(
             origin.scheme == url.scheme and origin.netloc == url.netloc
