@@ -1,22 +1,23 @@
 import re
 from collections.abc import Sequence
-from numbers import Integral
+from typing import Any, List, Tuple, Type, Union
 from urllib.parse import urlparse
 
+from django.apps import AppConfig
 from django.conf import settings
-from django.core import checks
+from django.core.checks import Error
 
 from corsheaders.conf import conf
 
 re_type = type(re.compile(""))
 
 
-def check_settings(app_configs, **kwargs):
+def check_settings(app_configs: List[AppConfig], **kwargs: Any) -> List[Error]:
     errors = []
 
     if not is_sequence(conf.CORS_ALLOW_HEADERS, str):
         errors.append(
-            checks.Error(
+            Error(
                 "CORS_ALLOW_HEADERS should be a sequence of strings.",
                 id="corsheaders.E001",
             )
@@ -24,25 +25,23 @@ def check_settings(app_configs, **kwargs):
 
     if not is_sequence(conf.CORS_ALLOW_METHODS, str):
         errors.append(
-            checks.Error(
+            Error(
                 "CORS_ALLOW_METHODS should be a sequence of strings.",
                 id="corsheaders.E002",
             )
         )
 
     if not isinstance(conf.CORS_ALLOW_CREDENTIALS, bool):
-        errors.append(
-            checks.Error(
-                "CORS_ALLOW_CREDENTIALS should be a bool.", id="corsheaders.E003"
-            )
+        errors.append(  # type: ignore [unreachable]
+            Error("CORS_ALLOW_CREDENTIALS should be a bool.", id="corsheaders.E003")
         )
 
     if (
-        not isinstance(conf.CORS_PREFLIGHT_MAX_AGE, Integral)
+        not isinstance(conf.CORS_PREFLIGHT_MAX_AGE, int)
         or conf.CORS_PREFLIGHT_MAX_AGE < 0
     ):
         errors.append(
-            checks.Error(
+            Error(
                 (
                     "CORS_PREFLIGHT_MAX_AGE should be an integer greater than "
                     + "or equal to zero."
@@ -52,12 +51,12 @@ def check_settings(app_configs, **kwargs):
         )
 
     if not isinstance(conf.CORS_ALLOW_ALL_ORIGINS, bool):
-        if hasattr(settings, "CORS_ALLOW_ALL_ORIGINS"):
+        if hasattr(settings, "CORS_ALLOW_ALL_ORIGINS"):  # type: ignore [unreachable]
             allow_all_alias = "CORS_ALLOW_ALL_ORIGINS"
         else:
             allow_all_alias = "CORS_ORIGIN_ALLOW_ALL"
         errors.append(
-            checks.Error(
+            Error(
                 f"{allow_all_alias} should be a bool.",
                 id="corsheaders.E005",
             )
@@ -70,7 +69,7 @@ def check_settings(app_configs, **kwargs):
 
     if not is_sequence(conf.CORS_ALLOWED_ORIGINS, str):
         errors.append(
-            checks.Error(
+            Error(
                 f"{allowed_origins_alias} should be a sequence of strings.",
                 id="corsheaders.E006",
             )
@@ -89,7 +88,7 @@ def check_settings(app_configs, **kwargs):
             parsed = urlparse(origin)
             if parsed.scheme == "" or parsed.netloc == "":
                 errors.append(
-                    checks.Error(
+                    Error(
                         "Origin {} in {} is missing scheme or netloc".format(
                             repr(origin), allowed_origins_alias
                         ),
@@ -106,7 +105,7 @@ def check_settings(app_configs, **kwargs):
                 for part in ("path", "params", "query", "fragment"):
                     if getattr(parsed, part) != "":
                         errors.append(
-                            checks.Error(
+                            Error(
                                 "Origin {} in {} should not have {}".format(
                                     repr(origin), allowed_origins_alias, part
                                 ),
@@ -120,7 +119,7 @@ def check_settings(app_configs, **kwargs):
         allowed_regexes_alias = "CORS_ORIGIN_REGEX_WHITELIST"
     if not is_sequence(conf.CORS_ALLOWED_ORIGIN_REGEXES, (str, re_type)):
         errors.append(
-            checks.Error(
+            Error(
                 "{} should be a sequence of strings and/or compiled regexes.".format(
                     allowed_regexes_alias
                 ),
@@ -130,28 +129,22 @@ def check_settings(app_configs, **kwargs):
 
     if not is_sequence(conf.CORS_EXPOSE_HEADERS, str):
         errors.append(
-            checks.Error(
-                "CORS_EXPOSE_HEADERS should be a sequence.", id="corsheaders.E008"
-            )
+            Error("CORS_EXPOSE_HEADERS should be a sequence.", id="corsheaders.E008")
         )
 
     if not isinstance(conf.CORS_URLS_REGEX, (str, re_type)):
         errors.append(
-            checks.Error(
-                "CORS_URLS_REGEX should be a string or regex.", id="corsheaders.E009"
-            )
+            Error("CORS_URLS_REGEX should be a string or regex.", id="corsheaders.E009")
         )
 
     if not isinstance(conf.CORS_REPLACE_HTTPS_REFERER, bool):
-        errors.append(
-            checks.Error(
-                "CORS_REPLACE_HTTPS_REFERER should be a bool.", id="corsheaders.E011"
-            )
+        errors.append(  # type: ignore [unreachable]
+            Error("CORS_REPLACE_HTTPS_REFERER should be a bool.", id="corsheaders.E011")
         )
 
     if hasattr(settings, "CORS_MODEL"):
         errors.append(
-            checks.Error(
+            Error(
                 (
                     "The CORS_MODEL setting has been removed - see "
                     + "django-cors-headers' HISTORY."
@@ -163,7 +156,9 @@ def check_settings(app_configs, **kwargs):
     return errors
 
 
-def is_sequence(thing, type_or_types):
+def is_sequence(
+    thing: Any, type_or_types: Union[Type[Any], Tuple[Type[Any], ...]]
+) -> bool:
     return isinstance(thing, Sequence) and all(
         isinstance(x, type_or_types) for x in thing
     )

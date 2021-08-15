@@ -253,16 +253,17 @@ class CorsMiddlewareTests(TestCase):
 
     @override_settings(CORS_ALLOWED_ORIGINS=["http://example.com"])
     def test_signal_called_once_during_normal_flow(self):
-        def allow_all(sender, request, **kwargs):
-            allow_all.calls += 1
-            return True
+        calls = 0
 
-        allow_all.calls = 0
+        def allow_all(sender, request, **kwargs):
+            nonlocal calls
+            calls += 1
+            return True
 
         with temporary_check_request_hander(allow_all):
             self.client.get("/", HTTP_ORIGIN="http://example.org")
 
-            assert allow_all.calls == 1
+            assert calls == 1
 
     @override_settings(CORS_ALLOWED_ORIGINS=["http://example.com"])
     @prepend_middleware("tests.test_middleware.ShortCircuitMiddleware")

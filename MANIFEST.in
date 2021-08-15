@@ -5,6 +5,7 @@ prune requirements
 include HISTORY.rst
 include LICENSE
 include README.rst
+include src/corsheaders/py.typed
 exclude .editorconfig
 exclude .pre-commit-config.yaml
 include pyproject.toml
