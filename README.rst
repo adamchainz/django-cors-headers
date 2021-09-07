@@ -66,7 +66,7 @@ and then add it to your installed apps:
 
     INSTALLED_APPS = [
         ...,
-        'corsheaders',
+        "corsheaders",
         ...,
     ]
 
@@ -80,8 +80,8 @@ You will also need to add a middleware class to listen in on responses:
 
     MIDDLEWARE = [
         ...,
-        'corsheaders.middleware.CorsMiddleware',
-        'django.middleware.common.CommonMiddleware',
+        "corsheaders.middleware.CorsMiddleware",
+        "django.middleware.common.CommonMiddleware",
         ...,
     ]
 
@@ -146,10 +146,10 @@ Example:
 .. code-block:: python
 
     CORS_ALLOWED_ORIGINS = [
-        'https://example.com',
-        'https://sub.example.com',
-        'http://localhost:8080',
-        'http://127.0.0.1:9000',
+        "https://example.com",
+        "https://sub.example.com",
+        "http://localhost:8080",
+        "http://127.0.0.1:9000",
     ]
 
 Previously this setting was called ``CORS_ORIGIN_WHITELIST``, which still works
@@ -213,12 +213,12 @@ A list of HTTP verbs that are allowed for the actual request. Defaults to:
 .. code-block:: python
 
     CORS_ALLOW_METHODS = [
-        'DELETE',
-        'GET',
-        'OPTIONS',
-        'PATCH',
-        'POST',
-        'PUT',
+        "DELETE",
+        "GET",
+        "OPTIONS",
+        "PATCH",
+        "POST",
+        "PUT",
     ]
 
 The default can be imported as ``corsheaders.defaults.default_methods`` so you
@@ -230,7 +230,7 @@ with any future changes. For example:
     from corsheaders.defaults import default_methods
 
     CORS_ALLOW_METHODS = list(default_methods) + [
-        'POKE',
+        "POKE",
     ]
 
 ``CORS_ALLOW_HEADERS: Sequence[str]``
@@ -242,15 +242,15 @@ request. Defaults to:
 .. code-block:: python
 
     CORS_ALLOW_HEADERS = [
-        'accept',
-        'accept-encoding',
-        'authorization',
-        'content-type',
-        'dnt',
-        'origin',
-        'user-agent',
-        'x-csrftoken',
-        'x-requested-with',
+        "accept",
+        "accept-encoding",
+        "authorization",
+        "content-type",
+        "dnt",
+        "origin",
+        "user-agent",
+        "x-csrftoken",
+        "x-requested-with",
     ]
 
 The default can be imported as ``corsheaders.defaults.default_headers`` so you
@@ -262,7 +262,7 @@ any future changes. For example:
     from corsheaders.defaults import default_headers
 
     CORS_ALLOW_HEADERS = list(default_headers) + [
-        'my-custom-header',
+        "my-custom-header",
     ]
 
 ``CORS_EXPOSE_HEADERS: Sequence[str]``
@@ -312,12 +312,12 @@ For example:
 .. code-block:: python
 
     CORS_ALLOWED_ORIGINS = [
-        'http://read.only.com',
-        'http://change.allowed.com',
+        "http://read.only.com",
+        "http://change.allowed.com",
     ]
 
     CSRF_TRUSTED_ORIGINS = [
-        'change.allowed.com',
+        "change.allowed.com",
     ]
 
 ``CORS_REPLACE_HTTPS_REFERER: bool``
@@ -342,10 +342,10 @@ undo the ``Referer`` replacement:
 
     MIDDLEWARE_CLASSES = [
         ...,
-        'corsheaders.middleware.CorsMiddleware',
+        "corsheaders.middleware.CorsMiddleware",
         ...,
-        'django.middleware.csrf.CsrfViewMiddleware',
-        'corsheaders.middleware.CorsPostCsrfMiddleware',
+        "django.middleware.csrf.CsrfViewMiddleware",
+        "corsheaders.middleware.CorsPostCsrfMiddleware",
         ...,
     ]
 
