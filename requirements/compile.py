@@ -8,7 +8,13 @@ if __name__ == "__main__":
     os.chdir(Path(__file__).parent)
     os.environ["CUSTOM_COMPILE_COMMAND"] = "requirements/compile.py"
     os.environ.pop("PIP_REQUIRE_VIRTUALENV")
-    common_args = ["-m", "piptools", "compile", "--generate-hashes"] + sys.argv[1:]
+    common_args = [
+        "-m",
+        "piptools",
+        "compile",
+        "--generate-hashes",
+        "--allow-unsafe",
+    ] + sys.argv[1:]
     subprocess.run(
         [
             "python3.6",
@@ -19,6 +25,7 @@ if __name__ == "__main__":
             "py36-django22.txt",
         ],
         check=True,
+        capture_output=True,
     )
     subprocess.run(
         [
@@ -30,6 +37,7 @@ if __name__ == "__main__":
             "py36-django30.txt",
         ],
         check=True,
+        capture_output=True,
     )
     subprocess.run(
         [
@@ -41,6 +49,7 @@ if __name__ == "__main__":
             "py36-django31.txt",
         ],
         check=True,
+        capture_output=True,
     )
     subprocess.run(
         [
@@ -52,6 +61,7 @@ if __name__ == "__main__":
             "py36-django32.txt",
         ],
         check=True,
+        capture_output=True,
     )
     subprocess.run(
         [
@@ -63,6 +73,7 @@ if __name__ == "__main__":
             "py37-django22.txt",
         ],
         check=True,
+        capture_output=True,
     )
     subprocess.run(
         [
@@ -74,6 +85,7 @@ if __name__ == "__main__":
             "py37-django30.txt",
         ],
         check=True,
+        capture_output=True,
     )
     subprocess.run(
         [
@@ -85,6 +97,7 @@ if __name__ == "__main__":
             "py37-django31.txt",
         ],
         check=True,
+        capture_output=True,
     )
     subprocess.run(
         [
@@ -96,6 +109,7 @@ if __name__ == "__main__":
             "py37-django32.txt",
         ],
         check=True,
+        capture_output=True,
     )
     subprocess.run(
         [
@@ -107,6 +121,7 @@ if __name__ == "__main__":
             "py38-django22.txt",
         ],
         check=True,
+        capture_output=True,
     )
     subprocess.run(
         [
@@ -118,6 +133,7 @@ if __name__ == "__main__":
             "py38-django30.txt",
         ],
         check=True,
+        capture_output=True,
     )
     subprocess.run(
         [
@@ -129,6 +145,7 @@ if __name__ == "__main__":
             "py38-django31.txt",
         ],
         check=True,
+        capture_output=True,
     )
     subprocess.run(
         [
@@ -140,6 +157,7 @@ if __name__ == "__main__":
             "py38-django32.txt",
         ],
         check=True,
+        capture_output=True,
     )
     subprocess.run(
         [
@@ -151,6 +169,7 @@ if __name__ == "__main__":
             "py39-django22.txt",
         ],
         check=True,
+        capture_output=True,
     )
     subprocess.run(
         [
@@ -162,6 +181,7 @@ if __name__ == "__main__":
             "py39-django30.txt",
         ],
         check=True,
+        capture_output=True,
     )
     subprocess.run(
         [
@@ -173,6 +193,7 @@ if __name__ == "__main__":
             "py39-django31.txt",
         ],
         check=True,
+        capture_output=True,
     )
     subprocess.run(
         [
@@ -184,4 +205,5 @@ if __name__ == "__main__":
             "py39-django32.txt",
         ],
         check=True,
+        capture_output=True,
     )
