@@ -13,3 +13,5 @@ ROOT_URLCONF = "tests.urls"
 MIDDLEWARE = ["corsheaders.middleware.CorsMiddleware"]
 
 SECURE_PROXY_SSL_HEADER = ("HTTP_FAKE_SECURE", "true")
+
+USE_TZ = True
