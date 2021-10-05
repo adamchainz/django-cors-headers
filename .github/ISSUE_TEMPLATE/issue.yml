@@ -1,6 +1,17 @@
 name: Issue
 description: File an issue
 body:
+- type: checkboxes
+  id: resources
+  attributes:
+    label: Understanding CORS
+    description: >
+      90% of the issues reported in django-cors-headers are due to a misunderstanding of what CORS does.
+      CORS is well described in [the resources in the README](https://github.com/adamchainz/django-cors-headers#about-cors).
+      Please confirm that you have read the resources on CORS before submitting your issue.
+    options:
+    - label: I have read the resources.
+      required: true
 - type: input
   id: python_version
   attributes:
