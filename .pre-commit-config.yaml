@@ -26,7 +26,7 @@ repos:
     additional_dependencies:
     - black==21.9b0
 - repo: https://github.com/pycqa/isort
-  rev: 5.9.3
+  rev: 5.10.0
   hooks:
   - id: isort
 - repo: https://github.com/PyCQA/flake8
