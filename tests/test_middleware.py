@@ -333,6 +333,11 @@ class CorsMiddlewareTests(TestCase):
     CORS_REPLACE_HTTPS_REFERER=True, CORS_ALLOWED_ORIGIN_REGEXES=[r".*example.*"]
 )
 class RefererReplacementCorsMiddlewareTests(TestCase):
+    @override_settings(MIDDLEWARE=["corsheaders.middleware.CorsPostCsrfMiddleware"])
+    def test_post_middleware_alone(self):
+        resp = self.client.get("/")
+        assert resp.status_code == 200
+
     def test_get_replaces_referer_when_secure(self):
         resp = self.client.get(
             "/",
