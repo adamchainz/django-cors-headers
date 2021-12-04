@@ -62,17 +62,15 @@ jobs:
         with:
           name: coverage-data
 
-      - name: Combine data
-        run: python -m coverage combine
-
-      - name: Generate HTML report
-        run: python -m coverage html --skip-covered --skip-empty
+      - name: Combine coverage and fail if it's <100%
+        run: |
+          python -m coverage combine
+          python -m coverage html --skip-covered --skip-empty
+          python -m coverage report --fail-under=100
 
       - name: Upload HTML report
+        if: ${{ failure() }}
         uses: actions/upload-artifact@v2
         with:
           name: html-report
           path: htmlcov
-
-      - name: Terminal report
-        run: python -m coverage report --fail-under=100
