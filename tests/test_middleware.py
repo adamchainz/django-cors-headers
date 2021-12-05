@@ -32,6 +32,10 @@ class CorsMiddlewareTests(TestCase):
         resp = self.client.get("/")
         assert resp["Vary"] == "Origin"
 
+    def test_get_invalid_origin(self):
+        resp = self.client.get("/", HTTP_ORIGIN="http://example.com]")
+        assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
+
     @override_settings(CORS_ALLOWED_ORIGINS=["http://example.com"])
     def test_get_not_in_allowed_origins(self):
         resp = self.client.get("/", HTTP_ORIGIN="http://example.org")
