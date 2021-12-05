@@ -2,6 +2,10 @@
 History
 =======
 
+* Prevent a crash when an invalid ``Origin`` header is sent.
+
+  Thanks to minusf for the report in `Issue #701 <https://github.com/adamchainz/django-cors-headers/issues/701>`__.
+
 3.10.0 (2021-10-05)
 -------------------
 

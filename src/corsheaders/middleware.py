@@ -131,8 +131,10 @@ class CorsMiddleware(MiddlewareMixin):
         if not origin:
             return response
 
-        # todo: check hostname from db instead
-        url = urlparse(origin)
+        try:
+            url = urlparse(origin)
+        except ValueError:
+            return response
 
         if conf.CORS_ALLOW_CREDENTIALS:
             response[ACCESS_CONTROL_ALLOW_CREDENTIALS] = "true"
