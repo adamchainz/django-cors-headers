@@ -1,4 +1,4 @@
-from typing import List, Pattern, Sequence, Tuple, Union
+from typing import List, Pattern, Sequence, Tuple, Union, cast
 
 from django.conf import settings
 
@@ -37,11 +37,12 @@ class Settings:
 
     @property
     def CORS_ALLOWED_ORIGINS(self) -> Union[List[str], Tuple[str]]:
-        return getattr(
+        value = getattr(
             settings,
             "CORS_ALLOWED_ORIGINS",
             getattr(settings, "CORS_ORIGIN_WHITELIST", ()),
         )
+        return cast(Union[List[str], Tuple[str]], value)
 
     @property
     def CORS_ALLOWED_ORIGIN_REGEXES(self) -> Sequence[Union[str, Pattern[str]]]:
