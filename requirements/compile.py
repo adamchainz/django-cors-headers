@@ -7,7 +7,7 @@ from pathlib import Path
 if __name__ == "__main__":
     os.chdir(Path(__file__).parent)
     os.environ["CUSTOM_COMPILE_COMMAND"] = "requirements/compile.py"
-    os.environ.pop("PIP_REQUIRE_VIRTUALENV")
+    os.environ.pop("PIP_REQUIRE_VIRTUALENV", None)
     common_args = [
         "-m",
         "piptools",
