@@ -13,8 +13,7 @@ def test_view_http401(request):
 
 
 def test_view_that_deletes_is_enabled(request):
-    if hasattr(request, "_cors_enabled"):
-        del request._cors_enabled
+    del request._cors_enabled
     return HttpResponse()
 
 
