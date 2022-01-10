@@ -41,7 +41,7 @@ Some good resources to read on the subject are:
 Requirements
 ------------
 
-Python 3.6 to 3.10 supported.
+Python 3.7 to 3.10 supported.
 
 Django 2.2 to 4.0 supported.
 
