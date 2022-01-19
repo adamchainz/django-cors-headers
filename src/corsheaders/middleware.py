@@ -1,5 +1,7 @@
+from __future__ import annotations
+
 import re
-from typing import Any, Optional
+from typing import Any
 from urllib.parse import ParseResult, urlparse
 
 from django.http import HttpRequest, HttpResponse
@@ -75,7 +77,7 @@ class CorsMiddleware(MiddlewareMixin):
             except KeyError:
                 pass
 
-    def process_request(self, request: HttpRequest) -> Optional[HttpResponse]:
+    def process_request(self, request: HttpRequest) -> HttpResponse | None:
         """
         If CORS preflight header, then create an
         empty body response (200 OK) and return it

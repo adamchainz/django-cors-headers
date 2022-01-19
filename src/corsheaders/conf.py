@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import List, Pattern, Sequence, Tuple, Union, cast
 
 from django.conf import settings
@@ -36,7 +38,7 @@ class Settings:
         )
 
     @property
-    def CORS_ALLOWED_ORIGINS(self) -> Union[List[str], Tuple[str]]:
+    def CORS_ALLOWED_ORIGINS(self) -> list[str] | tuple[str]:
         value = getattr(
             settings,
             "CORS_ALLOWED_ORIGINS",
@@ -45,7 +47,7 @@ class Settings:
         return cast(Union[List[str], Tuple[str]], value)
 
     @property
-    def CORS_ALLOWED_ORIGIN_REGEXES(self) -> Sequence[Union[str, Pattern[str]]]:
+    def CORS_ALLOWED_ORIGIN_REGEXES(self) -> Sequence[str | Pattern[str]]:
         return getattr(
             settings,
             "CORS_ALLOWED_ORIGIN_REGEXES",
@@ -57,7 +59,7 @@ class Settings:
         return getattr(settings, "CORS_EXPOSE_HEADERS", ())
 
     @property
-    def CORS_URLS_REGEX(self) -> Union[str, Pattern[str]]:
+    def CORS_URLS_REGEX(self) -> str | Pattern[str]:
         return getattr(settings, "CORS_URLS_REGEX", r"^.*$")
 
     @property

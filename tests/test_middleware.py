@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from django.http import HttpResponse
 from django.test import TestCase
 from django.test.utils import override_settings
