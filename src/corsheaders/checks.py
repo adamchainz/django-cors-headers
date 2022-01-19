@@ -1,6 +1,8 @@
+from __future__ import annotations
+
 import re
 from collections.abc import Sequence
-from typing import Any, List, Tuple, Type, Union
+from typing import Any
 from urllib.parse import urlparse
 
 from django.apps import AppConfig
@@ -12,7 +14,7 @@ from corsheaders.conf import conf
 re_type = type(re.compile(""))
 
 
-def check_settings(app_configs: List[AppConfig], **kwargs: Any) -> List[Error]:
+def check_settings(app_configs: list[AppConfig], **kwargs: Any) -> list[Error]:
     errors = []
 
     if not is_sequence(conf.CORS_ALLOW_HEADERS, str):
@@ -156,9 +158,7 @@ def check_settings(app_configs: List[AppConfig], **kwargs: Any) -> List[Error]:
     return errors
 
 
-def is_sequence(
-    thing: Any, type_or_types: Union[Type[Any], Tuple[Type[Any], ...]]
-) -> bool:
+def is_sequence(thing: Any, type_or_types: type[Any] | tuple[type[Any], ...]) -> bool:
     return isinstance(thing, Sequence) and all(
         isinstance(x, type_or_types) for x in thing
     )

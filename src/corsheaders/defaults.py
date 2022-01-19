@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 default_headers = (
     "accept",
     "accept-encoding",
