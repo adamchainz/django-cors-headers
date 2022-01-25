@@ -318,7 +318,7 @@ For example:
     ]
 
     CSRF_TRUSTED_ORIGINS = [
-        "change.allowed.com",
+        "http://change.allowed.com",
     ]
 
 ``CORS_REPLACE_HTTPS_REFERER: bool``
