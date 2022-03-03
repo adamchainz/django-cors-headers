@@ -17,6 +17,7 @@ ACCESS_CONTROL_ALLOW_CREDENTIALS = "Access-Control-Allow-Credentials"
 ACCESS_CONTROL_ALLOW_HEADERS = "Access-Control-Allow-Headers"
 ACCESS_CONTROL_ALLOW_METHODS = "Access-Control-Allow-Methods"
 ACCESS_CONTROL_MAX_AGE = "Access-Control-Max-Age"
+ACCESS_CONTROL_ALLOW_PRIVATE_NETWORK = "Access-Control-Allow-Private-Network"
 
 
 class CorsPostCsrfMiddleware(MiddlewareMixin):
@@ -140,6 +141,10 @@ class CorsMiddleware(MiddlewareMixin):
 
         if conf.CORS_ALLOW_CREDENTIALS:
             response[ACCESS_CONTROL_ALLOW_CREDENTIALS] = "true"
+
+        if conf.CORS_ALLOW_PRIVATE_NETWORK:
+            response[ACCESS_CONTROL_ALLOW_PRIVATE_NETWORK] = "true"
+
 
         if (
             not conf.CORS_ALLOW_ALL_ORIGINS

@@ -50,6 +50,10 @@ class ChecksTests(SimpleTestCase):
     def test_cors_allow_credentials_non_bool(self):
         self.check_error_codes(["corsheaders.E003"])
 
+    @override_settings(CORS_ALLOW_PRIVATE_NETWORK=object)
+    def test_cors_allow_private_network_non_bool(self):
+        self.check_error_codes(["corsheaders.E015"])
+
     @override_settings(CORS_PREFLIGHT_MAX_AGE="10")
     def test_cors_preflight_max_age_non_integer(self):
         self.check_error_codes(["corsheaders.E004"])

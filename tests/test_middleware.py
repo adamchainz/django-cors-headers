@@ -10,6 +10,7 @@ from corsheaders.middleware import (
     ACCESS_CONTROL_ALLOW_HEADERS,
     ACCESS_CONTROL_ALLOW_METHODS,
     ACCESS_CONTROL_ALLOW_ORIGIN,
+    ACCESS_CONTROL_ALLOW_PRIVATE_NETWORK,
     ACCESS_CONTROL_EXPOSE_HEADERS,
     ACCESS_CONTROL_MAX_AGE,
 )
@@ -91,6 +92,16 @@ class CorsMiddlewareTests(TestCase):
     def test_get_dont_allow_credentials(self):
         resp = self.client.get("/", HTTP_ORIGIN="http://example.com")
         assert ACCESS_CONTROL_ALLOW_CREDENTIALS not in resp
+
+    @override_settings(CORS_ALLOW_PRIVATE_NETWORK=True, CORS_ALLOW_ALL_ORIGINS=True)
+    def test_get_allow_private_network(self):
+        resp = self.client.get("/", HTTP_ORIGIN="http://example.com")
+        assert resp[ACCESS_CONTROL_ALLOW_PRIVATE_NETWORK] == "true"
+
+    @override_settings(CORS_ALLOW_ALL_ORIGINS=True)
+    def test_get_dont_allow_private_network(self):
+        resp = self.client.get("/", HTTP_ORIGIN="http://example.com")
+        assert ACCESS_CONTROL_ALLOW_PRIVATE_NETWORK not in resp
 
     @override_settings(
         CORS_ALLOW_HEADERS=["content-type", "origin"],

@@ -299,6 +299,22 @@ cross-domain. Change it to ``None`` to bypass this security restriction.
 
 .. _SESSION_COOKIE_SAMESITE: https://docs.djangoproject.com/en/3.0/ref/settings/#std:setting-SESSION_COOKIE_SAMESITE
 
+
+``CORS_ALLOW_PRIVATE_NETWORK: bool``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+If ``True``, private networks will be allowed to be accessed in cross-site HTTP
+requests. Defaults to ``False``.
+
+Note: Associated with the `Private Network Access` WICG Draft, implemented in Chrome 98
+
+
+.. _Private Network Access: https://wicg.github.io/private-network-access/
+
+
+
+
 CSRF Integration
 ----------------
 
