@@ -145,7 +145,6 @@ class CorsMiddleware(MiddlewareMixin):
         if conf.CORS_ALLOW_PRIVATE_NETWORK:
             response[ACCESS_CONTROL_ALLOW_PRIVATE_NETWORK] = "true"
 
-
         if (
             not conf.CORS_ALLOW_ALL_ORIGINS
             and not self.origin_found_in_white_lists(origin, url)
