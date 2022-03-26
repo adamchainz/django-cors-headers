@@ -59,9 +59,9 @@ django==3.1.14 \
     --hash=sha256:0fabc786489af16ad87a8c170ba9d42bfd23f7b699bd5ef05675864e8d012859 \
     --hash=sha256:72a4a5a136a214c39cf016ccdd6b69e2aa08c7479c66d93f3a9b5e4bb9d8a347
     # via -r requirements.in
-importlib-metadata==4.11.2 \
-    --hash=sha256:b36ffa925fe3139b2f6ff11d6925ffd4fa7bc47870165e3ac260ac7b4f91e6ac \
-    --hash=sha256:d16e8c1deb60de41b8e8ed21c1a7b947b0bc62fab7e1d470bcdf331cea2e6735
+importlib-metadata==4.11.3 \
+    --hash=sha256:1208431ca90a8cca1a6b8af391bb53c1a2db74e5d1cef6ddced95d4b2062edc6 \
+    --hash=sha256:ea4c597ebf37142f827b8f39299579e31685c31d3a438b59f469406afd0f2539
     # via
     #   pluggy
     #   pytest
@@ -86,9 +86,9 @@ pyparsing==3.0.7 \
     --hash=sha256:18ee9022775d270c55187733956460083db60b37d0d0fb357445f3094eed3eea \
     --hash=sha256:a6c06a88f252e6c322f65faf8f418b16213b51bdfaece0524c1c1bc30c63c484
     # via packaging
-pytest==7.0.1 \
-    --hash=sha256:9ce3ff477af913ecf6321fe337b93a2c0dcf2a0a1439c43f5452112c1e4280db \
-    --hash=sha256:e30905a0c131d3d94b89624a1cc5afec3e0ba2fbdb151867d8e0ebd49850f171
+pytest==7.1.1 \
+    --hash=sha256:841132caef6b1ad17a9afde46dc4f6cfa59a05f9555aae5151f73bdf2820ca63 \
+    --hash=sha256:92f723789a8fdd7180b6b06483874feca4c48a5c76968e03bb3e7f806a1869ea
     # via
     #   -r requirements.in
     #   pytest-django
@@ -101,9 +101,9 @@ pytest-randomly==3.11.0 \
     --hash=sha256:9f013b8c1923130f3d0a286fde56e1fc52cfb3547b8eedf2765c460cee979c7f \
     --hash=sha256:a3c680d2b8150cf766311a80a1f92da64c3dd819045cda834fbf1b0ac4891610
     # via -r requirements.in
-pytz==2021.3 \
-    --hash=sha256:3672058bc3453457b622aab7a1c3bfd5ab0bdae451512f6cf25f64ed37f5b87c \
-    --hash=sha256:acad2d8b20a1af07d4e4c9d2e9285c5ed9104354062f275f3fcd88dcef4f1326
+pytz==2022.1 \
+    --hash=sha256:1e760e2fe6a8163bc0b3d9a19c4f84342afa0a2affebfaa84b01b978a02ecaa7 \
+    --hash=sha256:e68985985296d9a66a881eb3193b0906246245294a881e7c8afe623866ac6a5c
     # via django
 sqlparse==0.4.2 \
     --hash=sha256:0c00730c74263a94e5a9919ade150dfc3b19c574389985446148402998287dae \
