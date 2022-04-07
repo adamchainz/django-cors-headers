@@ -373,7 +373,7 @@ For example you might define a handler like this:
 
 
     def cors_allow_mysites(sender, request, **kwargs):
-        return MySite.objects.filter(host=request.host).exists()
+        return MySite.objects.filter(host=request.headers["Origin"]).exists()
 
 
     check_request_enabled.connect(cors_allow_mysites)
