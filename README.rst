@@ -128,19 +128,17 @@ least one of three following settings:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A list of origins that are authorized to make cross-site HTTP requests.
+The origins in this setting will be allowed, and the requesting origin will be echoed back to the client in the |Access-Control-Allow-Origin header|__.
 Defaults to ``[]``.
 
-An Origin is defined by
-`the CORS RFC Section 3.2 <https://tools.ietf.org/html/rfc6454#section-3.2>`_
-as a URI scheme + hostname + port, or one of the special values `'null'` or
-`'file://'`.
-Default ports (HTTPS = 443, HTTP = 80) are optional here.
+.. |Access-Control-Allow-Origin header| replace:: ``Access-Control-Allow-Origin`` header
+__ https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin
 
-The special value `null` is sent by the browser in
-`"privacy-sensitive contexts" <https://tools.ietf.org/html/rfc6454#section-6>`__,
-such as when the client is running from a ``file://`` domain.
-The special value `file://` is sent accidentally by some versions of Chrome on
-Android as per `this bug <https://bugs.chromium.org/p/chromium/issues/detail?id=991107>`__.
+An Origin is defined by `the CORS RFC Section 3.2 <https://tools.ietf.org/html/rfc6454#section-3.2>`_ as a URI scheme + hostname + port, or one of the special values ``'null'`` or ``'file://'``.
+Default ports (HTTPS = 443, HTTP = 80) are optional.
+
+The special value ``null`` is sent by the browser in `"privacy-sensitive contexts" <https://tools.ietf.org/html/rfc6454#section-6>`__, such as when the client is running from a ``file://`` domain.
+The special value `file://` is sent accidentally by some versions of Chrome on Android as per `this bug <https://bugs.chromium.org/p/chromium/issues/detail?id=991107>`__.
 
 Example:
 
@@ -153,16 +151,14 @@ Example:
         "http://127.0.0.1:9000",
     ]
 
-Previously this setting was called ``CORS_ORIGIN_WHITELIST``, which still works
-as an alias, with the new name taking precedence.
+Previously this setting was called ``CORS_ORIGIN_WHITELIST``, which still works as an alias, with the new name taking precedence.
 
 ``CORS_ALLOWED_ORIGIN_REGEXES: Sequence[str | Pattern[str]]``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-A list of strings representing regexes that match Origins that are authorized
-to make cross-site HTTP requests. Defaults to ``[]``. Useful when
-``CORS_ALLOWED_ORIGINS`` is impractical, such as when you have a large number
-of subdomains.
+A list of strings representing regexes that match Origins that are authorized to make cross-site HTTP requests.
+Defaults to ``[]``.
+Useful when ``CORS_ALLOWED_ORIGINS`` is impractical, such as when you have a large number of subdomains.
 
 Example:
 
@@ -172,22 +168,19 @@ Example:
         r"^https://\w+\.example\.com$",
     ]
 
-Previously this setting was called ``CORS_ORIGIN_REGEX_WHITELIST``, which still
-works as an alias, with the new name taking precedence.
+Previously this setting was called ``CORS_ORIGIN_REGEX_WHITELIST``, which still works as an alias, with the new name taking precedence.
 
 ``CORS_ALLOW_ALL_ORIGINS: bool``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If ``True``, all origins will be allowed. Other settings restricting allowed
-origins will be ignored. Defaults to ``False``.
+If ``True``, all origins will be allowed.
+Other settings restricting allowed origins will be ignored.
+Defaults to ``False``.
 
-Setting this to ``True`` can be *dangerous*, as it allows any website to make
-cross-origin requests to yours. Generally you'll want to restrict the list of
-allowed origins with ``CORS_ALLOWED_ORIGINS`` or
-``CORS_ALLOWED_ORIGIN_REGEXES``.
+Setting this to ``True`` can be *dangerous*, as it allows any website to make cross-origin requests to yours.
+Generally you'll want to restrict the list of allowed origins with ``CORS_ALLOWED_ORIGINS`` or ``CORS_ALLOWED_ORIGIN_REGEXES``.
 
-Previously this setting was called ``CORS_ORIGIN_ALLOW_ALL``, which still
-works as an alias, with the new name taking precedence.
+Previously this setting was called ``CORS_ORIGIN_ALLOW_ALL``, which still works as an alias, with the new name taking precedence.
 
 --------------
 
@@ -197,8 +190,8 @@ The following are optional settings, for which the defaults probably suffice.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A regex which restricts the URL's for which the CORS headers will be sent.
-Defaults to ``r'^.*$'``, i.e. match all URL's. Useful when you only need CORS
-on a part of your site, e.g. an API at ``/api/``.
+Defaults to ``r'^.*$'``, i.e. match all URL's.
+Useful when you only need CORS on a part of your site, e.g. an API at ``/api/``.
 
 Example:
 
@@ -209,7 +202,8 @@ Example:
 ``CORS_ALLOW_METHODS: Sequence[str]``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-A list of HTTP verbs that are allowed for the actual request. Defaults to:
+A list of HTTP verbs that are allowed for the actual request.
+Defaults to:
 
 .. code-block:: python
 
@@ -222,9 +216,9 @@ A list of HTTP verbs that are allowed for the actual request. Defaults to:
         "PUT",
     ]
 
-The default can be imported as ``corsheaders.defaults.default_methods`` so you
-can just extend it with your custom methods. This allows you to keep up to date
-with any future changes. For example:
+The default can be imported as ``corsheaders.defaults.default_methods`` so you can just extend it with your custom methods.
+This allows you to keep up to date with any future changes.
+For example:
 
 .. code-block:: python
 
@@ -237,8 +231,12 @@ with any future changes. For example:
 ``CORS_ALLOW_HEADERS: Sequence[str]``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The list of non-standard HTTP headers that can be used when making the actual
-request. Defaults to:
+The list of non-standard HTTP headers that you permit in requests from the browser.
+Sets the |Access-Control-Allow-Headers header|__ in responses to `preflight requests <https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request>`__.
+Defaults to:
+
+.. |Access-Control-Allow-Headers header| replace:: ``Access-Control-Allow-Headers`` header
+__ https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Headers
 
 .. code-block:: python
 
@@ -254,9 +252,9 @@ request. Defaults to:
         "x-requested-with",
     ]
 
-The default can be imported as ``corsheaders.defaults.default_headers`` so you
-can extend it with your custom headers. This allows you to keep up to date with
-any future changes. For example:
+The default can be imported as ``corsheaders.defaults.default_headers`` so you can extend it with your custom headers.
+This allows you to keep up to date with any future changes.
+For example:
 
 .. code-block:: python
 
@@ -269,45 +267,49 @@ any future changes. For example:
 ``CORS_EXPOSE_HEADERS: Sequence[str]``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The list of HTTP headers that are to be exposed to the browser. Defaults to
-``[]``.
+The list of extra HTTP headers to expose to the browser, in addition to the default `safelisted headers <https://developer.mozilla.org/en-US/docs/Glossary/CORS-safelisted_response_header>`__.
+If non-empty, these are declared in the |Access-Control-Expose-Headers header|__.
+Defaults to ``[]``.
 
+.. |Access-Control-Expose-Headers header| replace:: ``Access-Control-Expose-Headers`` header
+__ https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Expose-Headers
 
 ``CORS_PREFLIGHT_MAX_AGE: int``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The number of seconds a client/browser can cache the preflight response. If
-this is 0 (or any falsey value), no max age header will be sent. Defaults to
-``86400`` (one day).
+The number of seconds the browser can cache the preflight response.
+This sets the |Access-Control-Max-Age header|__ in preflight responses.
+If this is 0 (or any falsey value), no max age header will be sent.
+Defaults to ``86400`` (one day).
 
+.. |Access-Control-Max-Age header| replace:: ``Access-Control-Max-Age`` header
+__ https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Max-Age
 
-**Note:** A preflight request is an extra request that is made when making a
-"not-so-simple" request (e.g. ``Content-Type`` is not
-``application/x-www-form-urlencoded``) to determine what requests the server
-actually accepts. Read more about it in the
-`CORS MDN article <https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#Preflighted_requests>`_.
+**Note:**
+Browsers send `preflight requests <https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request>`__ before certain “non-simple” requests, to check they will be allowed.
+Read more about it in the `CORS MDN article <https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#preflighted_requests>`_.
 
 ``CORS_ALLOW_CREDENTIALS: bool``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If ``True``, cookies will be allowed to be included in cross-site HTTP
-requests. Defaults to ``False``.
+If ``True``, cookies will be allowed to be included in cross-site HTTP requests.
+This sets the |Access-Control-Allow-Credentials header|__ in preflight and normal responses.
+Defaults to ``False``.
 
-Note: in Django 2.1 the `SESSION_COOKIE_SAMESITE`_ setting was added, set to
-``'Lax'`` by default, which will prevent Django's session cookie being sent
-cross-domain. Change it to ``None`` to bypass this security restriction.
+Note: in Django 2.1 the `SESSION_COOKIE_SAMESITE`_ setting was added, set to ``'Lax'`` by default, which will prevent Django's session cookie being sent cross-domain.
+Change the setting to ``None`` if you need to bypass this security restriction.
 
-.. _SESSION_COOKIE_SAMESITE: https://docs.djangoproject.com/en/3.0/ref/settings/#std:setting-SESSION_COOKIE_SAMESITE
+.. _SESSION_COOKIE_SAMESITE: https://docs.djangoproject.com/en/stable/ref/settings/#std:setting-SESSION_COOKIE_SAMESITE
 
 CSRF Integration
 ----------------
 
 Most sites will need to take advantage of the `Cross-Site Request Forgery
-protection <https://docs.djangoproject.com/en/3.0/ref/csrf/>`_ that Django
+protection <https://docs.djangoproject.com/en/stable/ref/csrf/>`_ that Django
 offers. CORS and CSRF are separate, and Django has no way of using your CORS
 configuration to exempt sites from the ``Referer`` checking that it does on
 secure requests. The way to do that is with its `CSRF_TRUSTED_ORIGINS setting
-<https://docs.djangoproject.com/en/3.0/ref/settings/#csrf-trusted-origins>`_.
+<https://docs.djangoproject.com/en/stable/ref/settings/#csrf-trusted-origins>`_.
 For example:
 
 .. code-block:: python
@@ -357,7 +359,7 @@ If you have a use case that requires more than just the above configuration,
 you can attach code to check if a given request should be allowed. For example,
 this can be used to read the list of origins you allow from a model. Attach any
 number of handlers to the ``check_request_enabled``
-`Django signal <https://docs.djangoproject.com/en/3.0/ref/signals/>`_, which
+`Django signal <https://docs.djangoproject.com/en/stable/ref/signals/>`_, which
 provides the ``request`` argument (use ``**kwargs`` in your handler to protect
 against any future arguments being added). If any handler attached to the
 signal returns a truthy value, the request will be allowed.
@@ -379,7 +381,7 @@ For example you might define a handler like this:
     check_request_enabled.connect(cors_allow_mysites)
 
 Then connect it at app ready time using a `Django AppConfig
-<https://docs.djangoproject.com/en/3.0/ref/applications/>`_:
+<https://docs.djangoproject.com/en/stable/ref/applications/>`_:
 
 .. code-block:: python
 
