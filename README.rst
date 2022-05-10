@@ -296,6 +296,9 @@ If ``True``, cookies will be allowed to be included in cross-site HTTP requests.
 This sets the |Access-Control-Allow-Credentials header|__ in preflight and normal responses.
 Defaults to ``False``.
 
+.. |Access-Control-Allow-Credentials header| replace:: ``Access-Control-Allow-Credentials`` header
+__ https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Credentials
+
 Note: in Django 2.1 the `SESSION_COOKIE_SAMESITE`_ setting was added, set to ``'Lax'`` by default, which will prevent Django's session cookie being sent cross-domain.
 Change the setting to ``None`` if you need to bypass this security restriction.
 
