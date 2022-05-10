@@ -22,81 +22,9 @@ if __name__ == "__main__":
             "python3.7",
             *common_args,
             "-P",
-            "Django>=2.2,<2.3",
-            "-o",
-            "py37-django22.txt",
-        ],
-        check=True,
-        capture_output=True,
-    )
-    subprocess.run(
-        [
-            "python3.7",
-            *common_args,
-            "-P",
-            "Django>=3.0a1,<3.1",
-            "-o",
-            "py37-django30.txt",
-        ],
-        check=True,
-        capture_output=True,
-    )
-    subprocess.run(
-        [
-            "python3.7",
-            *common_args,
-            "-P",
-            "Django>=3.1a1,<3.2",
-            "-o",
-            "py37-django31.txt",
-        ],
-        check=True,
-        capture_output=True,
-    )
-    subprocess.run(
-        [
-            "python3.7",
-            *common_args,
-            "-P",
             "Django>=3.2a1,<3.3",
             "-o",
             "py37-django32.txt",
-        ],
-        check=True,
-        capture_output=True,
-    )
-    subprocess.run(
-        [
-            "python3.8",
-            *common_args,
-            "-P",
-            "Django>=2.2,<2.3",
-            "-o",
-            "py38-django22.txt",
-        ],
-        check=True,
-        capture_output=True,
-    )
-    subprocess.run(
-        [
-            "python3.8",
-            *common_args,
-            "-P",
-            "Django>=3.0a1,<3.1",
-            "-o",
-            "py38-django30.txt",
-        ],
-        check=True,
-        capture_output=True,
-    )
-    subprocess.run(
-        [
-            "python3.8",
-            *common_args,
-            "-P",
-            "Django>=3.1a1,<3.2",
-            "-o",
-            "py38-django31.txt",
         ],
         check=True,
         capture_output=True,
@@ -121,42 +49,6 @@ if __name__ == "__main__":
             "Django>=4.0a1,<4.1",
             "-o",
             "py38-django40.txt",
-        ],
-        check=True,
-        capture_output=True,
-    )
-    subprocess.run(
-        [
-            "python3.9",
-            *common_args,
-            "-P",
-            "Django>=2.2,<2.3",
-            "-o",
-            "py39-django22.txt",
-        ],
-        check=True,
-        capture_output=True,
-    )
-    subprocess.run(
-        [
-            "python3.9",
-            *common_args,
-            "-P",
-            "Django>=3.0a1,<3.1",
-            "-o",
-            "py39-django30.txt",
-        ],
-        check=True,
-        capture_output=True,
-    )
-    subprocess.run(
-        [
-            "python3.9",
-            *common_args,
-            "-P",
-            "Django>=3.1a1,<3.2",
-            "-o",
-            "py39-django31.txt",
         ],
         check=True,
         capture_output=True,
