@@ -2,6 +2,10 @@
 History
 =======
 
+* Support Python 3.11.
+
+* Support Django 4.1.
+
 3.12.0 (2022-05-10)
 -------------------
 
