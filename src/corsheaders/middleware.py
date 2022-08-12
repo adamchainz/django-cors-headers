@@ -86,8 +86,8 @@ class CorsMiddleware(MiddlewareMixin):
         view/exception middleware along with the requested view;
         it will call any response middlewares
         """
-        request._cors_enabled = self.is_enabled(request)
-        if request._cors_enabled:
+        request._cors_enabled = self.is_enabled(request)  # type: ignore [attr-defined]
+        if request._cors_enabled:  # type: ignore [attr-defined]
             if conf.CORS_REPLACE_HTTPS_REFERER:
                 self._https_referer_replace(request)
 
@@ -110,7 +110,10 @@ class CorsMiddleware(MiddlewareMixin):
         """
         Do the referer replacement here as well
         """
-        if request._cors_enabled and conf.CORS_REPLACE_HTTPS_REFERER:
+        if (
+            request._cors_enabled  # type: ignore [attr-defined]
+            and conf.CORS_REPLACE_HTTPS_REFERER
+        ):
             self._https_referer_replace(request)
         return None
 
@@ -127,7 +130,7 @@ class CorsMiddleware(MiddlewareMixin):
         if not enabled:
             return response
 
-        patch_vary_headers(response, ["Origin"])
+        patch_vary_headers(response, ("Origin",))
 
         origin = request.META.get("HTTP_ORIGIN")
         if not origin:

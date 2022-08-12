@@ -3,7 +3,7 @@ from __future__ import annotations
 import re
 
 import pytest
-from django.core.checks import Error
+from django.core.checks import CheckMessage, Error
 from django.core.management import base, call_command
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
@@ -12,7 +12,7 @@ from corsheaders.checks import check_settings
 
 
 class ChecksTests(SimpleTestCase):
-    def check_error_codes(self, expected):
+    def check_error_codes(self, expected: list[str]) -> list[CheckMessage]:
         errors = check_settings([])
         assert len(errors) == len(expected)
         assert all(isinstance(e, Error) for e in errors)

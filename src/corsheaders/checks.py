@@ -7,15 +7,15 @@ from urllib.parse import urlparse
 
 from django.apps import AppConfig
 from django.conf import settings
-from django.core.checks import Error
+from django.core.checks import CheckMessage, Error
 
 from corsheaders.conf import conf
 
 re_type = type(re.compile(""))
 
 
-def check_settings(app_configs: list[AppConfig], **kwargs: Any) -> list[Error]:
-    errors = []
+def check_settings(app_configs: list[AppConfig], **kwargs: Any) -> list[CheckMessage]:
+    errors: list[CheckMessage] = []
 
     if not is_sequence(conf.CORS_ALLOW_HEADERS, str):
         errors.append(

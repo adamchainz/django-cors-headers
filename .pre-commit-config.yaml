@@ -45,3 +45,5 @@ repos:
   rev: v0.971
   hooks:
   - id: mypy
+    additional_dependencies:
+    - django-stubs==1.12.0

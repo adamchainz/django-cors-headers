@@ -28,7 +28,7 @@ class ShortCircuitMiddleware(MiddlewareMixin):
 class CorsMiddlewareTests(TestCase):
     def test_get_no_origin(self):
         resp = self.client.get("/")
-        assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
+        assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp  # type: ignore [operator]
 
     def test_get_origin_vary_by_default(self):
         resp = self.client.get("/")
@@ -36,17 +36,17 @@ class CorsMiddlewareTests(TestCase):
 
     def test_get_invalid_origin(self):
         resp = self.client.get("/", HTTP_ORIGIN="http://example.com]")
-        assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
+        assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp  # type: ignore [operator]
 
     @override_settings(CORS_ALLOWED_ORIGINS=["http://example.com"])
     def test_get_not_in_allowed_origins(self):
         resp = self.client.get("/", HTTP_ORIGIN="http://example.org")
-        assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
+        assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp  # type: ignore [operator]
 
     @override_settings(CORS_ALLOWED_ORIGINS=["https://example.org"])
     def test_get_not_in_allowed_origins_due_to_wrong_scheme(self):
         resp = self.client.get("/", HTTP_ORIGIN="http://example.org")
-        assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
+        assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp  # type: ignore [operator]
 
     @override_settings(
         CORS_ALLOWED_ORIGINS=["http://example.com", "http://example.org"]
@@ -80,7 +80,7 @@ class CorsMiddlewareTests(TestCase):
     @override_settings(CORS_ALLOW_ALL_ORIGINS=True)
     def test_get_dont_expose_headers(self):
         resp = self.client.get("/", HTTP_ORIGIN="http://example.com")
-        assert ACCESS_CONTROL_EXPOSE_HEADERS not in resp
+        assert ACCESS_CONTROL_EXPOSE_HEADERS not in resp  # type: ignore [operator]
 
     @override_settings(CORS_ALLOW_CREDENTIALS=True, CORS_ALLOW_ALL_ORIGINS=True)
     def test_get_allow_credentials(self):
@@ -90,7 +90,7 @@ class CorsMiddlewareTests(TestCase):
     @override_settings(CORS_ALLOW_ALL_ORIGINS=True)
     def test_get_dont_allow_credentials(self):
         resp = self.client.get("/", HTTP_ORIGIN="http://example.com")
-        assert ACCESS_CONTROL_ALLOW_CREDENTIALS not in resp
+        assert ACCESS_CONTROL_ALLOW_CREDENTIALS not in resp  # type: ignore [operator]
 
     @override_settings(
         CORS_ALLOW_HEADERS=["content-type", "origin"],
@@ -114,7 +114,7 @@ class CorsMiddlewareTests(TestCase):
         resp = self.client.options("/", HTTP_ORIGIN="http://example.com")
         assert resp[ACCESS_CONTROL_ALLOW_HEADERS] == "content-type, origin"
         assert resp[ACCESS_CONTROL_ALLOW_METHODS] == "GET, OPTIONS"
-        assert ACCESS_CONTROL_MAX_AGE not in resp
+        assert ACCESS_CONTROL_MAX_AGE not in resp  # type: ignore [operator]
 
     @override_settings(
         CORS_ALLOWED_ORIGINS=["http://localhost:9000"],
@@ -147,7 +147,7 @@ class CorsMiddlewareTests(TestCase):
         self,
     ):
         resp = self.client.options("/", HTTP_ORIGIN="https://foo.example.com")
-        assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
+        assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp  # type: ignore [operator]
 
     def test_options(self):
         resp = self.client.options("/", HTTP_ACCESS_CONTROL_REQUEST_METHOD="value")
@@ -220,7 +220,7 @@ class CorsMiddlewareTests(TestCase):
             )
 
             assert resp.status_code == 200
-            assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
+            assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp  # type: ignore [operator]
 
     def test_signal_handler_that_returns_true(self):
         def handler(*args, **kwargs):
@@ -247,7 +247,7 @@ class CorsMiddlewareTests(TestCase):
                 HTTP_ACCESS_CONTROL_REQUEST_METHOD="value",
             )
             assert resp.status_code == 200
-            assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
+            assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp  # type: ignore [operator]
 
             resp = self.client.options(
                 "/api/something/",
@@ -281,7 +281,7 @@ class CorsMiddlewareTests(TestCase):
         MIDDLEWARE setting is used (new mechanism in Django 1.10+).
         """
         resp = self.client.get("/", HTTP_ORIGIN="http://example.com")
-        assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
+        assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp  # type: ignore [operator]
 
     @override_settings(
         CORS_ALLOWED_ORIGINS=["http://example.com"], CORS_URLS_REGEX=r"^/foo/$"
@@ -289,21 +289,21 @@ class CorsMiddlewareTests(TestCase):
     @prepend_middleware(__name__ + ".ShortCircuitMiddleware")
     def test_get_short_circuit_should_be_ignored(self):
         resp = self.client.get("/", HTTP_ORIGIN="http://example.com")
-        assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
+        assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp  # type: ignore [operator]
 
     @override_settings(
         CORS_ALLOWED_ORIGINS=["http://example.com"], CORS_URLS_REGEX=r"^/foo/$"
     )
     def test_get_regex_matches(self):
         resp = self.client.get("/foo/", HTTP_ORIGIN="http://example.com")
-        assert ACCESS_CONTROL_ALLOW_ORIGIN in resp
+        assert ACCESS_CONTROL_ALLOW_ORIGIN in resp  # type: ignore [operator]
 
     @override_settings(
         CORS_ALLOWED_ORIGINS=["http://example.com"], CORS_URLS_REGEX=r"^/not-foo/$"
     )
     def test_get_regex_doesnt_match(self):
         resp = self.client.get("/foo/", HTTP_ORIGIN="http://example.com")
-        assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
+        assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp  # type: ignore [operator]
 
     @override_settings(
         CORS_ALLOWED_ORIGINS=["http://example.com"], CORS_URLS_REGEX=r"^/foo/$"
@@ -312,7 +312,7 @@ class CorsMiddlewareTests(TestCase):
         resp = self.client.get(
             "/foo/", HTTP_ORIGIN="http://example.com", SCRIPT_NAME="/prefix/"
         )
-        assert ACCESS_CONTROL_ALLOW_ORIGIN in resp
+        assert ACCESS_CONTROL_ALLOW_ORIGIN in resp  # type: ignore [operator]
 
     @override_settings(CORS_ALLOWED_ORIGINS=["http://example.com"])
     def test_cors_enabled_is_attached_and_bool(self):
@@ -322,8 +322,8 @@ class CorsMiddlewareTests(TestCase):
         """
         resp = self.client.get("/", HTTP_ORIGIN="http://example.com")
         request = resp.wsgi_request
-        assert isinstance(request._cors_enabled, bool)
-        assert request._cors_enabled
+        assert isinstance(request._cors_enabled, bool)  # type: ignore [attr-defined]
+        assert request._cors_enabled  # type: ignore [attr-defined]
 
     @override_settings(CORS_ALLOWED_ORIGINS=["http://example.com"])
     def test_works_if_view_deletes_cors_enabled(self):
@@ -332,7 +332,7 @@ class CorsMiddlewareTests(TestCase):
         check that get_response doesn't fall over if `_cors_enabled` is removed
         """
         resp = self.client.get("/delete-is-enabled/", HTTP_ORIGIN="http://example.com")
-        assert ACCESS_CONTROL_ALLOW_ORIGIN in resp
+        assert ACCESS_CONTROL_ALLOW_ORIGIN in resp  # type: ignore [operator]
 
 
 @override_settings(
