@@ -287,7 +287,7 @@ __ https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Max-
 
 **Note:**
 Browsers send `preflight requests <https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request>`__ before certain “non-simple” requests, to check they will be allowed.
-Read more about it in the `CORS MDN article <https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#preflighted_requests>`_.
+Read more about it in the `CORS MDN article <https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS>`_.
 
 ``CORS_ALLOW_CREDENTIALS: bool``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
