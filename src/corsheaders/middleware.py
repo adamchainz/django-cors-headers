@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import re
 from typing import Any
-from urllib.parse import ParseResult, urlparse
+from urllib.parse import SplitResult, urlsplit
 
 from django.http import HttpRequest, HttpResponse
 from django.utils.cache import patch_vary_headers
@@ -61,7 +61,7 @@ class CorsMiddleware(MiddlewareMixin):
             and "ORIGINAL_HTTP_REFERER" not in request.META
         ):
 
-            url = urlparse(origin)
+            url = urlsplit(origin)
             if (
                 not conf.CORS_ALLOW_ALL_ORIGINS
                 and not self.origin_found_in_white_lists(origin, url)
@@ -137,7 +137,7 @@ class CorsMiddleware(MiddlewareMixin):
             return response
 
         try:
-            url = urlparse(origin)
+            url = urlsplit(origin)
         except ValueError:
             return response
 
@@ -169,7 +169,7 @@ class CorsMiddleware(MiddlewareMixin):
 
         return response
 
-    def origin_found_in_white_lists(self, origin: str, url: ParseResult) -> bool:
+    def origin_found_in_white_lists(self, origin: str, url: SplitResult) -> bool:
         return (
             (origin == "null" and origin in conf.CORS_ALLOWED_ORIGINS)
             or self._url_in_whitelist(url)
@@ -191,8 +191,8 @@ class CorsMiddleware(MiddlewareMixin):
         signal_responses = check_request_enabled.send(sender=None, request=request)
         return any(return_value for function, return_value in signal_responses)
 
-    def _url_in_whitelist(self, url: ParseResult) -> bool:
-        origins = [urlparse(o) for o in conf.CORS_ALLOWED_ORIGINS]
+    def _url_in_whitelist(self, url: SplitResult) -> bool:
+        origins = [urlsplit(o) for o in conf.CORS_ALLOWED_ORIGINS]
         return any(
             origin.scheme == url.scheme and origin.netloc == url.netloc
             for origin in origins

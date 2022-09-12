@@ -3,7 +3,7 @@ from __future__ import annotations
 import re
 from collections.abc import Sequence
 from typing import Any
-from urllib.parse import urlparse
+from urllib.parse import urlsplit
 
 from django.apps import AppConfig
 from django.conf import settings
@@ -87,7 +87,7 @@ def check_settings(app_configs: list[AppConfig], **kwargs: Any) -> list[CheckMes
         for origin in conf.CORS_ALLOWED_ORIGINS:
             if origin in special_origin_values:
                 continue
-            parsed = urlparse(origin)
+            parsed = urlsplit(origin)
             if parsed.scheme == "" or parsed.netloc == "":
                 errors.append(
                     Error(
@@ -104,7 +104,7 @@ def check_settings(app_configs: list[AppConfig], **kwargs: Any) -> list[CheckMes
             else:
                 # Only do this check in this case because if the scheme is not
                 # provided, netloc ends up in path
-                for part in ("path", "params", "query", "fragment"):
+                for part in ("path", "query", "fragment"):
                     if getattr(parsed, part) != "":
                         errors.append(
                             Error(
