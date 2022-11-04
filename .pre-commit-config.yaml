@@ -28,10 +28,16 @@ repos:
   - id: blacken-docs
     additional_dependencies:
     - black==22.10.0
-- repo: https://github.com/pycqa/isort
-  rev: 5.10.1
+- repo: https://github.com/asottile/reorder_python_imports
+  rev: v3.9.0
   hooks:
-  - id: isort
+  - id: reorder-python-imports
+    args:
+    - --py37-plus
+    - --application-directories
+    - .:example:src
+    - --add-import
+    - 'from __future__ import annotations'
 - repo: https://github.com/PyCQA/flake8
   rev: 5.0.4
   hooks:

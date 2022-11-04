@@ -1,7 +1,8 @@
 from __future__ import annotations
 
 from contextlib import contextmanager
-from typing import Callable, Generator
+from typing import Callable
+from typing import Generator
 
 from django.test.utils import modify_settings
 

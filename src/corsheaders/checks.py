@@ -7,7 +7,8 @@ from urllib.parse import urlsplit
 
 from django.apps import AppConfig
 from django.conf import settings
-from django.core.checks import CheckMessage, Error
+from django.core.checks import CheckMessage
+from django.core.checks import Error
 
 from corsheaders.conf import conf
 
