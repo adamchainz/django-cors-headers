@@ -1,7 +1,8 @@
 from __future__ import annotations
 
 from django.apps import AppConfig
-from django.core.checks import Tags, register
+from django.core.checks import register
+from django.core.checks import Tags
 
 from corsheaders.checks import check_settings
 

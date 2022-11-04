@@ -2,9 +2,11 @@ from __future__ import annotations
 
 import re
 from typing import Any
-from urllib.parse import SplitResult, urlsplit
+from urllib.parse import SplitResult
+from urllib.parse import urlsplit
 
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpRequest
+from django.http import HttpResponse
 from django.utils.cache import patch_vary_headers
 from django.utils.deprecation import MiddlewareMixin
 
