@@ -4,9 +4,6 @@ from django.http import HttpResponse
 from django.test import TestCase
 from django.test.utils import override_settings
 from django.utils.deprecation import MiddlewareMixin
-from tests.utils import append_middleware
-from tests.utils import prepend_middleware
-from tests.utils import temporary_check_request_hander
 
 from corsheaders.middleware import ACCESS_CONTROL_ALLOW_CREDENTIALS
 from corsheaders.middleware import ACCESS_CONTROL_ALLOW_HEADERS
@@ -14,6 +11,9 @@ from corsheaders.middleware import ACCESS_CONTROL_ALLOW_METHODS
 from corsheaders.middleware import ACCESS_CONTROL_ALLOW_ORIGIN
 from corsheaders.middleware import ACCESS_CONTROL_EXPOSE_HEADERS
 from corsheaders.middleware import ACCESS_CONTROL_MAX_AGE
+from tests.utils import append_middleware
+from tests.utils import prepend_middleware
+from tests.utils import temporary_check_request_hander
 
 
 class ShortCircuitMiddleware(MiddlewareMixin):

@@ -35,7 +35,7 @@ repos:
     args:
     - --py37-plus
     - --application-directories
-    - src:tests
+    - .:src
     - --add-import
     - 'from __future__ import annotations'
 - repo: https://github.com/PyCQA/flake8
