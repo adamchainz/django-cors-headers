@@ -7,6 +7,7 @@ target-version = ['py37']
 
 [tool.mypy]
 mypy_path = "src/"
+namespace_packages = false
 show_error_codes = true
 strict = true
 warn_unreachable = true
