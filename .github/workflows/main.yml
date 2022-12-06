@@ -36,10 +36,10 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip setuptools wheel
-        python -m pip install --upgrade tox tox-py
+        python -m pip install --upgrade 'tox>=4.0.0rc3'
 
     - name: Run tox targets for ${{ matrix.python-version }}
-      run: tox --py current
+      run: tox run -f py$(echo ${{ matrix.python-version }} | tr -d .)
 
     - name: Upload coverage data
       uses: actions/upload-artifact@v3
