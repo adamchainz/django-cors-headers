@@ -10,6 +10,7 @@ from corsheaders.checks import check_settings
 class CorsHeadersAppConfig(AppConfig):
     name = "corsheaders"
     verbose_name = "django-cors-headers"
+    default_auto_field = 'django.db.models.AutoField'
 
     def ready(self) -> None:
         register(Tags.security)(check_settings)
