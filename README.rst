@@ -300,7 +300,7 @@ Defaults to ``False``.
 __ https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Credentials
 
 Note: in Django 2.1 the `SESSION_COOKIE_SAMESITE`_ setting was added, set to ``'Lax'`` by default, which will prevent Django's session cookie being sent cross-domain.
-Change the setting to ``None`` if you need to bypass this security restriction.
+Change the setting to ``'None'`` if you need to bypass this security restriction.
 
 .. _SESSION_COOKIE_SAMESITE: https://docs.djangoproject.com/en/stable/ref/settings/#std:setting-SESSION_COOKIE_SAMESITE
 
