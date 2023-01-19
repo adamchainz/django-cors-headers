@@ -2,6 +2,8 @@
 History
 =======
 
+* Support Django 4.2.
+
 * Switch from ``urlparse()`` to ``urlsplit()`` for URL parsing, reducing the middleware runtime up to 5%.
   This changes the type passed to ``origin_found_in_white_lists()``, so if you have subclassed the middleware to override this method, you should check it is compatible (it most likely is).
 
