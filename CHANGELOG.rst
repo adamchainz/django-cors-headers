@@ -1,6 +1,6 @@
-=======
-History
-=======
+=========
+Changelog
+=========
 
 * Support Django 4.2.
 
