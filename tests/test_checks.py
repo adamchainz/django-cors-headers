@@ -15,7 +15,7 @@ from corsheaders.checks import check_settings
 
 class ChecksTests(SimpleTestCase):
     def check_error_codes(self, expected: list[str]) -> list[CheckMessage]:
-        errors = check_settings([])
+        errors = check_settings()
         assert len(errors) == len(expected)
         assert all(isinstance(e, Error) for e in errors)
         assert [e.id for e in errors] == expected

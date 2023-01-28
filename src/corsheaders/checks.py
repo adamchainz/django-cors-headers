@@ -5,7 +5,6 @@ from collections.abc import Sequence
 from typing import Any
 from urllib.parse import urlsplit
 
-from django.apps import AppConfig
 from django.conf import settings
 from django.core.checks import CheckMessage
 from django.core.checks import Error
@@ -15,7 +14,7 @@ from corsheaders.conf import conf
 re_type = type(re.compile(""))
 
 
-def check_settings(app_configs: list[AppConfig], **kwargs: Any) -> list[CheckMessage]:
+def check_settings(**kwargs: Any) -> list[CheckMessage]:
     errors: list[CheckMessage] = []
 
     if not is_sequence(conf.CORS_ALLOW_HEADERS, str):
