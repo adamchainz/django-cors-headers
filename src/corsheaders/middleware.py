@@ -62,7 +62,6 @@ class CorsMiddleware(MiddlewareMixin):
             and origin
             and "ORIGINAL_HTTP_REFERER" not in request.META
         ):
-
             url = urlsplit(origin)
             if (
                 not conf.CORS_ALLOW_ALL_ORIGINS
