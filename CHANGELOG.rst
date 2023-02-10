@@ -14,6 +14,8 @@ Changelog
 
 * Add async support to the middleware, reducing overhead on async views.
 
+* Added support for `private network access <https://wicg.github.io/local-network-access/>`_.
+
 3.14.0 (2023-02-25)
 -------------------
 

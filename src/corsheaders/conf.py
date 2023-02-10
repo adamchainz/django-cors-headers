@@ -33,6 +33,10 @@ class Settings:
         return getattr(settings, "CORS_ALLOW_CREDENTIALS", False)
 
     @property
+    def CORS_ALLOW_PRIVATE_NETWORK_ACCESS(self) -> bool:
+        return getattr(settings, "CORS_ALLOW_PRIVATE_NETWORK_ACCESS", False)
+
+    @property
     def CORS_PREFLIGHT_MAX_AGE(self) -> int:
         return getattr(settings, "CORS_PREFLIGHT_MAX_AGE", 86400)
 

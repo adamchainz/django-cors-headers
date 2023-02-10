@@ -8,6 +8,8 @@ from django.test.utils import override_settings
 from django.utils.deprecation import MiddlewareMixin
 
 from corsheaders.middleware import ACCESS_CONTROL_ALLOW_CREDENTIALS
+from corsheaders.middleware import ACCESS_CONTROL_REQUEST_PRIVATE_NETWORK
+from corsheaders.middleware import ACCESS_CONTROL_ALLOW_PRIVATE_NETWORK
 from corsheaders.middleware import ACCESS_CONTROL_ALLOW_HEADERS
 from corsheaders.middleware import ACCESS_CONTROL_ALLOW_METHODS
 from corsheaders.middleware import ACCESS_CONTROL_ALLOW_ORIGIN
@@ -93,6 +95,26 @@ class CorsMiddlewareTests(TestCase):
     def test_get_dont_allow_credentials(self):
         resp = self.client.get("/", HTTP_ORIGIN="https://example.com")
         assert ACCESS_CONTROL_ALLOW_CREDENTIALS not in resp
+
+    @override_settings(CORS_ALLOW_PRIVATE_NETWORK_ACCESS=True, CORS_ALLOW_ALL_ORIGINS=True)
+    def test_allow_private_network_added_if_enabled_and_requested(self):
+        resp = self.client.get("/", HTTP_ACCESS_CONTROL_REQUEST_PRIVATE_NETWORK="true", HTTP_ORIGIN="http://example.com")
+        assert resp[ACCESS_CONTROL_ALLOW_PRIVATE_NETWORK] == "true"
+
+    @override_settings(CORS_ALLOW_PRIVATE_NETWORK_ACCESS=True, CORS_ALLOW_ALL_ORIGINS=True)
+    def test_allow_private_network_not_added_if_enabled_and_not_requested(self):
+        resp = self.client.get("/", HTTP_ORIGIN="http://example.com")
+        assert ACCESS_CONTROL_ALLOW_PRIVATE_NETWORK not in resp
+
+    @override_settings(CORS_ALLOW_PRIVATE_NETWORK_ACCESS=True, CORS_ALLOW_ALL_ORIGINS=False)
+    def test_allow_private_network_not_added_if_enabled_and_no_cors_origin(self):
+        resp = self.client.get("/", HTTP_ACCESS_CONTROL_REQUEST_PRIVATE_NETWORK="true", HTTP_ORIGIN="http://example.com")
+        assert ACCESS_CONTROL_ALLOW_PRIVATE_NETWORK not in resp
+
+    @override_settings(CORS_ALLOW_PRIVATE_NETWORK_ACCESS=False, CORS_ALLOW_ALL_ORIGINS=True)
+    def test_allow_private_network_not_added_if_disabled_and_requested(self):
+        resp = self.client.get("/", HTTP_ACCESS_CONTROL_REQUEST_PRIVATE_NETWORK="true", HTTP_ORIGIN="http://example.com")
+        assert ACCESS_CONTROL_ALLOW_PRIVATE_NETWORK not in resp
 
     @override_settings(
         CORS_ALLOW_HEADERS=["content-type"],

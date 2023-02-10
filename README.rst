@@ -300,6 +300,18 @@ Change the setting to ``'None'`` if you need to bypass this security restriction
 
 .. _SESSION_COOKIE_SAMESITE: https://docs.djangoproject.com/en/stable/ref/settings/#std:setting-SESSION_COOKIE_SAMESITE
 
+``CORS_ALLOW_PRIVATE_NETWORK_ACCESS: bool``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+It set to ``True``, browsers running in CORS mode and enforcing private network access will be
+still be allowed to access this Django instance if it is running on an IP from the private IP
+address space while the CORS origin's server is running on an IP from the public IP address space.
+
+For further information, see the
+`W3C Community Draft <https://wicg.github.io/local-network-access/>`__ or the
+`Google Chrome Blog post <https://developer.chrome.com/blog/private-network-access-preflight/>`__
+announcing the feature.
+
 CSRF Integration
 ----------------
 
