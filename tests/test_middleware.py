@@ -106,9 +106,9 @@ class CorsMiddlewareTests(TestCase):
         resp = self.client.get("/", HTTP_ORIGIN="http://example.com")
         assert ACCESS_CONTROL_ALLOW_PRIVATE_NETWORK not in resp
 
-    @override_settings(CORS_ALLOW_PRIVATE_NETWORK_ACCESS=True, CORS_ALLOW_ALL_ORIGINS=False)
+    @override_settings(CORS_ALLOW_PRIVATE_NETWORK_ACCESS=True, CORS_ALLOWED_ORIGINS=["http://example.com"])
     def test_allow_private_network_not_added_if_enabled_and_no_cors_origin(self):
-        resp = self.client.get("/", HTTP_ACCESS_CONTROL_REQUEST_PRIVATE_NETWORK="true", HTTP_ORIGIN="http://example.com")
+        resp = self.client.get("/", HTTP_ACCESS_CONTROL_REQUEST_PRIVATE_NETWORK="true", HTTP_ORIGIN="http://example.org")
         assert ACCESS_CONTROL_ALLOW_PRIVATE_NETWORK not in resp
 
     @override_settings(CORS_ALLOW_PRIVATE_NETWORK_ACCESS=False, CORS_ALLOW_ALL_ORIGINS=True)
