@@ -39,7 +39,7 @@ def check_settings(**kwargs: Any) -> list[CheckMessage]:
         )
 
     if not isinstance(conf.CORS_ALLOW_PRIVATE_NETWORK_ACCESS, bool):
-        errors.append(
+        errors.append(  # type: ignore [unreachable]
             Error(
                 "CORS_ALLOW_PRIVATE_NETWORK_ACCESS should be a bool.",
                 id="corsheaders.E015",
