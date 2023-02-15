@@ -1,9 +1,19 @@
 [build-system]
-requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
+requires = [
+  "setuptools",
+]
 
 [tool.black]
 target-version = ['py37']
+
+[tool.pytest.ini_options]
+addopts = """\
+    --strict-config
+    --strict-markers
+    --ds=tests.settings
+    """
+django_find_project = false
 
 [tool.mypy]
 mypy_path = "src/"
@@ -15,11 +25,3 @@ warn_unreachable = true
 [[tool.mypy.overrides]]
 module = "tests.*"
 allow_untyped_defs = true
-
-[tool.pytest.ini_options]
-addopts = """\
-    --strict-config
-    --strict-markers
-    --ds=tests.settings
-    """
-django_find_project = false

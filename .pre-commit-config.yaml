@@ -13,6 +13,10 @@ repos:
   - id: check-toml
   - id: end-of-file-fixer
   - id: trailing-whitespace
+- repo: https://github.com/tox-dev/pyproject-fmt
+  rev: 0.9.1
+  hooks:
+  - id: pyproject-fmt
 - repo: https://github.com/asottile/setup-cfg-fmt
   rev: v2.2.0
   hooks:
