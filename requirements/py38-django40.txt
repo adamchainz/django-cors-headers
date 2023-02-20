@@ -83,9 +83,9 @@ coverage==7.1.0 \
     --hash=sha256:f5b4198d85a3755d27e64c52f8c95d6333119e49fd001ae5798dac872c95e0f8 \
     --hash=sha256:ffeeb38ee4a80a30a6877c5c4c359e5498eec095878f1581453202bfacc8fbc2
     # via -r requirements.in
-django==4.0.9 \
-    --hash=sha256:6ddab9f9ac9211e2dc544819b87343b49c53f99d882e68727b38fd44204f752e \
-    --hash=sha256:7cc034a72f99536c5feb39d1575f2952b86ffa409f109efeb2c8b398985f78a7
+django==4.0.10 \
+    --hash=sha256:2c2f73c16b11cb272c6d5e3b063f0d1be06f378d8dc6005fbe8542565db659cc \
+    --hash=sha256:4496eb4f65071578b703fdc6e6f29302553c7440e3f77baf4cefa4a4e091fc3d
     # via -r requirements.in
 exceptiongroup==1.1.0 \
     --hash=sha256:327cbda3da756e2de031a3107b81ab7b3770a602c4d16ca618298c526f4bec1e \
@@ -130,7 +130,7 @@ tomli==2.0.1 \
     --hash=sha256:939de3e7a6161af0c887ef91b7d41a53e7c5a1ca976325f429cb46ea9bc30ecc \
     --hash=sha256:de526c12914f0c550d15924c62d72abc48d6fe7364aa87328337a31007fe8a4f
     # via pytest
-zipp==3.13.0 \
-    --hash=sha256:23f70e964bc11a34cef175bc90ba2914e1e4545ea1e3e2f67c079671883f9cb6 \
-    --hash=sha256:e8b2a36ea17df80ffe9e2c4fda3f693c3dad6df1697d3cd3af232db680950b0b
+zipp==3.14.0 \
+    --hash=sha256:188834565033387710d046e3fe96acfc9b5e86cbca7f39ff69cf21a4128198b7 \
+    --hash=sha256:9e5421e176ef5ab4c0ad896624e87a7b2f07aca746c9b2aa305952800cb8eecb
     # via importlib-metadata
