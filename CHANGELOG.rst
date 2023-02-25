@@ -2,6 +2,9 @@
 Changelog
 =========
 
+3.14.0 (2023-02-25)
+-------------------
+
 * Support Django 4.2.
 
 * Switch from ``urlparse()`` to ``urlsplit()`` for URL parsing, reducing the middleware runtime up to 5%.
