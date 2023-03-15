@@ -24,7 +24,7 @@ repos:
     args:
     - --include-version-classifiers
 - repo: https://github.com/rstcheck/rstcheck
-  rev: v6.1.1
+  rev: v6.1.2
   hooks:
   - id: rstcheck
     additional_dependencies:
@@ -64,7 +64,7 @@ repos:
     - flake8-tidy-imports
     - flake8-typing-imports
 - repo: https://github.com/pre-commit/mirrors-mypy
-  rev: v1.0.1
+  rev: v1.1.1
   hooks:
   - id: mypy
     additional_dependencies:
