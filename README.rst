@@ -91,9 +91,6 @@ middleware that can generate responses such as Django's ``CommonMiddleware`` or
 Whitenoise's ``WhiteNoiseMiddleware``. If it is not before, it will not be able
 to add the CORS headers to these responses.
 
-Also if you are using ``CORS_REPLACE_HTTPS_REFERER`` it should be placed before
-Django's ``CsrfViewMiddleware`` (see more below).
-
 About
 -----
 
@@ -318,41 +315,12 @@ For example:
 .. code-block:: python
 
     CORS_ALLOWED_ORIGINS = [
-        "http://read.only.com",
-        "http://change.allowed.com",
+        "https://read-only.example.com",
+        "https://read-and-write.example.com",
     ]
 
     CSRF_TRUSTED_ORIGINS = [
-        "http://change.allowed.com",
-    ]
-
-``CORS_REPLACE_HTTPS_REFERER: bool``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-``CSRF_TRUSTED_ORIGINS`` was introduced in Django 1.9, so users of earlier
-versions will need an alternate solution. If ``CORS_REPLACE_HTTPS_REFERER`` is
-``True``, ``CorsMiddleware`` will change the ``Referer`` header to something
-that will pass Django's CSRF checks whenever the CORS checks pass. Defaults to
-``False``.
-
-Note that unlike ``CSRF_TRUSTED_ORIGINS``, this setting does not allow you to
-distinguish between domains that are trusted to *read* resources by CORS and
-domains that are trusted to *change* resources by avoiding CSRF protection.
-
-With this feature enabled you should also add
-``corsheaders.middleware.CorsPostCsrfMiddleware`` after
-``django.middleware.csrf.CsrfViewMiddleware`` in your ``MIDDLEWARE_CLASSES`` to
-undo the ``Referer`` replacement:
-
-.. code-block:: python
-
-    MIDDLEWARE_CLASSES = [
-        ...,
-        "corsheaders.middleware.CorsMiddleware",
-        ...,
-        "django.middleware.csrf.CsrfViewMiddleware",
-        "corsheaders.middleware.CorsPostCsrfMiddleware",
-        ...,
+        "https://read-and-write.example.com",
     ]
 
 Signals

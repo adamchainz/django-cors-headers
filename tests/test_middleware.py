@@ -11,7 +11,6 @@ from corsheaders.middleware import ACCESS_CONTROL_ALLOW_METHODS
 from corsheaders.middleware import ACCESS_CONTROL_ALLOW_ORIGIN
 from corsheaders.middleware import ACCESS_CONTROL_EXPOSE_HEADERS
 from corsheaders.middleware import ACCESS_CONTROL_MAX_AGE
-from tests.utils import append_middleware
 from tests.utils import prepend_middleware
 from tests.utils import temporary_check_request_hander
 
@@ -329,99 +328,3 @@ class CorsMiddlewareTests(TestCase):
         """
         resp = self.client.get("/delete-is-enabled/", HTTP_ORIGIN="http://example.com")
         assert ACCESS_CONTROL_ALLOW_ORIGIN in resp
-
-
-@override_settings(
-    CORS_REPLACE_HTTPS_REFERER=True, CORS_ALLOWED_ORIGIN_REGEXES=[r".*example.*"]
-)
-class RefererReplacementCorsMiddlewareTests(TestCase):
-    @override_settings(MIDDLEWARE=["corsheaders.middleware.CorsPostCsrfMiddleware"])
-    def test_post_middleware_alone(self):
-        resp = self.client.get("/")
-        assert resp.status_code == 200
-
-    def test_get_replaces_referer_when_secure(self):
-        resp = self.client.get(
-            "/",
-            HTTP_FAKE_SECURE="true",
-            HTTP_HOST="example.com",
-            HTTP_ORIGIN="https://example.org",
-            HTTP_REFERER="https://example.org/foo",
-        )
-        assert resp.status_code == 200
-        assert resp.wsgi_request.META["HTTP_REFERER"] == "https://example.com/"
-        assert (
-            resp.wsgi_request.META["ORIGINAL_HTTP_REFERER"] == "https://example.org/foo"
-        )
-
-    @append_middleware("corsheaders.middleware.CorsPostCsrfMiddleware")
-    def test_get_post_middleware_rereplaces_referer_when_secure(self):
-        resp = self.client.get(
-            "/",
-            HTTP_FAKE_SECURE="true",
-            HTTP_HOST="example.com",
-            HTTP_ORIGIN="https://example.org",
-            HTTP_REFERER="https://example.org/foo",
-        )
-        assert resp.status_code == 200
-        assert resp.wsgi_request.META["HTTP_REFERER"] == "https://example.org/foo"
-        assert "ORIGINAL_HTTP_REFERER" not in resp.wsgi_request.META
-
-    def test_get_does_not_replace_referer_when_insecure(self):
-        resp = self.client.get(
-            "/",
-            HTTP_HOST="example.com",
-            HTTP_ORIGIN="https://example.org",
-            HTTP_REFERER="https://example.org/foo",
-        )
-        assert resp.status_code == 200
-        assert resp.wsgi_request.META["HTTP_REFERER"] == "https://example.org/foo"
-        assert "ORIGINAL_HTTP_REFERER" not in resp.wsgi_request.META
-
-    @override_settings(CORS_REPLACE_HTTPS_REFERER=False)
-    def test_get_does_not_replace_referer_when_disabled(self):
-        resp = self.client.get(
-            "/",
-            HTTP_FAKE_SECURE="true",
-            HTTP_HOST="example.com",
-            HTTP_ORIGIN="https://example.org",
-            HTTP_REFERER="https://example.org/foo",
-        )
-        assert resp.status_code == 200
-        assert resp.wsgi_request.META["HTTP_REFERER"] == "https://example.org/foo"
-        assert "ORIGINAL_HTTP_REFERER" not in resp.wsgi_request.META
-
-    def test_get_does_not_fail_in_referer_replacement_when_referer_missing(self):
-        resp = self.client.get(
-            "/",
-            HTTP_FAKE_SECURE="true",
-            HTTP_HOST="example.com",
-            HTTP_ORIGIN="https://example.org",
-        )
-        assert resp.status_code == 200
-        assert "HTTP_REFERER" not in resp.wsgi_request.META
-        assert "ORIGINAL_HTTP_REFERER" not in resp.wsgi_request.META
-
-    def test_get_does_not_fail_in_referer_replacement_when_host_missing(self):
-        resp = self.client.get(
-            "/",
-            HTTP_FAKE_SECURE="true",
-            HTTP_ORIGIN="https://example.org",
-            HTTP_REFERER="https://example.org/foo",
-        )
-        assert resp.status_code == 200
-        assert resp.wsgi_request.META["HTTP_REFERER"] == "https://example.org/foo"
-        assert "ORIGINAL_HTTP_REFERER" not in resp.wsgi_request.META
-
-    @override_settings(CORS_ALLOWED_ORIGIN_REGEXES=[])
-    def test_get_does_not_replace_referer_when_not_valid_request(self):
-        resp = self.client.get(
-            "/",
-            HTTP_FAKE_SECURE="true",
-            HTTP_HOST="example.com",
-            HTTP_ORIGIN="https://example.org",
-            HTTP_REFERER="https://example.org/foo",
-        )
-        assert resp.status_code == 200
-        assert resp.wsgi_request.META["HTTP_REFERER"] == "https://example.org/foo"
-        assert "ORIGINAL_HTTP_REFERER" not in resp.wsgi_request.META

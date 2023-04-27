@@ -136,10 +136,10 @@ class ChecksTests(SimpleTestCase):
     def test_cors_urls_regex_non_string(self):
         self.check_error_codes(["corsheaders.E009"])
 
-    @override_settings(CORS_REPLACE_HTTPS_REFERER=object)
-    def test_cors_replace_https_referer_failure(self):
-        self.check_error_codes(["corsheaders.E011"])
-
     @override_settings(CORS_MODEL="something")
     def test_cors_model_failure(self):
         self.check_error_codes(["corsheaders.E012"])
+
+    @override_settings(CORS_REPLACE_HTTPS_REFERER="something")
+    def test_cors_replace_https_referer_failure(self):
+        self.check_error_codes(["corsheaders.E013"])
