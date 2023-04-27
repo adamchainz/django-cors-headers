@@ -237,17 +237,14 @@ __ https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allo
 
 .. code-block:: python
 
-    CORS_ALLOW_HEADERS = [
+    CORS_ALLOW_HEADERS = (
         "accept",
-        "accept-encoding",
         "authorization",
         "content-type",
-        "dnt",
-        "origin",
         "user-agent",
         "x-csrftoken",
         "x-requested-with",
-    ]
+    )
 
 The default can be imported as ``corsheaders.defaults.default_headers`` so you can extend it with your custom headers.
 This allows you to keep up to date with any future changes.
@@ -257,9 +254,10 @@ For example:
 
     from corsheaders.defaults import default_headers
 
-    CORS_ALLOW_HEADERS = list(default_headers) + [
+    CORS_ALLOW_HEADERS = (
+        *default_headers,
         "my-custom-header",
-    ]
+    )
 
 ``CORS_EXPOSE_HEADERS: Sequence[str]``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
