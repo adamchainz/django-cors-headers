@@ -34,7 +34,7 @@ class CorsMiddleware(MiddlewareMixin):
         if (
             request._cors_enabled  # type: ignore [attr-defined]
             and request.method == "OPTIONS"
-            and "HTTP_ACCESS_CONTROL_REQUEST_METHOD" in request.META
+            and "access-control-request-method" in request.headers
         ):
             response = HttpResponse()
             response["Content-Length"] = "0"
@@ -56,7 +56,7 @@ class CorsMiddleware(MiddlewareMixin):
 
         patch_vary_headers(response, ("Origin",))
 
-        origin = request.META.get("HTTP_ORIGIN")
+        origin = request.headers.get("origin")
         if not origin:
             return response
 
