@@ -2,6 +2,12 @@
 Changelog
 =========
 
+* Remove three headers from the default "accept list": ``accept-encoding``, ``dnt``, and ``origin``.
+  These are `Forbidden header names <https://developer.mozilla.org/en-US/docs/Glossary/Forbidden_header_name>`__, which means requests JavaScript can never set them.
+  Consequently, allowing them via CORS has no effect.
+
+  Thanks to jub0bs for the report in `Issue #842 <https://github.com/adamchainz/django-cors-headers/issues/842>`__.
+
 * Drop the ``CORS_REPLACE_HTTPS_REFERER`` setting and ``CorsPostCsrfMiddleware``.
   Since Django 1.9, the ``CSRF_TRUSTED_ORIGINS`` setting has been the preferred solution to making CSRF checks pass for CORS requests.
   The removed setting and middleware only existed as a workaround for Django versions before 1.9.
