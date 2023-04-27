@@ -38,6 +38,11 @@ repos:
   hooks:
   - id: pyupgrade
     args: [--py37-plus]
+- repo: https://github.com/adamchainz/django-upgrade
+  rev: 1.13.0
+  hooks:
+  - id: django-upgrade
+    args: [--target-version, '3.2']
 - repo: https://github.com/psf/black
   rev: 23.3.0
   hooks:
