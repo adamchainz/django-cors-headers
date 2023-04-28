@@ -379,5 +379,5 @@ class CorsMiddlewareTests(TestCase):
         Just in case something crazy happens in the view or other middleware,
         check that get_response doesn't fall over if `_cors_enabled` is removed
         """
-        resp = self.client.get("/delete-is-enabled/", HTTP_ORIGIN="https://example.com")
+        resp = self.client.get("/delete-enabled/", HTTP_ORIGIN="https://example.com")
         assert ACCESS_CONTROL_ALLOW_ORIGIN in resp
