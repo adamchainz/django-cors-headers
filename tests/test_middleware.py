@@ -73,11 +73,11 @@ class CorsMiddlewareTests(TestCase):
 
     @override_settings(
         CORS_ALLOW_ALL_ORIGINS=True,
-        CORS_EXPOSE_HEADERS=["accept", "origin", "content-type"],
+        CORS_EXPOSE_HEADERS=["accept", "content-type"],
     )
     def test_get_expose_headers(self):
         resp = self.client.get("/", HTTP_ORIGIN="http://example.com")
-        assert resp[ACCESS_CONTROL_EXPOSE_HEADERS] == "accept, origin, content-type"
+        assert resp[ACCESS_CONTROL_EXPOSE_HEADERS] == "accept, content-type"
 
     @override_settings(CORS_ALLOW_ALL_ORIGINS=True)
     def test_get_dont_expose_headers(self):
@@ -95,7 +95,7 @@ class CorsMiddlewareTests(TestCase):
         assert ACCESS_CONTROL_ALLOW_CREDENTIALS not in resp
 
     @override_settings(
-        CORS_ALLOW_HEADERS=["content-type", "origin"],
+        CORS_ALLOW_HEADERS=["content-type"],
         CORS_ALLOW_METHODS=["GET", "OPTIONS"],
         CORS_PREFLIGHT_MAX_AGE=1002,
         CORS_ALLOW_ALL_ORIGINS=True,
@@ -107,12 +107,12 @@ class CorsMiddlewareTests(TestCase):
             HTTP_ACCESS_CONTROL_REQUEST_METHOD="GET",
         )
         assert resp.status_code == HTTPStatus.OK
-        assert resp[ACCESS_CONTROL_ALLOW_HEADERS] == "content-type, origin"
+        assert resp[ACCESS_CONTROL_ALLOW_HEADERS] == "content-type"
         assert resp[ACCESS_CONTROL_ALLOW_METHODS] == "GET, OPTIONS"
         assert resp[ACCESS_CONTROL_MAX_AGE] == "1002"
 
     @override_settings(
-        CORS_ALLOW_HEADERS=["content-type", "origin"],
+        CORS_ALLOW_HEADERS=["content-type"],
         CORS_ALLOW_METHODS=["GET", "OPTIONS"],
         CORS_PREFLIGHT_MAX_AGE=1002,
         CORS_ALLOW_ALL_ORIGINS=True,
@@ -124,12 +124,12 @@ class CorsMiddlewareTests(TestCase):
             access_control_request_method="GET",
         )
         assert resp.status_code == HTTPStatus.OK
-        assert resp[ACCESS_CONTROL_ALLOW_HEADERS] == "content-type, origin"
+        assert resp[ACCESS_CONTROL_ALLOW_HEADERS] == "content-type"
         assert resp[ACCESS_CONTROL_ALLOW_METHODS] == "GET, OPTIONS"
         assert resp[ACCESS_CONTROL_MAX_AGE] == "1002"
 
     @override_settings(
-        CORS_ALLOW_HEADERS=["content-type", "origin"],
+        CORS_ALLOW_HEADERS=["content-type"],
         CORS_ALLOW_METHODS=["GET", "OPTIONS"],
         CORS_PREFLIGHT_MAX_AGE=0,
         CORS_ALLOW_ALL_ORIGINS=True,
@@ -140,7 +140,7 @@ class CorsMiddlewareTests(TestCase):
             HTTP_ORIGIN="http://example.com",
             HTTP_ACCESS_CONTROL_REQUEST_METHOD="GET",
         )
-        assert resp[ACCESS_CONTROL_ALLOW_HEADERS] == "content-type, origin"
+        assert resp[ACCESS_CONTROL_ALLOW_HEADERS] == "content-type"
         assert resp[ACCESS_CONTROL_ALLOW_METHODS] == "GET, OPTIONS"
         assert ACCESS_CONTROL_MAX_AGE not in resp
 
