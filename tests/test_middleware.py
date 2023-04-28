@@ -29,7 +29,7 @@ class CorsMiddlewareTests(TestCase):
 
     def test_get_origin_vary_by_default(self):
         resp = self.client.get("/")
-        assert resp["Vary"] == "Origin"
+        assert resp["vary"] == "origin"
 
     def test_get_invalid_origin(self):
         resp = self.client.get("/", HTTP_ORIGIN="http://example.com]")
@@ -214,7 +214,7 @@ class CorsMiddlewareTests(TestCase):
         )
         assert resp.status_code == 200
         assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == "http://example.com"
-        assert resp["Vary"] == "Origin"
+        assert resp["vary"] == "origin"
 
     @override_settings(CORS_ALLOW_CREDENTIALS=True, CORS_ALLOW_ALL_ORIGINS=True)
     def test_allow_all_origins_options(self):
@@ -225,7 +225,7 @@ class CorsMiddlewareTests(TestCase):
         )
         assert resp.status_code == 200
         assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == "http://example.com"
-        assert resp["Vary"] == "Origin"
+        assert resp["vary"] == "origin"
 
     @override_settings(CORS_ALLOW_CREDENTIALS=True, CORS_ALLOW_ALL_ORIGINS=True)
     def test_non_200_headers_still_set(self):
