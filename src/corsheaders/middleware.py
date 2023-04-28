@@ -9,9 +9,8 @@ from urllib.parse import urlsplit
 
 from django.http import HttpRequest
 from django.http import HttpResponse
-from django.http import HttpResponseBase
+from django.http.response import HttpResponseBase
 from django.utils.cache import patch_vary_headers
-from django.utils.deprecation import MiddlewareMixin
 
 from corsheaders.conf import conf
 from corsheaders.signals import check_request_enabled
@@ -24,7 +23,7 @@ ACCESS_CONTROL_ALLOW_METHODS = "Access-Control-Allow-Methods"
 ACCESS_CONTROL_MAX_AGE = "Access-Control-Max-Age"
 
 
-class CorsMiddleware(MiddlewareMixin):
+class CorsMiddleware:
     sync_capable = True
     async_capable = True
 
@@ -50,10 +49,11 @@ class CorsMiddleware(MiddlewareMixin):
     ) -> HttpResponseBase | Awaitable[HttpResponseBase]:
         if self._is_coroutine:
             return self.__acall__(request)
-        response = self.check_preflight(request)
+        response: HttpResponseBase | None = self.check_preflight(request)
         if response is None:
-            response = self.get_response(request)
-            assert isinstance(response, HttpResponseBase)
+            result = self.get_response(request)
+            assert isinstance(result, HttpResponseBase)
+            response = result
         self.add_response_headers(request, response)
         return response
 
@@ -66,7 +66,7 @@ class CorsMiddleware(MiddlewareMixin):
         self.add_response_headers(request, response)
         return response
 
-    def check_preflight(self, request: HttpRequest) -> HttpResponse | None:
+    def check_preflight(self, request: HttpRequest) -> HttpResponseBase | None:
         """
         Generate a response for CORS preflight requests.
         """
@@ -80,8 +80,8 @@ class CorsMiddleware(MiddlewareMixin):
         return None
 
     def add_response_headers(
-        self, request: HttpRequest, response: HttpResponse
-    ) -> HttpResponse:
+        self, request: HttpRequest, response: HttpResponseBase
+    ) -> HttpResponseBase:
         """
         Add the respective CORS headers
         """
