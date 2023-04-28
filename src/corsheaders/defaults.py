@@ -9,4 +9,11 @@ default_headers = (
     "x-requested-with",
 )
 
-default_methods = ("DELETE", "GET", "OPTIONS", "PATCH", "POST", "PUT")
+default_methods = (
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+)
