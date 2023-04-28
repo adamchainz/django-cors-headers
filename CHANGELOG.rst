@@ -12,6 +12,8 @@ Changelog
   Since Django 1.9, the ``CSRF_TRUSTED_ORIGINS`` setting has been the preferred solution to making CSRF checks pass for CORS requests.
   The removed setting and middleware only existed as a workaround for Django versions before 1.9.
 
+* Add async support to the middleware, reducing overhead on async views.
+
 3.14.0 (2023-02-25)
 -------------------
 

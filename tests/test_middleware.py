@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from http import HTTPStatus
+
 from django.http import HttpResponse
 from django.test import TestCase
 from django.test.utils import override_settings
@@ -99,6 +101,24 @@ class CorsMiddlewareTests(TestCase):
             HTTP_ORIGIN="http://example.com",
             HTTP_ACCESS_CONTROL_REQUEST_METHOD="GET",
         )
+        assert resp.status_code == HTTPStatus.OK
+        assert resp[ACCESS_CONTROL_ALLOW_HEADERS] == "content-type, origin"
+        assert resp[ACCESS_CONTROL_ALLOW_METHODS] == "GET, OPTIONS"
+        assert resp[ACCESS_CONTROL_MAX_AGE] == "1002"
+
+    @override_settings(
+        CORS_ALLOW_HEADERS=["content-type", "origin"],
+        CORS_ALLOW_METHODS=["GET", "OPTIONS"],
+        CORS_PREFLIGHT_MAX_AGE=1002,
+        CORS_ALLOW_ALL_ORIGINS=True,
+    )
+    async def test_async_options_allowed_origin(self):
+        resp = await self.async_client.options(
+            "/async/",
+            origin="http://example.com",
+            access_control_request_method="GET",
+        )
+        assert resp.status_code == HTTPStatus.OK
         assert resp[ACCESS_CONTROL_ALLOW_HEADERS] == "content-type, origin"
         assert resp[ACCESS_CONTROL_ALLOW_METHODS] == "GET, OPTIONS"
         assert resp[ACCESS_CONTROL_MAX_AGE] == "1002"
