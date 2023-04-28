@@ -11,6 +11,10 @@ def test_view(request):
     return HttpResponse("Test view")
 
 
+async def async_(request):
+    return HttpResponse("Test view")
+
+
 def test_view_http401(request):
     return HttpResponse("Unauthorized", status=401)
 
@@ -23,6 +27,7 @@ def test_view_that_deletes_is_enabled(request):
 urlpatterns = [
     path("", test_view),
     path("foo/", test_view),
+    path("async/", async_),
     path("test-401/", test_view_http401),
     path("delete-is-enabled/", test_view_that_deletes_is_enabled),
 ]
