@@ -52,6 +52,11 @@ class CorsMiddlewareTests(TestCase):
         resp = self.client.get("/", HTTP_ORIGIN="http://example.org")
         assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == "http://example.org"
 
+    @override_settings(CORS_ALLOWED_ORIGINS=["http://example.org"])
+    async def test_async_get_in_allowed_origins(self):
+        resp = await self.async_client.get("/", origin="http://example.org")
+        assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == "http://example.org"
+
     @override_settings(CORS_ALLOWED_ORIGINS=["http://example.com", "null"])
     def test_null_in_allowed_origins(self):
         resp = self.client.get("/", HTTP_ORIGIN="null")
