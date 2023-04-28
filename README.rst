@@ -204,14 +204,14 @@ Defaults to:
 
 .. code-block:: python
 
-    CORS_ALLOW_METHODS = [
+    CORS_ALLOW_METHODS = (
         "DELETE",
         "GET",
         "OPTIONS",
         "PATCH",
         "POST",
         "PUT",
-    ]
+    )
 
 The default can be imported as ``corsheaders.defaults.default_methods`` so you can just extend it with your custom methods.
 This allows you to keep up to date with any future changes.
@@ -221,9 +221,10 @@ For example:
 
     from corsheaders.defaults import default_methods
 
-    CORS_ALLOW_METHODS = list(default_methods) + [
+    CORS_ALLOW_METHODS = (
+        *default_methods,
         "POKE",
-    ]
+    )
 
 ``CORS_ALLOW_HEADERS: Sequence[str]``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
