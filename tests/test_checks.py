@@ -83,7 +83,7 @@ class ChecksTests(SimpleTestCase):
         errors = self.check_error_codes(["corsheaders.E006"])
         assert errors[0].msg.startswith("CORS_ORIGIN_WHITELIST should be")
 
-    @override_settings(CORS_ALLOWED_ORIGINS=["http://example.com", "file://", "null"])
+    @override_settings(CORS_ALLOWED_ORIGINS=["https://example.com", "file://", "null"])
     def test_cors_allowed_origins_allowed(self):
         self.check_error_codes([])
 
