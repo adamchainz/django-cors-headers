@@ -15,12 +15,12 @@ from django.utils.cache import patch_vary_headers
 from corsheaders.conf import conf
 from corsheaders.signals import check_request_enabled
 
-ACCESS_CONTROL_ALLOW_ORIGIN = "Access-Control-Allow-Origin"
-ACCESS_CONTROL_EXPOSE_HEADERS = "Access-Control-Expose-Headers"
-ACCESS_CONTROL_ALLOW_CREDENTIALS = "Access-Control-Allow-Credentials"
-ACCESS_CONTROL_ALLOW_HEADERS = "Access-Control-Allow-Headers"
-ACCESS_CONTROL_ALLOW_METHODS = "Access-Control-Allow-Methods"
-ACCESS_CONTROL_MAX_AGE = "Access-Control-Max-Age"
+ACCESS_CONTROL_ALLOW_ORIGIN = "access-control-allow-origin"
+ACCESS_CONTROL_EXPOSE_HEADERS = "access-control-expose-headers"
+ACCESS_CONTROL_ALLOW_CREDENTIALS = "access-control-allow-credentials"
+ACCESS_CONTROL_ALLOW_HEADERS = "access-control-allow-headers"
+ACCESS_CONTROL_ALLOW_METHODS = "access-control-allow-methods"
+ACCESS_CONTROL_MAX_AGE = "access-control-max-age"
 
 
 class CorsMiddleware:
@@ -92,7 +92,7 @@ class CorsMiddleware:
         if not enabled:
             return response
 
-        patch_vary_headers(response, ("Origin",))
+        patch_vary_headers(response, ("origin",))
 
         origin = request.headers.get("origin")
         if not origin:

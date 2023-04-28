@@ -125,10 +125,10 @@ least one of three following settings:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A list of origins that are authorized to make cross-site HTTP requests.
-The origins in this setting will be allowed, and the requesting origin will be echoed back to the client in the |Access-Control-Allow-Origin header|__.
+The origins in this setting will be allowed, and the requesting origin will be echoed back to the client in the |access-control-allow-origin header|__.
 Defaults to ``[]``.
 
-.. |Access-Control-Allow-Origin header| replace:: ``Access-Control-Allow-Origin`` header
+.. |access-control-allow-origin header| replace:: ``access-control-allow-origin`` header
 __ https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin
 
 An Origin is defined by `the CORS RFC Section 3.2 <https://tools.ietf.org/html/rfc6454#section-3.2>`_ as a URI scheme + hostname + port, or one of the special values ``'null'`` or ``'file://'``.
@@ -263,21 +263,21 @@ For example:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The list of extra HTTP headers to expose to the browser, in addition to the default `safelisted headers <https://developer.mozilla.org/en-US/docs/Glossary/CORS-safelisted_response_header>`__.
-If non-empty, these are declared in the |Access-Control-Expose-Headers header|__.
+If non-empty, these are declared in the |access-control-expose-headers header|__.
 Defaults to ``[]``.
 
-.. |Access-Control-Expose-Headers header| replace:: ``Access-Control-Expose-Headers`` header
+.. |access-control-expose-headers header| replace:: ``access-control-expose-headers`` header
 __ https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Expose-Headers
 
 ``CORS_PREFLIGHT_MAX_AGE: int``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The number of seconds the browser can cache the preflight response.
-This sets the |Access-Control-Max-Age header|__ in preflight responses.
+This sets the |access-control-max-age header|__ in preflight responses.
 If this is 0 (or any falsey value), no max age header will be sent.
 Defaults to ``86400`` (one day).
 
-.. |Access-Control-Max-Age header| replace:: ``Access-Control-Max-Age`` header
+.. |access-control-max-age header| replace:: ``access-control-max-age`` header
 __ https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Max-Age
 
 **Note:**
@@ -288,11 +288,11 @@ Read more about it in the `CORS MDN article <https://developer.mozilla.org/en-US
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If ``True``, cookies will be allowed to be included in cross-site HTTP requests.
-This sets the |Access-Control-Allow-Credentials header|__ in preflight and normal responses.
+This sets the |access-control-allow-credentials header|__ in preflight and normal responses.
 Defaults to ``False``.
 
-.. |Access-Control-Allow-Credentials header| replace:: ``Access-Control-Allow-Credentials`` header
-__ https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Credentials
+.. |access-control-allow-credentials header| replace:: ``Access-Control-Allow-Credentials`` header
+__ https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/access-control-allow-credentials
 
 Note: in Django 2.1 the `SESSION_COOKIE_SAMESITE`_ setting was added, set to ``'Lax'`` by default, which will prevent Django's session cookie being sent cross-domain.
 Change the setting to ``'None'`` if you need to bypass this security restriction.
@@ -344,7 +344,7 @@ For example you might define a handler like this:
 
 
     def cors_allow_mysites(sender, request, **kwargs):
-        return MySite.objects.filter(host=request.headers["Origin"]).exists()
+        return MySite.objects.filter(host=request.headers["origin"]).exists()
 
 
     check_request_enabled.connect(cors_allow_mysites)
