@@ -1,33 +1,12 @@
 from __future__ import annotations
 
-from django.http import Http404
-from django.http import HttpResponse
 from django.urls import path
 
-
-def test_view(request):
-    if request.method != "GET":
-        raise Http404()
-    return HttpResponse("Test view")
-
-
-async def async_(request):
-    return HttpResponse("Test view")
-
-
-def test_view_http401(request):
-    return HttpResponse("Unauthorized", status=401)
-
-
-def test_view_that_deletes_is_enabled(request):
-    del request._cors_enabled
-    return HttpResponse()
-
+from tests import views
 
 urlpatterns = [
-    path("", test_view),
-    path("foo/", test_view),
-    path("async/", async_),
-    path("test-401/", test_view_http401),
-    path("delete-is-enabled/", test_view_that_deletes_is_enabled),
+    path("", views.index),
+    path("async/", views.async_),
+    path("unauthorized/", views.unauthorized),
+    path("delete-enabled/", views.delete_enabled_attribute),
 ]

@@ -199,11 +199,11 @@ class CorsMiddlewareTests(TestCase):
             HTTP_ORIGIN="https://example.com",
             HTTP_ACCESS_CONTROL_REQUEST_METHOD="",
         )
-        assert resp.status_code == 200
+        assert resp.status_code == HTTPStatus.OK
 
     def test_options_no_headers(self):
         resp = self.client.options("/")
-        assert resp.status_code == 404
+        assert resp.status_code == HTTPStatus.METHOD_NOT_ALLOWED
 
     @override_settings(CORS_ALLOW_CREDENTIALS=True, CORS_ALLOW_ALL_ORIGINS=True)
     def test_allow_all_origins_get(self):
@@ -212,7 +212,7 @@ class CorsMiddlewareTests(TestCase):
             HTTP_ORIGIN="https://example.com",
             HTTP_ACCESS_CONTROL_REQUEST_METHOD="GET",
         )
-        assert resp.status_code == 200
+        assert resp.status_code == HTTPStatus.OK
         assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == "https://example.com"
         assert resp["vary"] == "origin"
 
@@ -223,7 +223,7 @@ class CorsMiddlewareTests(TestCase):
             HTTP_ORIGIN="https://example.com",
             HTTP_ACCESS_CONTROL_REQUEST_METHOD="GET",
         )
-        assert resp.status_code == 200
+        assert resp.status_code == HTTPStatus.OK
         assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == "https://example.com"
         assert resp["vary"] == "origin"
 
@@ -237,8 +237,8 @@ class CorsMiddlewareTests(TestCase):
         place to preserve this behaviour. See `ExceptionMiddleware` mention here:
         https://docs.djangoproject.com/en/3.0/topics/http/middleware/#upgrading-pre-django-1-10-style-middleware  # noqa: E501
         """
-        resp = self.client.get("/test-401/", HTTP_ORIGIN="https://example.com")
-        assert resp.status_code == 401
+        resp = self.client.get("/unauthorized/", HTTP_ORIGIN="https://example.com")
+        assert resp.status_code == HTTPStatus.UNAUTHORIZED
         assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == "https://example.com"
 
     @override_settings(CORS_ALLOW_CREDENTIALS=True, CORS_ALLOW_ALL_ORIGINS=True)
@@ -252,7 +252,7 @@ class CorsMiddlewareTests(TestCase):
             HTTP_ORIGIN="https://example.com",
             HTTP_ACCESS_CONTROL_REQUEST_METHOD="GET",
         )
-        assert resp.status_code == 200
+        assert resp.status_code == HTTPStatus.OK
         assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == "https://example.com"
         assert resp["Content-Length"] == "0"
 
@@ -267,7 +267,7 @@ class CorsMiddlewareTests(TestCase):
                 HTTP_ACCESS_CONTROL_REQUEST_METHOD="GET",
             )
 
-            assert resp.status_code == 200
+            assert resp.status_code == HTTPStatus.OK
             assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
 
     def test_signal_handler_that_returns_true(self):
@@ -280,7 +280,7 @@ class CorsMiddlewareTests(TestCase):
                 HTTP_ORIGIN="https://example.com",
                 HTTP_ACCESS_CONTROL_REQUEST_METHOD="GET",
             )
-            assert resp.status_code == 200
+            assert resp.status_code == HTTPStatus.OK
             assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == "https://example.com"
 
     @override_settings(CORS_ALLOWED_ORIGINS=["https://example.com"])
@@ -294,7 +294,7 @@ class CorsMiddlewareTests(TestCase):
                 HTTP_ORIGIN="https://example.org",
                 HTTP_ACCESS_CONTROL_REQUEST_METHOD="GET",
             )
-            assert resp.status_code == 200
+            assert resp.status_code == HTTPStatus.OK
             assert ACCESS_CONTROL_ALLOW_ORIGIN not in resp
 
             resp = self.client.options(
@@ -302,7 +302,7 @@ class CorsMiddlewareTests(TestCase):
                 HTTP_ORIGIN="https://example.org",
                 HTTP_ACCESS_CONTROL_REQUEST_METHOD="GET",
             )
-            assert resp.status_code == 200
+            assert resp.status_code == HTTPStatus.OK
             assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == "https://example.org"
 
     @override_settings(CORS_ALLOWED_ORIGINS=["https://example.com"])
@@ -379,5 +379,5 @@ class CorsMiddlewareTests(TestCase):
         Just in case something crazy happens in the view or other middleware,
         check that get_response doesn't fall over if `_cors_enabled` is removed
         """
-        resp = self.client.get("/delete-is-enabled/", HTTP_ORIGIN="https://example.com")
+        resp = self.client.get("/delete-enabled/", HTTP_ORIGIN="https://example.com")
         assert ACCESS_CONTROL_ALLOW_ORIGIN in resp
