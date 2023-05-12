@@ -38,6 +38,14 @@ def check_settings(**kwargs: Any) -> list[CheckMessage]:
             Error("CORS_ALLOW_CREDENTIALS should be a bool.", id="corsheaders.E003")
         )
 
+    if not isinstance(conf.CORS_ALLOW_PRIVATE_NETWORK, bool):
+        errors.append(  # type: ignore [unreachable]
+            Error(
+                "CORS_ALLOW_PRIVATE_NETWORK should be a bool.",
+                id="corsheaders.E015",
+            )
+        )
+
     if (
         not isinstance(conf.CORS_PREFLIGHT_MAX_AGE, int)
         or conf.CORS_PREFLIGHT_MAX_AGE < 0

@@ -21,6 +21,8 @@ ACCESS_CONTROL_ALLOW_CREDENTIALS = "access-control-allow-credentials"
 ACCESS_CONTROL_ALLOW_HEADERS = "access-control-allow-headers"
 ACCESS_CONTROL_ALLOW_METHODS = "access-control-allow-methods"
 ACCESS_CONTROL_MAX_AGE = "access-control-max-age"
+ACCESS_CONTROL_REQUEST_PRIVATE_NETWORK = "access-control-request-private-network"
+ACCESS_CONTROL_ALLOW_PRIVATE_NETWORK = "access-control-allow-private-network"
 
 
 class CorsMiddleware:
@@ -128,6 +130,12 @@ class CorsMiddleware:
             response[ACCESS_CONTROL_ALLOW_METHODS] = ", ".join(conf.CORS_ALLOW_METHODS)
             if conf.CORS_PREFLIGHT_MAX_AGE:
                 response[ACCESS_CONTROL_MAX_AGE] = str(conf.CORS_PREFLIGHT_MAX_AGE)
+
+        if (
+            conf.CORS_ALLOW_PRIVATE_NETWORK
+            and request.headers.get(ACCESS_CONTROL_REQUEST_PRIVATE_NETWORK) == "true"
+        ):
+            response[ACCESS_CONTROL_ALLOW_PRIVATE_NETWORK] = "true"
 
         return response
 

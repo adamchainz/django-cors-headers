@@ -300,6 +300,17 @@ Change the setting to ``'None'`` if you need to bypass this security restriction
 
 .. _SESSION_COOKIE_SAMESITE: https://docs.djangoproject.com/en/stable/ref/settings/#std:setting-SESSION_COOKIE_SAMESITE
 
+``CORS_ALLOW_PRIVATE_NETWORK: bool``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If ``True``, allow requests from sites on “public” IP to this server on a “private” IP.
+In such cases, browsers send an extra CORS header ``access-control-request-private-network``, for which ``OPTIONS`` responses must contain ``access-control-allow-private-network: true``.
+
+Refer to:
+
+* `Local Network Access <https://wicg.github.io/local-network-access/>`__, the W3C Community Draft specification.
+* `Private Network Access: introducing preflights <https://developer.chrome.com/blog/private-network-access-preflight/>`__, a blog post from the Google Chrome team.
+
 CSRF Integration
 ----------------
 

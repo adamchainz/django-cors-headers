@@ -14,6 +14,8 @@ Changelog
 
 * Add async support to the middleware, reducing overhead on async views.
 
+* Add ``CORS_ALLOW_PRIVATE_NETWORK_ACCESS`` setting, which enables support for the Local Network Access draft specification.
+
 3.14.0 (2023-02-25)
 -------------------
 
