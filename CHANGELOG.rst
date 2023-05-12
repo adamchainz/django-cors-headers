@@ -2,6 +2,10 @@
 Changelog
 =========
 
+* Add ``CORS_ALLOW_PRIVATE_NETWORK_ACCESS`` setting, which enables support for the Local Network Access draft specification.
+
+  Thanks to Issac Kelly in `PR #745 <https://github.com/adamchainz/django-cors-headers/pull/745>`__ and jjurgens0 in `PR #833 <https://github.com/adamchainz/django-cors-headers/pull/833>`__.
+
 * Remove three headers from the default "accept list": ``accept-encoding``, ``dnt``, and ``origin``.
   These are `Forbidden header names <https://developer.mozilla.org/en-US/docs/Glossary/Forbidden_header_name>`__, which means requests JavaScript can never set them.
   Consequently, allowing them via CORS has no effect.
@@ -13,8 +17,6 @@ Changelog
   The removed setting and middleware only existed as a workaround for Django versions before 1.9.
 
 * Add async support to the middleware, reducing overhead on async views.
-
-* Add ``CORS_ALLOW_PRIVATE_NETWORK_ACCESS`` setting, which enables support for the Local Network Access draft specification.
 
 3.14.0 (2023-02-25)
 -------------------
