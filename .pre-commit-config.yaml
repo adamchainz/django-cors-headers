@@ -34,7 +34,7 @@ repos:
     additional_dependencies:
     - tomli==2.0.1
 - repo: https://github.com/asottile/pyupgrade
-  rev: v3.3.2
+  rev: v3.4.0
   hooks:
   - id: pyupgrade
     args: [--py37-plus]
@@ -53,7 +53,7 @@ repos:
   - id: blacken-docs
     additional_dependencies:
     - black==23.1.0
-- repo: https://github.com/asottile/reorder_python_imports
+- repo: https://github.com/asottile/reorder-python-imports
   rev: v3.9.0
   hooks:
   - id: reorder-python-imports
