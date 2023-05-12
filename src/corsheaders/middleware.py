@@ -132,7 +132,7 @@ class CorsMiddleware:
                 response[ACCESS_CONTROL_MAX_AGE] = str(conf.CORS_PREFLIGHT_MAX_AGE)
 
         if (
-            conf.CORS_ALLOW_PRIVATE_NETWORK_ACCESS
+            conf.CORS_ALLOW_PRIVATE_NETWORK
             and request.headers.get(ACCESS_CONTROL_REQUEST_PRIVATE_NETWORK) == "true"
         ):
             response[ACCESS_CONTROL_ALLOW_PRIVATE_NETWORK] = "true"

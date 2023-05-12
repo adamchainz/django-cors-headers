@@ -14,7 +14,7 @@ Changelog
 
 * Add async support to the middleware, reducing overhead on async views.
 
-* Added support for `private network access <https://wicg.github.io/local-network-access/>`_.
+* Add ``CORS_ALLOW_PRIVATE_NETWORK_ACCESS`` setting, which enables support for the Local Network Access draft specification.
 
 3.14.0 (2023-02-25)
 -------------------
