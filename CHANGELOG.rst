@@ -2,6 +2,9 @@
 Changelog
 =========
 
+4.0.0 (2023-05-12)
+------------------
+
 * Add ``CORS_ALLOW_PRIVATE_NETWORK_ACCESS`` setting, which enables support for the Local Network Access draft specification.
 
   Thanks to Issac Kelly in `PR #745 <https://github.com/adamchainz/django-cors-headers/pull/745>`__ and jjurgens0 in `PR #833 <https://github.com/adamchainz/django-cors-headers/pull/833>`__.
