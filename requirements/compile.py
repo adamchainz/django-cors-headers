@@ -197,3 +197,15 @@ if __name__ == "__main__":
         check=True,
         capture_output=True,
     )
+    subprocess.run(
+        [
+            "python3.12",
+            *common_args,
+            "-P",
+            "Django>=4.2a1,<5.0",
+            "-o",
+            "py312-django42.txt",
+        ],
+        check=True,
+        capture_output=True,
+    )
