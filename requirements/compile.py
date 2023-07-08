@@ -19,18 +19,6 @@ if __name__ == "__main__":
     ] + sys.argv[1:]
     subprocess.run(
         [
-            "python3.7",
-            *common_args,
-            "-P",
-            "Django>=3.2a1,<3.3",
-            "-o",
-            "py37-django32.txt",
-        ],
-        check=True,
-        capture_output=True,
-    )
-    subprocess.run(
-        [
             "python3.8",
             *common_args,
             "-P",
