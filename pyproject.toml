@@ -5,7 +5,7 @@ requires = [
 ]
 
 [tool.black]
-target-version = ['py37']
+target-version = ['py38']
 
 [tool.pytest.ini_options]
 addopts = """\
