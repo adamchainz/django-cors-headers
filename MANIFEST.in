@@ -1,3 +1,4 @@
+prune tests
 include CHANGELOG.rst
 include LICENSE
 include pyproject.toml
