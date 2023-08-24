@@ -105,15 +105,15 @@ class CorsMiddleware:
         except ValueError:
             return response
 
-        if conf.CORS_ALLOW_CREDENTIALS:
-            response[ACCESS_CONTROL_ALLOW_CREDENTIALS] = "true"
-
         if (
             not conf.CORS_ALLOW_ALL_ORIGINS
             and not self.origin_found_in_white_lists(origin, url)
             and not self.check_signal(request)
         ):
             return response
+
+        if conf.CORS_ALLOW_CREDENTIALS:
+            response[ACCESS_CONTROL_ALLOW_CREDENTIALS] = "true"
 
         if conf.CORS_ALLOW_ALL_ORIGINS and not conf.CORS_ALLOW_CREDENTIALS:
             response[ACCESS_CONTROL_ALLOW_ORIGIN] = "*"
