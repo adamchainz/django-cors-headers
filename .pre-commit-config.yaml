@@ -30,7 +30,7 @@ repos:
   hooks:
   - id: tox-ini-fmt
 - repo: https://github.com/rstcheck/rstcheck
-  rev: v6.1.2
+  rev: v6.2.0
   hooks:
   - id: rstcheck
     additional_dependencies:
@@ -46,7 +46,7 @@ repos:
   - id: django-upgrade
     args: [--target-version, '3.2']
 - repo: https://github.com/psf/black
-  rev: 23.7.0
+  rev: 23.9.1
   hooks:
   - id: black
 - repo: https://github.com/adamchainz/blacken-docs
