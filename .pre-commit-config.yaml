@@ -14,11 +14,11 @@ repos:
   - id: end-of-file-fixer
   - id: trailing-whitespace
 - repo: https://github.com/tox-dev/pyproject-fmt
-  rev: 1.1.0
+  rev: 1.2.0
   hooks:
   - id: pyproject-fmt
 - repo: https://github.com/asottile/setup-cfg-fmt
-  rev: v2.4.0
+  rev: v2.5.0
   hooks:
   - id: setup-cfg-fmt
     args:
@@ -36,7 +36,7 @@ repos:
     additional_dependencies:
     - tomli==2.0.1
 - repo: https://github.com/asottile/pyupgrade
-  rev: v3.13.0
+  rev: v3.14.0
   hooks:
   - id: pyupgrade
     args: [--py38-plus]
@@ -56,7 +56,7 @@ repos:
     additional_dependencies:
     - black==23.1.0
 - repo: https://github.com/asottile/reorder-python-imports
-  rev: v3.11.0
+  rev: v3.12.0
   hooks:
   - id: reorder-python-imports
     args:
