@@ -7,6 +7,11 @@ from corsheaders.conf import conf
 
 
 class ConfTests(SimpleTestCase):
+    @override_settings(SECRET_KEY="foo")
+    def test_other_setting(self):
+        # Only proxy settings that are defined in the Settings class.
+        self.assertRaises(AttributeError, getattr, conf, "SECRET_KEY")
+
     @override_settings(CORS_ALLOW_HEADERS=["foo"])
     def test_can_override(self):
         assert conf.CORS_ALLOW_HEADERS == ["foo"]

@@ -1,13 +1,12 @@
 from __future__ import annotations
 
-from typing import cast
-from typing import List
+import re
+from dataclasses import dataclass
+from typing import Any
 from typing import Pattern
 from typing import Sequence
-from typing import Tuple
-from typing import Union
 
-from django.conf import settings
+from django.conf import settings as _django_settings
 
 from corsheaders.defaults import default_headers
 from corsheaders.defaults import default_methods
@@ -15,63 +14,44 @@ from corsheaders.defaults import default_methods
 # Kept here for backwards compatibility
 
 
+@dataclass
 class Settings:
+    CORS_ALLOW_HEADERS: Sequence[str] = default_headers
+    CORS_ALLOW_METHODS: Sequence[str] = default_methods
+    CORS_ALLOW_CREDENTIALS: bool = False
+    CORS_ALLOW_PRIVATE_NETWORK: bool = False
+    CORS_PREFLIGHT_MAX_AGE: int = 86400
+    CORS_ALLOW_ALL_ORIGINS: bool = False
+    CORS_ALLOWED_ORIGINS: list[str] | tuple[str] = ()  # type: ignore
+    CORS_ALLOWED_ORIGIN_REGEXES: Sequence[str | Pattern[str]] = ()
+    CORS_EXPOSE_HEADERS: Sequence[str] = ()
+    CORS_URLS_REGEX: str | Pattern[str] = re.compile(r"^.*$")
+
+
+_RENAMED_SETTINGS = {
+    # New name -> Old name
+    "CORS_ALLOW_ALL_ORIGINS": "CORS_ORIGIN_ALLOW_ALL",
+    "CORS_ALLOWED_ORIGINS": "CORS_ORIGIN_WHITELIST",
+    "CORS_ALLOWED_ORIGIN_REGEXES": "CORS_ORIGIN_REGEX_WHITELIST",
+}
+
+
+class DjangoConfig(Settings):
     """
-    Shadow Django's settings with a little logic
+    A version of Settings that prefers to read from Django's settings.
+
+    Falls back to its own values if the setting is not configured
+    in Django.
     """
 
-    @property
-    def CORS_ALLOW_HEADERS(self) -> Sequence[str]:
-        return getattr(settings, "CORS_ALLOW_HEADERS", default_headers)
-
-    @property
-    def CORS_ALLOW_METHODS(self) -> Sequence[str]:
-        return getattr(settings, "CORS_ALLOW_METHODS", default_methods)
-
-    @property
-    def CORS_ALLOW_CREDENTIALS(self) -> bool:
-        return getattr(settings, "CORS_ALLOW_CREDENTIALS", False)
-
-    @property
-    def CORS_ALLOW_PRIVATE_NETWORK(self) -> bool:
-        return getattr(settings, "CORS_ALLOW_PRIVATE_NETWORK", False)
-
-    @property
-    def CORS_PREFLIGHT_MAX_AGE(self) -> int:
-        return getattr(settings, "CORS_PREFLIGHT_MAX_AGE", 86400)
-
-    @property
-    def CORS_ALLOW_ALL_ORIGINS(self) -> bool:
-        return getattr(
-            settings,
-            "CORS_ALLOW_ALL_ORIGINS",
-            getattr(settings, "CORS_ORIGIN_ALLOW_ALL", False),
-        )
-
-    @property
-    def CORS_ALLOWED_ORIGINS(self) -> list[str] | tuple[str]:
-        value = getattr(
-            settings,
-            "CORS_ALLOWED_ORIGINS",
-            getattr(settings, "CORS_ORIGIN_WHITELIST", ()),
-        )
-        return cast(Union[List[str], Tuple[str]], value)
-
-    @property
-    def CORS_ALLOWED_ORIGIN_REGEXES(self) -> Sequence[str | Pattern[str]]:
-        return getattr(
-            settings,
-            "CORS_ALLOWED_ORIGIN_REGEXES",
-            getattr(settings, "CORS_ORIGIN_REGEX_WHITELIST", ()),
-        )
-
-    @property
-    def CORS_EXPOSE_HEADERS(self) -> Sequence[str]:
-        return getattr(settings, "CORS_EXPOSE_HEADERS", ())
-
-    @property
-    def CORS_URLS_REGEX(self) -> str | Pattern[str]:
-        return getattr(settings, "CORS_URLS_REGEX", r"^.*$")
+    def __getattribute__(self, name: str) -> Any:
+        default = object.__getattribute__(self, name)
+        if name in _RENAMED_SETTINGS:
+            # Renamed settings are used if the new setting
+            # is not configured in Django,
+            old_name = _RENAMED_SETTINGS[name]
+            default = getattr(_django_settings, old_name, default)
+        return getattr(_django_settings, name, default)
 
 
-conf = Settings()
+conf = DjangoConfig()
