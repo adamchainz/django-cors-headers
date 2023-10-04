@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+# Kept here for backwards compatibility
+
 default_headers = (
     "accept",
     "authorization",
