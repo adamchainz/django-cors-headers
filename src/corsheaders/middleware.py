@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import asyncio
 import re
+from typing import Any
 from typing import Awaitable
 from typing import Callable
 from urllib.parse import SplitResult
@@ -54,22 +55,40 @@ class CorsMiddleware:
     ) -> HttpResponseBase | Awaitable[HttpResponseBase]:
         if self._is_coroutine:
             return self.__acall__(request)
-        response: HttpResponseBase | None = self.check_preflight(request)
-        if response is None:
-            result = self.get_response(request)
-            assert isinstance(result, HttpResponseBase)
-            response = result
-        self.add_response_headers(request, response)
-        return response
+        result = self.get_response(request)
+        assert isinstance(result, HttpResponseBase)
+        response = result
+        if getattr(response, "_cors_processing_done", False):
+            return response
+        else:
+            # Request wasn't processed (e.g. because of a 404)
+            return self.add_response_headers(
+                request, self.check_preflight(request) or response
+            )
 
     async def __acall__(self, request: HttpRequest) -> HttpResponseBase:
-        response = self.check_preflight(request)
-        if response is None:
-            result = self.get_response(request)
-            assert not isinstance(result, HttpResponseBase)
-            response = await result
-        self.add_response_headers(request, response)
-        return response
+        result = self.get_response(request)
+        assert not isinstance(result, HttpResponseBase)
+        response = await result
+        if getattr(response, "_cors_processing_done", False):
+            return response
+        else:
+            # View wasn't processed (e.g. because of a 404)
+            return self.add_response_headers(
+                request, self.check_preflight(request) or response
+            )
+
+    def process_view(
+        self,
+        request: HttpRequest,
+        callback: Callable[[HttpRequest], HttpResponseBase],
+        callback_args: Any,
+        callback_kwargs: Any,
+    ) -> HttpResponseBase | None:
+        if getattr(callback, "_skip_cors_middleware", False):
+            # View is decorated and will add CORS headers itself
+            return None
+        return self.check_preflight(request)
 
     def check_preflight(self, request: HttpRequest) -> HttpResponseBase | None:
         """
@@ -90,6 +109,7 @@ class CorsMiddleware:
         """
         Add the respective CORS headers
         """
+        response._cors_processing_done = True
         enabled = getattr(request, "_cors_enabled", None)
         if enabled is None:
             enabled = self.is_enabled(request)
