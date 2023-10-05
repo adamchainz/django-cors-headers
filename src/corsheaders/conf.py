@@ -12,8 +12,6 @@ from django.conf import settings
 from corsheaders.defaults import default_headers
 from corsheaders.defaults import default_methods
 
-# Kept here for backwards compatibility
-
 
 class Settings:
     """
