@@ -112,13 +112,13 @@ class CorsMiddleware:
         ):
             return response
 
-        if conf.CORS_ALLOW_CREDENTIALS:
-            response[ACCESS_CONTROL_ALLOW_CREDENTIALS] = "true"
-
         if conf.CORS_ALLOW_ALL_ORIGINS and not conf.CORS_ALLOW_CREDENTIALS:
             response[ACCESS_CONTROL_ALLOW_ORIGIN] = "*"
         else:
             response[ACCESS_CONTROL_ALLOW_ORIGIN] = origin
+
+        if conf.CORS_ALLOW_CREDENTIALS:
+            response[ACCESS_CONTROL_ALLOW_CREDENTIALS] = "true"
 
         if len(conf.CORS_EXPOSE_HEADERS):
             response[ACCESS_CONTROL_EXPOSE_HEADERS] = ", ".join(

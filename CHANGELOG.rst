@@ -2,6 +2,10 @@
 Changelog
 =========
 
+* Avoid adding the ``access-control-allow-credentials`` header to unallowed responses.
+
+  Thanks to Adam Romanek in `PR #888 <https://github.com/adamchainz/django-cors-headers/pull/888>`__.
+
 * Support Django 5.0.
 
 4.2.0 (2023-07-10)
