@@ -85,13 +85,22 @@ class CorsMiddlewareTests(TestCase):
         resp = self.client.get("/", HTTP_ORIGIN="https://example.com")
         assert ACCESS_CONTROL_EXPOSE_HEADERS not in resp
 
-    @override_settings(CORS_ALLOW_CREDENTIALS=True, CORS_ALLOW_ALL_ORIGINS=True)
+    @override_settings(
+        CORS_ALLOWED_ORIGINS=["https://example.com"], CORS_ALLOW_CREDENTIALS=True
+    )
     def test_get_allow_credentials(self):
         resp = self.client.get("/", HTTP_ORIGIN="https://example.com")
         assert resp[ACCESS_CONTROL_ALLOW_CREDENTIALS] == "true"
 
-    @override_settings(CORS_ALLOW_ALL_ORIGINS=True)
-    def test_get_dont_allow_credentials(self):
+    @override_settings(
+        CORS_ALLOWED_ORIGINS=["https://example.com"], CORS_ALLOW_CREDENTIALS=True
+    )
+    def test_get_allow_credentials_bad_origin(self):
+        resp = self.client.get("/", HTTP_ORIGIN="https://example.org")
+        assert ACCESS_CONTROL_ALLOW_CREDENTIALS not in resp
+
+    @override_settings(CORS_ALLOWED_ORIGINS=["https://example.com"])
+    def test_get_allow_credentials_disabled(self):
         resp = self.client.get("/", HTTP_ORIGIN="https://example.com")
         assert ACCESS_CONTROL_ALLOW_CREDENTIALS not in resp
 
