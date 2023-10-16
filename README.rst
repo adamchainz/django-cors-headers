@@ -22,6 +22,12 @@ A Django App that adds Cross-Origin Resource Sharing (CORS) headers to
 responses. This allows in-browser requests to your Django application from
 other origins.
 
+----
+
+**Improve your Django and Git skills** with `my books <https://adamj.eu/books/>`__.
+
+----
+
 About CORS
 ----------
 
@@ -44,13 +50,6 @@ Requirements
 Python 3.8 to 3.12 supported.
 
 Django 3.2 to 5.0 supported.
-
-----
-
-**Want to work smarter and faster?**
-Check out my book `Boost Your Django DX <https://adamchainz.gumroad.com/l/byddx>`__ which covers many ways to improve your development experience.
-
-----
 
 Setup
 -----
