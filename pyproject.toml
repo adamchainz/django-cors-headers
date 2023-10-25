@@ -4,6 +4,52 @@ requires = [
   "setuptools",
 ]
 
+[project]
+name = "django-cors-headers"
+version = "4.3.0"
+description = "django-cors-headers is a Django application for handling the server headers required for Cross-Origin Resource Sharing (CORS)."
+readme = {file = "README.rst", content-type = "text/x-rst"}
+keywords = [
+  "api",
+  "cors",
+  "django",
+  "middleware",
+  "rest",
+]
+license = {text = "MIT"}
+maintainers = [{name = "Adam Johnson", email = "me@adamj.eu"}]
+authors = [{name = "Otto Yiu", email = "otto@live.ca"}]
+requires-python = ">=3.8"
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Environment :: Web Environment",
+  "Framework :: Django",
+  "Framework :: Django :: 3.2",
+  "Framework :: Django :: 4.0",
+  "Framework :: Django :: 4.1",
+  "Framework :: Django :: 4.2",
+  "Framework :: Django :: 5.0",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Natural Language :: English",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Typing :: Typed",
+]
+dependencies = [
+  "Django>=3.2",
+]
+[project.urls]
+Changelog = "https://github.com/adamchainz/django-cors-headers/blob/main/CHANGELOG.rst"
+Funding = "https://adamj.eu/books/"
+Repository = "https://github.com/adamchainz/django-cors-headers"
+
 [tool.black]
 target-version = ['py38']
 
@@ -14,6 +60,23 @@ addopts = """\
     --ds=tests.settings
     """
 django_find_project = false
+
+[tool.coverage.run]
+branch = true
+parallel = true
+source = [
+    "corsheaders",
+    "tests",
+]
+
+[tool.coverage.paths]
+source = [
+    "src",
+    ".tox/**/site-packages",
+]
+
+[tool.coverage.report]
+show_missing = true
 
 [tool.mypy]
 mypy_path = "src/"
