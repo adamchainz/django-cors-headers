@@ -63,9 +63,9 @@ class CorsMiddleware:
     async def __acall__(self, request: HttpRequest) -> HttpResponseBase:
         response = self.check_preflight(request)
         if response is None:
-            return await self.get_response(request)
+            response = await self.get_response(request)
         self.add_response_headers(request, response)
-        return await self.get_response(request)
+        return response
 
     def check_preflight(self, request: HttpRequest) -> HttpResponseBase | None:
         """
