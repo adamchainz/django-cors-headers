@@ -44,6 +44,7 @@ classifiers = [
 ]
 dependencies = [
   "Django>=3.2",
+  "asgiref >= 3.6.0",
 ]
 [project.urls]
 Changelog = "https://github.com/adamchainz/django-cors-headers/blob/main/CHANGELOG.rst"

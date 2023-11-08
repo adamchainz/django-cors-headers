@@ -2,6 +2,8 @@
 Changelog
 =========
 
+* Fixed ASGI compatibility.
+
 4.3.0 (2023-10-11)
 ------------------
 
