@@ -1,11 +1,13 @@
 from __future__ import annotations
 
-import asyncio
 import re
 from typing import Awaitable
 from typing import Callable
 from urllib.parse import SplitResult
 from urllib.parse import urlsplit
+
+from asgiref.sync import iscoroutinefunction
+from asgiref.sync import markcoroutinefunction
 
 from django.http import HttpRequest
 from django.http import HttpResponse
@@ -37,19 +39,18 @@ class CorsMiddleware:
         ),
     ) -> None:
         self.get_response = get_response
-        if asyncio.iscoroutinefunction(self.get_response):
+        self.async_mode = iscoroutinefunction(self.get_response)
+        
+        if self.async_mode:
             # Mark the class as async-capable, but do the actual switch
+            
             # inside __call__ to avoid swapping out dunder methods
-            self._is_coroutine = (
-                asyncio.coroutines._is_coroutine  # type: ignore [attr-defined]
-            )
-        else:
-            self._is_coroutine = None
+            markcoroutinefunction(self)
 
     def __call__(
         self, request: HttpRequest
     ) -> HttpResponseBase | Awaitable[HttpResponseBase]:
-        if self._is_coroutine:
+        if self.async_mode:
             return self.__acall__(request)
         response: HttpResponseBase | None = self.check_preflight(request)
         if response is None:
@@ -62,11 +63,9 @@ class CorsMiddleware:
     async def __acall__(self, request: HttpRequest) -> HttpResponseBase:
         response = self.check_preflight(request)
         if response is None:
-            result = self.get_response(request)
-            assert not isinstance(result, HttpResponseBase)
-            response = await result
+            return await self.get_response(request)
         self.add_response_headers(request, response)
-        return response
+        return await self.get_response(request)
 
     def check_preflight(self, request: HttpRequest) -> HttpResponseBase | None:
         """
