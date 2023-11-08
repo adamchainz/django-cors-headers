@@ -8,7 +8,6 @@ from urllib.parse import urlsplit
 
 from asgiref.sync import iscoroutinefunction
 from asgiref.sync import markcoroutinefunction
-
 from django.http import HttpRequest
 from django.http import HttpResponse
 from django.http.response import HttpResponseBase
@@ -40,10 +39,10 @@ class CorsMiddleware:
     ) -> None:
         self.get_response = get_response
         self.async_mode = iscoroutinefunction(self.get_response)
-        
+
         if self.async_mode:
             # Mark the class as async-capable, but do the actual switch
-            
+
             # inside __call__ to avoid swapping out dunder methods
             markcoroutinefunction(self)
 
