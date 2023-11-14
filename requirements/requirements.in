@@ -1,3 +1,4 @@
+asgiref>=3.6
 coverage[toml]
 django
 pytest
