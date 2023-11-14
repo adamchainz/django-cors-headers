@@ -62,11 +62,9 @@ class CorsMiddleware:
     async def __acall__(self, request: HttpRequest) -> HttpResponseBase:
         response = self.check_preflight(request)
         if response is None:
-            response_or_coroutine = self.get_response(request)
-            if isinstance(response_or_coroutine, Awaitable):
-                response = await response_or_coroutine
-            else:
-                response = response_or_coroutine
+            result = self.get_response(request)
+            assert not isinstance(result, HttpResponseBase)
+            response = await result
         self.add_response_headers(request, response)
         return response
 
