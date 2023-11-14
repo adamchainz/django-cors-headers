@@ -2,7 +2,7 @@
 Changelog
 =========
 
-* Fixed ASGI compatibility.
+* Fixed ASGI compatibility on Python 3.12.
 
   Thanks to Adrian Capitanu for the report in `Issue #908 <https://github.com/adamchainz/django-cors-headers/issues/908>`__ and Rooyal in `PR #911 <https://github.com/adamchainz/django-cors-headers/pull/911>`__.
 
