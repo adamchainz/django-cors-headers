@@ -43,6 +43,7 @@ classifiers = [
   "Typing :: Typed",
 ]
 dependencies = [
+  "asgiref>=3.6",
   "Django>=3.2",
 ]
 [project.urls]
