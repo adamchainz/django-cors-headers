@@ -1,11 +1,11 @@
 from __future__ import annotations
 
-from typing import cast
 from typing import List
 from typing import Pattern
 from typing import Sequence
 from typing import Tuple
 from typing import Union
+from typing import cast
 
 from django.conf import settings
 

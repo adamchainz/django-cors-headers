@@ -54,6 +54,13 @@ Repository = "https://github.com/adamchainz/django-cors-headers"
 [tool.black]
 target-version = ['py38']
 
+[tool.isort]
+add_imports = [
+    "from __future__ import annotations"
+]
+force_single_line = true
+profile = "black"
+
 [tool.pytest.ini_options]
 addopts = """\
     --strict-config
