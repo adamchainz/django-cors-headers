@@ -28,7 +28,7 @@ repos:
     additional_dependencies:
     - tomli==2.0.1
 - repo: https://github.com/asottile/pyupgrade
-  rev: v3.15.0
+  rev: v3.15.1
   hooks:
   - id: pyupgrade
     args: [--py38-plus]
@@ -38,7 +38,7 @@ repos:
   - id: django-upgrade
     args: [--target-version, '3.2']
 - repo: https://github.com/psf/black-pre-commit-mirror
-  rev: 24.1.1
+  rev: 24.2.0
   hooks:
   - id: black
 - repo: https://github.com/adamchainz/blacken-docs
