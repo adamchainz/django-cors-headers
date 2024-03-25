@@ -28,7 +28,7 @@ repos:
     additional_dependencies:
     - tomli==2.0.1
 - repo: https://github.com/asottile/pyupgrade
-  rev: v3.15.1
+  rev: v3.15.2
   hooks:
   - id: pyupgrade
     args: [--py38-plus]
