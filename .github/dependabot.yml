@@ -2,5 +2,9 @@ version: 2
 updates:
 - package-ecosystem: github-actions
   directory: "/"
+  groups:
+    "GitHub Actions":
+      patterns:
+      - "*"
   schedule:
     interval: weekly
