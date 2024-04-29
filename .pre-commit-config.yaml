@@ -38,7 +38,7 @@ repos:
   - id: django-upgrade
     args: [--target-version, '3.2']
 - repo: https://github.com/psf/black-pre-commit-mirror
-  rev: 24.4.0
+  rev: 24.4.2
   hooks:
   - id: black
 - repo: https://github.com/adamchainz/blacken-docs
@@ -62,7 +62,7 @@ repos:
     - flake8-logging
     - flake8-tidy-imports
 - repo: https://github.com/pre-commit/mirrors-mypy
-  rev: v1.9.0
+  rev: v1.10.0
   hooks:
   - id: mypy
     additional_dependencies:
