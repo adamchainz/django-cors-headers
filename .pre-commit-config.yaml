@@ -14,7 +14,7 @@ repos:
   - id: end-of-file-fixer
   - id: trailing-whitespace
 - repo: https://github.com/tox-dev/pyproject-fmt
-  rev: 1.8.0
+  rev: 2.0.4
   hooks:
   - id: pyproject-fmt
 - repo: https://github.com/tox-dev/tox-ini-fmt
@@ -33,7 +33,7 @@ repos:
   - id: pyupgrade
     args: [--py38-plus]
 - repo: https://github.com/adamchainz/django-upgrade
-  rev: 1.16.0
+  rev: 1.17.0
   hooks:
   - id: django-upgrade
     args: [--target-version, '3.2']
