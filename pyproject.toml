@@ -53,6 +53,7 @@ dependencies = [
 urls.Changelog = "https://github.com/adamchainz/django-cors-headers/blob/main/CHANGELOG.rst"
 urls.Funding = "https://adamj.eu/books/"
 urls.Repository = "https://github.com/adamchainz/django-cors-headers"
+
 [tool.isort]
 add_imports = [
   "from __future__ import annotations",
