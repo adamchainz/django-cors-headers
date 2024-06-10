@@ -28,12 +28,12 @@ repos:
     additional_dependencies:
     - tomli==2.0.1
 - repo: https://github.com/asottile/pyupgrade
-  rev: v3.15.2
+  rev: v3.16.0
   hooks:
   - id: pyupgrade
     args: [--py38-plus]
 - repo: https://github.com/adamchainz/django-upgrade
-  rev: 1.17.0
+  rev: 1.18.0
   hooks:
   - id: django-upgrade
     args: [--target-version, '3.2']
