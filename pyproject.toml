@@ -87,9 +87,13 @@ source = [
 show_missing = true
 
 [tool.mypy]
+enable_error_code = [
+  "ignore-without-code",
+  "redundant-expr",
+  "truthy-bool",
+]
 mypy_path = "src/"
 namespace_packages = false
-show_error_codes = true
 strict = true
 warn_unreachable = true
 
