@@ -33,7 +33,7 @@ repos:
   - id: pyupgrade
     args: [--py38-plus]
 - repo: https://github.com/adamchainz/django-upgrade
-  rev: 1.18.0
+  rev: 1.19.0
   hooks:
   - id: django-upgrade
     args: [--target-version, '3.2']
@@ -42,7 +42,7 @@ repos:
   hooks:
   - id: black
 - repo: https://github.com/adamchainz/blacken-docs
-  rev: 1.16.0
+  rev: 1.18.0
   hooks:
   - id: blacken-docs
     additional_dependencies:
@@ -62,7 +62,7 @@ repos:
     - flake8-logging
     - flake8-tidy-imports
 - repo: https://github.com/pre-commit/mirrors-mypy
-  rev: v1.10.0
+  rev: v1.10.1
   hooks:
   - id: mypy
     additional_dependencies:
