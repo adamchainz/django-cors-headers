@@ -41,7 +41,7 @@ Some good resources to read on the subject are:
   `educational quiz <https://questions.wizardzines.com/cors.html>`__.
 * Jake Archibald’s `How to win at CORS <https://jakearchibald.com/2021/cors/>`__
 * The `MDN Article <https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS>`_
-* The `HTML5 Rocks Tutorial <https://www.html5rocks.com/en/tutorials/cors/>`_
+* The `web.dev Article <https://web.dev/articles/cross-origin-resource-sharing>`_
 * The `Wikipedia Page <https://en.wikipedia.org/wiki/Cross-origin_resource_sharing>`_
 
 Requirements
