@@ -68,6 +68,7 @@ addopts = """\
     --ds=tests.settings
     """
 django_find_project = false
+xfail_strict = true
 
 [tool.coverage.run]
 branch = true
