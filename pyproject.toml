@@ -16,7 +16,7 @@ keywords = [
   "middleware",
   "rest",
 ]
-license = "MIT"
+license = { text = "MIT" }
 maintainers = [
   { name = "Adam Johnson", email = "me@adamj.eu" },
 ]
