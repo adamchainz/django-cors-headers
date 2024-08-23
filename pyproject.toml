@@ -8,6 +8,7 @@ requires = [
 name = "django-cors-headers"
 version = "4.4.0"
 description = "django-cors-headers is a Django application for handling the server headers required for Cross-Origin Resource Sharing (CORS)."
+license = "MIT"
 readme = "README.rst"
 keywords = [
   "api",
