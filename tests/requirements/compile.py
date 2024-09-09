@@ -231,3 +231,13 @@ if __name__ == "__main__":
         ],
         input=b"Django>=5.1a1,<5.2",
     )
+    run(
+        [
+            *common_args,
+            "--python",
+            "3.13",
+            "--output-file",
+            "py313-django51.txt",
+        ],
+        input=b"Django>=5.1a1,<5.2",
+    )
