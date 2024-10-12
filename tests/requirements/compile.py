@@ -25,46 +25,6 @@ if __name__ == "__main__":
         [
             *common_args,
             "--python",
-            "3.8",
-            "--output-file",
-            "py38-django32.txt",
-        ],
-        input=b"Django>=3.2a1,<3.3",
-    )
-    run(
-        [
-            *common_args,
-            "--python",
-            "3.8",
-            "--output-file",
-            "py38-django40.txt",
-        ],
-        input=b"Django>=4.0a1,<4.1",
-    )
-    run(
-        [
-            *common_args,
-            "--python",
-            "3.8",
-            "--output-file",
-            "py38-django41.txt",
-        ],
-        input=b"Django>=4.1a1,<4.2",
-    )
-    run(
-        [
-            *common_args,
-            "--python",
-            "3.8",
-            "--output-file",
-            "py38-django42.txt",
-        ],
-        input=b"Django>=4.2a1,<5.0",
-    )
-    run(
-        [
-            *common_args,
-            "--python",
             "3.9",
             "--output-file",
             "py39-django32.txt",

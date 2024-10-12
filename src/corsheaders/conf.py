@@ -1,9 +1,7 @@
 from __future__ import annotations
 
-from typing import List
-from typing import Pattern
-from typing import Sequence
-from typing import Tuple
+from collections.abc import Sequence
+from re import Pattern
 from typing import Union
 from typing import cast
 
@@ -53,7 +51,7 @@ class Settings:
             "CORS_ALLOWED_ORIGINS",
             getattr(settings, "CORS_ORIGIN_WHITELIST", ()),
         )
-        return cast(Union[List[str], Tuple[str]], value)
+        return cast(Union[list[str], tuple[str]], value)
 
     @property
     def CORS_ALLOWED_ORIGIN_REGEXES(self) -> Sequence[str | Pattern[str]]:
