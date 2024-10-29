@@ -27,69 +27,9 @@ if __name__ == "__main__":
             "--python",
             "3.9",
             "--output-file",
-            "py39-django32.txt",
-        ],
-        input=b"Django>=3.2a1,<3.3",
-    )
-    run(
-        [
-            *common_args,
-            "--python",
-            "3.9",
-            "--output-file",
-            "py39-django40.txt",
-        ],
-        input=b"Django>=4.0a1,<4.1",
-    )
-    run(
-        [
-            *common_args,
-            "--python",
-            "3.9",
-            "--output-file",
-            "py39-django41.txt",
-        ],
-        input=b"Django>=4.1a1,<4.2",
-    )
-    run(
-        [
-            *common_args,
-            "--python",
-            "3.9",
-            "--output-file",
             "py39-django42.txt",
         ],
         input=b"Django>=4.2a1,<5.0",
-    )
-    run(
-        [
-            *common_args,
-            "--python",
-            "3.10",
-            "--output-file",
-            "py310-django32.txt",
-        ],
-        input=b"Django>=3.2a1,<3.3",
-    )
-    run(
-        [
-            *common_args,
-            "--python",
-            "3.10",
-            "--output-file",
-            "py310-django40.txt",
-        ],
-        input=b"Django>=4.0a1,<4.1",
-    )
-    run(
-        [
-            *common_args,
-            "--python",
-            "3.10",
-            "--output-file",
-            "py310-django41.txt",
-        ],
-        input=b"Django>=4.1a1,<4.2",
     )
     run(
         [
@@ -120,16 +60,6 @@ if __name__ == "__main__":
             "py310-django51.txt",
         ],
         input=b"Django>=5.1a1,<5.2",
-    )
-    run(
-        [
-            *common_args,
-            "--python",
-            "3.11",
-            "--output-file",
-            "py311-django41.txt",
-        ],
-        input=b"Django>=4.1a1,<4.2",
     )
     run(
         [
