@@ -36,7 +36,7 @@ repos:
   - id: pyupgrade
     args: [--py39-plus]
 - repo: https://github.com/adamchainz/django-upgrade
-  rev: 1.22.1
+  rev: 1.22.2
   hooks:
   - id: django-upgrade
     args: [--target-version, '4.2']
