@@ -56,7 +56,6 @@ urls.Repository = "https://github.com/adamchainz/django-cors-headers"
 test = [
   "asgiref>=3.6",
   "coverage[toml]",
-  "django",
   "pytest",
   "pytest-django",
   "pytest-randomly",
