@@ -52,6 +52,20 @@ urls.Changelog = "https://github.com/adamchainz/django-cors-headers/blob/main/CH
 urls.Funding = "https://adamj.eu/books/"
 urls.Repository = "https://github.com/adamchainz/django-cors-headers"
 
+[dependency-groups]
+test = [
+  "asgiref>=3.6",
+  "coverage[toml]",
+  "django",
+  "pytest",
+  "pytest-django",
+  "pytest-randomly",
+]
+django42 = [ "django>=4.2a1,<5; python_version>='3.8'" ]
+django50 = [ "django>=5.0a1,<5.1; python_version>='3.10'" ]
+django51 = [ "django>=5.1a1,<5.2; python_version>='3.10'" ]
+django52 = [ "django>=5.2a1,<6; python_version>='3.10'" ]
+
 [tool.isort]
 add_imports = [
   "from __future__ import annotations",
@@ -105,3 +119,13 @@ allow_untyped_defs = true
 
 [tool.rstcheck]
 report_level = "ERROR"
+
+[tool.uv]
+conflicts = [
+  [
+    { group = "django42" },
+    { group = "django50" },
+    { group = "django51" },
+    { group = "django52" },
+  ],
+]
