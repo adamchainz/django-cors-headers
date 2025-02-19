@@ -1,4 +1,5 @@
 version = 1
+revision = 1
 requires-python = ">=3.9"
 resolution-markers = [
     "python_full_version >= '3.10'",
@@ -112,8 +113,8 @@ name = "django"
 version = "4.2.19"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
-    "python_full_version >= '3.10'",
     "python_full_version < '3.10'",
+    "python_full_version >= '3.10'",
 ]
 dependencies = [
     { name = "asgiref" },
@@ -133,9 +134,9 @@ resolution-markers = [
     "python_full_version >= '3.10'",
 ]
 dependencies = [
-    { name = "asgiref", marker = "python_full_version >= '3.10'" },
-    { name = "sqlparse", marker = "python_full_version >= '3.10'" },
-    { name = "tzdata", marker = "python_full_version >= '3.10' and sys_platform == 'win32'" },
+    { name = "asgiref", marker = "(python_full_version >= '3.10' and extra == 'group-19-django-cors-headers-django50') or (extra == 'group-19-django-cors-headers-django50' and extra == 'group-19-django-cors-headers-django51') or (extra == 'group-19-django-cors-headers-django50' and extra == 'group-19-django-cors-headers-django52') or (extra == 'group-19-django-cors-headers-django42' and extra == 'group-19-django-cors-headers-django50') or (extra == 'group-19-django-cors-headers-django42' and extra == 'group-19-django-cors-headers-django51') or (extra == 'group-19-django-cors-headers-django42' and extra == 'group-19-django-cors-headers-django52') or (extra == 'group-19-django-cors-headers-django51' and extra == 'group-19-django-cors-headers-django52')" },
+    { name = "sqlparse", marker = "(python_full_version >= '3.10' and extra == 'group-19-django-cors-headers-django50') or (extra == 'group-19-django-cors-headers-django50' and extra == 'group-19-django-cors-headers-django51') or (extra == 'group-19-django-cors-headers-django50' and extra == 'group-19-django-cors-headers-django52') or (extra == 'group-19-django-cors-headers-django42' and extra == 'group-19-django-cors-headers-django50') or (extra == 'group-19-django-cors-headers-django42' and extra == 'group-19-django-cors-headers-django51') or (extra == 'group-19-django-cors-headers-django42' and extra == 'group-19-django-cors-headers-django52') or (extra == 'group-19-django-cors-headers-django51' and extra == 'group-19-django-cors-headers-django52')" },
+    { name = "tzdata", marker = "(python_full_version >= '3.10' and sys_platform == 'win32' and extra == 'group-19-django-cors-headers-django50') or (python_full_version < '3.10' and extra == 'group-19-django-cors-headers-django50' and extra == 'group-19-django-cors-headers-django51') or (python_full_version < '3.10' and extra == 'group-19-django-cors-headers-django50' and extra == 'group-19-django-cors-headers-django52') or (python_full_version < '3.10' and extra == 'group-19-django-cors-headers-django51' and extra == 'group-19-django-cors-headers-django52') or (sys_platform != 'win32' and extra == 'group-19-django-cors-headers-django50' and extra == 'group-19-django-cors-headers-django51') or (sys_platform != 'win32' and extra == 'group-19-django-cors-headers-django50' and extra == 'group-19-django-cors-headers-django52') or (sys_platform != 'win32' and extra == 'group-19-django-cors-headers-django51' and extra == 'group-19-django-cors-headers-django52') or (extra == 'group-19-django-cors-headers-django42' and extra == 'group-19-django-cors-headers-django50') or (extra == 'group-19-django-cors-headers-django42' and extra == 'group-19-django-cors-headers-django51') or (extra == 'group-19-django-cors-headers-django42' and extra == 'group-19-django-cors-headers-django52') or (extra != 'group-19-django-cors-headers-django50' and extra == 'group-19-django-cors-headers-django51' and extra == 'group-19-django-cors-headers-django52')" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/7d/6a/f5291382f706b61bbb5cee88ca25906699061adc203a777f7ab8ba5c93d2/Django-5.0.12.tar.gz", hash = "sha256:05097ea026cceb2db4db0655ecf77cc96b0753ac6a367280e458e603f6556f53", size = 10636389 }
 wheels = [
@@ -150,9 +151,9 @@ resolution-markers = [
     "python_full_version >= '3.10'",
 ]
 dependencies = [
-    { name = "asgiref", marker = "python_full_version >= '3.10'" },
-    { name = "sqlparse", marker = "python_full_version >= '3.10'" },
-    { name = "tzdata", marker = "python_full_version >= '3.10' and sys_platform == 'win32'" },
+    { name = "asgiref", marker = "(python_full_version >= '3.10' and extra == 'group-19-django-cors-headers-django51') or (extra == 'group-19-django-cors-headers-django51' and extra == 'group-19-django-cors-headers-django52') or (extra == 'group-19-django-cors-headers-django42' and extra == 'group-19-django-cors-headers-django50') or (extra == 'group-19-django-cors-headers-django42' and extra == 'group-19-django-cors-headers-django51') or (extra == 'group-19-django-cors-headers-django42' and extra == 'group-19-django-cors-headers-django52') or (extra == 'group-19-django-cors-headers-django50' and extra == 'group-19-django-cors-headers-django51') or (extra == 'group-19-django-cors-headers-django50' and extra == 'group-19-django-cors-headers-django52')" },
+    { name = "sqlparse", marker = "(python_full_version >= '3.10' and extra == 'group-19-django-cors-headers-django51') or (extra == 'group-19-django-cors-headers-django51' and extra == 'group-19-django-cors-headers-django52') or (extra == 'group-19-django-cors-headers-django42' and extra == 'group-19-django-cors-headers-django50') or (extra == 'group-19-django-cors-headers-django42' and extra == 'group-19-django-cors-headers-django51') or (extra == 'group-19-django-cors-headers-django42' and extra == 'group-19-django-cors-headers-django52') or (extra == 'group-19-django-cors-headers-django50' and extra == 'group-19-django-cors-headers-django51') or (extra == 'group-19-django-cors-headers-django50' and extra == 'group-19-django-cors-headers-django52')" },
+    { name = "tzdata", marker = "(python_full_version >= '3.10' and sys_platform == 'win32' and extra == 'group-19-django-cors-headers-django51') or (python_full_version < '3.10' and extra == 'group-19-django-cors-headers-django51' and extra == 'group-19-django-cors-headers-django52') or (sys_platform != 'win32' and extra == 'group-19-django-cors-headers-django51' and extra == 'group-19-django-cors-headers-django52') or (extra == 'group-19-django-cors-headers-django42' and extra == 'group-19-django-cors-headers-django50') or (extra == 'group-19-django-cors-headers-django42' and extra == 'group-19-django-cors-headers-django51') or (extra == 'group-19-django-cors-headers-django42' and extra == 'group-19-django-cors-headers-django52') or (extra == 'group-19-django-cors-headers-django50' and extra == 'group-19-django-cors-headers-django51') or (extra == 'group-19-django-cors-headers-django50' and extra == 'group-19-django-cors-headers-django52')" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/6d/e4/901f54ee114a080371a49bd08fa688d301aaffd9751febaf4ae855fc8fcd/Django-5.1.6.tar.gz", hash = "sha256:1e39eafdd1b185e761d9fab7a9f0b9fa00af1b37b25ad980a8aa0dac13535690", size = 10700620 }
 wheels = [
@@ -161,7 +162,7 @@ wheels = [
 
 [[package]]
 name = "django"
-version = "5.2a1"
+version = "5.2b1"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "python_full_version >= '3.10'",
@@ -171,9 +172,9 @@ dependencies = [
     { name = "sqlparse", marker = "python_full_version >= '3.10'" },
     { name = "tzdata", marker = "python_full_version >= '3.10' and sys_platform == 'win32'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/50/b3/a0d62ff4f7022640d9f66c4f0f6a96fd720116c3fca149247afcb74e2681/Django-5.2a1.tar.gz", hash = "sha256:ed895284801c58a415944f0efd6821e709260d029f5d74b93db9dccb650a8d50", size = 10814424 }
+sdist = { url = "https://files.pythonhosted.org/packages/f6/22/ae506393d2fb47d8ea8256cb600072b02d971134e26bd1d4b8fbfb8fca9e/Django-5.2b1.tar.gz", hash = "sha256:55c764c5990759ee97ba60ac1ce17092e91e445be1d0a83e88b754835c4bb564", size = 10816962 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/14/1a/0d9c26312161a2c4cd393cc6d61edd507b6a99d964e7da56baa743288f3b/Django-5.2a1-py3-none-any.whl", hash = "sha256:34b39e8508364f816415e3c8f032445a1bb49d37069db8aa300886ce821735e4", size = 8296448 },
+    { url = "https://files.pythonhosted.org/packages/00/6a/4e53c567ef24e81e17a30c788209396e08b8aaf8011d9cf01b8aa4910fa1/Django-5.2b1-py3-none-any.whl", hash = "sha256:ec33b0b3846d145a95d84a1ffea29f64ce4fc73ba755d9a6ab35128f354b750a", size = 8295550 },
 ]
 
 [[package]]
@@ -185,7 +186,7 @@ dependencies = [
     { name = "django", version = "4.2.19", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.10' or extra == 'group-19-django-cors-headers-django42' or (extra == 'group-19-django-cors-headers-django50' and extra == 'group-19-django-cors-headers-django51') or (extra == 'group-19-django-cors-headers-django50' and extra == 'group-19-django-cors-headers-django52') or (extra == 'group-19-django-cors-headers-django51' and extra == 'group-19-django-cors-headers-django52')" },
     { name = "django", version = "5.0.12", source = { registry = "https://pypi.org/simple" }, marker = "(python_full_version >= '3.10' and extra == 'group-19-django-cors-headers-django50') or (extra == 'group-19-django-cors-headers-django50' and extra == 'group-19-django-cors-headers-django51') or (extra == 'group-19-django-cors-headers-django50' and extra == 'group-19-django-cors-headers-django52') or (extra == 'group-19-django-cors-headers-django42' and extra == 'group-19-django-cors-headers-django50') or (extra == 'group-19-django-cors-headers-django42' and extra == 'group-19-django-cors-headers-django51') or (extra == 'group-19-django-cors-headers-django42' and extra == 'group-19-django-cors-headers-django52') or (extra == 'group-19-django-cors-headers-django51' and extra == 'group-19-django-cors-headers-django52')" },
     { name = "django", version = "5.1.6", source = { registry = "https://pypi.org/simple" }, marker = "(python_full_version >= '3.10' and extra == 'group-19-django-cors-headers-django51') or (extra == 'group-19-django-cors-headers-django51' and extra == 'group-19-django-cors-headers-django52') or (extra == 'group-19-django-cors-headers-django42' and extra == 'group-19-django-cors-headers-django50') or (extra == 'group-19-django-cors-headers-django42' and extra == 'group-19-django-cors-headers-django51') or (extra == 'group-19-django-cors-headers-django42' and extra == 'group-19-django-cors-headers-django52') or (extra == 'group-19-django-cors-headers-django50' and extra == 'group-19-django-cors-headers-django51') or (extra == 'group-19-django-cors-headers-django50' and extra == 'group-19-django-cors-headers-django52')" },
-    { name = "django", version = "5.2a1", source = { registry = "https://pypi.org/simple" }, marker = "(python_full_version >= '3.10' and extra != 'group-19-django-cors-headers-django42' and extra != 'group-19-django-cors-headers-django50' and extra != 'group-19-django-cors-headers-django51') or (extra == 'group-19-django-cors-headers-django42' and extra == 'group-19-django-cors-headers-django50') or (extra == 'group-19-django-cors-headers-django42' and extra == 'group-19-django-cors-headers-django51') or (extra == 'group-19-django-cors-headers-django42' and extra == 'group-19-django-cors-headers-django52') or (extra == 'group-19-django-cors-headers-django50' and extra == 'group-19-django-cors-headers-django51') or (extra == 'group-19-django-cors-headers-django50' and extra == 'group-19-django-cors-headers-django52') or (extra == 'group-19-django-cors-headers-django51' and extra == 'group-19-django-cors-headers-django52')" },
+    { name = "django", version = "5.2b1", source = { registry = "https://pypi.org/simple" }, marker = "(python_full_version >= '3.10' and extra != 'group-19-django-cors-headers-django42' and extra != 'group-19-django-cors-headers-django50' and extra != 'group-19-django-cors-headers-django51') or (extra == 'group-19-django-cors-headers-django42' and extra == 'group-19-django-cors-headers-django50') or (extra == 'group-19-django-cors-headers-django42' and extra == 'group-19-django-cors-headers-django51') or (extra == 'group-19-django-cors-headers-django42' and extra == 'group-19-django-cors-headers-django52') or (extra == 'group-19-django-cors-headers-django50' and extra == 'group-19-django-cors-headers-django51') or (extra == 'group-19-django-cors-headers-django50' and extra == 'group-19-django-cors-headers-django52') or (extra == 'group-19-django-cors-headers-django51' and extra == 'group-19-django-cors-headers-django52')" },
 ]
 
 [package.dev-dependencies]
@@ -199,7 +200,7 @@ django51 = [
     { name = "django", version = "5.1.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.10'" },
 ]
 django52 = [
-    { name = "django", version = "5.2a1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.10'" },
+    { name = "django", version = "5.2b1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.10'" },
 ]
 test = [
     { name = "asgiref" },
