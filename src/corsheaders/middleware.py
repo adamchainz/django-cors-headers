@@ -30,7 +30,7 @@ _HEADERS_LOWER = {
 
 _HEADERS_PASCAL = {
     "access-control-allow-origin": "Access-Control-Allow-Origin",
-    "access-control-expose-headers": "Access-Control-Expose-Headers", 
+    "access-control-expose-headers": "Access-Control-Expose-Headers",
     "access-control-allow-credentials": "Access-Control-Allow-Credentials",
     "access-control-allow-headers": "Access-Control-Allow-Headers",
     "access-control-allow-methods": "Access-Control-Allow-Methods",
@@ -39,20 +39,26 @@ _HEADERS_PASCAL = {
     "access-control-allow-private-network": "Access-Control-Allow-Private-Network",
 }
 
+
 # Use PascalCase or lowercase based on setting
 def get_header_name(header_key: str) -> str:
     if conf.USE_PASCAL_CASE_FOR_HEADER_NAMES:
         return _HEADERS_PASCAL[header_key]
     return _HEADERS_LOWER[header_key]
 
+
 ACCESS_CONTROL_ALLOW_ORIGIN = get_header_name("access-control-allow-origin")
 ACCESS_CONTROL_EXPOSE_HEADERS = get_header_name("access-control-expose-headers")
 ACCESS_CONTROL_ALLOW_CREDENTIALS = get_header_name("access-control-allow-credentials")
-ACCESS_CONTROL_ALLOW_HEADERS = get_header_name("access-control-allow-headers") 
+ACCESS_CONTROL_ALLOW_HEADERS = get_header_name("access-control-allow-headers")
 ACCESS_CONTROL_ALLOW_METHODS = get_header_name("access-control-allow-methods")
 ACCESS_CONTROL_MAX_AGE = get_header_name("access-control-max-age")
-ACCESS_CONTROL_REQUEST_PRIVATE_NETWORK = get_header_name("access-control-request-private-network")
-ACCESS_CONTROL_ALLOW_PRIVATE_NETWORK = get_header_name("access-control-allow-private-network")
+ACCESS_CONTROL_REQUEST_PRIVATE_NETWORK = get_header_name(
+    "access-control-request-private-network"
+)
+ACCESS_CONTROL_ALLOW_PRIVATE_NETWORK = get_header_name(
+    "access-control-allow-private-network"
+)
 
 
 class CorsMiddleware:

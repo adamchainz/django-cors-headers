@@ -313,7 +313,7 @@ Refer to:
 ``CORS_USE_PASCAL_CASE_FOR_HEADER_NAMES: bool``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If ``True``, the CORS response headers will use PascalCase format (e.g. ``Access-Control-Allow-Origin``) 
+If ``True``, the CORS response headers will use PascalCase format (e.g. ``Access-Control-Allow-Origin``)
 instead of the default lowercase format (e.g. ``access-control-allow-origin``).
 Defaults to ``False``.
 

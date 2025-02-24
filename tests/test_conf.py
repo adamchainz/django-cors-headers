@@ -41,7 +41,7 @@ class ConfTests(SimpleTestCase):
     )
     def test_cors_allowed_origin_regexes_new_setting_takes_precedence(self):
         assert conf.CORS_ALLOWED_ORIGIN_REGEXES == ["a+"]
-        
+
     @override_settings()
     def test_default_pascal_case_headers_setting(self):
         """Test that USE_PASCAL_CASE_FOR_HEADER_NAMES defaults to False when not set"""
@@ -52,7 +52,7 @@ class ConfTests(SimpleTestCase):
         """Test that None value for USE_PASCAL_CASE_FOR_HEADER_NAMES defaults to False"""
         assert conf.USE_PASCAL_CASE_FOR_HEADER_NAMES is False
 
-    @override_settings(CORS_USE_PASCAL_CASE_FOR_HEADER_NAMES=True) 
+    @override_settings(CORS_USE_PASCAL_CASE_FOR_HEADER_NAMES=True)
     def test_invalid_pascal_case_headers_setting(self):
         """Test that non-boolean value does not affect the default"""
         assert conf.USE_PASCAL_CASE_FOR_HEADER_NAMES is False
