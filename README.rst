@@ -310,6 +310,22 @@ Refer to:
 * `Local Network Access <https://wicg.github.io/local-network-access/>`__, the W3C Community Draft specification.
 * `Private Network Access: introducing preflights <https://developer.chrome.com/blog/private-network-access-preflight/>`__, a blog post from the Google Chrome team.
 
+``CORS_USE_PASCAL_CASE_FOR_HEADER_NAMES: bool``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If ``True``, the CORS response headers will use PascalCase format (e.g. ``Access-Control-Allow-Origin``) 
+instead of the default lowercase format (e.g. ``access-control-allow-origin``).
+Defaults to ``False``.
+
+Both formats are valid according to (`RFC 7230 Section 3.2 <https://datatracker.ietf.org/doc/html/rfc7230#section-3.2>`_). Some legacy systems may expect a specific format,
+so this setting allows you to match their requirements.
+
+Example:
+
+.. code-block:: python
+
+    CORS_USE_PASCAL_CASE_FOR_HEADER_NAMES = True
+
 CSRF Integration
 ----------------
 

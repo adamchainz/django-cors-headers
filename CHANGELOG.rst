@@ -2,6 +2,10 @@
 Changelog
 =========
 
+4.7.1 (2025-02-25)
+* Add ``CORS_USE_PASCAL_CASE_FOR_HEADER_NAMES`` setting to allow returning CORS headers in PascalCase format.
+  (`RFC 7230 Section 3.2 <https://datatracker.ietf.org/doc/html/rfc7230#section-3.2>`_)
+
 4.7.0 (2025-02-06)
 ------------------
 

@@ -69,5 +69,9 @@ class Settings:
     def CORS_URLS_REGEX(self) -> str | Pattern[str]:
         return getattr(settings, "CORS_URLS_REGEX", r"^.*$")
 
+    @property
+    def USE_PASCAL_CASE_FOR_HEADER_NAMES(self) -> bool:
+        return getattr(settings, "CORS_USE_PASCAL_CASE_FOR_HEADER_NAMES", False)
+
 
 conf = Settings()

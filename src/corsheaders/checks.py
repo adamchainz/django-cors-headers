@@ -50,6 +50,7 @@ def check_settings(**kwargs: Any) -> list[CheckMessage]:
         not isinstance(conf.CORS_PREFLIGHT_MAX_AGE, int)  # type: ignore [redundant-expr]
         or conf.CORS_PREFLIGHT_MAX_AGE < 0
     ):
+
         errors.append(
             Error(
                 (
@@ -166,6 +167,14 @@ def check_settings(**kwargs: Any) -> list[CheckMessage]:
                     + " - see django-cors-headers' CHANGELOG."
                 ),
                 id="corsheaders.E013",
+            )
+        )
+
+    if not isinstance(conf.USE_PASCAL_CASE_FOR_HEADER_NAMES, bool):
+        errors.append(
+            Error(
+                "CORS_USE_PASCAL_CASE_FOR_HEADER_NAMES should be a bool.",
+                id="corsheaders.E016",
             )
         )
 

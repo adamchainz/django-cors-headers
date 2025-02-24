@@ -464,3 +464,13 @@ class CorsMiddlewareTests(TestCase):
             "/delete-enabled/", headers={"origin": "https://example.com"}
         )
         assert ACCESS_CONTROL_ALLOW_ORIGIN in resp
+
+    @override_settings(
+        CORS_ALLOWED_ORIGINS=["https://example.com"],
+        CORS_USE_PASCAL_CASE_FOR_HEADER_NAMES=True,
+    )
+    def test_pascal_case_headers(self):
+        resp = self.client.get("/", headers={"origin": "https://example.com"})
+        assert "Access-Control-Allow-Origin" in resp
+        assert "access-control-allow-origin" not in resp
+        assert resp["Access-Control-Allow-Origin"] == "https://example.com"

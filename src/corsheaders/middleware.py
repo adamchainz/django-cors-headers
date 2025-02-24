@@ -16,14 +16,43 @@ from django.utils.cache import patch_vary_headers
 from corsheaders.conf import conf
 from corsheaders.signals import check_request_enabled
 
-ACCESS_CONTROL_ALLOW_ORIGIN = "access-control-allow-origin"
-ACCESS_CONTROL_EXPOSE_HEADERS = "access-control-expose-headers"
-ACCESS_CONTROL_ALLOW_CREDENTIALS = "access-control-allow-credentials"
-ACCESS_CONTROL_ALLOW_HEADERS = "access-control-allow-headers"
-ACCESS_CONTROL_ALLOW_METHODS = "access-control-allow-methods"
-ACCESS_CONTROL_MAX_AGE = "access-control-max-age"
-ACCESS_CONTROL_REQUEST_PRIVATE_NETWORK = "access-control-request-private-network"
-ACCESS_CONTROL_ALLOW_PRIVATE_NETWORK = "access-control-allow-private-network"
+# Define both variants of headers
+_HEADERS_LOWER = {
+    "access-control-allow-origin": "access-control-allow-origin",
+    "access-control-expose-headers": "access-control-expose-headers",
+    "access-control-allow-credentials": "access-control-allow-credentials",
+    "access-control-allow-headers": "access-control-allow-headers",
+    "access-control-allow-methods": "access-control-allow-methods",
+    "access-control-max-age": "access-control-max-age",
+    "access-control-request-private-network": "access-control-request-private-network",
+    "access-control-allow-private-network": "access-control-allow-private-network",
+}
+
+_HEADERS_PASCAL = {
+    "access-control-allow-origin": "Access-Control-Allow-Origin",
+    "access-control-expose-headers": "Access-Control-Expose-Headers", 
+    "access-control-allow-credentials": "Access-Control-Allow-Credentials",
+    "access-control-allow-headers": "Access-Control-Allow-Headers",
+    "access-control-allow-methods": "Access-Control-Allow-Methods",
+    "access-control-max-age": "Access-Control-Max-Age",
+    "access-control-request-private-network": "Access-Control-Request-Private-Network",
+    "access-control-allow-private-network": "Access-Control-Allow-Private-Network",
+}
+
+# Use PascalCase or lowercase based on setting
+def get_header_name(header_key: str) -> str:
+    if conf.USE_PASCAL_CASE_FOR_HEADER_NAMES:
+        return _HEADERS_PASCAL[header_key]
+    return _HEADERS_LOWER[header_key]
+
+ACCESS_CONTROL_ALLOW_ORIGIN = get_header_name("access-control-allow-origin")
+ACCESS_CONTROL_EXPOSE_HEADERS = get_header_name("access-control-expose-headers")
+ACCESS_CONTROL_ALLOW_CREDENTIALS = get_header_name("access-control-allow-credentials")
+ACCESS_CONTROL_ALLOW_HEADERS = get_header_name("access-control-allow-headers") 
+ACCESS_CONTROL_ALLOW_METHODS = get_header_name("access-control-allow-methods")
+ACCESS_CONTROL_MAX_AGE = get_header_name("access-control-max-age")
+ACCESS_CONTROL_REQUEST_PRIVATE_NETWORK = get_header_name("access-control-request-private-network")
+ACCESS_CONTROL_ALLOW_PRIVATE_NETWORK = get_header_name("access-control-allow-private-network")
 
 
 class CorsMiddleware:
