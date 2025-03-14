@@ -38,7 +38,6 @@ jobs:
       uses: astral-sh/setup-uv@v5
       with:
         enable-cache: true
-        cache-dependency-glob: tests/requirements/*.txt
 
     - name: Install dependencies
       run: uv pip install --system tox tox-uv
