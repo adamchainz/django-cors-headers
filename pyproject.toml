@@ -1,7 +1,7 @@
 [build-system]
 build-backend = "setuptools.build_meta"
 requires = [
-  "setuptools",
+  "setuptools>=77",
 ]
 
 [project]
@@ -16,6 +16,8 @@ keywords = [
   "middleware",
   "rest",
 ]
+license = "MIT"
+license-files = [ "LICENSE" ]
 maintainers = [
   { name = "Adam Johnson", email = "me@adamj.eu" },
 ]
@@ -32,7 +34,6 @@ classifiers = [
   "Framework :: Django :: 5.1",
   "Framework :: Django :: 5.2",
   "Intended Audience :: Developers",
-  "License :: OSI Approved :: MIT License",
   "Natural Language :: English",
   "Operating System :: OS Independent",
   "Programming Language :: Python :: 3 :: Only",
