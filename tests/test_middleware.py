@@ -15,7 +15,7 @@ from corsheaders.middleware import ACCESS_CONTROL_ALLOW_PRIVATE_NETWORK
 from corsheaders.middleware import ACCESS_CONTROL_EXPOSE_HEADERS
 from corsheaders.middleware import ACCESS_CONTROL_MAX_AGE
 from tests.utils import prepend_middleware
-from tests.utils import temporary_check_request_hander
+from tests.utils import temporary_check_request_handler
 
 
 class ShortCircuitMiddleware(MiddlewareMixin):
@@ -333,7 +333,7 @@ class CorsMiddlewareTests(TestCase):
         def handler(*args, **kwargs):
             return False
 
-        with temporary_check_request_hander(handler):
+        with temporary_check_request_handler(handler):
             resp = self.client.options(
                 "/",
                 headers={
@@ -349,7 +349,7 @@ class CorsMiddlewareTests(TestCase):
         def handler(*args, **kwargs):
             return True
 
-        with temporary_check_request_hander(handler):
+        with temporary_check_request_handler(handler):
             resp = self.client.options(
                 "/",
                 headers={
@@ -365,7 +365,7 @@ class CorsMiddlewareTests(TestCase):
         def allow_api_to_all(sender, request, **kwargs):
             return request.path.startswith("/api/")
 
-        with temporary_check_request_hander(allow_api_to_all):
+        with temporary_check_request_handler(allow_api_to_all):
             resp = self.client.options(
                 "/",
                 headers={
@@ -395,7 +395,7 @@ class CorsMiddlewareTests(TestCase):
             calls += 1
             return True
 
-        with temporary_check_request_hander(allow_all):
+        with temporary_check_request_handler(allow_all):
             self.client.get("/", headers={"origin": "https://example.org"})
 
             assert calls == 1

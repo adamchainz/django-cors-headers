@@ -1,0 +1,13 @@
+# Configuration file for 'typos' tool
+# https://github.com/crate-ci/typos
+
+[default]
+extend-ignore-re = [
+  # Single line ignore comments
+  "(?Rm)^.*(#|//)\\s*typos: ignore$",
+  # Multi-line ignore comments
+  "(?s)(#|//)\\s*typos: off.*?\\n\\s*(#|//)\\s*typos: on"
+]
+
+[default.extend-words]
+  Yiu = "Yiu"

@@ -18,7 +18,7 @@ def prepend_middleware(path: str) -> modify_settings:
 
 
 @contextmanager
-def temporary_check_request_hander(handler: Callable[..., bool]) -> Generator[None]:
+def temporary_check_request_handler(handler: Callable[..., bool]) -> Generator[None]:
     check_request_enabled.connect(handler)
     try:
         yield
