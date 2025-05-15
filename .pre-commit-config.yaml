@@ -6,7 +6,7 @@ default_language_version:
 
 repos:
 - repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v5.0.0
+  rev: cef0300fd0fc4d2a87a85fa2093c6b283ea36f4b  # frozen: v5.0.0
   hooks:
   - id: check-added-large-files
   - id: check-case-conflict
@@ -17,46 +17,46 @@ repos:
   - id: end-of-file-fixer
   - id: trailing-whitespace
 - repo: https://github.com/tox-dev/pyproject-fmt
-  rev: v2.5.1
+  rev: 57b6ff7bf72affdd12c7f3fd6de761ba18a33b3a  # frozen: v2.5.1
   hooks:
   - id: pyproject-fmt
 - repo: https://github.com/tox-dev/tox-ini-fmt
-  rev: 1.5.0
+  rev: e732f664aa3fd7b32cce3de8abbac43f4c3c375d  # frozen: 1.5.0
   hooks:
   - id: tox-ini-fmt
 - repo: https://github.com/rstcheck/rstcheck
-  rev: v6.2.4
+  rev: f30c4d170a36ea3812bceb5f33004afc213bd797  # frozen: v6.2.4
   hooks:
   - id: rstcheck
     additional_dependencies:
     - tomli==2.0.1
 - repo: https://github.com/asottile/pyupgrade
-  rev: v3.19.1
+  rev: ce40a160603ab0e7d9c627ae33d7ef3906e2d2b2  # frozen: v3.19.1
   hooks:
   - id: pyupgrade
     args: [--py39-plus]
 - repo: https://github.com/adamchainz/django-upgrade
-  rev: 1.24.0
+  rev: 700530171ecf380bc829a64388f49d14ecd61c53  # frozen: 1.25.0
   hooks:
   - id: django-upgrade
     args: [--target-version, '4.2']
 - repo: https://github.com/psf/black-pre-commit-mirror
-  rev: 25.1.0
+  rev: a4920527036bb9a3f3e6055d595849d67d0da066  # frozen: 25.1.0
   hooks:
   - id: black
 - repo: https://github.com/adamchainz/blacken-docs
-  rev: 1.19.1
+  rev: 78a9dcbecf4f755f65d1f3dec556bc249d723600  # frozen: 1.19.1
   hooks:
   - id: blacken-docs
     additional_dependencies:
     - black==25.1.0
 - repo: https://github.com/pycqa/isort
-  rev: 6.0.1
+  rev: c8ab4a5b21bac924d106e3103dd7c979fdd0f9bc  # frozen: 6.0.1
   hooks:
     - id: isort
       name: isort (python)
 - repo: https://github.com/PyCQA/flake8
-  rev: 7.2.0
+  rev: 4b5e89b4b108a6c1a000c591d334a99a80d34c7b  # frozen: 7.2.0
   hooks:
   - id: flake8
     additional_dependencies:
@@ -65,7 +65,7 @@ repos:
     - flake8-logging
     - flake8-tidy-imports
 - repo: https://github.com/pre-commit/mirrors-mypy
-  rev: v1.15.0
+  rev: f40886d54c729f533f864ed6ce584e920feb0af7  # frozen: v1.15.0
   hooks:
   - id: mypy
     additional_dependencies:
