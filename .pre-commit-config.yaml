@@ -20,14 +20,6 @@ repos:
   rev: 6cb49915af2e93e61f5f0d0a82216e28ad5c7c18  # frozen: v1
   hooks:
   - id: typos
-    exclude: |
-      (?x)^(
-        .*\.min\.css
-        |.*\.min\.js
-        |.*\.css\.map
-        |.*\.js\.map
-        |.*\.svg
-      )$
 - repo: https://github.com/tox-dev/pyproject-fmt
   rev: 57b6ff7bf72affdd12c7f3fd6de761ba18a33b3a  # frozen: v2.5.1
   hooks:
