@@ -3,13 +3,10 @@ from __future__ import annotations
 import re
 from collections.abc import Awaitable
 from typing import Callable
-from urllib.parse import SplitResult
-from urllib.parse import urlsplit
+from urllib.parse import SplitResult, urlsplit
 
-from asgiref.sync import iscoroutinefunction
-from asgiref.sync import markcoroutinefunction
-from django.http import HttpRequest
-from django.http import HttpResponse
+from asgiref.sync import iscoroutinefunction, markcoroutinefunction
+from django.http import HttpRequest, HttpResponse
 from django.http.response import HttpResponseBase
 from django.utils.cache import patch_vary_headers
 

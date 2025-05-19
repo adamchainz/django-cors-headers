@@ -6,8 +6,7 @@ from typing import Any
 from urllib.parse import urlsplit
 
 from django.conf import settings
-from django.core.checks import CheckMessage
-from django.core.checks import Error
+from django.core.checks import CheckMessage, Error
 
 from corsheaders.conf import conf
 
@@ -99,9 +98,7 @@ def check_settings(**kwargs: Any) -> list[CheckMessage]:
             if parsed.scheme == "" or parsed.netloc == "":
                 errors.append(
                     Error(
-                        "Origin {} in {} is missing scheme or netloc".format(
-                            repr(origin), allowed_origins_alias
-                        ),
+                        f"Origin {repr(origin)} in {allowed_origins_alias} is missing scheme or netloc",
                         id="corsheaders.E013",
                         hint=(
                             "Add a scheme (e.g. https://) or netloc (e.g. "
@@ -116,9 +113,7 @@ def check_settings(**kwargs: Any) -> list[CheckMessage]:
                     if getattr(parsed, part) != "":
                         errors.append(
                             Error(
-                                "Origin {} in {} should not have {}".format(
-                                    repr(origin), allowed_origins_alias, part
-                                ),
+                                f"Origin {repr(origin)} in {allowed_origins_alias} should not have {part}",
                                 id="corsheaders.E014",
                             )
                         )
@@ -130,9 +125,7 @@ def check_settings(**kwargs: Any) -> list[CheckMessage]:
     if not is_sequence(conf.CORS_ALLOWED_ORIGIN_REGEXES, (str, re_type)):
         errors.append(
             Error(
-                "{} should be a sequence of strings and/or compiled regexes.".format(
-                    allowed_regexes_alias
-                ),
+                f"{allowed_regexes_alias} should be a sequence of strings and/or compiled regexes.",
                 id="corsheaders.E007",
             )
         )

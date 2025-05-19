@@ -34,40 +34,23 @@ repos:
   - id: rstcheck
     additional_dependencies:
     - tomli==2.0.1
-- repo: https://github.com/asottile/pyupgrade
-  rev: ce40a160603ab0e7d9c627ae33d7ef3906e2d2b2  # frozen: v3.19.1
-  hooks:
-  - id: pyupgrade
-    args: [--py39-plus]
 - repo: https://github.com/adamchainz/django-upgrade
   rev: 700530171ecf380bc829a64388f49d14ecd61c53  # frozen: 1.25.0
   hooks:
   - id: django-upgrade
     args: [--target-version, '4.2']
-- repo: https://github.com/psf/black-pre-commit-mirror
-  rev: a4920527036bb9a3f3e6055d595849d67d0da066  # frozen: 25.1.0
-  hooks:
-  - id: black
 - repo: https://github.com/adamchainz/blacken-docs
   rev: 78a9dcbecf4f755f65d1f3dec556bc249d723600  # frozen: 1.19.1
   hooks:
   - id: blacken-docs
     additional_dependencies:
     - black==25.1.0
-- repo: https://github.com/pycqa/isort
-  rev: c8ab4a5b21bac924d106e3103dd7c979fdd0f9bc  # frozen: 6.0.1
+- repo: https://github.com/astral-sh/ruff-pre-commit
+  rev: 12753357c00c3fb8615100354c9fdc6ab80b044d  # frozen: v0.11.10
   hooks:
-    - id: isort
-      name: isort (python)
-- repo: https://github.com/PyCQA/flake8
-  rev: 4b5e89b4b108a6c1a000c591d334a99a80d34c7b  # frozen: 7.2.0
-  hooks:
-  - id: flake8
-    additional_dependencies:
-    - flake8-bugbear
-    - flake8-comprehensions
-    - flake8-logging
-    - flake8-tidy-imports
+    - id: ruff-check
+      args: [ --fix ]
+    - id: ruff-format
 - repo: https://github.com/pre-commit/mirrors-mypy
   rev: f40886d54c729f533f864ed6ce584e920feb0af7  # frozen: v1.15.0
   hooks:

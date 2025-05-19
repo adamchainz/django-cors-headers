@@ -7,15 +7,16 @@ from django.test import TestCase
 from django.test.utils import override_settings
 from django.utils.deprecation import MiddlewareMixin
 
-from corsheaders.middleware import ACCESS_CONTROL_ALLOW_CREDENTIALS
-from corsheaders.middleware import ACCESS_CONTROL_ALLOW_HEADERS
-from corsheaders.middleware import ACCESS_CONTROL_ALLOW_METHODS
-from corsheaders.middleware import ACCESS_CONTROL_ALLOW_ORIGIN
-from corsheaders.middleware import ACCESS_CONTROL_ALLOW_PRIVATE_NETWORK
-from corsheaders.middleware import ACCESS_CONTROL_EXPOSE_HEADERS
-from corsheaders.middleware import ACCESS_CONTROL_MAX_AGE
-from tests.utils import prepend_middleware
-from tests.utils import temporary_check_request_handler
+from corsheaders.middleware import (
+    ACCESS_CONTROL_ALLOW_CREDENTIALS,
+    ACCESS_CONTROL_ALLOW_HEADERS,
+    ACCESS_CONTROL_ALLOW_METHODS,
+    ACCESS_CONTROL_ALLOW_ORIGIN,
+    ACCESS_CONTROL_ALLOW_PRIVATE_NETWORK,
+    ACCESS_CONTROL_EXPOSE_HEADERS,
+    ACCESS_CONTROL_MAX_AGE,
+)
+from tests.utils import prepend_middleware, temporary_check_request_handler
 
 
 class ShortCircuitMiddleware(MiddlewareMixin):

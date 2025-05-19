@@ -2,13 +2,11 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 from re import Pattern
-from typing import Union
-from typing import cast
+from typing import Union, cast
 
 from django.conf import settings
 
-from corsheaders.defaults import default_headers
-from corsheaders.defaults import default_methods
+from corsheaders.defaults import default_headers, default_methods
 
 
 class Settings:
