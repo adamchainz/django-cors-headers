@@ -3,10 +3,8 @@ from __future__ import annotations
 import re
 
 import pytest
-from django.core.checks import CheckMessage
-from django.core.checks import Error
-from django.core.management import base
-from django.core.management import call_command
+from django.core.checks import CheckMessage, Error
+from django.core.management import base, call_command
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
 
