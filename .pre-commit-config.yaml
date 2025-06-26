@@ -38,7 +38,6 @@ repos:
   rev: 700530171ecf380bc829a64388f49d14ecd61c53  # frozen: 1.25.0
   hooks:
   - id: django-upgrade
-    args: [--target-version, '4.2']
 - repo: https://github.com/adamchainz/blacken-docs
   rev: 78a9dcbecf4f755f65d1f3dec556bc249d723600  # frozen: 1.19.1
   hooks:
