@@ -17,7 +17,7 @@ repos:
   - id: end-of-file-fixer
   - id: trailing-whitespace
 - repo: https://github.com/crate-ci/typos
-  rev: 6cb49915af2e93e61f5f0d0a82216e28ad5c7c18  # frozen: v1
+  rev: 3d97dc5b9833a60a62e70d5b56af2cc7ddd522f6  # frozen: v1
   hooks:
   - id: typos
 - repo: https://github.com/tox-dev/pyproject-fmt
@@ -45,13 +45,13 @@ repos:
     additional_dependencies:
     - black==25.1.0
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: d19233b89771be2d89273f163f5edc5a39bbc34a  # frozen: v0.11.12
+  rev: 0b19ef1fd6ad680ed7752d6daba883ce1265a6de  # frozen: v0.12.2
   hooks:
     - id: ruff-check
       args: [ --fix ]
     - id: ruff-format
 - repo: https://github.com/pre-commit/mirrors-mypy
-  rev: 7010b10a09f65cd60a23c207349b539aa36dbec1  # frozen: v1.16.0
+  rev: 0f86793af5ef5f6dc63c8d04a3cabfa3ea8f9c6a  # frozen: v1.16.1
   hooks:
   - id: mypy
     additional_dependencies:
