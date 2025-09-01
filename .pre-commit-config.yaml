@@ -6,7 +6,7 @@ default_language_version:
 
 repos:
 - repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: cef0300fd0fc4d2a87a85fa2093c6b283ea36f4b  # frozen: v5.0.0
+  rev: 3e8a8703264a2f4a69428a0aa4dcb512790b2c8c  # frozen: v6.0.0
   hooks:
   - id: check-added-large-files
   - id: check-case-conflict
@@ -17,7 +17,7 @@ repos:
   - id: end-of-file-fixer
   - id: trailing-whitespace
 - repo: https://github.com/crate-ci/typos
-  rev: 8d96c408b0dca5cc2e5b125482e8aabe5473e153  # frozen: v1
+  rev: edb4e206047e89b93ebe08f1a2ccc3d581a70cc7  # frozen: v1
   hooks:
   - id: typos
 - repo: https://github.com/tox-dev/pyproject-fmt
@@ -35,7 +35,7 @@ repos:
     additional_dependencies:
     - tomli==2.0.1
 - repo: https://github.com/adamchainz/django-upgrade
-  rev: 700530171ecf380bc829a64388f49d14ecd61c53  # frozen: 1.25.0
+  rev: 801c22cf0b32793544572cb0a81655e51879f561  # frozen: 1.27.0
   hooks:
   - id: django-upgrade
 - repo: https://github.com/adamchainz/blacken-docs
@@ -45,7 +45,7 @@ repos:
     additional_dependencies:
     - black==25.1.0
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: 4cbc74d53fe5634e58e0e65db7d28939c9cec3f7  # frozen: v0.12.7
+  rev: db90487f48a9dd992d243ef63c156eaffddeaf28  # frozen: v0.12.11
   hooks:
     - id: ruff-check
       args: [ --fix ]
