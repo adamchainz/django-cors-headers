@@ -138,8 +138,8 @@ name = "django"
 version = "4.2.23"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
-    "python_full_version < '3.10'",
     "python_full_version >= '3.10'",
+    "python_full_version < '3.10'",
 ]
 dependencies = [
     { name = "asgiref", marker = "python_full_version < '3.10' or extra == 'group-19-django-cors-headers-django42' or (extra == 'group-19-django-cors-headers-django50' and extra == 'group-19-django-cors-headers-django51') or (extra == 'group-19-django-cors-headers-django50' and extra == 'group-19-django-cors-headers-django52') or (extra == 'group-19-django-cors-headers-django51' and extra == 'group-19-django-cors-headers-django52')" },
@@ -204,7 +204,7 @@ wheels = [
 
 [[package]]
 name = "django-cors-headers"
-version = "4.7.0"
+version = "4.8.0"
 source = { editable = "." }
 dependencies = [
     { name = "asgiref" },
