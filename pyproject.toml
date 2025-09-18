@@ -67,6 +67,7 @@ django42 = [ "django>=4.2a1,<5; python_version>='3.8'" ]
 django50 = [ "django>=5.0a1,<5.1; python_version>='3.10'" ]
 django51 = [ "django>=5.1a1,<5.2; python_version>='3.10'" ]
 django52 = [ "django>=5.2a1,<6; python_version>='3.10'" ]
+django60 = [ "django>=6.0a1,<6.1; python_version>='3.12'" ]
 
 [tool.ruff]
 lint.select = [
@@ -159,5 +160,6 @@ conflicts = [
     { group = "django50" },
     { group = "django51" },
     { group = "django52" },
+    { group = "django60" },
   ],
 ]
