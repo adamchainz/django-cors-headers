@@ -17,11 +17,11 @@ repos:
   - id: end-of-file-fixer
   - id: trailing-whitespace
 - repo: https://github.com/crate-ci/typos
-  rev: edb4e206047e89b93ebe08f1a2ccc3d581a70cc7  # frozen: v1
+  rev: a078fb205d445ce8d249ddb64fa61de0f4381759  # frozen: v1.37.3
   hooks:
   - id: typos
 - repo: https://github.com/tox-dev/pyproject-fmt
-  rev: 8184a5b72f4a8fcd003b041ecb04c41a9f34fd2b  # frozen: v2.6.0
+  rev: 8a22e281b3f6d1bb298aaabfc165a943a943882c  # frozen: v2.7.0
   hooks:
   - id: pyproject-fmt
 - repo: https://github.com/tox-dev/tox-ini-fmt
@@ -35,23 +35,23 @@ repos:
     additional_dependencies:
     - tomli==2.0.1
 - repo: https://github.com/adamchainz/django-upgrade
-  rev: 801c22cf0b32793544572cb0a81655e51879f561  # frozen: 1.27.0
+  rev: c03f1b1e703cd967c5fd94e29c61f111e8b0eaf0  # frozen: 1.29.0
   hooks:
   - id: django-upgrade
 - repo: https://github.com/adamchainz/blacken-docs
-  rev: 78a9dcbecf4f755f65d1f3dec556bc249d723600  # frozen: 1.19.1
+  rev: dda8db18cfc68df532abf33b185ecd12d5b7b326  # frozen: 1.20.0
   hooks:
   - id: blacken-docs
     additional_dependencies:
     - black==25.1.0
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: db90487f48a9dd992d243ef63c156eaffddeaf28  # frozen: v0.12.11
+  rev: 9c89adb347f6b973f4905a4be0051eb2ecf85dea  # frozen: v0.13.3
   hooks:
     - id: ruff-check
       args: [ --fix ]
     - id: ruff-format
 - repo: https://github.com/pre-commit/mirrors-mypy
-  rev: 412de98d50e846f31ea6f4b0ad036f2c24a7a024  # frozen: v1.17.1
+  rev: 9f70dc58c23dfcca1b97af99eaeee3140a807c7e  # frozen: v1.18.2
   hooks:
   - id: mypy
     additional_dependencies:
