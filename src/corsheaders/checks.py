@@ -10,8 +10,6 @@ from django.core.checks import CheckMessage, Error
 
 from corsheaders.conf import conf
 
-re_type = type(re.compile(""))
-
 
 def check_settings(**kwargs: Any) -> list[CheckMessage]:
     errors: list[CheckMessage] = []
@@ -122,7 +120,7 @@ def check_settings(**kwargs: Any) -> list[CheckMessage]:
         allowed_regexes_alias = "CORS_ALLOWED_ORIGIN_REGEXES"
     else:
         allowed_regexes_alias = "CORS_ORIGIN_REGEX_WHITELIST"
-    if not is_sequence(conf.CORS_ALLOWED_ORIGIN_REGEXES, (str, re_type)):
+    if not is_sequence(conf.CORS_ALLOWED_ORIGIN_REGEXES, (str, re.Pattern)):
         errors.append(
             Error(
                 f"{allowed_regexes_alias} should be a sequence of strings and/or compiled regexes.",
@@ -135,8 +133,8 @@ def check_settings(**kwargs: Any) -> list[CheckMessage]:
             Error("CORS_EXPOSE_HEADERS should be a sequence.", id="corsheaders.E008")
         )
 
-    if not isinstance(conf.CORS_URLS_REGEX, (str, re_type)):
-        errors.append(
+    if not isinstance(conf.CORS_URLS_REGEX, (str, re.Pattern)):
+        errors.append(  # type: ignore [unreachable]
             Error("CORS_URLS_REGEX should be a string or regex.", id="corsheaders.E009")
         )
 
