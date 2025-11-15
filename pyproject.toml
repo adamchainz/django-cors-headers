@@ -69,6 +69,17 @@ django51 = [ "django>=5.1a1,<5.2; python_version>='3.10'" ]
 django52 = [ "django>=5.2a1,<6; python_version>='3.10'" ]
 django60 = [ "django>=6a1,<6.1; python_version>='3.12'" ]
 
+[tool.uv]
+conflicts = [
+  [
+    { group = "django42" },
+    { group = "django50" },
+    { group = "django51" },
+    { group = "django52" },
+    { group = "django60" },
+  ],
+]
+
 [tool.ruff]
 lint.select = [
   # flake8-bugbear
@@ -152,14 +163,3 @@ allow_untyped_defs = true
 
 [tool.rstcheck]
 report_level = "ERROR"
-
-[tool.uv]
-conflicts = [
-  [
-    { group = "django42" },
-    { group = "django50" },
-    { group = "django51" },
-    { group = "django52" },
-    { group = "django60" },
-  ],
-]
