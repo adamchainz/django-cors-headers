@@ -1,8 +1,7 @@
 from __future__ import annotations
 
 import re
-from collections.abc import Awaitable
-from typing import Callable
+from collections.abc import Awaitable, Callable
 from urllib.parse import SplitResult, urlsplit
 
 from asgiref.sync import iscoroutinefunction, markcoroutinefunction
