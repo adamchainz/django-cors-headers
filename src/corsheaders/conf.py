@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 from re import Pattern
-from typing import Union, cast
+from typing import cast
 
 from django.conf import settings
 
@@ -49,7 +49,7 @@ class Settings:
             "CORS_ALLOWED_ORIGINS",
             getattr(settings, "CORS_ORIGIN_WHITELIST", ()),
         )
-        return cast(Union[list[str], tuple[str]], value)
+        return cast(list[str] | tuple[str], value)
 
     @property
     def CORS_ALLOWED_ORIGIN_REGEXES(self) -> Sequence[str | Pattern[str]]:
