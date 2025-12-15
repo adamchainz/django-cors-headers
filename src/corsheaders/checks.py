@@ -164,6 +164,8 @@ def check_settings(**kwargs: Any) -> list[CheckMessage]:
 
 
 def is_sequence(thing: Any, type_or_types: type[Any] | tuple[type[Any], ...]) -> bool:
-    return isinstance(thing, Sequence) and all(
-        isinstance(x, type_or_types) for x in thing
+    return (
+        isinstance(thing, Sequence)
+        and not isinstance(thing, (str, bytes))
+        and all(isinstance(x, type_or_types) for x in thing)
     )
