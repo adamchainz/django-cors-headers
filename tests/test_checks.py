@@ -38,12 +38,20 @@ class ChecksTests(SimpleTestCase):
     def test_cors_allow_headers_non_string(self):
         self.check_error_codes(["corsheaders.E001"])
 
+    @override_settings(CORS_ALLOW_HEADERS="accept")
+    def test_cors_allow_headers_string(self):
+        self.check_error_codes(["corsheaders.E001"])
+
     @override_settings(CORS_ALLOW_METHODS=object)
     def test_cors_allow_methods_non_sequence(self):
         self.check_error_codes(["corsheaders.E002"])
 
     @override_settings(CORS_ALLOW_METHODS=[object])
     def test_cors_allow_methods_non_string(self):
+        self.check_error_codes(["corsheaders.E002"])
+
+    @override_settings(CORS_ALLOW_METHODS="GET")
+    def test_cors_allow_methods_string_sequence(self):
         self.check_error_codes(["corsheaders.E002"])
 
     @override_settings(CORS_ALLOW_CREDENTIALS=object)
@@ -78,6 +86,10 @@ class ChecksTests(SimpleTestCase):
 
     @override_settings(CORS_ALLOWED_ORIGINS=[object])
     def test_cors_allowed_origins_non_string(self):
+        self.check_error_codes(["corsheaders.E006"])
+
+    @override_settings(CORS_ALLOWED_ORIGINS="https://example.com")
+    def test_cors_allowed_origins_string(self):
         self.check_error_codes(["corsheaders.E006"])
 
     @override_settings(CORS_ORIGIN_WHITELIST=object)

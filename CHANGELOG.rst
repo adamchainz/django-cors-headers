@@ -2,6 +2,10 @@
 Changelog
 =========
 
+* Tighten some system checks for settings to catch when a string has been provided instead of a sequence of strings, such as for ``CORS_ALLOW_METHODS = "GET"``.
+
+  Thanks to Baptiste Darthenay in `PR #1025 <https://github.com/adamchainz/django-cors-headers/pull/1025>`__.
+
 * Drop Python 3.9 support.
 
 4.9.0 (2025-09-18)
