@@ -7,7 +7,10 @@ requires = [
 [project]
 name = "django-cors-headers"
 version = "4.9.0"
-description = "django-cors-headers is a Django application for handling the server headers required for Cross-Origin Resource Sharing (CORS)."
+description = """\
+  django-cors-headers is a Django application for handling the server headers required for Cross-Origin Resource \
+  Sharing (CORS).\
+  """
 readme = "README.rst"
 keywords = [
   "api",
@@ -119,31 +122,27 @@ lint.isort.required-imports = [ "from __future__ import annotations" ]
 [tool.pyproject-fmt]
 max_supported_python = "3.14"
 
-[tool.pytest.ini_options]
-addopts = """\
+[tool.pytest]
+ini_options.addopts = """\
     --strict-config
     --strict-markers
     --ds=tests.settings
     """
-django_find_project = false
-xfail_strict = true
+ini_options.django_find_project = false
+ini_options.xfail_strict = true
 
-[tool.coverage.paths]
-source = [
-  "src",
-  ".tox/**/site-packages",
-]
-
-[tool.coverage.report]
-show_missing = true
-
-[tool.coverage.run]
-branch = true
-parallel = true
-source = [
+[tool.coverage]
+run.branch = true
+run.parallel = true
+run.source = [
   "corsheaders",
   "tests",
 ]
+paths.source = [
+  "src",
+  ".tox/**/site-packages",
+]
+report.show_missing = true
 
 [tool.mypy]
 enable_error_code = [
@@ -155,10 +154,7 @@ mypy_path = "src/"
 namespace_packages = false
 strict = true
 warn_unreachable = true
-
-[[tool.mypy.overrides]]
-module = "tests.*"
-allow_untyped_defs = true
+overrides = [ { module = "tests.*", allow_untyped_defs = true } ]
 
 [tool.rstcheck]
 report_level = "ERROR"
