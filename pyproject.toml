@@ -133,6 +133,7 @@ ini_options.xfail_strict = true
 
 [tool.coverage]
 run.branch = true
+run.data_file = ".coverage/cov"
 run.parallel = true
 run.source = [
   "corsheaders",
@@ -143,6 +144,8 @@ paths.source = [
   ".tox/**/site-packages",
 ]
 report.show_missing = true
+report.skip_covered = true
+report.skip_empty = true
 
 [tool.mypy]
 enable_error_code = [
