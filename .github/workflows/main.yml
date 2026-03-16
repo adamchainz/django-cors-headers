@@ -46,7 +46,7 @@ jobs:
       uses: actions/upload-artifact@v7
       with:
         name: coverage-data-${{ matrix.python-version }}
-        path: '${{ github.workspace }}/.coverage.*'
+        path: '${{ github.workspace }}/.coverage/*'
         include-hidden-files: true
         if-no-files-found: error
 
@@ -70,7 +70,7 @@ jobs:
       - name: Download data
         uses: actions/download-artifact@v8
         with:
-          path: ${{ github.workspace }}
+          path: .coverage
           pattern: coverage-data-*
           merge-multiple: true
 
