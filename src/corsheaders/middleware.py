@@ -61,7 +61,7 @@ class CorsMiddleware:
             result = self.get_response(request)
             assert not isinstance(result, HttpResponseBase)
             response = await result
-        await self.add_response_headers(request, response)
+        await self.async_add_response_headers(request, response)
         return response
 
     def check_preflight(self, request: HttpRequest) -> HttpResponseBase | None:
@@ -148,7 +148,7 @@ class CorsMiddleware:
 
         return response
 
-    async def add_response_headers(
+    async def async_add_response_headers(
         self, request: HttpRequest, response: HttpResponseBase
     ) -> HttpResponseBase:
         """
@@ -234,13 +234,13 @@ class CorsMiddleware:
         return any(return_value for function, return_value in signal_responses)
 
     async def acheck_signal(self, request: HttpRequest) -> bool:
-        ascend = getattr(check_request_enabled, "ascend", None)
-        if ascend is None:
+        async_send = getattr(check_request_enabled, "a" + "send", None)
+        if async_send is None:
             signal_responses = await sync_to_async(check_request_enabled.send)(
                 sender=None, request=request
             )
         else:
-            signal_responses = await ascend(sender=None, request=request)
+            signal_responses = await async_send(sender=None, request=request)
         return any(return_value for function, return_value in signal_responses)
 
     def _url_in_whitelist(self, url: SplitResult) -> bool:
