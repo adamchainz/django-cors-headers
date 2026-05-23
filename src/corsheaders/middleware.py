@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import re
 from collections.abc import Awaitable, Callable
-from typing import Optional
 from urllib.parse import SplitResult, urlsplit
 
 from asgiref.sync import iscoroutinefunction, markcoroutinefunction
@@ -137,11 +136,8 @@ class CorsMiddleware:
         return response
 
     def origin_found_in_white_lists(
-            self,
-            origin: str,
-            url: SplitResult,
-            request: Optional[HttpRequest] = None
-        ) -> bool:
+        self, origin: str, url: SplitResult, request: HttpRequest | None = None
+    ) -> bool:
 
         return (
             (origin == "null" and origin in conf.CORS_ALLOWED_ORIGINS)
