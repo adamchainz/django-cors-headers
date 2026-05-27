@@ -27,15 +27,17 @@ jobs:
         - '3.14'
 
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      with:
+        persist-credentials: false
 
-    - uses: actions/setup-python@v6
+    - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
       with:
         python-version: ${{ matrix.python-version }}
         allow-prereleases: true
 
     - name: Install uv
-      uses: astral-sh/setup-uv@v7
+      uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
       with:
         enable-cache: true
 
@@ -43,7 +45,7 @@ jobs:
       run: uvx --with tox-uv tox run -f py$(echo ${{ matrix.python-version }} | tr -d .)
 
     - name: Upload coverage data
-      uses: actions/upload-artifact@v7
+      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
       with:
         name: coverage-data-${{ matrix.python-version }}
         path: '${{ github.workspace }}/.coverage/*'
@@ -54,40 +56,43 @@ jobs:
     name: Coverage
     runs-on: ubuntu-24.04
     needs: tests
+    if: always()
     steps:
-      - uses: actions/checkout@v6
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      with:
+        persist-credentials: false
 
-      - uses: actions/setup-python@v6
-        with:
-          python-version: '3.13'
+    - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+      with:
+        python-version: '3.13'
 
-      - name: Install uv
-        uses: astral-sh/setup-uv@v7
+    - name: Install uv
+      uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
 
-      - name: Install dependencies
-        run: uv pip install --system coverage[toml]
+    - name: Install dependencies
+      run: uv pip install --system coverage[toml]
 
-      - name: Download data
-        uses: actions/download-artifact@v8
-        with:
-          path: .coverage
-          pattern: coverage-data-*
-          merge-multiple: true
+    - name: Download data
+      uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+      with:
+        path: .coverage
+        pattern: coverage-data-*
+        merge-multiple: true
 
-      - name: Combine coverage and fail if it's <100%
-        run: |
-          python -m coverage combine
-          python -m coverage html --skip-covered --skip-empty
-          python -m coverage report --fail-under=100
-          echo "## Coverage summary" >> $GITHUB_STEP_SUMMARY
-          python -m coverage report --format=markdown >> $GITHUB_STEP_SUMMARY
+    - name: Combine coverage and fail if it's <100%
+      run: |
+        python -m coverage combine
+        python -m coverage html --skip-covered --skip-empty
+        python -m coverage report --fail-under=100
+        echo "## Coverage summary" >> $GITHUB_STEP_SUMMARY
+        python -m coverage report --format=markdown >> $GITHUB_STEP_SUMMARY
 
-      - name: Upload HTML report
-        if: ${{ failure() }}
-        uses: actions/upload-artifact@v7
-        with:
-          name: html-report
-          path: htmlcov
+    - name: Upload HTML report
+      if: failure()
+      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      with:
+        name: html-report
+        path: htmlcov
 
   release:
     needs: [coverage]
@@ -100,11 +105,15 @@ jobs:
       id-token: write
 
     steps:
-      - uses: actions/checkout@v6
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      with:
+        persist-credentials: false
 
-      - uses: astral-sh/setup-uv@v7
+    - uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
+      with:
+        enable-cache: false
 
-      - name: Build
-        run: uv build
+    - name: Build
+      run: uv build
 
-      - uses: pypa/gh-action-pypi-publish@release/v1
+    - uses: pypa/gh-action-pypi-publish@cef221092ed1bacb1cc03d23a2d87d1d172e277b # v1.14.0
