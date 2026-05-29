@@ -65,7 +65,7 @@ class Settings:
 
     @property
     def CORS_URLS_REGEX(self) -> str | Pattern[str]:
-        return getattr(settings, "CORS_URLS_REGEX", r"^.*$")
+        return getattr(settings, "CORS_URLS_REGEX", "")
 
 
 conf = Settings()
