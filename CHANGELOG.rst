@@ -2,6 +2,11 @@
 Changelog
 =========
 
+Unreleased
+----------
+
+* Drop Django 4.2 to 5.1 support.
+
 * Tighten some system checks for settings to catch when a string has been provided instead of a sequence of strings, such as for ``CORS_ALLOW_METHODS = "GET"``.
 
   Thanks to Baptiste Darthenay in `PR #1025 <https://github.com/adamchainz/django-cors-headers/pull/1025>`__.
