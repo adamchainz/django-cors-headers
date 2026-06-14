@@ -5,6 +5,8 @@ Changelog
 Unreleased
 ----------
 
+* Add Django 6.1 support.
+
 * Drop Django 4.2 to 5.1 support.
 
 * Tighten some system checks for settings to catch when a string has been provided instead of a sequence of strings, such as for ``CORS_ALLOW_METHODS = "GET"``.

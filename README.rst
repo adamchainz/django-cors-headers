@@ -49,7 +49,7 @@ Requirements
 
 Python 3.10 to 3.14 supported.
 
-Django 5.2 to 6.0 supported.
+Django 5.2 to 6.1 supported.
 
 Setup
 -----
