@@ -1,6 +1,0 @@
-prune tests
-include CHANGELOG.rst
-include LICENSE
-include pyproject.toml
-include README.rst
-include src/*/py.typed

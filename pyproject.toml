@@ -1,7 +1,7 @@
 [build-system]
-build-backend = "setuptools.build_meta"
+build-backend = "uv_build"
 requires = [
-  "setuptools>=77",
+  "uv-build>=0.12.1,<0.13",
 ]
 
 [project]
@@ -75,6 +75,7 @@ conflicts = [
     { group = "django61" },
   ],
 ]
+build-backend.module-name = "corsheaders"
 
 [tool.ruff]
 lint.select = [
