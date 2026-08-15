@@ -156,7 +156,7 @@ class CorsMiddleware:
     def check_signal(self, request: HttpRequest) -> bool:
         # Run handlers at most once per request; they may be expensive (#228).
         if hasattr(request, "_cors_signal_enabled"):
-            return request._cors_signal_enabled  # type: ignore [attr-defined]
+            return bool(request._cors_signal_enabled)
         signal_responses = check_request_enabled.send(sender=None, request=request)
         result = any(return_value for function, return_value in signal_responses)
         request._cors_signal_enabled = result  # type: ignore [attr-defined]
