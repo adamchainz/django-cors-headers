@@ -5,6 +5,10 @@ Changelog
 Unreleased
 ----------
 
+* Fixed ``check_request_enabled`` firing twice when CORS is enabled via the signal because ``CORS_URLS_REGEX`` did not match.
+
+  Thanks to Markus Holtermann for the report in `Issue #228 <https://github.com/adamchainz/django-cors-headers/issues/228>`__.
+
 * Support Python 3.15.
 
 * Switch package build backend from setuptools to `uv_build <https://docs.astral.sh/uv/concepts/build-backend/>`__.
