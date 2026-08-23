@@ -361,6 +361,19 @@ class CorsMiddlewareTests(TestCase):
             assert resp.status_code == HTTPStatus.OK
             assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == "https://example.com"
 
+    async def test_async_signal_handler_that_returns_true(self):
+        async def handler(*args, **kwargs):
+            return True
+
+        with temporary_check_request_handler(handler):
+            resp = await self.async_client.options(
+                "/async/",
+                origin="https://example.com",
+                access_control_request_method="GET",
+            )
+            assert resp.status_code == HTTPStatus.OK
+            assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == "https://example.com"
+
     @override_settings(CORS_ALLOWED_ORIGINS=["https://example.com"])
     def test_signal_handler_allow_some_urls_to_everyone(self):
         def allow_api_to_all(sender, request, **kwargs):
