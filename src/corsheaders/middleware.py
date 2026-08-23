@@ -154,8 +154,13 @@ class CorsMiddleware:
         ) or self.check_signal(request)
 
     def check_signal(self, request: HttpRequest) -> bool:
+        # Run handlers at most once per request; they may be expensive (#228).
+        if hasattr(request, "_cors_signal_enabled"):
+            return bool(request._cors_signal_enabled)
         signal_responses = check_request_enabled.send(sender=None, request=request)
-        return any(return_value for function, return_value in signal_responses)
+        result = any(return_value for function, return_value in signal_responses)
+        request._cors_signal_enabled = result  # type: ignore [attr-defined]
+        return result
 
     def _url_in_whitelist(self, url: SplitResult) -> bool:
         origins = [urlsplit(o) for o in conf.CORS_ALLOWED_ORIGINS]

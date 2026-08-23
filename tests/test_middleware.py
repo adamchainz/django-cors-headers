@@ -401,6 +401,29 @@ class CorsMiddlewareTests(TestCase):
 
             assert calls == 1
 
+    @override_settings(
+        CORS_ALLOWED_ORIGINS=["https://example.com"],
+        CORS_URLS_REGEX=r"^/never-match/$",
+    )
+    def test_signal_called_once_when_enabling_via_signal(self):
+        """
+        When CORS_URLS_REGEX does not match, is_enabled() consults the signal,
+        and add_response_headers() consults it again for an unlisted origin.
+        The handler should still run only once (#228).
+        """
+        calls = 0
+
+        def allow_all(sender, request, **kwargs):
+            nonlocal calls
+            calls += 1
+            return True
+
+        with temporary_check_request_handler(allow_all):
+            resp = self.client.get("/", headers={"origin": "https://example.org"})
+
+            assert calls == 1
+            assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == "https://example.org"
+
     @override_settings(CORS_ALLOWED_ORIGINS=["https://example.com"])
     @prepend_middleware(f"{__name__}.ShortCircuitMiddleware")
     def test_get_short_circuit(self):
