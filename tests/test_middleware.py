@@ -305,7 +305,7 @@ class CorsMiddlewareTests(TestCase):
         django-cors-middleware, so at least this test makes that explicit, especially
         since for the switch to Django 1.10, special-handling will need to be put in
         place to preserve this behaviour. See `ExceptionMiddleware` mention here:
-        https://docs.djangoproject.com/en/3.0/topics/http/middleware/#upgrading-pre-django-1-10-style-middleware  # noqa: E501
+        https://docs.djangoproject.com/en/stable/topics/http/middleware/#upgrading-pre-django-1-10-style-middleware  # noqa: E501
         """
         resp = self.client.get(
             "/unauthorized/", headers={"origin": "https://example.com"}
