@@ -136,6 +136,7 @@ class CorsMiddleware:
         return response
 
     def origin_found_in_white_lists(self, origin: str, url: SplitResult) -> bool:
+        """Return whether the origin matches an allowed exact origin or regex."""
         return (
             (origin == "null" and origin in conf.CORS_ALLOWED_ORIGINS)
             or self._url_in_whitelist(url)
@@ -143,21 +144,25 @@ class CorsMiddleware:
         )
 
     def regex_domain_match(self, origin: str) -> bool:
+        """Return whether the origin matches a configured allowed-origin regex."""
         return any(
             re.match(domain_pattern, origin)
             for domain_pattern in conf.CORS_ALLOWED_ORIGIN_REGEXES
         )
 
     def is_enabled(self, request: HttpRequest) -> bool:
+        """Return whether CORS is enabled for this request's path or signal."""
         return bool(
             re.match(conf.CORS_URLS_REGEX, request.path_info)
         ) or self.check_signal(request)
 
     def check_signal(self, request: HttpRequest) -> bool:
+        """Return whether any ``check_request_enabled`` handler allows the request."""
         signal_responses = check_request_enabled.send(sender=None, request=request)
         return any(return_value for function, return_value in signal_responses)
 
     def _url_in_whitelist(self, url: SplitResult) -> bool:
+        """Return whether the URL's scheme and netloc match an allowed origin."""
         origins = [urlsplit(o) for o in conf.CORS_ALLOWED_ORIGINS]
         return any(
             origin.scheme == url.scheme and origin.netloc == url.netloc
