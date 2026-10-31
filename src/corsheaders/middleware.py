@@ -61,7 +61,7 @@ class CorsMiddleware:
             result = self.get_response(request)
             assert not isinstance(result, HttpResponseBase)
             response = await result
-        await self.aadd_response_headers(request, response)
+        await self.add_response_headers(request, response)
         return response
 
     async def acheck_preflight(self, request: HttpRequest) -> HttpResponseBase | None:
@@ -150,7 +150,7 @@ class CorsMiddleware:
 
         return response
 
-    async def aadd_response_headers(
+    async def add_response_headers(
         self, request: HttpRequest, response: HttpResponseBase
     ) -> HttpResponseBase:
         """
