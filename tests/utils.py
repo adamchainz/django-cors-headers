@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from collections.abc import Callable, Generator
+from collections.abc import Callable, Coroutine, Generator
+from typing import Any
 from contextlib import contextmanager
 
 from django.test.utils import modify_settings
@@ -17,7 +18,7 @@ def prepend_middleware(path: str) -> modify_settings:
 
 
 @contextmanager
-def temporary_check_request_handler(handler: Callable[..., bool]) -> Generator[None]:
+def temporary_check_request_handler(handler: Callable[..., bool | Coroutine[Any, Any, bool]]) -> Generator[None]:
     check_request_enabled.connect(handler)
     try:
         yield
