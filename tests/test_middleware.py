@@ -59,6 +59,22 @@ class CorsMiddlewareTests(TestCase):
         resp = await self.async_client.get("/async/", origin="https://example.org")
         assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == "https://example.org"
 
+    async def test_async_signal_handler_is_awaited(self):
+        # An async check_request_enabled handler must actually run in async
+        # mode: with Signal.send() it would be called but never awaited, so
+        # its side effect would be missing even though the coroutine object
+        # itself is truthy.
+        ran = []
+
+        async def allow_all(sender, request, **kwargs):
+            ran.append(True)
+            return True
+
+        with temporary_check_request_handler(allow_all):
+            resp = await self.async_client.get("/async/", origin="https://example.org")
+        assert resp[ACCESS_CONTROL_ALLOW_ORIGIN] == "https://example.org"
+        assert ran == [True]
+
     @override_settings(CORS_ALLOWED_ORIGINS=["https://example.com", "null"])
     def test_null_in_allowed_origins(self):
         resp = self.client.get("/", headers={"origin": "null"})
